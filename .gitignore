@@ -2,6 +2,7 @@
 !.gitignore
 !*.md
 
+.idea
 .storage
 .cloud
 .google.token
