@@ -1,0 +1,63 @@
+- id: '1664128712290'
+  alias: Testing automation
+  description: ''
+  trigger:
+  - device_id: 5c261fb1c358649bfeb0411ca3558e3b
+    domain: hubitat
+    platform: device
+    type: pushed
+    subtype: '1'
+  condition: []
+  action: []
+  mode: single
+- id: '1664296690201'
+  alias: Dinner time
+  description: ''
+  trigger:
+  - device_id: a0ea7271fcc3eb2407584197b15729a6
+    domain: hubitat
+    platform: device
+    type: pushed
+    subtype: '1'
+  condition: []
+  action:
+  - service: spotcast.start
+    data:
+      entity_id: media_player.cooking_area
+      search: cool jazz
+      random_song: true
+      shuffle: true
+      start_volume: 35
+  - type: turn_on
+    device_id: 37e32ff858913b100b9230a05461d7e1
+    entity_id: switch.dining_virtual_switch
+    domain: switch
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 10
+      milliseconds: 0
+  - service: spotcast.start
+    data:
+      entity_id: media_player.cooking_area
+      search: cool jazz
+      random_song: true
+      shuffle: true
+      start_volume: 35
+  mode: single
+- id: '1664475664647'
+  alias: New Automation
+  description: ''
+  trigger:
+  - device_id: 5c261fb1c358649bfeb0411ca3558e3b
+    domain: hubitat
+    platform: device
+    type: double_tapped
+    subtype: '1'
+  condition: []
+  action:
+  - service: vacuum.pause
+    data: {}
+    target:
+      device_id: 885ba56733772c308e333f707ff6ee0b
+  mode: single

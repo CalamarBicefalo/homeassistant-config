@@ -1,0 +1,7 @@
+clean_kitchen:
+  name: Clean kitchen
+  description: Cleans the kitchen when needed.
+  fields:
+    entity_id:
+      description: The cleaning device.
+      example: roborock.vacuum.a15
