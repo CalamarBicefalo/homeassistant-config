@@ -1,4 +1,4 @@
 ---
 hello_world:
-  module: hello
-  class: HelloWorld
+  module: vacuum_controller
+  class: VacuumController

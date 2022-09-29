@@ -6,6 +6,8 @@
 .storage
 .cloud
 .google.token
+.pytest_cache
+__pycache__
 
 custom_components
 www
