@@ -12,6 +12,9 @@ www
 *.log
 *.log.1
 *.log.fault
+home-assistant_v2.db-wal
+home-assistant_v2.db-shm
+home-assistant_v2.db
 
 ip_bans.yaml
 secrets.yaml
