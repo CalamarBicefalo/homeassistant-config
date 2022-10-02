@@ -1,15 +1,3 @@
-- id: '1664128712290'
-  alias: Testing automation
-  description: ''
-  trigger:
-  - device_id: 5c261fb1c358649bfeb0411ca3558e3b
-    domain: hubitat
-    platform: device
-    type: pushed
-    subtype: '1'
-  condition: []
-  action: []
-  mode: single
 - id: '1664296690201'
   alias: Dinner time
   description: ''
@@ -45,19 +33,24 @@
       shuffle: true
       start_volume: 35
   mode: single
-- id: '1664475664647'
-  alias: New Automation
-  description: ''
+- id: '1664740449250'
+  alias: Last cooked
+  description: Updates the last cooked helper
   trigger:
-  - device_id: 5c261fb1c358649bfeb0411ca3558e3b
-    domain: hubitat
+  - type: motion
     platform: device
-    type: double_tapped
-    subtype: '1'
+    device_id: 8f46192997475e37454b03ebbffc6aee
+    entity_id: binary_sensor.kitchen_ms_motion
+    domain: binary_sensor
+    for:
+      hours: 0
+      minutes: 5
+      seconds: 0
   condition: []
   action:
-  - service: vacuum.pause
-    data: {}
+  - service: input_datetime.set_datetime
+    data:
+      timestamp: '{{ now().timestamp() }}'
     target:
-      device_id: 885ba56733772c308e333f707ff6ee0b
+      entity_id: input_datetime.last_cooked
   mode: single
