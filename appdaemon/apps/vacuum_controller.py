@@ -1,15 +1,21 @@
-from datetime import time
-
 import appdaemon.plugins.hass.hassapi as hass
 
 
 class VacuumController(hass.Hass):
 
     def initialize(self):
-        self.log("Initializing vacuum controller now", level="WARNING")
-        self.run_daily(self.clean_kitchen, time(hour=22))
+        time = "22:30:00"
+        self.log(f'Initializing vacuum controller at {time}.', level="INFO")
+        self.run_daily(
+            self.clean_kitchen,
+            time
 
-    def clean_kitchen(self, entity, attribute, old, new, kwargs):
-        self.log("Cleaning kitchen")
-        self.call_service("xiaomi_miio.vacuum_clean_segment", entity_id = "roborock.vacuum.a15", targets = 16)
+        )
 
+    def clean_kitchen(self, kwargs):
+        self.log("Cleaning kitchen", level="INFO")
+        self.call_service(
+            "xiaomi_miio/vacuum_clean_segment",
+            entity_id="vacuum.roborock_vacuum_a15",
+            segments=16
+        )
