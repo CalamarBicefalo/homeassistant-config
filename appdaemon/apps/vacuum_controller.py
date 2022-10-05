@@ -1,4 +1,8 @@
+from datetime import datetime
+
 import appdaemon.plugins.hass.hassapi as hass
+
+from apps import entities
 
 
 class VacuumController(hass.Hass):
@@ -14,8 +18,11 @@ class VacuumController(hass.Hass):
 
     def clean_kitchen(self, kwargs):
         self.log("Cleaning kitchen", level="INFO")
-        self.call_service(
-            "xiaomi_miio/vacuum_clean_segment",
-            entity_id="vacuum.roborock_vacuum_a15",
-            segments=16
-        )
+        last_cooked = datetime.strptime(str(self.get_state(entities.HELPER_LAST_COOKED)), "%Y-%m-%d %H:%M:%S")
+        days_since_kitchen_got_dirty = datetime.now() - last_cooked
+        if days_since_kitchen_got_dirty.days == 0:
+            self.call_service(
+                "xiaomi_miio/vacuum_clean_segment",
+                entity_id=entities.DEVICE_VACUUM_CLEANER,
+                segments=16
+            )
