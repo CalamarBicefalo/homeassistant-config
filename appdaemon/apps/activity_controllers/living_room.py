@@ -1,6 +1,7 @@
 import activities
 import devices
 import helpers
+import states
 from app import App
 
 
@@ -11,7 +12,10 @@ class LivingRoomActivity(App):
 
         self.listen_state(
             self.living_room_activity_controller,
-            devices.LIVING_ROOM_MOTION
+            [
+                devices.LIVING_ROOM_MOTION,
+                devices.TV
+            ]
         )
 
     async def living_room_activity_controller(self, entity, attribute, old, new, kwargs):

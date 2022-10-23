@@ -15,9 +15,9 @@ def living_room_activity():
     pass
 
 
-def test_triggers_when_motion(given_that, living_room_activity, assert_that):
+def test_triggers_when_motion_or_tv_changes(given_that, living_room_activity, assert_that):
     assert_that(living_room_activity) \
-        .listens_to.state(devices.LIVING_ROOM_MOTION) \
+        .listens_to.state([devices.LIVING_ROOM_MOTION, devices.TV]) \
         .with_callback(living_room_activity.living_room_activity_controller)
 
 
