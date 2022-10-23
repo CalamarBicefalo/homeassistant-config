@@ -1,0 +1,6 @@
+---
+last_cooked:
+  name: Last cooked
+  icon: mdi:pot-mix
+  has_date: true
+  has_time: true

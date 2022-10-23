@@ -1,0 +1,4 @@
+---
+vacuum_controller:
+  module: vacuum_controller
+  class: VacuumController

@@ -1,0 +1,7 @@
+---
+#turn_small_fan_on_when_hot_threshold:
+#  name: Ventilator - Temperatur Grenze
+#  icon: mdi:temperature-celsius
+#  min: 20
+#  max: 40
+#  step: 1
