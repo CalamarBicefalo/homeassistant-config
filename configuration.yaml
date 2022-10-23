@@ -4,7 +4,9 @@ default_config:
 input_boolean: !include helpers/input_boolean.yaml
 input_number: !include helpers/input_number.yaml
 input_datetime: !include helpers/input_datetime.yaml
+input_select: !include helpers/input_select.yaml
 
+      
 # Text to speech
 tts:
   - platform: google_translate

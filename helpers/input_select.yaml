@@ -1,0 +1,15 @@
+kitchen_activiy:
+  name: Kitchen activity
+  options:
+    - Empty
+    - Present
+    - Cooking
+  icon: mdi:stove
+living_room_activiy:
+  name: Living room activity
+  options:
+    - Empty
+    - Present
+    - Watching TV
+    - Reading
+  icon: mdi:sofa
