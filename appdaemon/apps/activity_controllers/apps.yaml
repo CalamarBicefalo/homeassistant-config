@@ -1,0 +1,16 @@
+---
+Living room activity:
+  module: living_room
+  class: LivingRoomActivity
+  global_dependencies: &globals
+    - states
+    - activities
+    - devices
+    - helpers
+    - services
+    - hass
+Kitchen activity:
+  module: living_room
+  class: LivingRoomActivity
+  global_dependencies: *globals
+

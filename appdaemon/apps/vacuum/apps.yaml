@@ -3,6 +3,7 @@ Vacuum kitchen cleaner:
   module: kitchen_cleaner
   class: KitchenCleaner
   global_dependencies: &globals
+    - states
     - activities
     - devices
     - helpers

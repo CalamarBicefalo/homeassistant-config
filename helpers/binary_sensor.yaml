@@ -1,0 +1,14 @@
+---
+- platform: group
+  name: kitchen_motion
+  device_class: motion
+  entities:
+    - binary_sensor.kitchen_entry_ms_motion
+    - binary_sensor.kitchen_ms_motion
+- platform: group
+  name: living_room_motion
+  device_class: motion
+  entities:
+    - binary_sensor.livingroom_door_ms_motion
+    - binary_sensor.living_room_ps_presence
+    - binary_sensor.living_room_ps_motion

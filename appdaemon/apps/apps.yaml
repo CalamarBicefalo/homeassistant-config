@@ -1,5 +1,6 @@
 ---
 global_modules:
+  - states
   - activities
   - devices
   - helpers
