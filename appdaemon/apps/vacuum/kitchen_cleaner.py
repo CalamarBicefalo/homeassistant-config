@@ -5,10 +5,10 @@ import devices
 import helpers
 import services
 import vacuum_location
-from hass import Hass
+from app import App
 
 
-class KitchenCleaner(Hass):
+class KitchenCleaner(App):
 
     def initialize(self):
         time = "22:30:00"

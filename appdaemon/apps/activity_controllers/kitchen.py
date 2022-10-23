@@ -1,10 +1,10 @@
 import activities
 import devices
 import helpers
-from hass import Hass
+from app import App
 
 
-class KitchenActivity(Hass):
+class KitchenActivity(App):
 
     def initialize(self):
         self.log(f'Initializing kitchen activity controller.', level="INFO")
@@ -14,11 +14,10 @@ class KitchenActivity(Hass):
             devices.KITCHEN_MOTION
         )
 
-    async def kitchen_activity_controller(self):
+    async def kitchen_activity_controller(self, entity, attribute, old, new, kwargs):
         self.log("Triggering kitchen activity controller")
-
         # Presence handling
-        if self.is_on(devices.KITCHEN_MOTION):
+        if await self.is_on(devices.KITCHEN_MOTION):
             self.set_activity(helpers.KITCHEN_ACTIVITY, activities.PRESENT)
         else:
             self.set_activity(helpers.KITCHEN_ACTIVITY, activities.AWAY)

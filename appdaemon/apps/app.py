@@ -12,7 +12,7 @@ def datetime_to_helper(d: datetime):
     return d.strftime(HELPER_DATETIME_FORMAT)
 
 
-class Hass(hass.Hass):
+class App(hass.Hass):
     def helper_to_datetime(self, helper: str):
         """
         Given a datetime helper, it returns a ready to use datetime
@@ -24,11 +24,11 @@ class Hass(hass.Hass):
     def datetime_to_helper(self, d: datetime):
         return datetime_to_helper(d)
 
-    def is_on(self, device):
-        return self.get_state(device) == states.ON
+    async def is_on(self, device):
+        return (await self.get_state(device)) == states.ON
 
-    def is_off(self, device):
-        return self.get_state(device) == states.OFF
+    async def is_off(self, device):
+        return (await self.get_state(device)) == states.OFF
 
     def set_activity(self, helper, activity):
         self.call_service(

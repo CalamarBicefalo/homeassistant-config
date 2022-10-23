@@ -5,10 +5,10 @@ import devices
 import helpers
 import services
 import vacuum_location
-from hass import Hass
+from app import App
 
 
-class MopMaintenance(Hass):
+class MopMaintenance(App):
 
     def initialize(self):
         self.log(f'Initializing mop maintenance.', level="INFO")

@@ -7,4 +7,4 @@ global_modules:
   - services
   - vacuum_location
   - point
-  - hass
+  - app

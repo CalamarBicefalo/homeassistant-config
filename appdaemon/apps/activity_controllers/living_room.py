@@ -1,10 +1,10 @@
 import activities
 import devices
 import helpers
-from hass import Hass
+from app import App
 
 
-class LivingRoomActivity(Hass):
+class LivingRoomActivity(App):
 
     def initialize(self):
         self.log(f'Initializing living room activity controller.', level="INFO")
@@ -14,7 +14,7 @@ class LivingRoomActivity(Hass):
             devices.LIVING_ROOM_MOTION
         )
 
-    async def living_room_activity_controller(self):
+    async def living_room_activity_controller(self, entity, attribute, old, new, kwargs):
         self.log("Triggering living room activity controller")
 
         # TV handling

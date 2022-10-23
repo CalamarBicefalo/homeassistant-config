@@ -10,7 +10,7 @@ Vacuum kitchen cleaner:
     - services
     - vacuum_location
     - point
-    - hass
+    - app
 Vacuum mop maintenance:
   module: mop_maintenance
   class: MopMaintenance

@@ -8,9 +8,8 @@ Living room activity:
     - devices
     - helpers
     - services
-    - hass
+    - app
 Kitchen activity:
-  module: living_room
-  class: LivingRoomActivity
+  module: kitchen
+  class: KitchenActivity
   global_dependencies: *globals
-
