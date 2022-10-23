@@ -1,11 +1,11 @@
-kitchen_activiy:
+kitchen_activity:
   name: Kitchen activity
   options:
     - Empty
     - Present
     - Cooking
   icon: mdi:stove
-living_room_activiy:
+living_room_activity:
   name: Living room activity
   options:
     - Empty
