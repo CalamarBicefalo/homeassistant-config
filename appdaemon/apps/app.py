@@ -25,12 +25,20 @@ class App(hass.Hass):
         return datetime_to_helper(d)
 
     async def is_on(self, device):
-        return (await self.get_state(device)) == states.ON
+        return await self.has_state(states.ON, device)
 
     async def is_off(self, device):
-        return (await self.get_state(device)) == states.OFF
+        return await self.has_state(states.OFF, device)
+
+    async def has_state(self, desired_state: str, device):
+        state = self.get_state(device)
+        if type(state) is str:
+            return state == desired_state
+        else:
+            return (await state) == desired_state
 
     def set_activity(self, helper, activity):
+        self.log(f'Setting activity {activity} in {helper}', level="INFO")
         self.call_service(
             services.HELPER_SELECT_SET,
             entity_id=helper,

@@ -18,12 +18,12 @@ class LivingRoomActivity(App):
         self.log("Triggering living room activity controller")
 
         # TV handling
-        if self.is_on(devices.TV):
+        if await self.is_on(devices.TV):
             self.set_activity(helpers.LIVING_ROOM_ACTIVITY, activities.WATCHING_TV)
             return
 
         # Presence handling
-        if self.is_on(devices.LIVING_ROOM_MOTION):
+        if await self.is_on(devices.LIVING_ROOM_MOTION):
             self.set_activity(helpers.LIVING_ROOM_ACTIVITY, activities.PRESENT)
         else:
             self.set_activity(helpers.LIVING_ROOM_ACTIVITY, activities.AWAY)

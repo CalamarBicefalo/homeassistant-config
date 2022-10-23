@@ -26,7 +26,7 @@ async def test_when_away(given_that, living_room_activity, assert_that):
     given_that.state_of(devices.LIVING_ROOM_MOTION).is_set_to(states.OFF)
     given_that.state_of(devices.TV).is_set_to(states.OFF)
 
-    await living_room_activity.living_room_activity_controller()
+    await living_room_activity.living_room_activity_controller(None, None, None, None, None)
 
     assert_that(services.HELPER_SELECT_SET).was.set_to_activity(helpers.LIVING_ROOM_ACTIVITY, activities.AWAY)
 
@@ -36,7 +36,7 @@ async def test_when_present(given_that, living_room_activity, assert_that):
     given_that.state_of(devices.LIVING_ROOM_MOTION).is_set_to(states.ON)
     given_that.state_of(devices.TV).is_set_to(states.OFF)
 
-    await living_room_activity.living_room_activity_controller()
+    await living_room_activity.living_room_activity_controller(None, None, None, None, None)
 
     assert_that(services.HELPER_SELECT_SET).was.set_to_activity(helpers.LIVING_ROOM_ACTIVITY, activities.PRESENT)
 
@@ -46,6 +46,6 @@ async def test_when_watching_tv(given_that, living_room_activity, assert_that):
     given_that.state_of(devices.LIVING_ROOM_MOTION).is_set_to(states.ON)
     given_that.state_of(devices.TV).is_set_to(states.ON)
 
-    await living_room_activity.living_room_activity_controller()
+    await living_room_activity.living_room_activity_controller(None, None, None, None, None)
 
     assert_that(services.HELPER_SELECT_SET).was.set_to_activity(helpers.LIVING_ROOM_ACTIVITY, activities.WATCHING_TV)
