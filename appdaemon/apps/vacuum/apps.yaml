@@ -1,0 +1,7 @@
+---
+Vacuum kitchen cleaner:
+  module: kitchen_cleaner
+  class: KitchenCleaner
+Vacuum mop maintenance:
+  module: mop_maintenance
+  class: MopMaintenance

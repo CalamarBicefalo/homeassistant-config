@@ -1,7 +1,9 @@
 ---
-Vacuum kitchen cleaner:
-  module: vacuum.kitchen_cleaner
-  class: KitchenCleaner
-Vacuum mop maintenance:
-  module: vacuum.mop_maintenance
-  class: MopMaintenance
+global_modules:
+  - activities
+  - devices
+  - helpers
+  - services
+  - vacuum_location
+  - point
+  - hass
