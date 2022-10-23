@@ -1,6 +1,10 @@
 from datetime import datetime
 
-import activities, devices, helpers, services, vacuum_location, helpers
+import activities
+import devices
+import helpers
+import services
+import vacuum_location
 from hass import Hass
 
 
@@ -17,8 +21,8 @@ class MopMaintenance(Hass):
 
     async def start_mop_maintenance(self):
         self.log("Triggering mop maintenance routine")
-        last_cleaned_kitchen = self.helper_to_datetime(apps.constants.helpers.LAST_CLEANED_KITCHEN)
-        last_cleaned_vacuum_mop = self.helper_to_datetime(apps.constants.helpers.LAST_CLEANED_VACUUM_MOP)
+        last_cleaned_kitchen = self.helper_to_datetime(helpers.LAST_CLEANED_KITCHEN)
+        last_cleaned_vacuum_mop = self.helper_to_datetime(helpers.LAST_CLEANED_VACUUM_MOP)
 
         if last_cleaned_vacuum_mop < last_cleaned_kitchen:
             self.call_service(

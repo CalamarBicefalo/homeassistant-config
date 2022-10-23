@@ -1,7 +1,6 @@
 from datetime import datetime
 
-from apps import hass
-from apps.constants import devices, vacuum_location, helpers
+import devices, vacuum_location, hass
 from appdaemontestframework import assert_that
 
 

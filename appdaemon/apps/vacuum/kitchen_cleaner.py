@@ -1,6 +1,10 @@
 from datetime import datetime
 
-import activities, devices, helpers, services, vacuum_location, helpers
+import activities
+import devices
+import helpers
+import services
+import vacuum_location
 from hass import Hass
 
 
@@ -16,7 +20,7 @@ class KitchenCleaner(Hass):
 
     async def clean_kitchen(self, kwargs):
         self.log("Triggering kitchen clean task", level="INFO")
-        last_cooked = self.helper_to_datetime(apps.constants.helpers.LAST_COOKED)
+        last_cooked = self.helper_to_datetime(helpers.LAST_COOKED)
         days_since_kitchen_got_dirty = datetime.now() - last_cooked
         if days_since_kitchen_got_dirty.days == 0:
             attempts = 0
