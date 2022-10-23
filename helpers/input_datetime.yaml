@@ -4,3 +4,8 @@ last_cooked:
   icon: mdi:pot-mix
   has_date: true
   has_time: true
+last_cleaned_kitchen:
+  name: Last cleaned kitchen
+  icon: mdi:broom
+  has_date: true
+  has_time: true
