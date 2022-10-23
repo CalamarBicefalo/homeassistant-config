@@ -5,7 +5,7 @@ from appdaemontestframework import automation_fixture
 
 import apps.helpers
 import utils
-from apps import devices, services, states
+from apps import devices, services, helpers, activities
 from apps.vacuum_controller import VacuumController
 
 
@@ -14,9 +14,9 @@ def vacuum_controller():
     pass
 
 
-def test_clean_mop_maintenance_triggers_while_in_kitchen (given_that, vacuum_controller, assert_that):
+def test_clean_mop_maintenance_triggers_while_in_kitchen(given_that, vacuum_controller, assert_that):
     assert_that(vacuum_controller) \
-        .listens_to.state(devices.MOTION_SENSOR_KITCHEN, old='off', new='on') \
+        .listens_to.state(helpers.KITCHEN_ACTIVITY, old=activities.AWAY, new=activities.PRESENT) \
         .with_callback(vacuum_controller.clean_kitchen)
 
 
@@ -42,4 +42,3 @@ async def test_clean_kitchen_when_dirty_goes_to_maintenance_spot(given_that, vac
         entity_id=devices.VACUUM_CLEANER,
         segments="?????"
     )
-

@@ -3,7 +3,7 @@ from datetime import datetime
 import appdaemon.plugins.hass.hassapi as hass
 
 import apps.helpers
-from apps import devices, states, services
+from apps import devices, services, helpers, activities
 
 
 class VacuumController(hass.Hass):
@@ -23,7 +23,7 @@ class VacuumController(hass.Hass):
         days_since_kitchen_got_dirty = datetime.now() - last_cooked
         if days_since_kitchen_got_dirty.days == 0:
             attempts = 0
-            while self.get_state(devices.DEVICE_TV_LIVING_ROOM) == states.ON and attempts < 12:
+            while self.get_state(helpers.LIVING_ROOM_ACTIVITY) == activities.WATCHING_TV and attempts < 12:
                 self.log('TV is on, waiting until it is off', level="INFO")
                 attempts += 1
                 await self.sleep(10*60)
