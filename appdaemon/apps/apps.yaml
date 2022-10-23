@@ -1,4 +1,7 @@
 ---
-vacuum_controller:
-  module: vacuum_controller
-  class: VacuumController
+Vacuum kitchen cleaner:
+  module: vacuum.kitchen_cleaner
+  class: KitchenCleaner
+Vacuum mop maintenance:
+  module: vacuum.mop_maintenance
+  class: MopMaintenance
