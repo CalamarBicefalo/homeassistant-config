@@ -2,6 +2,15 @@
 Vacuum kitchen cleaner:
   module: kitchen_cleaner
   class: KitchenCleaner
+  global_dependencies: &globals
+    - activities
+    - devices
+    - helpers
+    - services
+    - vacuum_location
+    - point
+    - hass
 Vacuum mop maintenance:
   module: mop_maintenance
   class: MopMaintenance
+  global_dependencies: *globals
