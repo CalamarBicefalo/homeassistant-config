@@ -7,7 +7,7 @@ from app import App
 class StudioActivity(App):
 
     def initialize(self):
-        self.log(f'Initializing studio activity controller.', level="INFO")
+        self.log(f'Initializing studio activity controller.', level="TRACE")
 
         self.listen_state(
             self.studio_activity_controller,
@@ -15,7 +15,7 @@ class StudioActivity(App):
         )
 
     async def studio_activity_controller(self, entity, attribute, old, new, kwargs):
-        self.log("Triggering studio activity controller")
+        self.log("Triggering studio activity controller", level="TRACE")
 
         # Work handling
         if await self.is_on(devices.STUDIO_CHAIR_PRESSURE):

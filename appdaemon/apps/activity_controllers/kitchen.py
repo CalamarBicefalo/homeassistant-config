@@ -7,7 +7,7 @@ from app import App
 class KitchenActivity(App):
 
     def initialize(self):
-        self.log(f'Initializing kitchen activity controller.', level="INFO")
+        self.log(f'Initializing kitchen activity controller.', level="TRACE")
 
         self.listen_state(
             self.kitchen_activity_controller,
@@ -15,7 +15,7 @@ class KitchenActivity(App):
         )
 
     async def kitchen_activity_controller(self, entity, attribute, old, new, kwargs):
-        self.log("Triggering kitchen activity controller")
+        self.log("Triggering kitchen activity controller", level="TRACE")
         # Presence handling
         if await self.is_on(devices.KITCHEN_MOTION):
             self.set_activity(helpers.KITCHEN_ACTIVITY, activities.PRESENT)

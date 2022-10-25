@@ -40,9 +40,12 @@ class App(hass.Hass):
 
     async def has_state(self, device, desired_state: str):
         state = self.get_state(device)
+        self.log(f'Checking state of {device}={state}', level="INFO")
         if type(state) is str:
+            self.log(f'Comparing as string {state}={desired_state} is {state == desired_state}', level="INFO")
             return state == desired_state
         else:
+            self.log(f'Comparing as coroutine {(await state)}={desired_state} is {(await state) == desired_state}', level="INFO")
             return (await state) == desired_state
 
     async def is_activity(self, helper, activity):

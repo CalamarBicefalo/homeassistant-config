@@ -8,7 +8,7 @@ from app import App
 class LivingRoomActivity(App):
 
     def initialize(self):
-        self.log(f'Initializing living room activity controller.', level="INFO")
+        self.log(f'Initializing living room activity controller.', level="TRACE")
 
         self.listen_state(
             self.living_room_activity_controller,
@@ -19,7 +19,7 @@ class LivingRoomActivity(App):
         )
 
     async def living_room_activity_controller(self, entity, attribute, old, new, kwargs):
-        self.log("Triggering living room activity controller")
+        self.log("Triggering living room activity controller", level="TRACE")
 
         # TV handling
         if await self.is_on(devices.TV):
