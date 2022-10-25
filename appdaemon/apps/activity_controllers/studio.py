@@ -16,6 +16,17 @@ class StudioActivity(App):
 
     async def studio_activity_controller(self, entity, attribute, old, new, kwargs):
         self.log("Triggering studio activity controller")
+
+        # Work handling
+        if await self.is_on(devices.STUDIO_CHAIR_PRESSURE):
+            self.set_activity(helpers.STUDIO_ACTIVITY, activities.WORKING)
+            return
+
+        # Drum handling
+        if await self.is_consuming_at_least(devices.DRUM_POWER_METER, watts=2):
+            self.set_activity(helpers.STUDIO_ACTIVITY, activities.DRUMMING)
+            return
+
         # Presence handling
         if await self.is_on(devices.STUDIO_MOTION):
             self.set_activity(helpers.STUDIO_ACTIVITY, activities.PRESENT)

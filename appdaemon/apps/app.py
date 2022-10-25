@@ -1,3 +1,4 @@
+import numbers
 from datetime import datetime
 
 import appdaemon.plugins.hass.hassapi as hass
@@ -23,6 +24,13 @@ class App(hass.Hass):
 
     def datetime_to_helper(self, d: datetime):
         return datetime_to_helper(d)
+
+    async def is_consuming_at_least(self, device, watts):
+        state = self.get_state(device)
+        if isinstance(state, numbers.Number):
+            return state >= watts
+        else:
+            return (await state) >= watts
 
     async def is_on(self, device):
         return await self.has_state(device, states.ON)
