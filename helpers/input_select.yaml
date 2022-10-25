@@ -13,3 +13,11 @@ living_room_activity:
     - Watching TV
     - Reading
   icon: mdi:sofa
+studio_activity:
+  name: Studio activity
+  options:
+    - Empty
+    - Present
+    - Working
+    - Drumming
+  icon: mdi:android-studio

@@ -12,3 +12,8 @@
     - binary_sensor.livingroom_door_ms_motion
     - binary_sensor.living_room_ps_presence
     - binary_sensor.living_room_ps_motion
+- platform: group
+  name: studio_motion
+  device_class: motion
+  entities:
+    - binary_sensor.desk_ms_motion
