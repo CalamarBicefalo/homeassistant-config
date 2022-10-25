@@ -13,3 +13,7 @@ Kitchen activity:
   module: kitchen
   class: KitchenActivity
   global_dependencies: *globals
+Studio activity:
+  module: studio
+  class: StudioActivity
+  global_dependencies: *globals
