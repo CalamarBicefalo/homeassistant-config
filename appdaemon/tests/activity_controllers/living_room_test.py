@@ -28,7 +28,7 @@ async def test_when_away(given_that, living_room_activity, assert_that):
 
     await living_room_activity.living_room_activity_controller(None, None, None, None, None)
 
-    assert_that(services.HELPER_SELECT_SET).was.set_to_activity(helpers.LIVING_ROOM_ACTIVITY, activities.AWAY)
+    assert_that(services.HELPER_SELECT_SET).was.set_to_activity(helpers.LIVING_ROOM_ACTIVITY, activities.EMPTY)
 
 
 @pytest.mark.asyncio

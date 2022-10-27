@@ -31,4 +31,4 @@ class StudioActivity(App):
         if await self.is_on(devices.STUDIO_MOTION):
             self.set_activity(helpers.STUDIO_ACTIVITY, activities.PRESENT)
         else:
-            self.set_activity(helpers.STUDIO_ACTIVITY, activities.AWAY)
+            self.set_activity(helpers.STUDIO_ACTIVITY, activities.EMPTY)

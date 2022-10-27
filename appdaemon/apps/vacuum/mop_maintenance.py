@@ -15,7 +15,7 @@ class MopMaintenance(App):
         self.listen_state(
             self.start_mop_maintenance,
             helpers.KITCHEN_ACTIVITY,
-            old=activities.AWAY,
+            old=activities.EMPTY,
             new=activities.PRESENT
         )
 

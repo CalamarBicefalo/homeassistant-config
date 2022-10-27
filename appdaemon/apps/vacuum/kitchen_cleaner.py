@@ -21,7 +21,7 @@ class KitchenCleaner(App):
         self.listen_state(
             self.clean_kitchen_if_scheduled,
             helpers.KITCHEN_ACTIVITY,
-            new=activities.AWAY
+            new=activities.EMPTY
         )
 
     async def clean_kitchen(self, kwargs):
@@ -41,7 +41,7 @@ class KitchenCleaner(App):
 
     async def clean_kitchen_if_scheduled(self, kwargs):
         self.log('Cleaning kitchen', level="DEBUG")
-        if not (await self.is_activity(helpers.LIVING_ROOM_ACTIVITY, activities.AWAY)):
+        if not (await self.is_activity(helpers.LIVING_ROOM_ACTIVITY, activities.EMPTY)):
             self.log(
                 f'Postponing clean until nobody is around',
                 level="INFO"

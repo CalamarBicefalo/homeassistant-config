@@ -29,7 +29,7 @@ async def test_when_away(given_that, studio_activity, assert_that):
 
     await studio_activity.studio_activity_controller(None, None, None, None, None)
 
-    assert_that(services.HELPER_SELECT_SET).was.set_to_activity(helpers.STUDIO_ACTIVITY, activities.AWAY)
+    assert_that(services.HELPER_SELECT_SET).was.set_to_activity(helpers.STUDIO_ACTIVITY, activities.EMPTY)
 
 
 @pytest.mark.asyncio

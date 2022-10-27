@@ -27,7 +27,7 @@ async def test_when_away(given_that, kitchen_activity, assert_that):
 
     await kitchen_activity.kitchen_activity_controller(None, None, None, None, None)
 
-    assert_that(services.HELPER_SELECT_SET).was.set_to_activity(helpers.KITCHEN_ACTIVITY, activities.AWAY)
+    assert_that(services.HELPER_SELECT_SET).was.set_to_activity(helpers.KITCHEN_ACTIVITY, activities.EMPTY)
 
 
 @pytest.mark.asyncio

@@ -20,4 +20,4 @@ class KitchenActivity(App):
         if await self.is_on(devices.KITCHEN_MOTION):
             self.set_activity(helpers.KITCHEN_ACTIVITY, activities.PRESENT)
         else:
-            self.set_activity(helpers.KITCHEN_ACTIVITY, activities.AWAY)
+            self.set_activity(helpers.KITCHEN_ACTIVITY, activities.EMPTY)

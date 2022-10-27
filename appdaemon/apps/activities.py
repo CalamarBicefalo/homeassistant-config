@@ -1,5 +1,5 @@
 PRESENT = "Present"
-AWAY = "Away"
+EMPTY = "Empty"
 WATCHING_TV = "Watching TV"
 READING = "Reading"
 WORKING = "Working"
