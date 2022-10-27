@@ -11,7 +11,7 @@ from app import App
 class MopMaintenance(App):
 
     def initialize(self):
-        self.log(f'Initializing mop maintenance.', level="TRACE")
+        self.log(f'Initializing mop maintenance.', level="DEBUG")
         self.listen_state(
             self.start_mop_maintenance,
             helpers.KITCHEN_ACTIVITY,
@@ -20,7 +20,7 @@ class MopMaintenance(App):
         )
 
     async def start_mop_maintenance(self):
-        self.log("Triggering mop maintenance routine", level="TRACE")
+        self.log("Triggering mop maintenance routine", level="DEBUG")
         last_cleaned_kitchen = self.helper_to_datetime(helpers.LAST_CLEANED_KITCHEN)
         last_cleaned_vacuum_mop = self.helper_to_datetime(helpers.LAST_CLEANED_VACUUM_MOP)
 

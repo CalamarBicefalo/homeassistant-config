@@ -13,7 +13,7 @@ class KitchenCleaner(App):
 
     def initialize(self):
         time = "22:30:00"
-        self.log(f'Initializing kitchen clean at {time}.', level="TRACE")
+        self.log(f'Initializing kitchen clean at {time}.', level="DEBUG")
         self.run_daily(
             self.clean_kitchen,
             time
@@ -40,7 +40,7 @@ class KitchenCleaner(App):
         await self.clean_kitchen_if_scheduled(kwargs)
 
     async def clean_kitchen_if_scheduled(self, kwargs):
-        self.log('Cleaning kitchen', level="TRACE")
+        self.log('Cleaning kitchen', level="DEBUG")
         if not (await self.is_activity(helpers.LIVING_ROOM_ACTIVITY, activities.AWAY)):
             self.log(
                 f'Postponing clean until nobody is around',
