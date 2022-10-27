@@ -21,6 +21,18 @@ def test_triggers_when_motion(given_that, studio_activity, assert_that):
         .with_callback(studio_activity.studio_activity_controller)
 
 
+def test_triggers_when_working_chair(given_that, studio_activity, assert_that):
+    assert_that(studio_activity) \
+        .listens_to.state(devices.STUDIO_CHAIR_PRESSURE) \
+        .with_callback(studio_activity.studio_activity_controller)
+
+
+def test_triggers_when_drum_plug(given_that, studio_activity, assert_that):
+    assert_that(studio_activity) \
+        .listens_to.state(devices.DRUM_POWER_METER) \
+        .with_callback(studio_activity.studio_activity_controller)
+
+
 @pytest.mark.asyncio
 async def test_when_away(given_that, studio_activity, assert_that):
     given_that.state_of(devices.STUDIO_MOTION).is_set_to(states.OFF)
@@ -52,6 +64,7 @@ async def test_when_playing_drums(given_that, studio_activity, assert_that):
     await studio_activity.studio_activity_controller(None, None, None, None, None)
 
     assert_that(services.HELPER_SELECT_SET).was.set_to_activity(helpers.STUDIO_ACTIVITY, activities.DRUMMING)
+
 
 @pytest.mark.asyncio
 async def test_when_working(given_that, studio_activity, assert_that):

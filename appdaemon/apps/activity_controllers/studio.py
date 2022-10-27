@@ -14,6 +14,16 @@ class StudioActivity(App):
             devices.STUDIO_MOTION
         )
 
+        self.listen_state(
+            self.studio_activity_controller,
+            devices.STUDIO_CHAIR_PRESSURE
+        )
+
+        self.listen_state(
+            self.studio_activity_controller,
+            devices.DRUM_POWER_METER
+        )
+
     async def studio_activity_controller(self, entity, attribute, old, new, kwargs):
         self.log("Triggering studio activity controller", level="DEBUG")
 
@@ -23,7 +33,7 @@ class StudioActivity(App):
             return
 
         # Drum handling
-        if await self.is_consuming_at_least(devices.DRUM_POWER_METER, watts=2):
+        if await self.is_consuming_at_least(devices.DRUM_POWER_METER, watts=4):
             self.set_activity(helpers.STUDIO_ACTIVITY, activities.DRUMMING)
             return
 
