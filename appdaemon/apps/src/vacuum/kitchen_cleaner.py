@@ -1,11 +1,13 @@
 from datetime import datetime
 
+
 import activities
-import devices
+import entities
 import helpers
 import services
-import vacuum_location
 from app import App
+
+kitchen_segment = 16
 
 
 class KitchenCleaner(App):
@@ -55,12 +57,12 @@ class KitchenCleaner(App):
     async def __do_clean__(self, kwargs):
         self.log('Cleaning kitchen', level="DEBUG")
         self.call_service(
-            services.VACUUM_CLEAN_SEGMENT,
-            entity_id=devices.VACUUM_CLEANER,
-            segments=vacuum_location.kitchen_segment
+            services.XIAOMI_MIIO_VACUUM_CLEAN_SEGMENT,
+            entity_id=entities.VACUUM_ROBOROCK_VACUUM_A15,
+            segments=kitchen_segment
         )
         self.call_service(
-            services.HELPER_DATETIME_SET,
+            services.INPUT_DATETIME_SET_DATETIME,
             entity_id=helpers.LAST_CLEANED_KITCHEN,
             datetime=self.datetime_to_helper(datetime.now())
         )

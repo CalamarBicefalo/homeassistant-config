@@ -1,5 +1,5 @@
 import activities
-import devices
+import entities
 import helpers
 from app import App
 
@@ -11,34 +11,34 @@ class StudioActivity(App):
 
         self.listen_state(
             self.studio_activity_controller,
-            devices.STUDIO_MOTION
+            entities.BINARY_SENSOR_STUDIO_MOTION
         )
 
         self.listen_state(
             self.studio_activity_controller,
-            devices.STUDIO_CHAIR_PRESSURE
+            entities.BINARY_SENSOR_WORK_CHAIR_PS_WATER
         )
 
         self.listen_state(
             self.studio_activity_controller,
-            devices.DRUM_POWER_METER
+            entities.SENSOR_DRUMS_PLUG_POWER
         )
 
     async def studio_activity_controller(self, entity, attribute, old, new, kwargs):
         self.log("Triggering studio activity controller", level="DEBUG")
 
         # Work handling
-        if await self.is_on(devices.STUDIO_CHAIR_PRESSURE):
+        if await self.is_on(entities.BINARY_SENSOR_WORK_CHAIR_PS_WATER):
             self.set_activity(helpers.STUDIO_ACTIVITY, activities.Studio.WORKING)
             return
 
         # Drum handling
-        if await self.is_consuming_at_least(devices.DRUM_POWER_METER, watts=4):
+        if await self.is_consuming_at_least(entities.SENSOR_DRUMS_PLUG_POWER, watts=4):
             self.set_activity(helpers.STUDIO_ACTIVITY, activities.Studio.DRUMMING)
             return
 
         # Presence handling
-        if await self.is_on(devices.STUDIO_MOTION):
+        if await self.is_on(entities.BINARY_SENSOR_STUDIO_MOTION):
             self.set_activity(helpers.STUDIO_ACTIVITY, activities.Studio.PRESENT)
         else:
             self.set_activity(helpers.STUDIO_ACTIVITY, activities.Studio.EMPTY)

@@ -1,15 +1,16 @@
 from datetime import datetime, timedelta
 
 import pytest
-from appdaemontestframework import automation_fixture, given_that as given
+from appdaemontestframework import automation_fixture, given_that as given,assert_that as assertt
 
 import activities
+import entities
 import helpers
 import matchers
 import services
 from utils import formatted_yesterday as yesterday, formatted_now as now, formatted_days_ago as days_ago, format_date, \
     awaitable
-from vacuum.kitchen_cleaner import KitchenCleaner
+from vacuum.kitchen_cleaner import KitchenCleaner, kitchen_segment
 
 
 @automation_fixture(KitchenCleaner)
@@ -38,9 +39,9 @@ async def test_when_didnt_cook_does_not_vacuum(given_that, vacuum_controller, as
         last_cooked=days_ago(3)
     )
 
-    await vacuum_controller.clean_kitchen(None)
+    await vacuum_controller.clean_kitchen(None, None, None, None, None)
 
-    assert_that(services.VACUUM_CLEAN_SEGMENT).was_not.sent_to_clean_kitchen()
+    assert_that(services.XIAOMI_MIIO_VACUUM_CLEAN_SEGMENT).was_not.sent_to_clean_kitchen()
 
 
 @pytest.mark.asyncio
@@ -51,9 +52,9 @@ async def test_when_cooked_vacuums(given_that, vacuum_controller, assert_that):
         last_cooked=now()
     )
 
-    await vacuum_controller.clean_kitchen(None)
+    await vacuum_controller.clean_kitchen(None, None, None, None, None)
 
-    assert_that(services.VACUUM_CLEAN_SEGMENT).was.sent_to_clean_kitchen()
+    assert_that(services.XIAOMI_MIIO_VACUUM_CLEAN_SEGMENT).was.sent_to_clean_kitchen()
 
 
 @pytest.mark.asyncio
@@ -64,9 +65,9 @@ async def test_when_vacuumed_updates_last_cleaned(given_that, vacuum_controller,
         last_cooked=now()
     )
 
-    await vacuum_controller.clean_kitchen(None)
+    await vacuum_controller.clean_kitchen(None, None, None, None, None)
 
-    assert_that(services.HELPER_DATETIME_SET).was.set_to_now(helpers.LAST_CLEANED_KITCHEN)
+    assert_that(services.INPUT_DATETIME_SET_DATETIME).was.set_to_now(helpers.LAST_CLEANED_KITCHEN)
 
 
 @pytest.mark.asyncio
@@ -77,9 +78,9 @@ async def test_when_around_does_not_clean(given_that, vacuum_controller, assert_
         last_cooked=now()
     )
 
-    await vacuum_controller.clean_kitchen(None)
+    await vacuum_controller.clean_kitchen(None, None, None, None, None)
 
-    assert_that(services.VACUUM_CLEAN_SEGMENT).was_not.sent_to_clean_kitchen()
+    assert_that(services.XIAOMI_MIIO_VACUUM_CLEAN_SEGMENT).was_not.sent_to_clean_kitchen()
 
 
 @pytest.mark.asyncio
@@ -91,9 +92,9 @@ async def test_when_less_than_20_hours_since_last_clean_does_not_clean(given_tha
         last_cooked=now()
     )
 
-    await vacuum_controller.clean_kitchen(None)
+    await vacuum_controller.clean_kitchen(None, None, None, None, None)
 
-    assert_that(services.VACUUM_CLEAN_SEGMENT).was_not.sent_to_clean_kitchen()
+    assert_that(services.XIAOMI_MIIO_VACUUM_CLEAN_SEGMENT).was_not.sent_to_clean_kitchen()
 
 
 @pytest.mark.asyncio
@@ -104,9 +105,9 @@ async def test_when_more_than_20_hours_since_last_clean_cleans(given_that, vacuu
         last_cooked=now()
     )
 
-    await vacuum_controller.clean_kitchen(None)
+    await vacuum_controller.clean_kitchen(None, None, None, None, None)
 
-    assert_that(services.VACUUM_CLEAN_SEGMENT).was.sent_to_clean_kitchen()
+    assert_that(services.XIAOMI_MIIO_VACUUM_CLEAN_SEGMENT).was.sent_to_clean_kitchen()
 
 
 def state_is(self, activity, last_cleaned, last_cooked):
@@ -116,3 +117,12 @@ def state_is(self, activity, last_cleaned, last_cooked):
 
 
 given.GivenThatWrapper.state_is = state_is
+
+def sent_to_clean_kitchen(self):
+    self.called_with(
+        entity_id=entities.VACUUM_ROBOROCK_VACUUM_A15,
+        segments=kitchen_segment
+    )
+
+assertt.Was.sent_to_clean_kitchen = sent_to_clean_kitchen
+del sent_to_clean_kitchen  # clean up namespace

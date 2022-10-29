@@ -5,7 +5,7 @@ Living room activity:
   global_dependencies: &globals
     - states
     - activities
-    - devices
+    - entities
     - helpers
     - services
     - app

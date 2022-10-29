@@ -1,7 +1,6 @@
 import activities
-import devices
+import entities
 import helpers
-import states
 from app import App
 
 
@@ -13,8 +12,8 @@ class LivingRoomActivity(App):
         self.listen_state(
             self.living_room_activity_controller,
             [
-                devices.LIVING_ROOM_MOTION,
-                devices.TV
+                entities.BINARY_SENSOR_LIVING_ROOM_MOTION,
+                entities.MEDIA_PLAYER_TV
             ]
         )
 
@@ -22,12 +21,12 @@ class LivingRoomActivity(App):
         self.log("Triggering living room activity controller", level="DEBUG")
 
         # TV handling
-        if await self.is_on(devices.TV):
+        if await self.is_on(entities.MEDIA_PLAYER_TV):
             self.set_activity(helpers.LIVING_ROOM_ACTIVITY, activities.LivingRoom.WATCHING_TV)
             return
 
         # Presence handling
-        if await self.is_on(devices.LIVING_ROOM_MOTION):
+        if await self.is_on(entities.BINARY_SENSOR_LIVING_ROOM_MOTION):
             self.set_activity(helpers.LIVING_ROOM_ACTIVITY, activities.LivingRoom.PRESENT)
         else:
             self.set_activity(helpers.LIVING_ROOM_ACTIVITY, activities.LivingRoom.EMPTY)

@@ -1,7 +1,6 @@
 import activities
-import devices
+import entities
 import helpers
-import scenes
 from app import App
 
 
@@ -15,17 +14,19 @@ class LivingRoomScene(App):
         )
         self.listen_state(
             self.set_living_room_scene,
-            devices.STUDIO_ILLUMINANCE
+            entities.SENSOR_DESK_MS_ILLUMINANCE
         )
 
     async def set_living_room_scene(self, entity, attribute, old, new, kwargs):
         if await self.is_activity(helpers.LIVING_ROOM_ACTIVITY, activities.LivingRoom.EMPTY):
-            self.turn_off(devices.LIVING_ROOM_LIGHTS)
+            self.turn_off(entities.LIGHT_LIVING_ROOM)
 
-        if float(await self.get_state(devices.STUDIO_ILLUMINANCE)) < 40:
+        if float(await self.get_state(entities.SENSOR_DESK_MS_ILLUMINANCE)) < 40:
             if await self.is_activity(helpers.LIVING_ROOM_ACTIVITY, activities.LivingRoom.READING):
-                self.turn_on(scenes.LIVING_ROOM_READING)
+                self.turn_on(entities.SCENE_LIVING_ROOM_READING)
             if await self.is_activity(helpers.LIVING_ROOM_ACTIVITY, activities.LivingRoom.WATCHING_TV):
-                self.turn_on(scenes.LIVING_ROOM_MOVIE)
+                self.turn_on(entities.SCENE_LIVING_ROOM_MOVIE)
             if await self.is_activity(helpers.LIVING_ROOM_ACTIVITY, activities.LivingRoom.PRESENT):
-                self.turn_on(scenes.LIVING_ROOM_WELCOME)
+                self.turn_on(entities.SCENE_LIVING_ROOM_WELCOME)
+        else:
+            self.turn_off(entities.LIGHT_LIVING_ROOM)

@@ -47,7 +47,7 @@ class App(hass.Hass):
     def set_activity(self, helper, activity: Activity):
         self.log(f'Setting activity {activity.value} in {helper}', level="INFO")
         self.call_service(
-            services.HELPER_SELECT_SET,
+            services.INPUT_SELECT_SELECT_OPTION,
             entity_id=helper,
             option=activity.value
         )

@@ -1,10 +1,9 @@
 from datetime import datetime
 
 import activities
-import devices
+import entities
 import helpers
 import services
-import vacuum_location
 from app import App
 
 
@@ -26,13 +25,25 @@ class MopMaintenance(App):
 
         if last_cleaned_vacuum_mop < last_cleaned_kitchen:
             self.call_service(
-                services.VACUUM_GO_TO,
-                entity_id=devices.VACUUM_CLEANER,
-                x_coord=vacuum_location.mop_maintenance.x,
-                y_coord=vacuum_location.mop_maintenance.y
+                services.XIAOMI_MIIO_VACUUM_GOTO,
+                entity_id=entities.VACUUM_ROBOROCK_VACUUM_A15,
+                x_coord=mop_maintenance.x,
+                y_coord=mop_maintenance.y
             )
             self.call_service(
-                services.HELPER_DATETIME_SET,
+                services.INPUT_DATETIME_SET_DATETIME,
                 entity_id=helpers.LAST_CLEANED_VACUUM_MOP,
                 datetime=self.datetime_to_helper(datetime.now())
             )
+
+
+class Point:
+    def __init__(self, x_init, y_init):
+        self.x = x_init
+        self.y = y_init
+
+    def __repr__(self):
+        return "".join(["Point(", str(self.x), ",", str(self.y), ")"])
+
+
+mop_maintenance = Point(24900, 22200)

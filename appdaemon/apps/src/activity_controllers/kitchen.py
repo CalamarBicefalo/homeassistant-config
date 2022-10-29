@@ -1,5 +1,5 @@
 import activities
-import devices
+import entities
 import helpers
 from app import App
 
@@ -11,13 +11,13 @@ class KitchenActivity(App):
 
         self.listen_state(
             self.kitchen_activity_controller,
-            devices.KITCHEN_MOTION
+            entities.BINARY_SENSOR_KITCHEN_MOTION
         )
 
     async def kitchen_activity_controller(self, entity, attribute, old, new, kwargs):
         self.log("Triggering kitchen activity controller", level="DEBUG")
         # Presence handling
-        if await self.is_on(devices.KITCHEN_MOTION):
+        if await self.is_on(entities.BINARY_SENSOR_KITCHEN_MOTION):
             self.set_activity(helpers.KITCHEN_ACTIVITY, activities.Kitchen.PRESENT)
         else:
             self.set_activity(helpers.KITCHEN_ACTIVITY, activities.Kitchen.EMPTY)

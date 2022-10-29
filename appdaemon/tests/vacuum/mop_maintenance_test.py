@@ -1,11 +1,13 @@
-import pytest, matchers
-from appdaemontestframework import automation_fixture
+import entities
+import matchers
+import pytest
+from appdaemontestframework import automation_fixture, assert_that as assertt
 
 import activities
 import helpers
 import services
 import utils
-from vacuum.mop_maintenance import MopMaintenance
+from vacuum.mop_maintenance import MopMaintenance, mop_maintenance
 
 
 @automation_fixture(MopMaintenance)
@@ -27,7 +29,7 @@ async def test_mop_when_clean_does_nothing(given_that, vacuum_controller, assert
 
     await vacuum_controller.start_mop_maintenance()
 
-    assert_that(services.VACUUM_GO_TO).was_not.sent_for_maintenance_to_kitchen()
+    assert_that(services.XIAOMI_MIIO_VACUUM_GOTO).was_not.sent_for_maintenance_to_kitchen()
 
 
 @pytest.mark.asyncio
@@ -37,7 +39,7 @@ async def test_mop_when_dirty_goes_to_maintenance_spot(given_that, vacuum_contro
 
     await vacuum_controller.start_mop_maintenance()
 
-    assert_that(services.VACUUM_GO_TO).was.sent_for_maintenance_to_kitchen()
+    assert_that(services.XIAOMI_MIIO_VACUUM_GOTO).was.sent_for_maintenance_to_kitchen()
 
 
 @pytest.mark.asyncio
@@ -47,4 +49,16 @@ async def test_mop_when_cleaned_updates_helper(given_that, vacuum_controller, as
 
     await vacuum_controller.start_mop_maintenance()
 
-    assert_that(services.HELPER_DATETIME_SET).was.set_to_now(helpers.LAST_CLEANED_VACUUM_MOP)
+    assert_that(services.INPUT_DATETIME_SET_DATETIME).was.set_to_now(helpers.LAST_CLEANED_VACUUM_MOP)
+
+
+def sent_for_maintenance_to_kitchen(self):
+    self.called_with(
+        entity_id=entities.VACUUM_ROBOROCK_VACUUM_A15,
+        x_coord=mop_maintenance.x,
+        y_coord=mop_maintenance.y
+    )
+
+
+assertt.Was.sent_for_maintenance_to_kitchen = sent_for_maintenance_to_kitchen
+del sent_for_maintenance_to_kitchen
