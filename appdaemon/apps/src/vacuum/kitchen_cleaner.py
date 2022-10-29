@@ -20,12 +20,12 @@ class KitchenCleaner(App):
         )
         self.listen_state(
             self.clean_kitchen,
-            helpers.KITCHEN_ACTIVITY,
-            new=activities.Kitchen.EMPTY
+            helpers.LIVING_ROOM_ACTIVITY,
+            new=activities.LivingRoom.EMPTY
         )
 
     async def clean_kitchen_daily(self, kwargs):
-        await self.clean_kitchen("scheduler", datetime.now(), None, None)
+        await self.clean_kitchen("scheduler", datetime.now(), None, None, None)
 
     async def clean_kitchen(self, entity, attribute, old, new, kwargs):
         self.log(f'Triggering kitchen clean {entity} -> {attribute} old={old} new={new}', level="DEBUG")

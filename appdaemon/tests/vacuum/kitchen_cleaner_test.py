@@ -27,7 +27,7 @@ def test_triggers_every_night(given_that, vacuum_controller, assert_that):
 
 def test_triggers_when_away(given_that, vacuum_controller, assert_that):
     assert_that(vacuum_controller) \
-        .listens_to.state(helpers.KITCHEN_ACTIVITY, new=activities.Kitchen.EMPTY) \
+        .listens_to.state(helpers.LIVING_ROOM_ACTIVITY, new=activities.LivingRoom.EMPTY) \
         .with_callback(vacuum_controller.clean_kitchen)
 
 
