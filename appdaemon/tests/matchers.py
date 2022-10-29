@@ -24,7 +24,7 @@ def sent_to_clean_kitchen(self):
 def set_to_activity(self, helper, activity: Activity):
     self.called_with(
         entity_id=helper,
-        option=activity,
+        option=activity.value,
     )
 
 

@@ -112,7 +112,7 @@ async def test_when_more_than_20_hours_since_last_clean_cleans(given_that, vacuu
 def state_is(self, activity, last_cleaned, last_cooked):
     self.state_of(helpers.LAST_COOKED).is_set_to(awaitable(last_cooked))
     self.state_of(helpers.LAST_CLEANED_KITCHEN).is_set_to(awaitable(last_cleaned))
-    self.state_of(helpers.LIVING_ROOM_ACTIVITY).is_set_to(awaitable(activity))
+    self.state_of(helpers.LIVING_ROOM_ACTIVITY).is_set_to(awaitable(activity.value))
 
 
 given.GivenThatWrapper.state_is = state_is
