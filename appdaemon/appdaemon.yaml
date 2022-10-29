@@ -1,6 +1,5 @@
 ---
 secrets: /config/secrets.yaml
-app_dir: /config/appdaemon/src
 appdaemon:
   latitude: 51.48907
   longitude: -0.08610
