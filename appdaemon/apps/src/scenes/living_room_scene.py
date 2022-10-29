@@ -22,7 +22,7 @@ class LivingRoomScene(App):
         if await self.is_activity(helpers.LIVING_ROOM_ACTIVITY, activities.LivingRoom.EMPTY):
             self.turn_off(devices.LIVING_ROOM_LIGHTS)
 
-        if await self.get_state(devices.STUDIO_ILLUMINANCE) < 40:
+        if float(await self.get_state(devices.STUDIO_ILLUMINANCE)) < 40:
             if await self.is_activity(helpers.LIVING_ROOM_ACTIVITY, activities.LivingRoom.READING):
                 self.turn_on(scenes.LIVING_ROOM_READING)
             if await self.is_activity(helpers.LIVING_ROOM_ACTIVITY, activities.LivingRoom.WATCHING_TV):
