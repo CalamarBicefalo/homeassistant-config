@@ -15,8 +15,9 @@ class KitchenActivity(App):
         )
 
     async def kitchen_activity_controller(self, entity, attribute, old, new, kwargs):
-        self.log("Triggering kitchen activity controller", level="DEBUG")
-        # Presence handling
+        self.log(f'Triggering kitchen activity controller {entity} -> {attribute} old={old} new={new}', level="DEBUG")
+
+    # Presence handling
         if await self.is_on(entities.BINARY_SENSOR_KITCHEN_MOTION):
             self.set_activity(helpers.KITCHEN_ACTIVITY, activities.Kitchen.PRESENT)
         else:

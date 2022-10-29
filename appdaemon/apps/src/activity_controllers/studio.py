@@ -25,7 +25,7 @@ class StudioActivity(App):
         )
 
     async def studio_activity_controller(self, entity, attribute, old, new, kwargs):
-        self.log("Triggering studio activity controller", level="DEBUG")
+        self.log(f'Triggering studio activity controller {entity} -> {attribute} old={old} new={new}', level="DEBUG")
 
         # Work handling
         if await self.is_on(entities.BINARY_SENSOR_WORK_CHAIR_PS_WATER):

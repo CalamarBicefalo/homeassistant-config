@@ -27,7 +27,7 @@ async def test_mop_when_clean_does_nothing(given_that, vacuum_controller, assert
     given_that.state_of(helpers.LAST_CLEANED_KITCHEN).is_set_to(utils.awaitable(utils.formatted_yesterday()))
     given_that.state_of(helpers.LAST_CLEANED_VACUUM_MOP).is_set_to(utils.awaitable(utils.formatted_now()))
 
-    await vacuum_controller.start_mop_maintenance()
+    await vacuum_controller.start_mop_maintenance(None, None, None, None, None)
 
     assert_that(services.XIAOMI_MIIO_VACUUM_GOTO).was_not.sent_for_maintenance_to_kitchen()
 
@@ -37,7 +37,7 @@ async def test_mop_when_dirty_goes_to_maintenance_spot(given_that, vacuum_contro
     given_that.state_of(helpers.LAST_CLEANED_KITCHEN).is_set_to(utils.awaitable(utils.formatted_now()))
     given_that.state_of(helpers.LAST_CLEANED_VACUUM_MOP).is_set_to(utils.awaitable(utils.formatted_yesterday()))
 
-    await vacuum_controller.start_mop_maintenance()
+    await vacuum_controller.start_mop_maintenance(None, None, None, None, None)
 
     assert_that(services.XIAOMI_MIIO_VACUUM_GOTO).was.sent_for_maintenance_to_kitchen()
 
@@ -47,7 +47,7 @@ async def test_mop_when_cleaned_updates_helper(given_that, vacuum_controller, as
     given_that.state_of(helpers.LAST_CLEANED_KITCHEN).is_set_to(utils.awaitable(utils.formatted_now()))
     given_that.state_of(helpers.LAST_CLEANED_VACUUM_MOP).is_set_to(utils.awaitable(utils.formatted_yesterday()))
 
-    await vacuum_controller.start_mop_maintenance()
+    await vacuum_controller.start_mop_maintenance(None, None, None, None, None)
 
     assert_that(services.INPUT_DATETIME_SET_DATETIME).was.set_to_now(helpers.LAST_CLEANED_VACUUM_MOP)
 

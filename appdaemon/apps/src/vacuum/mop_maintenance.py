@@ -18,8 +18,8 @@ class MopMaintenance(App):
             new=activities.Kitchen.PRESENT
         )
 
-    async def start_mop_maintenance(self):
-        self.log("Triggering mop maintenance routine", level="DEBUG")
+    async def start_mop_maintenance(self, entity, attribute, old, new, kwargs):
+        self.log(f'Triggering mop maintenance routine {entity} -> {attribute} old={old} new={new}', level="DEBUG")
         last_cleaned_kitchen = await self.helper_to_datetime(helpers.LAST_CLEANED_KITCHEN)
         last_cleaned_vacuum_mop = await self.helper_to_datetime(helpers.LAST_CLEANED_VACUUM_MOP)
 

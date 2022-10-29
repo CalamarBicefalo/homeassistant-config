@@ -26,6 +26,8 @@ class KitchenCleaner(App):
         )
 
     async def clean_kitchen(self, entity, attribute, old, new, kwargs):
+        self.log(f'Triggering kitchen clean {entity} -> {attribute} old={old} new={new}', level="DEBUG")
+
         last_cooked = await self.helper_to_datetime(helpers.LAST_COOKED)
         last_vacuumed = await self.helper_to_datetime(helpers.LAST_CLEANED_KITCHEN)
 

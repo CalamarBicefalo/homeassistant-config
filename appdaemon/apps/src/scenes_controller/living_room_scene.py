@@ -18,15 +18,17 @@ class LivingRoomScene(App):
         )
 
     async def set_living_room_scene(self, entity, attribute, old, new, kwargs):
-        if await self.is_activity(helpers.LIVING_ROOM_ACTIVITY, activities.LivingRoom.EMPTY):
+        self.log(f'Changing living room scene {entity} -> {attribute} old={old} new={new}', level="DEBUG")
+        activity = await self.get_activity_value(helpers.LIVING_ROOM_ACTIVITY)
+        if activity == activities.LivingRoom.EMPTY.value:
             self.turn_off(entities.LIGHT_LIVING_ROOM)
 
         if float(await self.get_state(entities.SENSOR_DESK_MS_ILLUMINANCE)) < 40:
-            if await self.is_activity(helpers.LIVING_ROOM_ACTIVITY, activities.LivingRoom.READING):
+            if activity == activities.LivingRoom.READING.value:
                 self.turn_on(entities.SCENE_LIVING_ROOM_READING)
-            if await self.is_activity(helpers.LIVING_ROOM_ACTIVITY, activities.LivingRoom.WATCHING_TV):
+            if activity == activities.LivingRoom.WATCHING_TV.value:
                 self.turn_on(entities.SCENE_LIVING_ROOM_MOVIE)
-            if await self.is_activity(helpers.LIVING_ROOM_ACTIVITY, activities.LivingRoom.PRESENT):
+            if activity == activities.LivingRoom.PRESENT.value:
                 self.turn_on(entities.SCENE_LIVING_ROOM_WELCOME)
         else:
             self.turn_off(entities.LIGHT_LIVING_ROOM)

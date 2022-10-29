@@ -32,7 +32,8 @@ class App(hass.Hass):
         return int(float(await self.get_state(device)))
 
     async def is_on(self, device):
-        return await self.has_state(device, states.ON)
+        state = await self.get_state(device)
+        return state == states.ON or state == "playing"
 
     async def is_off(self, device):
         return await self.has_state(device, states.OFF)
@@ -43,6 +44,9 @@ class App(hass.Hass):
 
     async def is_activity(self, helper, activity: Activity):
         return await self.has_state(helper, activity.value)
+
+    async def get_activity_value(self, helper) -> str:
+        return await self.get_state(helper)
 
     def set_activity(self, helper, activity: Activity):
         self.log(f'Setting activity {activity.value} in {helper}', level="INFO")

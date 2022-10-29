@@ -18,7 +18,7 @@ class LivingRoomActivity(App):
         )
 
     async def living_room_activity_controller(self, entity, attribute, old, new, kwargs):
-        self.log("Triggering living room activity controller", level="DEBUG")
+        self.log(f'Triggering living room activity controller {entity} -> {attribute} old={old} new={new}', level="DEBUG")
 
         # TV handling
         if await self.is_on(entities.MEDIA_PLAYER_TV):

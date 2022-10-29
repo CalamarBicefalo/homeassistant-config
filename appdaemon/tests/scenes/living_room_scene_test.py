@@ -44,7 +44,6 @@ async def test_when_bright(given_that, living_room_scene, assert_that):
 
     assert_that(entities.LIGHT_LIVING_ROOM).was.turned_off()
 
-# todo remove async logic as we don't need it and it is making our lives miserable
 @pytest.mark.asyncio
 async def test_when_present(given_that, living_room_scene, assert_that):
     given_that.living_room_state_is(activity=activities.LivingRoom.PRESENT, illuminance=30)
