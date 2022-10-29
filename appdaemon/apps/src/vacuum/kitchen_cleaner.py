@@ -21,7 +21,7 @@ class KitchenCleaner(App):
         self.listen_state(
             self.clean_kitchen,
             helpers.LIVING_ROOM_ACTIVITY,
-            new=activities.LivingRoom.EMPTY
+            new=activities.LivingRoom.EMPTY.value
         )
 
     async def clean_kitchen_daily(self, kwargs):

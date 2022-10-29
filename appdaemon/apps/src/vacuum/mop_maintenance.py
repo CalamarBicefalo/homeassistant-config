@@ -14,8 +14,8 @@ class MopMaintenance(App):
         self.listen_state(
             self.start_mop_maintenance,
             helpers.KITCHEN_ACTIVITY,
-            old=activities.Kitchen.EMPTY,
-            new=activities.Kitchen.PRESENT
+            old=activities.Kitchen.EMPTY.value,
+            new=activities.Kitchen.PRESENT.value
         )
 
     async def start_mop_maintenance(self, entity, attribute, old, new, kwargs):

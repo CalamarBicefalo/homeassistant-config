@@ -18,7 +18,9 @@ def vacuum_controller():
 
 def test_clean_mop_maintenance_triggers_while_in_kitchen(given_that, vacuum_controller, assert_that):
     assert_that(vacuum_controller) \
-        .listens_to.state(helpers.KITCHEN_ACTIVITY, old=activities.Kitchen.EMPTY, new=activities.Kitchen.PRESENT) \
+        .listens_to.state(helpers.KITCHEN_ACTIVITY,
+                          old=activities.Kitchen.EMPTY.value,
+                          new=activities.Kitchen.PRESENT.value) \
         .with_callback(vacuum_controller.start_mop_maintenance)
 
 
