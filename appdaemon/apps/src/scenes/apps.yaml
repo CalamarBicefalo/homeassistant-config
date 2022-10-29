@@ -1,0 +1,12 @@
+---
+Living room scene:
+  module: living_room_scene
+  class: LivingRoomScene
+  global_dependencies: &globals
+    - states
+    - activities
+    - devices
+    - helpers
+    - services
+    - app
+

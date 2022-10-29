@@ -1,11 +1,8 @@
 import os
-from os.path import isfile
-
 import yaml
 
 GENERATED_PATH = 'appdaemon/apps/generated'
 GENERATED_ACTIVITIES = f'{GENERATED_PATH}/activities.py'
-GENERATED_HELPERS = f'{GENERATED_PATH}/helpers.py'
 
 os.makedirs(GENERATED_PATH, exist_ok=True)
 
