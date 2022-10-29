@@ -29,7 +29,7 @@ def test_set_scene_triggers_when_illuminance_changes(given_that, living_room_sce
 
 @pytest.mark.asyncio
 async def test_when_empty(given_that, living_room_scene, assert_that):
-    given_that.living_room_state_is(activity=activities.LivingRoom.EMPTY, illuminance=100)
+    given_that.living_room_scene_is(activity=activities.LivingRoom.EMPTY, illuminance=100)
 
     await living_room_scene.set_living_room_scene(None, None, None, None, None)
 
@@ -38,7 +38,7 @@ async def test_when_empty(given_that, living_room_scene, assert_that):
 
 @pytest.mark.asyncio
 async def test_when_bright(given_that, living_room_scene, assert_that):
-    given_that.living_room_state_is(activity=activities.LivingRoom.PRESENT, illuminance=100)
+    given_that.living_room_scene_is(activity=activities.LivingRoom.PRESENT, illuminance=100)
 
     await living_room_scene.set_living_room_scene(None, None, None, None, None)
 
@@ -46,7 +46,7 @@ async def test_when_bright(given_that, living_room_scene, assert_that):
 
 @pytest.mark.asyncio
 async def test_when_present(given_that, living_room_scene, assert_that):
-    given_that.living_room_state_is(activity=activities.LivingRoom.PRESENT, illuminance=30)
+    given_that.living_room_scene_is(activity=activities.LivingRoom.PRESENT, illuminance=30)
 
     await living_room_scene.set_living_room_scene(None, None, None, None, None)
 
@@ -55,7 +55,7 @@ async def test_when_present(given_that, living_room_scene, assert_that):
 
 @pytest.mark.asyncio
 async def test_when_reading(given_that, living_room_scene, assert_that):
-    given_that.living_room_state_is(activity=activities.LivingRoom.READING, illuminance=30)
+    given_that.living_room_scene_is(activity=activities.LivingRoom.READING, illuminance=30)
 
     await living_room_scene.set_living_room_scene(None, None, None, None, None)
 
@@ -64,16 +64,16 @@ async def test_when_reading(given_that, living_room_scene, assert_that):
 
 @pytest.mark.asyncio
 async def test_when_watching_tv(given_that, living_room_scene, assert_that):
-    given_that.living_room_state_is(activity=activities.LivingRoom.WATCHING_TV, illuminance=30)
+    given_that.living_room_scene_is(activity=activities.LivingRoom.WATCHING_TV, illuminance=30)
 
     await living_room_scene.set_living_room_scene(None, None, None, None, None)
 
     assert_that(entities.SCENE_LIVING_ROOM_MOVIE).was.turned_on()
 
 
-def living_room_state_is(self, activity, illuminance):
+def living_room_scene_is(self, activity, illuminance):
     self.state_of(entities.SENSOR_DESK_MS_ILLUMINANCE).is_set_to(utils.awaitable(illuminance))
     self.state_of(helpers.LIVING_ROOM_ACTIVITY).is_set_to(utils.awaitable(activity.value))
 
 
-given.GivenThatWrapper.living_room_state_is = living_room_state_is
+given.GivenThatWrapper.living_room_scene_is = living_room_scene_is

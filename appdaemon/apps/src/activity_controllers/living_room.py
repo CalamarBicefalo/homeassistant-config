@@ -25,6 +25,11 @@ class LivingRoomActivity(App):
             self.set_activity(helpers.LIVING_ROOM_ACTIVITY, activities.LivingRoom.WATCHING_TV)
             return
 
+        # Sofa handling
+        if await self.is_on(entities.BINARY_SENSOR_SOFA_PS_WATER):
+            self.set_activity(helpers.LIVING_ROOM_ACTIVITY, activities.LivingRoom.READING)
+            return
+
         # Presence handling
         if await self.is_on(entities.BINARY_SENSOR_LIVING_ROOM_MOTION):
             self.set_activity(helpers.LIVING_ROOM_ACTIVITY, activities.LivingRoom.PRESENT)
