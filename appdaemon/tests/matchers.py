@@ -3,6 +3,8 @@ from datetime import datetime
 import devices, vacuum_location, hass
 from appdaemontestframework import assert_that
 
+from activities import Activity
+
 
 def sent_for_maintenance_to_kitchen(self):
     self.called_with(
@@ -19,7 +21,7 @@ def sent_to_clean_kitchen(self):
     )
 
 
-def set_to_activity(self, helper, activity):
+def set_to_activity(self, helper, activity: Activity):
     self.called_with(
         entity_id=helper,
         option=activity,

@@ -42,7 +42,7 @@ async def test_when_away(given_that, studio_activity, assert_that):
 
     await studio_activity.studio_activity_controller(None, None, None, None, None)
 
-    assert_that(services.HELPER_SELECT_SET).was.set_to_activity(helpers.STUDIO_ACTIVITY, activities.EMPTY)
+    assert_that(services.HELPER_SELECT_SET).was.set_to_activity(helpers.STUDIO_ACTIVITY, activities.Studio.EMPTY)
 
 
 @pytest.mark.asyncio
@@ -53,7 +53,7 @@ async def test_when_present(given_that, studio_activity, assert_that):
 
     await studio_activity.studio_activity_controller(None, None, None, None, None)
 
-    assert_that(services.HELPER_SELECT_SET).was.set_to_activity(helpers.STUDIO_ACTIVITY, activities.PRESENT)
+    assert_that(services.HELPER_SELECT_SET).was.set_to_activity(helpers.STUDIO_ACTIVITY, activities.Studio.PRESENT)
 
 
 @pytest.mark.asyncio
@@ -64,7 +64,7 @@ async def test_when_playing_drums(given_that, studio_activity, assert_that):
 
     await studio_activity.studio_activity_controller(None, None, None, None, None)
 
-    assert_that(services.HELPER_SELECT_SET).was.set_to_activity(helpers.STUDIO_ACTIVITY, activities.DRUMMING)
+    assert_that(services.HELPER_SELECT_SET).was.set_to_activity(helpers.STUDIO_ACTIVITY, activities.Studio.DRUMMING)
 
 
 @pytest.mark.asyncio
@@ -75,4 +75,4 @@ async def test_when_working(given_that, studio_activity, assert_that):
 
     await studio_activity.studio_activity_controller(None, None, None, None, None)
 
-    assert_that(services.HELPER_SELECT_SET).was.set_to_activity(helpers.STUDIO_ACTIVITY, activities.WORKING)
+    assert_that(services.HELPER_SELECT_SET).was.set_to_activity(helpers.STUDIO_ACTIVITY, activities.Studio.WORKING)

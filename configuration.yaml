@@ -21,4 +21,4 @@ spotcast:
   sp_dc: !secret sp_dc
   sp_key: !secret sp_key
 
-binary_sensor: !include helpers/binary_sensor.yaml
+binary_sensor: !include devices/binary_sensor.yaml

@@ -26,14 +26,14 @@ def test_triggers_every_night(given_that, vacuum_controller, assert_that):
 
 def test_triggers_when_away(given_that, vacuum_controller, assert_that):
     assert_that(vacuum_controller) \
-        .listens_to.state(helpers.KITCHEN_ACTIVITY, new=activities.EMPTY) \
+        .listens_to.state(helpers.KITCHEN_ACTIVITY, new=activities.Kitchen.EMPTY) \
         .with_callback(vacuum_controller.clean_kitchen)
 
 
 @pytest.mark.asyncio
 async def test_when_didnt_cook_does_not_vacuum(given_that, vacuum_controller, assert_that):
     given_that.state_is(
-        activity=activities.EMPTY,
+        activity=activities.LivingRoom.EMPTY,
         last_cleaned=yesterday(),
         last_cooked=days_ago(3)
     )
@@ -46,7 +46,7 @@ async def test_when_didnt_cook_does_not_vacuum(given_that, vacuum_controller, as
 @pytest.mark.asyncio
 async def test_when_cooked_vacuums(given_that, vacuum_controller, assert_that):
     given_that.state_is(
-        activity=activities.EMPTY,
+        activity=activities.LivingRoom.EMPTY,
         last_cleaned=yesterday(),
         last_cooked=now()
     )
@@ -59,7 +59,7 @@ async def test_when_cooked_vacuums(given_that, vacuum_controller, assert_that):
 @pytest.mark.asyncio
 async def test_when_vacuumed_updates_last_cleaned(given_that, vacuum_controller, assert_that):
     given_that.state_is(
-        activity=activities.EMPTY,
+        activity=activities.LivingRoom.EMPTY,
         last_cleaned=yesterday(),
         last_cooked=now()
     )
@@ -72,7 +72,7 @@ async def test_when_vacuumed_updates_last_cleaned(given_that, vacuum_controller,
 @pytest.mark.asyncio
 async def test_when_around_does_not_clean(given_that, vacuum_controller, assert_that, time_travel):
     given_that.state_is(
-        activity=activities.WATCHING_TV,
+        activity=activities.LivingRoom.WATCHING_TV,
         last_cleaned=yesterday(),
         last_cooked=now()
     )
@@ -86,7 +86,7 @@ async def test_when_around_does_not_clean(given_that, vacuum_controller, assert_
 async def test_when_less_than_20_hours_since_last_clean_does_not_clean(given_that, vacuum_controller, assert_that,
                                                                        time_travel):
     given_that.state_is(
-        activity=activities.EMPTY,
+        activity=activities.LivingRoom.EMPTY,
         last_cleaned=format_date((datetime.now() - timedelta(hours=19))),
         last_cooked=now()
     )
@@ -99,7 +99,7 @@ async def test_when_less_than_20_hours_since_last_clean_does_not_clean(given_tha
 @pytest.mark.asyncio
 async def test_when_more_than_20_hours_since_last_clean_cleans(given_that, vacuum_controller, assert_that, time_travel):
     given_that.state_is(
-        activity=activities.EMPTY,
+        activity=activities.LivingRoom.EMPTY,
         last_cleaned=format_date((datetime.now() - timedelta(hours=21))),
         last_cooked=now()
     )

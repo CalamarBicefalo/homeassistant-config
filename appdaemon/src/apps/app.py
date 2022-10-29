@@ -1,11 +1,10 @@
-import inspect
-import numbers
 from datetime import datetime
 
 import appdaemon.plugins.hass.hassapi as hass
 
 import services
 import states
+from activities import Activity
 
 HELPER_DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"
 
@@ -42,10 +41,10 @@ class App(hass.Hass):
         state = self.get_state(device)
         return (await state) == desired_state
 
-    async def is_activity(self, helper, activity):
+    async def is_activity(self, helper, activity: Activity):
         return await self.has_state(helper, activity)
 
-    def set_activity(self, helper, activity):
+    def set_activity(self, helper, activity: Activity):
         self.log(f'Setting activity {activity} in {helper}', level="INFO")
         self.call_service(
             services.HELPER_SELECT_SET,

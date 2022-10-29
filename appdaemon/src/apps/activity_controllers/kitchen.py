@@ -18,6 +18,6 @@ class KitchenActivity(App):
         self.log("Triggering kitchen activity controller", level="DEBUG")
         # Presence handling
         if await self.is_on(devices.KITCHEN_MOTION):
-            self.set_activity(helpers.KITCHEN_ACTIVITY, activities.PRESENT)
+            self.set_activity(helpers.KITCHEN_ACTIVITY, activities.Kitchen.PRESENT)
         else:
-            self.set_activity(helpers.KITCHEN_ACTIVITY, activities.EMPTY)
+            self.set_activity(helpers.KITCHEN_ACTIVITY, activities.Kitchen.EMPTY)

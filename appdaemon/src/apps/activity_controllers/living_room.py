@@ -23,11 +23,11 @@ class LivingRoomActivity(App):
 
         # TV handling
         if await self.is_on(devices.TV):
-            self.set_activity(helpers.LIVING_ROOM_ACTIVITY, activities.WATCHING_TV)
+            self.set_activity(helpers.LIVING_ROOM_ACTIVITY, activities.LivingRoom.WATCHING_TV)
             return
 
         # Presence handling
         if await self.is_on(devices.LIVING_ROOM_MOTION):
-            self.set_activity(helpers.LIVING_ROOM_ACTIVITY, activities.PRESENT)
+            self.set_activity(helpers.LIVING_ROOM_ACTIVITY, activities.LivingRoom.PRESENT)
         else:
-            self.set_activity(helpers.LIVING_ROOM_ACTIVITY, activities.EMPTY)
+            self.set_activity(helpers.LIVING_ROOM_ACTIVITY, activities.LivingRoom.EMPTY)

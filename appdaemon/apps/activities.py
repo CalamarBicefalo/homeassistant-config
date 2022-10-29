@@ -1,6 +1,0 @@
-PRESENT = "Present"
-EMPTY = "Empty"
-WATCHING_TV = "Watching TV"
-READING = "Reading"
-WORKING = "Working"
-DRUMMING = "Drumming"
