@@ -18,7 +18,7 @@ class LivingRoomScene(App):
             devices.STUDIO_ILLUMINANCE
         )
 
-    async def set_living_room_scene(self):
+    async def set_living_room_scene(self, entity, attribute, old, new, kwargs):
         if await self.is_activity(helpers.LIVING_ROOM_ACTIVITY, activities.LivingRoom.EMPTY):
             self.turn_off(devices.LIVING_ROOM_LIGHTS)
 

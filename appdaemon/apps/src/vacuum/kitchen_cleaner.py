@@ -23,7 +23,7 @@ class KitchenCleaner(App):
             new=activities.Kitchen.EMPTY
         )
 
-    async def clean_kitchen(self, kwargs):
+    async def clean_kitchen(self, entity, attribute, old, new, kwargs):
         last_cooked = await self.helper_to_datetime(helpers.LAST_COOKED)
         last_vacuumed = await self.helper_to_datetime(helpers.LAST_CLEANED_KITCHEN)
 
