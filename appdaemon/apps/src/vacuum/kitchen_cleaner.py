@@ -1,6 +1,5 @@
 from datetime import datetime
 
-
 import activities
 import entities
 import helpers
@@ -16,7 +15,7 @@ class KitchenCleaner(App):
         time = "22:30:00"
         self.log(f'Initializing kitchen clean at {time}.', level="DEBUG")
         self.run_daily(
-            self.clean_kitchen,
+            self.clean_kitchen_daily,
             time
         )
         self.listen_state(
@@ -24,6 +23,9 @@ class KitchenCleaner(App):
             helpers.KITCHEN_ACTIVITY,
             new=activities.Kitchen.EMPTY
         )
+
+    async def clean_kitchen_daily(self, kwargs):
+        await self.clean_kitchen("scheduler", datetime.now(), None, None)
 
     async def clean_kitchen(self, entity, attribute, old, new, kwargs):
         self.log(f'Triggering kitchen clean {entity} -> {attribute} old={old} new={new}', level="DEBUG")

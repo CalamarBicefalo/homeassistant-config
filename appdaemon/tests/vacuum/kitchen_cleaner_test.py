@@ -22,7 +22,7 @@ def vacuum_controller():
 def test_triggers_every_night(given_that, vacuum_controller, assert_that):
     assert_that(vacuum_controller) \
         .registered.run_daily("22:30:00") \
-        .with_callback(vacuum_controller.clean_kitchen)
+        .with_callback(vacuum_controller.clean_kitchen_daily)
 
 
 def test_triggers_when_away(given_that, vacuum_controller, assert_that):
