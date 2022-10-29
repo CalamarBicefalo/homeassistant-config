@@ -1,3 +1,4 @@
+import inspect
 import numbers
 from datetime import datetime
 
@@ -14,23 +15,20 @@ def datetime_to_helper(d: datetime):
 
 
 class App(hass.Hass):
-    def helper_to_datetime(self, helper: str):
+    async def helper_to_datetime(self, helper: str):
         """
         Given a datetime helper, it returns a ready to use datetime
         :param helper:
         :return: a datetime object
         """
-        return datetime.strptime(str(self.get_state(helper)), HELPER_DATETIME_FORMAT)
+        return datetime.strptime(str(await self.get_state(helper)), HELPER_DATETIME_FORMAT)
 
     def datetime_to_helper(self, d: datetime):
         return datetime_to_helper(d)
 
-    async def is_consuming_at_least(self, device, watts):
-        state = self.get_state(device)
-        if isinstance(state, numbers.Number):
-            return state >= watts
-        else:
-            return (await state) >= watts
+    async def is_consuming_at_least(self, device: str, watts: int) -> bool:
+        current_consumption = await self.get_state(device)
+        return int(current_consumption) >= watts
 
     async def is_on(self, device):
         return await self.has_state(device, states.ON)
@@ -38,15 +36,9 @@ class App(hass.Hass):
     async def is_off(self, device):
         return await self.has_state(device, states.OFF)
 
-    async def has_state(self, device, desired_state: str):
+    async def has_state(self, device, desired_state: str) -> bool:
         state = self.get_state(device)
-        self.log(f'Checking state of {device}={state}', level="INFO")
-        if type(state) is str:
-            self.log(f'Comparing as string {state}={desired_state} is {state == desired_state}', level="INFO")
-            return state == desired_state
-        else:
-            self.log(f'Comparing as coroutine {(await state)}={desired_state} is {(await state) == desired_state}', level="INFO")
-            return (await state) == desired_state
+        return (await state) == desired_state
 
     async def is_activity(self, helper, activity):
         return await self.has_state(helper, activity)
@@ -58,4 +50,3 @@ class App(hass.Hass):
             entity_id=helper,
             option=activity
         )
-

@@ -7,6 +7,7 @@ import helpers
 import services
 import states
 from activity_controllers.kitchen import KitchenActivity
+from utils import awaitable
 
 
 @automation_fixture(KitchenActivity)
@@ -23,7 +24,7 @@ def test_triggers_when_motion(given_that, kitchen_activity, assert_that):
 
 @pytest.mark.asyncio
 async def test_when_away(given_that, kitchen_activity, assert_that):
-    given_that.state_of(devices.KITCHEN_MOTION).is_set_to(states.OFF)
+    given_that.state_of(devices.KITCHEN_MOTION).is_set_to(awaitable(states.OFF))
 
     await kitchen_activity.kitchen_activity_controller(None, None, None, None, None)
 
@@ -32,7 +33,7 @@ async def test_when_away(given_that, kitchen_activity, assert_that):
 
 @pytest.mark.asyncio
 async def test_when_present(given_that, kitchen_activity, assert_that):
-    given_that.state_of(devices.KITCHEN_MOTION).is_set_to(states.ON)
+    given_that.state_of(devices.KITCHEN_MOTION).is_set_to(awaitable(states.ON))
 
     await kitchen_activity.kitchen_activity_controller(None, None, None, None, None)
 

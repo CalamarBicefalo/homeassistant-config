@@ -1,13 +1,14 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 import pytest
-from appdaemontestframework import automation_fixture
+from appdaemontestframework import automation_fixture, given_that as given
 
 import activities
 import helpers
 import matchers
 import services
-import utils
+from utils import formatted_yesterday as yesterday, formatted_now as now, formatted_days_ago as days_ago, format_date, \
+    awaitable
 from vacuum.kitchen_cleaner import KitchenCleaner
 
 
@@ -26,13 +27,16 @@ def test_triggers_every_night(given_that, vacuum_controller, assert_that):
 def test_triggers_when_away(given_that, vacuum_controller, assert_that):
     assert_that(vacuum_controller) \
         .listens_to.state(helpers.KITCHEN_ACTIVITY, new=activities.EMPTY) \
-        .with_callback(vacuum_controller.clean_kitchen_if_scheduled)
+        .with_callback(vacuum_controller.clean_kitchen)
+
 
 @pytest.mark.asyncio
 async def test_when_didnt_cook_does_not_vacuum(given_that, vacuum_controller, assert_that):
-    given_that.state_of(helpers.LAST_COOKED).is_set_to(utils.formatted_yesterday())
-    given_that.state_of(helpers.LAST_CLEANED_KITCHEN).is_set_to(utils.formatted_now())
-    given_that.state_of(helpers.LIVING_ROOM_ACTIVITY).is_set_to(activities.EMPTY)
+    given_that.state_is(
+        activity=activities.EMPTY,
+        last_cleaned=yesterday(),
+        last_cooked=days_ago(3)
+    )
 
     await vacuum_controller.clean_kitchen(None)
 
@@ -41,9 +45,11 @@ async def test_when_didnt_cook_does_not_vacuum(given_that, vacuum_controller, as
 
 @pytest.mark.asyncio
 async def test_when_cooked_vacuums(given_that, vacuum_controller, assert_that):
-    given_that.state_of(helpers.LAST_COOKED).is_set_to(utils.formatted_now())
-    given_that.state_of(helpers.LAST_CLEANED_KITCHEN).is_set_to(utils.formatted_yesterday())
-    given_that.state_of(helpers.LIVING_ROOM_ACTIVITY).is_set_to(activities.EMPTY)
+    given_that.state_is(
+        activity=activities.EMPTY,
+        last_cleaned=yesterday(),
+        last_cooked=now()
+    )
 
     await vacuum_controller.clean_kitchen(None)
 
@@ -51,10 +57,12 @@ async def test_when_cooked_vacuums(given_that, vacuum_controller, assert_that):
 
 
 @pytest.mark.asyncio
-async def test_when_vacuumed_sets_last_cleaned(given_that, vacuum_controller, assert_that):
-    given_that.state_of(helpers.LAST_COOKED).is_set_to(utils.formatted_now())
-    given_that.state_of(helpers.LAST_CLEANED_KITCHEN).is_set_to(utils.formatted_yesterday())
-    given_that.state_of(helpers.LIVING_ROOM_ACTIVITY).is_set_to(activities.EMPTY)
+async def test_when_vacuumed_updates_last_cleaned(given_that, vacuum_controller, assert_that):
+    given_that.state_is(
+        activity=activities.EMPTY,
+        last_cleaned=yesterday(),
+        last_cooked=now()
+    )
 
     await vacuum_controller.clean_kitchen(None)
 
@@ -63,9 +71,11 @@ async def test_when_vacuumed_sets_last_cleaned(given_that, vacuum_controller, as
 
 @pytest.mark.asyncio
 async def test_when_around_does_not_clean(given_that, vacuum_controller, assert_that, time_travel):
-    given_that.state_of(helpers.LAST_COOKED).is_set_to(utils.formatted_now())
-    given_that.state_of(helpers.LAST_CLEANED_KITCHEN).is_set_to(utils.formatted_yesterday())
-    given_that.state_of(helpers.LIVING_ROOM_ACTIVITY).is_set_to(activities.WATCHING_TV)
+    given_that.state_is(
+        activity=activities.WATCHING_TV,
+        last_cleaned=yesterday(),
+        last_cooked=now()
+    )
 
     await vacuum_controller.clean_kitchen(None)
 
@@ -73,28 +83,36 @@ async def test_when_around_does_not_clean(given_that, vacuum_controller, assert_
 
 
 @pytest.mark.asyncio
-async def test_when_not_scheduled(given_that, vacuum_controller, assert_that, time_travel):
-    given_that.state_of(helpers.LAST_COOKED).is_set_to(utils.formatted_now())
-    given_that.state_of(helpers.LAST_CLEANED_KITCHEN).is_set_to(utils.formatted_yesterday())
-    given_that.state_of(helpers.LIVING_ROOM_ACTIVITY).is_set_to(activities.EMPTY)
+async def test_when_less_than_20_hours_since_last_clean_does_not_clean(given_that, vacuum_controller, assert_that,
+                                                                       time_travel):
+    given_that.state_is(
+        activity=activities.EMPTY,
+        last_cleaned=format_date((datetime.now() - timedelta(hours=19))),
+        last_cooked=now()
+    )
 
-    await vacuum_controller.clean_kitchen_if_scheduled(None)
+    await vacuum_controller.clean_kitchen(None)
 
     assert_that(services.VACUUM_CLEAN_SEGMENT).was_not.sent_to_clean_kitchen()
 
 
 @pytest.mark.asyncio
-async def test_when_not_scheduled(given_that, vacuum_controller, assert_that, time_travel):
-    given_that.state_of(helpers.LAST_COOKED).is_set_to(utils.formatted_now())
-    given_that.state_of(helpers.LAST_CLEANED_KITCHEN).is_set_to(utils.formatted_yesterday())
-    given_that.state_of(helpers.LIVING_ROOM_ACTIVITY).is_set_to(activities.WATCHING_TV)
+async def test_when_more_than_20_hours_since_last_clean_cleans(given_that, vacuum_controller, assert_that, time_travel):
+    given_that.state_is(
+        activity=activities.EMPTY,
+        last_cleaned=format_date((datetime.now() - timedelta(hours=21))),
+        last_cooked=now()
+    )
 
-    await vacuum_controller.clean_kitchen_if_scheduled(None)
     await vacuum_controller.clean_kitchen(None)
-    await vacuum_controller.clean_kitchen_if_scheduled(None)
 
-    assert_that(services.VACUUM_CLEAN_SEGMENT).was_not.sent_to_clean_kitchen()
-
-    given_that.state_of(helpers.LIVING_ROOM_ACTIVITY).is_set_to(activities.EMPTY)
-    await vacuum_controller.clean_kitchen_if_scheduled(None)
     assert_that(services.VACUUM_CLEAN_SEGMENT).was.sent_to_clean_kitchen()
+
+
+def state_is(self, activity, last_cleaned, last_cooked):
+    self.state_of(helpers.LAST_COOKED).is_set_to(awaitable(last_cooked))
+    self.state_of(helpers.LAST_CLEANED_KITCHEN).is_set_to(awaitable(last_cleaned))
+    self.state_of(helpers.LIVING_ROOM_ACTIVITY).is_set_to(awaitable(activity))
+
+
+given.GivenThatWrapper.state_is = state_is

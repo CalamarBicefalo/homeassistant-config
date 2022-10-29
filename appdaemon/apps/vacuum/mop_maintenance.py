@@ -21,8 +21,8 @@ class MopMaintenance(App):
 
     async def start_mop_maintenance(self):
         self.log("Triggering mop maintenance routine", level="DEBUG")
-        last_cleaned_kitchen = self.helper_to_datetime(helpers.LAST_CLEANED_KITCHEN)
-        last_cleaned_vacuum_mop = self.helper_to_datetime(helpers.LAST_CLEANED_VACUUM_MOP)
+        last_cleaned_kitchen = await self.helper_to_datetime(helpers.LAST_CLEANED_KITCHEN)
+        last_cleaned_vacuum_mop = await self.helper_to_datetime(helpers.LAST_CLEANED_VACUUM_MOP)
 
         if last_cleaned_vacuum_mop < last_cleaned_kitchen:
             self.call_service(

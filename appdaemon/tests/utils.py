@@ -1,9 +1,21 @@
 from datetime import datetime, timedelta
 
 
-def formatted_now():
-    return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+def formatted_now() -> str:
+    return format_date(datetime.now())
 
 
-def formatted_yesterday():
-    return (datetime.now() - timedelta(days=1)).strftime("%Y-%m-%d %H:%M:%S")
+def formatted_yesterday() -> str:
+    return format_date((datetime.now() - timedelta(days=1)))
+
+
+def formatted_days_ago(days: int) -> str:
+    return format_date((datetime.now() - timedelta(days=days)))
+
+
+def format_date(d) -> str:
+    return d.strftime("%Y-%m-%d %H:%M:%S")
+
+
+async def awaitable(thing):
+    return thing

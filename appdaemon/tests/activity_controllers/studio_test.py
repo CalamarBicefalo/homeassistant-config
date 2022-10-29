@@ -7,6 +7,7 @@ import helpers
 import services
 import states
 from activity_controllers.studio import StudioActivity
+from utils import awaitable
 
 
 @automation_fixture(StudioActivity)
@@ -35,9 +36,9 @@ def test_triggers_when_drum_plug(given_that, studio_activity, assert_that):
 
 @pytest.mark.asyncio
 async def test_when_away(given_that, studio_activity, assert_that):
-    given_that.state_of(devices.STUDIO_MOTION).is_set_to(states.OFF)
-    given_that.state_of(devices.DRUM_POWER_METER).is_set_to(0)
-    given_that.state_of(devices.STUDIO_CHAIR_PRESSURE).is_set_to(states.OFF)
+    given_that.state_of(devices.STUDIO_MOTION).is_set_to(awaitable(states.OFF))
+    given_that.state_of(devices.DRUM_POWER_METER).is_set_to(awaitable(0))
+    given_that.state_of(devices.STUDIO_CHAIR_PRESSURE).is_set_to(awaitable(states.OFF))
 
     await studio_activity.studio_activity_controller(None, None, None, None, None)
 
@@ -46,9 +47,9 @@ async def test_when_away(given_that, studio_activity, assert_that):
 
 @pytest.mark.asyncio
 async def test_when_present(given_that, studio_activity, assert_that):
-    given_that.state_of(devices.STUDIO_MOTION).is_set_to(states.ON)
-    given_that.state_of(devices.DRUM_POWER_METER).is_set_to(0)
-    given_that.state_of(devices.STUDIO_CHAIR_PRESSURE).is_set_to(states.OFF)
+    given_that.state_of(devices.STUDIO_MOTION).is_set_to(awaitable(states.ON))
+    given_that.state_of(devices.DRUM_POWER_METER).is_set_to(awaitable(0))
+    given_that.state_of(devices.STUDIO_CHAIR_PRESSURE).is_set_to(awaitable(states.OFF))
 
     await studio_activity.studio_activity_controller(None, None, None, None, None)
 
@@ -57,9 +58,9 @@ async def test_when_present(given_that, studio_activity, assert_that):
 
 @pytest.mark.asyncio
 async def test_when_playing_drums(given_that, studio_activity, assert_that):
-    given_that.state_of(devices.STUDIO_MOTION).is_set_to(states.ON)
-    given_that.state_of(devices.DRUM_POWER_METER).is_set_to(5.0)
-    given_that.state_of(devices.STUDIO_CHAIR_PRESSURE).is_set_to(states.OFF)
+    given_that.state_of(devices.STUDIO_MOTION).is_set_to(awaitable(states.ON))
+    given_that.state_of(devices.DRUM_POWER_METER).is_set_to(awaitable(5.0))
+    given_that.state_of(devices.STUDIO_CHAIR_PRESSURE).is_set_to(awaitable(states.OFF))
 
     await studio_activity.studio_activity_controller(None, None, None, None, None)
 
@@ -68,9 +69,9 @@ async def test_when_playing_drums(given_that, studio_activity, assert_that):
 
 @pytest.mark.asyncio
 async def test_when_working(given_that, studio_activity, assert_that):
-    given_that.state_of(devices.STUDIO_MOTION).is_set_to(states.ON)
-    given_that.state_of(devices.DRUM_POWER_METER).is_set_to(0)
-    given_that.state_of(devices.STUDIO_CHAIR_PRESSURE).is_set_to(states.ON)
+    given_that.state_of(devices.STUDIO_MOTION).is_set_to(awaitable(states.ON))
+    given_that.state_of(devices.DRUM_POWER_METER).is_set_to(awaitable(0))
+    given_that.state_of(devices.STUDIO_CHAIR_PRESSURE).is_set_to(awaitable(states.ON))
 
     await studio_activity.studio_activity_controller(None, None, None, None, None)
 

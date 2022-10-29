@@ -22,8 +22,8 @@ def test_clean_mop_maintenance_triggers_while_in_kitchen(given_that, vacuum_cont
 
 @pytest.mark.asyncio
 async def test_mop_when_clean_does_nothing(given_that, vacuum_controller, assert_that):
-    given_that.state_of(helpers.LAST_CLEANED_KITCHEN).is_set_to(utils.formatted_yesterday())
-    given_that.state_of(helpers.LAST_CLEANED_VACUUM_MOP).is_set_to(utils.formatted_now())
+    given_that.state_of(helpers.LAST_CLEANED_KITCHEN).is_set_to(utils.awaitable(utils.formatted_yesterday()))
+    given_that.state_of(helpers.LAST_CLEANED_VACUUM_MOP).is_set_to(utils.awaitable(utils.formatted_now()))
 
     await vacuum_controller.start_mop_maintenance()
 
@@ -32,8 +32,8 @@ async def test_mop_when_clean_does_nothing(given_that, vacuum_controller, assert
 
 @pytest.mark.asyncio
 async def test_mop_when_dirty_goes_to_maintenance_spot(given_that, vacuum_controller, assert_that):
-    given_that.state_of(helpers.LAST_CLEANED_KITCHEN).is_set_to(utils.formatted_now())
-    given_that.state_of(helpers.LAST_CLEANED_VACUUM_MOP).is_set_to(utils.formatted_yesterday())
+    given_that.state_of(helpers.LAST_CLEANED_KITCHEN).is_set_to(utils.awaitable(utils.formatted_now()))
+    given_that.state_of(helpers.LAST_CLEANED_VACUUM_MOP).is_set_to(utils.awaitable(utils.formatted_yesterday()))
 
     await vacuum_controller.start_mop_maintenance()
 
@@ -42,8 +42,8 @@ async def test_mop_when_dirty_goes_to_maintenance_spot(given_that, vacuum_contro
 
 @pytest.mark.asyncio
 async def test_mop_when_cleaned_updates_helper(given_that, vacuum_controller, assert_that):
-    given_that.state_of(helpers.LAST_CLEANED_KITCHEN).is_set_to(utils.formatted_now())
-    given_that.state_of(helpers.LAST_CLEANED_VACUUM_MOP).is_set_to(utils.formatted_yesterday())
+    given_that.state_of(helpers.LAST_CLEANED_KITCHEN).is_set_to(utils.awaitable(utils.formatted_now()))
+    given_that.state_of(helpers.LAST_CLEANED_VACUUM_MOP).is_set_to(utils.awaitable(utils.formatted_yesterday()))
 
     await vacuum_controller.start_mop_maintenance()
 
