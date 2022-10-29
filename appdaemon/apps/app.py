@@ -27,8 +27,10 @@ class App(hass.Hass):
         return datetime_to_helper(d)
 
     async def is_consuming_at_least(self, device: str, watts: int) -> bool:
-        current_consumption = await self.get_state(device)
-        return int(current_consumption) >= watts
+        return await self.get_watt_consumption(device) >= watts
+
+    async def get_watt_consumption(self, device: str) -> int:
+        return int(float(await self.get_state(device)))
 
     async def is_on(self, device):
         return await self.has_state(device, states.ON)
