@@ -22,6 +22,13 @@ class StudioScene(App):
         activity = await self.get_activity_value(helpers.STUDIO_ACTIVITY)
         if activity == activities.Studio.EMPTY.value:
             self.turn_off(entities.LIGHT_STUDIO)
+            return
+
+        if activity == activities.Studio.WORKING.value:
+            self.turn_on(entities.SWITCH_MONITOR_PLUG)
+        else:
+            self.turn_off(entities.SWITCH_MONITOR_PLUG)
+
 
         if float(await self.get_state(entities.SENSOR_DESK_MS_ILLUMINANCE)) < 40:
             if activity == activities.Studio.WORKING.value:

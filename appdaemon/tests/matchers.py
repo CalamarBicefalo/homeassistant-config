@@ -1,9 +1,8 @@
 from datetime import datetime
 
-import hass
 from appdaemontestframework import assert_that
 
-import entities
+import app
 from activities import Activity
 
 
@@ -17,7 +16,7 @@ def set_to_activity(self, helper, activity: Activity):
 def set_to_now(self, helper):
     self.called_with(
         entity_id=helper,
-        datetime=hass.datetime_to_helper(datetime.now()),
+        datetime=app.datetime_to_helper(datetime.now()),
     )
 
 

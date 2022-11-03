@@ -54,16 +54,27 @@ async def test_when_present(given_that, studio_scene, assert_that):
 
 
 @pytest.mark.asyncio
-async def test_when_reading(given_that, studio_scene, assert_that):
+async def test_when_working_and_dark(given_that, studio_scene, assert_that):
     given_that.studio_scene_is(activity=activities.Studio.WORKING, illuminance=30)
 
     await studio_scene.set_studio_scene(None, None, None, None, None)
 
     assert_that(entities.SCENE_STUDIO_WORKING).was.turned_on()
+    assert_that(entities.SWITCH_MONITOR_PLUG).was.turned_on()
 
 
 @pytest.mark.asyncio
-async def test_when_watching_tv(given_that, studio_scene, assert_that):
+async def test_when_working_and_bright(given_that, studio_scene, assert_that):
+    given_that.studio_scene_is(activity=activities.Studio.WORKING, illuminance=100)
+
+    await studio_scene.set_studio_scene(None, None, None, None, None)
+
+    assert_that(entities.LIGHT_STUDIO).was.turned_off()
+    assert_that(entities.SWITCH_MONITOR_PLUG).was.turned_on()
+
+
+@pytest.mark.asyncio
+async def test_when_drumming_and_dark(given_that, studio_scene, assert_that):
     given_that.studio_scene_is(activity=activities.Studio.DRUMMING, illuminance=30)
 
     await studio_scene.set_studio_scene(None, None, None, None, None)
