@@ -13,6 +13,10 @@ def formatted_days_ago(days: int) -> str:
     return format_date((datetime.now() - timedelta(days=days)))
 
 
+def formatted_minutes_ago(minutes: int) -> str:
+    return format_date((datetime.now() - timedelta(minutes=minutes)))
+
+
 def format_date(d) -> str:
     return d.strftime("%Y-%m-%d %H:%M:%S")
 

@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 import activities
 import entities
@@ -23,7 +23,9 @@ class MopMaintenance(App):
         last_cleaned_kitchen = await self.helper_to_datetime(helpers.LAST_CLEANED_KITCHEN)
         last_cleaned_vacuum_mop = await self.helper_to_datetime(helpers.LAST_CLEANED_VACUUM_MOP)
 
-        if last_cleaned_vacuum_mop < last_cleaned_kitchen:
+        mop_is_dirty = last_cleaned_vacuum_mop < last_cleaned_kitchen
+        is_not_cleaning = datetime.now() - timedelta(minutes=60) > last_cleaned_kitchen
+        if mop_is_dirty and is_not_cleaning:
             self.call_service(
                 services.XIAOMI_MIIO_VACUUM_GOTO,
                 entity_id=entities.VACUUM_ROBOROCK_VACUUM_A15,

@@ -33,10 +33,19 @@ async def test_mop_when_clean_does_nothing(given_that, vacuum_controller, assert
 
     assert_that(services.XIAOMI_MIIO_VACUUM_GOTO).was_not.sent_for_maintenance_to_kitchen()
 
+@pytest.mark.asyncio
+async def test_mop_when_just_cleaned_does_nothing(given_that, vacuum_controller, assert_that):
+    given_that.state_of(helpers.LAST_CLEANED_KITCHEN).is_set_to(utils.awaitable(utils.formatted_minutes_ago(15)))
+    given_that.state_of(helpers.LAST_CLEANED_VACUUM_MOP).is_set_to(utils.awaitable(utils.formatted_yesterday()))
+
+    await vacuum_controller.start_mop_maintenance(None, None, None, None, None)
+
+    assert_that(services.XIAOMI_MIIO_VACUUM_GOTO).was_not.sent_for_maintenance_to_kitchen()
+
 
 @pytest.mark.asyncio
 async def test_mop_when_dirty_goes_to_maintenance_spot(given_that, vacuum_controller, assert_that):
-    given_that.state_of(helpers.LAST_CLEANED_KITCHEN).is_set_to(utils.awaitable(utils.formatted_now()))
+    given_that.state_of(helpers.LAST_CLEANED_KITCHEN).is_set_to(utils.awaitable(utils.formatted_minutes_ago(60)))
     given_that.state_of(helpers.LAST_CLEANED_VACUUM_MOP).is_set_to(utils.awaitable(utils.formatted_yesterday()))
 
     await vacuum_controller.start_mop_maintenance(None, None, None, None, None)
@@ -46,7 +55,7 @@ async def test_mop_when_dirty_goes_to_maintenance_spot(given_that, vacuum_contro
 
 @pytest.mark.asyncio
 async def test_mop_when_cleaned_updates_helper(given_that, vacuum_controller, assert_that):
-    given_that.state_of(helpers.LAST_CLEANED_KITCHEN).is_set_to(utils.awaitable(utils.formatted_now()))
+    given_that.state_of(helpers.LAST_CLEANED_KITCHEN).is_set_to(utils.awaitable(utils.formatted_minutes_ago(60)))
     given_that.state_of(helpers.LAST_CLEANED_VACUUM_MOP).is_set_to(utils.awaitable(utils.formatted_yesterday()))
 
     await vacuum_controller.start_mop_maintenance(None, None, None, None, None)
