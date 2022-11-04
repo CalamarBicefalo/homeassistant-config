@@ -9,4 +9,7 @@ Living room scene:
     - helpers
     - services
     - app
-
+Studio scene:
+  module: studio_scene
+  class: StudioScene
+  global_dependencies: *globals
