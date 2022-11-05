@@ -9,6 +9,7 @@ Living room scene:
     - helpers
     - services
     - app
+    - scene_app
 Studio scene:
   module: studio_scene
   class: StudioScene

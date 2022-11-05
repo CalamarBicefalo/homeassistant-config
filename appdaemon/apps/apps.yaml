@@ -8,3 +8,4 @@ global_modules:
   - vacuum_location
   - point
   - app
+  - scene_app
