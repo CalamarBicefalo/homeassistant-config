@@ -10,11 +10,11 @@ class SceneApp(App):
     def initialize(self):
         self.log(f'Initializing {self.scene} scene.', level="DEBUG")
         self.listen_state(
-            self.set_light_scene,
+            self.handle_scene,
             self.activity_helper
         )
         self.listen_state(
-            self.set_light_scene,
+            self.handle_scene,
             self.illuminance_sensor
         )
 
