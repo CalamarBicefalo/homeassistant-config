@@ -1,18 +1,19 @@
-Activity = str
+from typing import NewType
+Activity = NewType('Activity', str)
 class Common:
-    PRESENT : Activity = "Present"
-    EMPTY : Activity = "Empty"
+    EMPTY : Activity = Activity("Empty")
+    PRESENT : Activity = Activity("Present")
 
 
 class Kitchen(Common):
-    COOKING: Activity = "Cooking"
+    COOKING: Activity = Activity("Cooking")
 
 
 class LivingRoom(Common):
-    WATCHING_TV: Activity = "Watching TV"
-    READING: Activity = "Reading"
+    WATCHING_TV: Activity = Activity("Watching TV")
+    READING: Activity = Activity("Reading")
 
 
 class Studio(Common):
-    WORKING: Activity = "Working"
-    DRUMMING: Activity = "Drumming"
+    WORKING: Activity = Activity("Working")
+    DRUMMING: Activity = Activity("Drumming")

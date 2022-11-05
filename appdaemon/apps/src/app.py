@@ -45,7 +45,7 @@ class App(hass.Hass):
     async def is_activity(self, helper, activity: Activity):
         return await self.has_state(helper, activity)
 
-    async def get_activity_value(self, helper) -> str:
+    async def get_activity_value(self, helper) -> Activity:
         return await self.get_state(helper)
 
     def set_activity(self, helper, activity: Activity):

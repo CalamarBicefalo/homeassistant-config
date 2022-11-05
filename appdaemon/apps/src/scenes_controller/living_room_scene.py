@@ -5,6 +5,8 @@ from scenes_controller.scene_app import SceneApp
 
 
 class LivingRoomScene(SceneApp):
+    activity_helper = helpers.LIVING_ROOM_ACTIVITY
+    illuminance_sensor = entities.SENSOR_DESK_MS_ILLUMINANCE
 
     def set_light_scene(self, activity: activities.LivingRoom):
         if activity == activities.LivingRoom.READING:
@@ -17,11 +19,5 @@ class LivingRoomScene(SceneApp):
     def turn_off_lights(self):
         self.turn_off(entities.LIGHT_LIVING_ROOM)
 
-    @property
-    def activity_helper(self):
-        return helpers.LIVING_ROOM_ACTIVITY
 
-    @property
-    def illuminance_sensor(self) -> entities.Entity:
-        return entities.SENSOR_DESK_MS_ILLUMINANCE
 
