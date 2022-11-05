@@ -1,41 +1,36 @@
 import activities
 import entities
 import helpers
-from app import App
+from scenes_controller.scene_app import SceneApp
 
 
-class StudioScene(App):
+class StudioScene(SceneApp):
 
-    def initialize(self):
-        self.log(f'Initializing studio scene.', level="DEBUG")
-        self.listen_state(
-            self.set_studio_scene,
-            helpers.STUDIO_ACTIVITY
-        )
-        self.listen_state(
-            self.set_studio_scene,
-            entities.SENSOR_DESK_MS_ILLUMINANCE
-        )
+    def set_light_scene(self, activity: activities.Activity):
+        if activity == activities.Studio.WORKING:
+            self.turn_on(entities.SCENE_STUDIO_WORKING)
+        if activity == activities.Studio.DRUMMING:
+            self.turn_on(entities.SCENE_STUDIO_DRUMMING)
+        if activity == activities.Studio.PRESENT:
+            self.turn_on(entities.SCENE_STUDIO_CONCENTRATE)
 
-    async def set_studio_scene(self, entity, attribute, old, new, kwargs):
-        self.log(f'Changing studio scene {entity} -> {attribute} old={old} new={new}', level="DEBUG")
-        activity = await self.get_activity_value(helpers.STUDIO_ACTIVITY)
-        if activity == activities.Studio.EMPTY.value:
-            self.turn_off(entities.LIGHT_STUDIO)
-            return
-
-        if activity == activities.Studio.WORKING.value:
+    def on_activity_change(self, activity: activities.Activity):
+        if activity == activities.Studio.WORKING:
             self.turn_on(entities.SWITCH_MONITOR_PLUG)
         else:
             self.turn_off(entities.SWITCH_MONITOR_PLUG)
 
+    @property
+    def activity_helper(self) -> str:
+        return helpers.STUDIO_ACTIVITY
 
-        if float(await self.get_state(entities.SENSOR_DESK_MS_ILLUMINANCE)) < 40:
-            if activity == activities.Studio.WORKING.value:
-                self.turn_on(entities.SCENE_STUDIO_WORKING)
-            if activity == activities.Studio.DRUMMING.value:
-                self.turn_on(entities.SCENE_STUDIO_DRUMMING)
-            if activity == activities.Studio.PRESENT.value:
-                self.turn_on(entities.SCENE_STUDIO_CONCENTRATE)
-        else:
-            self.turn_off(entities.LIGHT_STUDIO)
+    @property
+    def illuminance_sensor(self) -> entities.Entity:
+        return entities.SENSOR_DESK_MS_ILLUMINANCE
+
+    def turn_off_lights(self):
+        self.turn_off(entities.LIGHT_STUDIO)
+
+
+
+

@@ -9,7 +9,7 @@ from activities import Activity
 def set_to_activity(self, helper, activity: Activity):
     self.called_with(
         entity_id=helper,
-        option=activity.value,
+        option=activity,
     )
 
 

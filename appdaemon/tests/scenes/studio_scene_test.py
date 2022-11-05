@@ -15,23 +15,11 @@ def studio_scene():
     pass
 
 
-def test_set_scene_triggers_when_activity_changes(given_that, studio_scene, assert_that):
-    assert_that(studio_scene) \
-        .listens_to.state(helpers.STUDIO_ACTIVITY) \
-        .with_callback(studio_scene.set_studio_scene)
-
-
-def test_set_scene_triggers_when_illuminance_changes(given_that, studio_scene, assert_that):
-    assert_that(studio_scene) \
-        .listens_to.state(entities.SENSOR_DESK_MS_ILLUMINANCE) \
-        .with_callback(studio_scene.set_studio_scene)
-
-
 @pytest.mark.asyncio
 async def test_when_empty(given_that, studio_scene, assert_that):
     given_that.studio_scene_is(activity=activities.Studio.EMPTY, illuminance=100)
 
-    await studio_scene.set_studio_scene(None, None, None, None, None)
+    await studio_scene.handle_scene(None, None, None, None, None)
 
     assert_that(entities.LIGHT_STUDIO).was.turned_off()
 
@@ -40,7 +28,7 @@ async def test_when_empty(given_that, studio_scene, assert_that):
 async def test_when_bright(given_that, studio_scene, assert_that):
     given_that.studio_scene_is(activity=activities.Studio.PRESENT, illuminance=100)
 
-    await studio_scene.set_studio_scene(None, None, None, None, None)
+    await studio_scene.handle_scene(None, None, None, None, None)
 
     assert_that(entities.LIGHT_STUDIO).was.turned_off()
 
@@ -48,7 +36,7 @@ async def test_when_bright(given_that, studio_scene, assert_that):
 async def test_when_present(given_that, studio_scene, assert_that):
     given_that.studio_scene_is(activity=activities.Studio.PRESENT, illuminance=30)
 
-    await studio_scene.set_studio_scene(None, None, None, None, None)
+    await studio_scene.handle_scene(None, None, None, None, None)
 
     assert_that(entities.SCENE_STUDIO_CONCENTRATE).was.turned_on()
 
@@ -57,7 +45,7 @@ async def test_when_present(given_that, studio_scene, assert_that):
 async def test_when_working_and_dark(given_that, studio_scene, assert_that):
     given_that.studio_scene_is(activity=activities.Studio.WORKING, illuminance=30)
 
-    await studio_scene.set_studio_scene(None, None, None, None, None)
+    await studio_scene.handle_scene(None, None, None, None, None)
 
     assert_that(entities.SCENE_STUDIO_WORKING).was.turned_on()
     assert_that(entities.SWITCH_MONITOR_PLUG).was.turned_on()
@@ -67,7 +55,7 @@ async def test_when_working_and_dark(given_that, studio_scene, assert_that):
 async def test_when_working_and_bright(given_that, studio_scene, assert_that):
     given_that.studio_scene_is(activity=activities.Studio.WORKING, illuminance=100)
 
-    await studio_scene.set_studio_scene(None, None, None, None, None)
+    await studio_scene.handle_scene(None, None, None, None, None)
 
     assert_that(entities.LIGHT_STUDIO).was.turned_off()
     assert_that(entities.SWITCH_MONITOR_PLUG).was.turned_on()
@@ -77,14 +65,14 @@ async def test_when_working_and_bright(given_that, studio_scene, assert_that):
 async def test_when_drumming_and_dark(given_that, studio_scene, assert_that):
     given_that.studio_scene_is(activity=activities.Studio.DRUMMING, illuminance=30)
 
-    await studio_scene.set_studio_scene(None, None, None, None, None)
+    await studio_scene.handle_scene(None, None, None, None, None)
 
     assert_that(entities.SCENE_STUDIO_DRUMMING).was.turned_on()
 
 
 def studio_scene_is(self, activity, illuminance):
     self.state_of(entities.SENSOR_DESK_MS_ILLUMINANCE).is_set_to(utils.awaitable(illuminance))
-    self.state_of(helpers.STUDIO_ACTIVITY).is_set_to(utils.awaitable(activity.value))
+    self.state_of(helpers.STUDIO_ACTIVITY).is_set_to(utils.awaitable(activity))
 
 
 given.GivenThatWrapper.studio_scene_is = studio_scene_is

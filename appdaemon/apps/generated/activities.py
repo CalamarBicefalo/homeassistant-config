@@ -1,25 +1,18 @@
-from enum import Enum
+Activity = str
+class Common:
+    PRESENT : Activity = "Present"
+    EMPTY : Activity = "Empty"
 
 
-class Activity(Enum):
-    pass
+class Kitchen(Common):
+    COOKING: Activity = "Cooking"
 
 
-class Kitchen(Activity):
-    EMPTY = "Empty"
-    PRESENT = "Present"
-    COOKING = "Cooking"
+class LivingRoom(Common):
+    WATCHING_TV: Activity = "Watching TV"
+    READING: Activity = "Reading"
 
 
-class LivingRoom(Activity):
-    EMPTY = "Empty"
-    PRESENT = "Present"
-    WATCHING_TV = "Watching TV"
-    READING = "Reading"
-
-
-class Studio(Activity):
-    EMPTY = "Empty"
-    PRESENT = "Present"
-    WORKING = "Working"
-    DRUMMING = "Drumming"
+class Studio(Common):
+    WORKING: Activity = "Working"
+    DRUMMING: Activity = "Drumming"

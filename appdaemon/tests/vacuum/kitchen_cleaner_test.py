@@ -27,7 +27,7 @@ def test_triggers_every_night(given_that, vacuum_controller, assert_that):
 
 def test_triggers_when_away(given_that, vacuum_controller, assert_that):
     assert_that(vacuum_controller) \
-        .listens_to.state(helpers.LIVING_ROOM_ACTIVITY, new=activities.LivingRoom.EMPTY.value) \
+        .listens_to.state(helpers.LIVING_ROOM_ACTIVITY, new=activities.LivingRoom.EMPTY) \
         .with_callback(vacuum_controller.clean_kitchen)
 
 
@@ -113,7 +113,7 @@ async def test_when_more_than_20_hours_since_last_clean_cleans(given_that, vacuu
 def kitchen_cleaning_state_is(self, activity, last_cleaned, last_cooked):
     self.state_of(helpers.LAST_COOKED).is_set_to(awaitable(last_cooked))
     self.state_of(helpers.LAST_CLEANED_KITCHEN).is_set_to(awaitable(last_cleaned))
-    self.state_of(helpers.LIVING_ROOM_ACTIVITY).is_set_to(awaitable(activity.value))
+    self.state_of(helpers.LIVING_ROOM_ACTIVITY).is_set_to(awaitable(activity))
 
 
 given.GivenThatWrapper.kitchen_cleaning_state_is = kitchen_cleaning_state_is

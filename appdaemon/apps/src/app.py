@@ -43,15 +43,15 @@ class App(hass.Hass):
         return (await state) == desired_state
 
     async def is_activity(self, helper, activity: Activity):
-        return await self.has_state(helper, activity.value)
+        return await self.has_state(helper, activity)
 
     async def get_activity_value(self, helper) -> str:
         return await self.get_state(helper)
 
     def set_activity(self, helper, activity: Activity):
-        self.log(f'Setting activity {activity.value} in {helper}', level="INFO")
+        self.log(f'Setting activity {activity} in {helper}', level="INFO")
         self.call_service(
             services.INPUT_SELECT_SELECT_OPTION,
             entity_id=helper,
-            option=activity.value
+            option=activity
         )
