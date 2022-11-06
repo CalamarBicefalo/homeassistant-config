@@ -17,3 +17,8 @@
   device_class: motion
   entities:
     - binary_sensor.desk_ms_motion
+- platform: group
+  name: ensuite_motion
+  device_class: motion
+  entities:
+    - binary_sensor.bathroom_ms_motion

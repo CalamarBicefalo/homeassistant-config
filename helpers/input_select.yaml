@@ -21,3 +21,10 @@ studio_activity:
     - Working
     - Drumming
   icon: mdi:android-studio
+ensuite_activity:
+  name: Ensuite activity
+  options:
+    - Empty
+    - Present
+    - Showering
+  icon: mdi:shower-head
