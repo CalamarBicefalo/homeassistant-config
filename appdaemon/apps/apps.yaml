@@ -9,3 +9,4 @@ global_modules:
   - point
   - app
   - scene_app
+  - controller_app

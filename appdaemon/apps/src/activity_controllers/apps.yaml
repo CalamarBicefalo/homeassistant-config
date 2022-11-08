@@ -9,6 +9,7 @@ Living room activity:
     - helpers
     - services
     - app
+    - controller_app
 Kitchen activity:
   module: kitchen_controller
   class: KitchenActivity
