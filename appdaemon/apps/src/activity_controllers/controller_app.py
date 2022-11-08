@@ -18,6 +18,12 @@ class ControllerApp(App):
         )
 
     async def controller_handler(self, entity, attribute, old, new, kwargs):
+        if not self.should_trigger(entity, attribute, old, new):
+            self.log(f'Skipping {self.controller} activity controller because precondition was not met '
+                     f'{entity} -> {attribute} old={old} new={new}',
+                     level="DEBUG")
+            return
+
         self.log(f'Triggering {self.controller} activity controller {entity} -> {attribute} old={old} new={new}',
                  level="DEBUG")
 
@@ -42,6 +48,9 @@ class ControllerApp(App):
     @abstractmethod
     def motion_sensor(self) -> entities.Entity:
         pass
+
+    def should_trigger(self, entity, attribute, old, new) -> bool:
+        return True
 
     @property
     def additional_triggers(self) -> List[entities.Entity]:

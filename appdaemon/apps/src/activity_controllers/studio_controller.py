@@ -17,3 +17,6 @@ class StudioActivity(ControllerApp):
         # Drum handling
         if await self.is_consuming_at_least(entities.SENSOR_DRUMS_PLUG_POWER, watts=4):
             return activities.Studio.DRUMMING
+
+    def should_trigger(self, entity, attribute, old, new) -> bool:
+        return not (entity == entities.SENSOR_DRUMS_PLUG_POWER and abs(float(old) - float(new)) < 3)
