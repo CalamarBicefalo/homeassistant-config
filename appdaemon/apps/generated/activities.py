@@ -17,3 +17,7 @@ class LivingRoom(Common):
 class Studio(Common):
     WORKING: Activity = Activity("Working")
     DRUMMING: Activity = Activity("Drumming")
+
+
+class Ensuite(Common):
+    SHOWERING: Activity = Activity("Showering")

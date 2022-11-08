@@ -1,24 +1,8 @@
-import activities
 import entities
 import helpers
-from app import App
+from activity_controllers.controller_app import ControllerApp
 
 
-class KitchenActivity(App):
-
-    def initialize(self):
-        self.log(f'Initializing kitchen activity controller.', level="DEBUG")
-
-        self.listen_state(
-            self.kitchen_activity_controller,
-            entities.BINARY_SENSOR_KITCHEN_MOTION
-        )
-
-    async def kitchen_activity_controller(self, entity, attribute, old, new, kwargs):
-        self.log(f'Triggering kitchen activity controller {entity} -> {attribute} old={old} new={new}', level="DEBUG")
-
-    # Presence handling
-        if await self.is_on(entities.BINARY_SENSOR_KITCHEN_MOTION):
-            self.set_activity(helpers.KITCHEN_ACTIVITY, activities.Kitchen.PRESENT)
-        else:
-            self.set_activity(helpers.KITCHEN_ACTIVITY, activities.Kitchen.EMPTY)
+class KitchenActivity(ControllerApp):
+    motion_sensor = entities.BINARY_SENSOR_KITCHEN_MOTION
+    activity_helper = helpers.KITCHEN_ACTIVITY

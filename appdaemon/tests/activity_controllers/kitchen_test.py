@@ -6,7 +6,7 @@ import entities
 import helpers
 import services
 import states
-from activity_controllers.kitchen import KitchenActivity
+from activity_controllers.kitchen_controller import KitchenActivity
 from utils import awaitable
 
 
@@ -18,15 +18,15 @@ def kitchen_activity():
 
 def test_triggers_when_motion(given_that, kitchen_activity, assert_that):
     assert_that(kitchen_activity) \
-        .listens_to.state(entities.BINARY_SENSOR_KITCHEN_MOTION) \
-        .with_callback(kitchen_activity.kitchen_activity_controller)
+        .listens_to.state([entities.BINARY_SENSOR_KITCHEN_MOTION]) \
+        .with_callback(kitchen_activity.controller_handler)
 
 
 @pytest.mark.asyncio
 async def test_when_away(given_that, kitchen_activity, assert_that):
     given_that.state_of(entities.BINARY_SENSOR_KITCHEN_MOTION).is_set_to(awaitable(states.OFF))
 
-    await kitchen_activity.kitchen_activity_controller(None, None, None, None, None)
+    await kitchen_activity.controller_handler(None, None, None, None, None)
 
     assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(helpers.KITCHEN_ACTIVITY, activities.Kitchen.EMPTY)
 
@@ -35,6 +35,6 @@ async def test_when_away(given_that, kitchen_activity, assert_that):
 async def test_when_present(given_that, kitchen_activity, assert_that):
     given_that.state_of(entities.BINARY_SENSOR_KITCHEN_MOTION).is_set_to(awaitable(states.ON))
 
-    await kitchen_activity.kitchen_activity_controller(None, None, None, None, None)
+    await kitchen_activity.controller_handler(None, None, None, None, None)
 
     assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(helpers.KITCHEN_ACTIVITY, activities.Kitchen.PRESENT)

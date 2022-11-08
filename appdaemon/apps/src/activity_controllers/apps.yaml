@@ -1,6 +1,6 @@
 ---
 Living room activity:
-  module: living_room
+  module: living_room_controller
   class: LivingRoomActivity
   global_dependencies: &globals
     - states
@@ -10,10 +10,14 @@ Living room activity:
     - services
     - app
 Kitchen activity:
-  module: kitchen
+  module: kitchen_controller
   class: KitchenActivity
   global_dependencies: *globals
 Studio activity:
-  module: studio
+  module: studio_controller
   class: StudioActivity
+  global_dependencies: *globals
+Ensuite activity:
+  module: ensuite_controller
+  class: EnsuiteActivity
   global_dependencies: *globals
