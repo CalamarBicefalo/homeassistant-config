@@ -30,6 +30,7 @@ class ControllerApp(App):
         custom_activity = await self.get_custom_activity(entity, attribute, old, new)
         if custom_activity:
             self.set_activity(self.activity_helper, custom_activity)
+            return
 
         # Presence handling
         if await self.is_on(self.motion_sensor):
