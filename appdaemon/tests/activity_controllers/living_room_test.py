@@ -7,7 +7,7 @@ import entities
 import helpers
 import services
 import states
-from activity_controllers.living_room import LivingRoomActivity
+from activity_controllers.living_room_controller import LivingRoomActivity
 from utils import awaitable
 
 
@@ -19,7 +19,7 @@ def living_room_activity():
 
 def test_triggers_when_motion_or_tv_changes(given_that, living_room_activity, assert_that):
     assert_that(living_room_activity) \
-        .listens_to.state([entities.BINARY_SENSOR_LIVING_ROOM_MOTION, entities.MEDIA_PLAYER_TV]) \
+        .listens_to.state([entities.BINARY_SENSOR_LIVING_ROOM_MOTION, entities.MEDIA_PLAYER_TV, entities.BINARY_SENSOR_SOFA_PS_WATER]) \
         .with_callback(living_room_activity.controller_handler)
 
 

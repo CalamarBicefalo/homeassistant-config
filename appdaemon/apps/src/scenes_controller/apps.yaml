@@ -14,3 +14,7 @@ Studio scene:
   module: studio_scene
   class: StudioScene
   global_dependencies: *globals
+Ensuite scene:
+  module: ensuite_scene
+  class: EnsuiteScene
+  global_dependencies: *globals

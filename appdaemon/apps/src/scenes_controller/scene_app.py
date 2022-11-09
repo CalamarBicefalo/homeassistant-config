@@ -1,4 +1,5 @@
 from abc import abstractmethod
+from typing import Optional
 
 import activities
 import entities
@@ -25,7 +26,7 @@ class SceneApp(App):
 
     @property
     @abstractmethod
-    def illuminance_sensor(self) -> entities.Entity:
+    def illuminance_sensor(self) -> Optional[entities.Entity]:
         pass
 
     @property
@@ -54,7 +55,7 @@ class SceneApp(App):
             self.turn_off(self.room_lights)
             return
 
-        if float(await self.get_state(self.illuminance_sensor)) < 40:
+        if (not self.illuminance_sensor) or float(await self.get_state(self.illuminance_sensor)) < 40:
             self.set_light_scene(activity)
         else:
             self.turn_off(self.room_lights)
