@@ -53,7 +53,7 @@ class App(hass.Hass):
         return await self.get_state(helper)
 
     def set_activity(self, helper: Helper, activity: Activity):
-        self.log(f'Setting activity {activity} in {helper}', level="INFO")
+        self.log(f'Setting activity {activity} in {helper}', level="DEBUG")
         self.call_service(
             services.INPUT_SELECT_SELECT_OPTION,
             entity_id=helper,
