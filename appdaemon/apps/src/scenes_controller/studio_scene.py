@@ -9,13 +9,13 @@ class StudioScene(SceneApp):
     illuminance_sensor = entities.SENSOR_DESK_MS_ILLUMINANCE
     room_lights = entities.LIGHT_STUDIO
 
-    def set_light_scene(self, activity: activities.Activity):
+    def get_light_scene(self, activity: activities.Activity):
         if activity == activities.Studio.WORKING:
-            self.turn_on(entities.SCENE_STUDIO_WORKING)
+            return entities.SCENE_STUDIO_WORKING
         if activity == activities.Studio.DRUMMING:
-            self.turn_on(entities.SCENE_STUDIO_DRUMMING)
+            return entities.SCENE_STUDIO_DRUMMING
         if activity == activities.Studio.PRESENT:
-            self.turn_on(entities.SCENE_STUDIO_CONCENTRATE)
+            return entities.SCENE_STUDIO_CONCENTRATE
 
     def on_activity_change(self, activity: activities.Activity):
         if activity == activities.Studio.WORKING:

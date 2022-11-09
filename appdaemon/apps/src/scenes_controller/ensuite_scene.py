@@ -9,7 +9,7 @@ class EnsuiteScene(SceneApp):
     illuminance_sensor = None
     room_lights = entities.LIGHT_BATHROOM
 
-    def set_light_scene(self, activity: activities.Activity):
+    def get_light_scene(self, activity: activities.Activity):
         if activity == activities.Ensuite.PRESENT:
-            self.turn_on(entities.SCENE_BATHROOM_CONCENTRATE)
+            return entities.SCENE_BATHROOM_CONCENTRATE
 
