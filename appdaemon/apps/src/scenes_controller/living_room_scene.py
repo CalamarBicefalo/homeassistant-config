@@ -7,6 +7,7 @@ from scenes_controller.scene_app import SceneApp
 class LivingRoomScene(SceneApp):
     activity_helper = helpers.LIVING_ROOM_ACTIVITY
     illuminance_sensor = entities.SENSOR_DESK_MS_ILLUMINANCE
+    room_lights = entities.LIGHT_LIVING_ROOM
 
     def set_light_scene(self, activity: activities.LivingRoom):
         if activity == activities.LivingRoom.READING:
@@ -15,9 +16,6 @@ class LivingRoomScene(SceneApp):
             self.turn_on(entities.SCENE_LIVING_ROOM_MOVIE)
         if activity == activities.LivingRoom.PRESENT:
             self.turn_on(entities.SCENE_LIVING_ROOM_WELCOME)
-
-    def turn_off_lights(self):
-        self.turn_off(entities.LIGHT_LIVING_ROOM)
 
 
 

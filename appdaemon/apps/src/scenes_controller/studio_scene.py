@@ -7,6 +7,7 @@ from scenes_controller.scene_app import SceneApp
 class StudioScene(SceneApp):
     activity_helper = helpers.STUDIO_ACTIVITY
     illuminance_sensor = entities.SENSOR_DESK_MS_ILLUMINANCE
+    room_lights = entities.LIGHT_STUDIO
 
     def set_light_scene(self, activity: activities.Activity):
         if activity == activities.Studio.WORKING:
@@ -21,6 +22,3 @@ class StudioScene(SceneApp):
             self.turn_on(entities.SWITCH_MONITOR_PLUG)
         else:
             self.turn_off(entities.SWITCH_MONITOR_PLUG)
-
-    def turn_off_lights(self):
-        self.turn_off(entities.LIGHT_STUDIO)

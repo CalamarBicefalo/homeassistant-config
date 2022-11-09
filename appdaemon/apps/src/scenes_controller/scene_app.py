@@ -28,15 +28,16 @@ class SceneApp(App):
     def illuminance_sensor(self) -> entities.Entity:
         pass
 
+    @property
+    @abstractmethod
+    def room_lights(self) -> entities.Entity:
+        pass
+
     @abstractmethod
     def set_light_scene(self, activity: activities.Activity):
         pass
 
     def on_activity_change(self, activity: activities.Activity):
-        pass
-
-    @abstractmethod
-    def turn_off_lights(self):
         pass
 
     @property
@@ -50,10 +51,10 @@ class SceneApp(App):
         self.on_activity_change(activity)
 
         if activity == activities.Common.EMPTY:
-            self.turn_off_lights()
+            self.turn_off(self.room_lights)
             return
 
         if float(await self.get_state(self.illuminance_sensor)) < 40:
             self.set_light_scene(activity)
         else:
-            self.turn_off_lights()
+            self.turn_off(self.room_lights)
