@@ -1,10 +1,10 @@
 import activities
 import entities
 import helpers
-from activity_controllers.controller_app import ControllerApp
+from controllers.controller_app import ControllerApp
 
 
-class StudioActivity(ControllerApp):
+class StudioController(ControllerApp):
     motion_sensor = entities.BINARY_SENSOR_STUDIO_MOTION
     activity_helper = helpers.STUDIO_ACTIVITY
     additional_triggers = [entities.BINARY_SENSOR_WORK_CHAIR_PS_WATER, entities.SENSOR_DRUMS_PLUG_POWER]

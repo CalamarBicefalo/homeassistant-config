@@ -7,11 +7,11 @@ import entities
 import helpers
 import services
 import states
-from activity_controllers.studio_controller import StudioActivity
+from controllers.studio_controller import StudioController
 from utils import awaitable
 
 
-@automation_fixture(StudioActivity)
+@automation_fixture(StudioController)
 def studio_activity():
     matchers.init()
     pass

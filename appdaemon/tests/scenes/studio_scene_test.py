@@ -6,7 +6,7 @@ import entities
 import helpers
 import matchers
 import utils
-from scenes_controller.studio_scene import StudioScene
+from scenes.studio_scene import StudioScene
 
 
 @automation_fixture(StudioScene)

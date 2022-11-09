@@ -3,11 +3,10 @@ from typing import List, Optional
 import activities
 import entities
 import helpers
-from activity_controllers.controller_app import ControllerApp
-from app import App
+from controllers.controller_app import ControllerApp
 
 
-class LivingRoomActivity(ControllerApp):
+class LivingRoomController(ControllerApp):
     motion_sensor = entities.BINARY_SENSOR_LIVING_ROOM_MOTION
     activity_helper = helpers.LIVING_ROOM_ACTIVITY
     additional_triggers = [entities.MEDIA_PLAYER_TV, entities.BINARY_SENSOR_SOFA_PS_WATER]

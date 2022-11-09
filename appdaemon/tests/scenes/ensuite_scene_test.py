@@ -6,7 +6,7 @@ import entities
 import helpers
 import matchers
 import utils
-from scenes_controller.ensuite_scene import EnsuiteScene
+from scenes.ensuite_scene import EnsuiteScene
 
 
 @automation_fixture(EnsuiteScene)

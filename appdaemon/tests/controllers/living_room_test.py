@@ -7,11 +7,11 @@ import entities
 import helpers
 import services
 import states
-from activity_controllers.living_room_controller import LivingRoomActivity
+from controllers.living_room_controller import LivingRoomController
 from utils import awaitable
 
 
-@automation_fixture(LivingRoomActivity)
+@automation_fixture(LivingRoomController)
 def living_room_activity():
     matchers.init()
     pass

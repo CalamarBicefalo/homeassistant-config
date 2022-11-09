@@ -1,7 +1,7 @@
 import activities
 import entities
 import helpers
-from scenes_controller.scene_app import SceneApp
+from scenes.scene_app import SceneApp
 
 
 class LivingRoomScene(SceneApp):

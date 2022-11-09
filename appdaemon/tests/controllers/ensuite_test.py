@@ -6,11 +6,11 @@ import entities
 import helpers
 import services
 import states
-from activity_controllers.ensuite_controller import EnsuiteActivity
+from controllers.ensuite_controller import EnsuiteController
 from utils import awaitable
 
 
-@automation_fixture(EnsuiteActivity)
+@automation_fixture(EnsuiteController)
 def ensuite_activity():
     matchers.init()
     pass

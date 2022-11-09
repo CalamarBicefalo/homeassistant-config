@@ -6,7 +6,7 @@ import entities
 import helpers
 import matchers
 import utils
-from scenes_controller.living_room_scene import LivingRoomScene
+from scenes.living_room_scene import LivingRoomScene
 
 
 @automation_fixture(LivingRoomScene)

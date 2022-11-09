@@ -6,11 +6,11 @@ import entities
 import helpers
 import services
 import states
-from activity_controllers.kitchen_controller import KitchenActivity
+from controllers.kitchen_controller import KitchenController
 from utils import awaitable
 
 
-@automation_fixture(KitchenActivity)
+@automation_fixture(KitchenController)
 def kitchen_activity():
     matchers.init()
     pass
