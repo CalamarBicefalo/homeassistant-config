@@ -1,8 +1,8 @@
 from typing import NewType
 Activity = NewType('Activity', str)
 class Common:
-    EMPTY : Activity = Activity("Empty")
     PRESENT : Activity = Activity("Present")
+    EMPTY : Activity = Activity("Empty")
 
 
 class Kitchen(Common):
@@ -21,3 +21,15 @@ class Studio(Common):
 
 class Ensuite(Common):
     SHOWERING: Activity = Activity("Showering")
+
+
+class Hallway(Common):
+
+
+class Wardrobe(Common):
+
+
+class Bedroom(Common):
+
+
+class StorageRoom(Common):

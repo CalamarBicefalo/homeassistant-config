@@ -18,3 +18,19 @@ Ensuite scene:
   module: ensuite_scene
   class: EnsuiteScene
   global_dependencies: *globals
+Wardrobe scene:
+  module: wardrobe_scene
+  class: WardrobeScene
+  global_dependencies: *globals
+Bedroom scene:
+  module: bedroom_scene
+  class: BedroomScene
+  global_dependencies: *globals
+Hallway scene:
+  module: hallway_scene
+  class: HallwayScene
+  global_dependencies: *globals
+Storage room scene:
+  module: storage_room_scene
+  class: StorageRoomScene
+  global_dependencies: *globals

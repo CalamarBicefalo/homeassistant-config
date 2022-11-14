@@ -22,3 +22,19 @@ Ensuite activity:
   module: ensuite_controller
   class: EnsuiteController
   global_dependencies: *globals
+Wardrobe activity:
+  module: wardrobe_controller
+  class: WardrobeController
+  global_dependencies: *globals
+Bedroom activity:
+  module: bedroom_controller
+  class: BedroomController
+  global_dependencies: *globals
+Hallway activity:
+  module: hallway_controller
+  class: HallwayController
+  global_dependencies: *globals
+Storage room activity:
+  module: storage_room_controller
+  class: StorageRoomController
+  global_dependencies: *globals
