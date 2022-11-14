@@ -31,6 +31,8 @@ with open("helpers/input_select.yaml", "r") as stream:
             for i in selects.items():
                 f.write('\n\n')
                 f.write(f'class {i[0].replace("_activity", "").title().replace("_", "")}(Common):\n')
+                if len(i[1]["options"]) == len(common_activities):
+                    f.write('    pass')
                 for o in i[1]["options"]:
                     if o not in common_activities:
                         f.write(f'    {o.replace(" ", "_").upper()}: Activity = Activity("{o}")\n')

@@ -24,12 +24,13 @@ class Ensuite(Common):
 
 
 class Hallway(Common):
-
+    pass
 
 class Wardrobe(Common):
-
+    pass
 
 class Bedroom(Common):
-
+    pass
 
 class StorageRoom(Common):
+    pass
