@@ -28,3 +28,21 @@ ensuite_activity:
     - Present
     - Showering
   icon: mdi:shower-head
+hallway_activity:
+  name: Hallway activity
+  options:
+    - Empty
+    - Present
+  icon: mdi:coat-rack
+wardrobe_activity:
+  name: Wardrobe activity
+  options:
+    - Empty
+    - Present
+  icon: mdi:wardrobe
+bedroom_activity:
+  name: Bedroom activity
+  options:
+    - Empty
+    - Present
+  icon: mdi:bed-king
