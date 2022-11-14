@@ -46,3 +46,9 @@ bedroom_activity:
     - Empty
     - Present
   icon: mdi:bed-king
+storage_room_activity:
+  name: Storage room activity
+  options:
+    - Empty
+    - Present
+  icon: mdi:washing-machine
