@@ -1,3 +1,4 @@
+#ACTIVITIES
 kitchen_activity:
   name: Kitchen activity
   options:
@@ -52,3 +53,13 @@ storage_room_activity:
     - Empty
     - Present
   icon: mdi:washing-machine
+#OTHER SELECTS
+homeassistant_mode:
+  name: Home Assistant Mode
+  options:
+    - Day
+    - Night
+    - Away
+    - Bedtime
+    - Sleeping
+  icon: mdi:house
