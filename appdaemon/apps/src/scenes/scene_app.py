@@ -12,7 +12,7 @@ class SceneApp(App):
         self.log(f'Initializing {self.scene} scene.', level="DEBUG")
         self.listen_state(
             self.handle_scene,
-            self.activity_helper
+            self.activity.helper
         )
         self.listen_state(
             self.handle_scene,
@@ -21,7 +21,7 @@ class SceneApp(App):
 
     @property
     @abstractmethod
-    def activity_helper(self) -> str:
+    def activity(self) -> activities.RoomActivity:
         pass
 
     @property
@@ -47,11 +47,11 @@ class SceneApp(App):
 
     async def handle_scene(self, entity, attribute, old, new, kwargs):
         self.log(f'Changing {self.scene} scene {entity} -> {attribute} old={old} new={new}', level="DEBUG")
-        activity = await self.get_activity_value(self.activity_helper)
+        activity = await self.get_activity_value(self.activity.helper)
 
         self.on_activity_change(activity)
 
-        if activity == activities.Common.EMPTY:
+        if activity == activities.RoomActivity.EMPTY:
             self.turn_off(self.room_lights)
             return
 

@@ -1,7 +1,10 @@
 import os
 
-from codegen.generators import generate_activities, generate_helpers, generate_entities, generate_services, \
-    is_hub_reachable
+from codegen.generate_activities import generate_activities
+from codegen.generate_helpers import generate_helpers
+from codegen.generate_entities import generate_entities
+from codegen.generate_services import generate_services
+from codegen.is_hub_reachable import is_hub_reachable
 
 GENERATED_PATH = 'appdaemon/apps/generated'
 os.makedirs(GENERATED_PATH, exist_ok=True)

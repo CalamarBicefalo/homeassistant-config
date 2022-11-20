@@ -10,11 +10,11 @@ from scenes.scene_app import SceneApp
 DEFAULT_SCENE = "default_scene"
 ROOM_LIGHTS = "room_lights"
 ILLUMINANCE_SENSOR = "illuminance_sensor"
-ACTIVITY_HELPER = "activity_helper"
+ACTIVITY = activities.RoomActivity
 
 
 class GenericSceneWithIlluminance(SceneApp):
-    activity_helper = ACTIVITY_HELPER
+    activity = ACTIVITY
     illuminance_sensor = ILLUMINANCE_SENSOR
     room_lights = ROOM_LIGHTS
 
@@ -30,7 +30,7 @@ def generic_room_scene():
 
 @pytest.mark.asyncio
 async def test_when_empty(given_that, generic_room_scene, assert_that):
-    given_that.generic_scene_is(activity=activities.Common.EMPTY, illuminance=100, are_lights_on=False)
+    given_that.generic_scene_is(activity=activities.RoomActivity.EMPTY, illuminance=100, are_lights_on=False)
 
     await generic_room_scene.handle_scene(None, None, None, None, None)
 
@@ -39,7 +39,7 @@ async def test_when_empty(given_that, generic_room_scene, assert_that):
 
 @pytest.mark.asyncio
 async def test_when_bright(given_that, generic_room_scene, assert_that):
-    given_that.generic_scene_is(activity=activities.Common.PRESENT, illuminance=100, are_lights_on=False)
+    given_that.generic_scene_is(activity=activities.RoomActivity.PRESENT, illuminance=100, are_lights_on=False)
 
     await generic_room_scene.handle_scene(None, None, None, None, None)
 
@@ -48,7 +48,7 @@ async def test_when_bright(given_that, generic_room_scene, assert_that):
 
 @pytest.mark.asyncio
 async def test_when_bright_because_of_light(given_that, generic_room_scene, assert_that):
-    given_that.generic_scene_is(activity=activities.Common.PRESENT, illuminance=100, are_lights_on=True)
+    given_that.generic_scene_is(activity=activities.RoomActivity.PRESENT, illuminance=100, are_lights_on=True)
 
     await generic_room_scene.handle_scene(None, None, None, None, None)
 
@@ -57,7 +57,7 @@ async def test_when_bright_because_of_light(given_that, generic_room_scene, asse
 
 @pytest.mark.asyncio
 async def test_when_present(given_that, generic_room_scene, assert_that):
-    given_that.generic_scene_is(activity=activities.Common.PRESENT, illuminance=30, are_lights_on=False)
+    given_that.generic_scene_is(activity=activities.RoomActivity.PRESENT, illuminance=30, are_lights_on=False)
 
     await generic_room_scene.handle_scene(None, None, None, None, None)
 
@@ -66,7 +66,7 @@ async def test_when_present(given_that, generic_room_scene, assert_that):
 
 def generic_scene_is(self, activity, illuminance, are_lights_on):
     self.state_of(ILLUMINANCE_SENSOR).is_set_to(utils.awaitable(illuminance))
-    self.state_of(ACTIVITY_HELPER).is_set_to(utils.awaitable(activity))
+    self.state_of(ACTIVITY.helper).is_set_to(utils.awaitable(activity))
     if are_lights_on:
         self.state_of(ROOM_LIGHTS).is_set_to(utils.awaitable(states.ON))
     else:

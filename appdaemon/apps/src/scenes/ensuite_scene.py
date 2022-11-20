@@ -1,11 +1,10 @@
 import activities
 import entities
-import helpers
 from scenes.scene_app import SceneApp
 
 
 class EnsuiteScene(SceneApp):
-    activity_helper = helpers.ENSUITE_ACTIVITY
+    activity = activities.Ensuite
     illuminance_sensor = None
     room_lights = entities.LIGHT_BATHROOM
 

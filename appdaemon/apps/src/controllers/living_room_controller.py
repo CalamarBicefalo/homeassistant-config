@@ -8,7 +8,7 @@ from controllers.controller_app import ControllerApp
 
 class LivingRoomController(ControllerApp):
     motion_sensor = entities.BINARY_SENSOR_LIVING_ROOM_MOTION
-    activity_helper = helpers.LIVING_ROOM_ACTIVITY
+    activity = activities.LivingRoom
     additional_triggers = [entities.MEDIA_PLAYER_TV, entities.BINARY_SENSOR_SOFA_PS_WATER]
 
     async def get_custom_activity(self, entity, attribute, old, new) -> Optional[activities.Activity]:

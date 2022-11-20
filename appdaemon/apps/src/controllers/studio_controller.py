@@ -6,7 +6,7 @@ from controllers.controller_app import ControllerApp
 
 class StudioController(ControllerApp):
     motion_sensor = entities.BINARY_SENSOR_STUDIO_MOTION
-    activity_helper = helpers.STUDIO_ACTIVITY
+    activity = activities.Studio
     additional_triggers = [entities.BINARY_SENSOR_WORK_CHAIR_PS_WATER, entities.SENSOR_DRUMS_PLUG_POWER]
 
     async def get_custom_activity(self, entity, attribute, old, new):

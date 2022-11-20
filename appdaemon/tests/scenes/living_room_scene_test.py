@@ -36,7 +36,7 @@ async def test_when_watching_tv(given_that, living_room_scene, assert_that):
 
 def living_room_scene_is(self, activity, illuminance, are_lights_on):
     self.state_of(entities.SENSOR_DESK_MS_ILLUMINANCE).is_set_to(utils.awaitable(illuminance))
-    self.state_of(helpers.LIVING_ROOM_ACTIVITY).is_set_to(utils.awaitable(activity))
+    self.state_of(activities.LivingRoom.helper).is_set_to(utils.awaitable(activity))
     if are_lights_on:
         self.state_of(entities.LIGHT_LIVING_ROOM).is_set_to(utils.awaitable(states.ON))
     else:

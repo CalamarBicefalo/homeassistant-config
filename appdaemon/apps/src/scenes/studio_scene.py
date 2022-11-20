@@ -1,11 +1,10 @@
 import activities
 import entities
-import helpers
 from scenes.scene_app import SceneApp
 
 
 class StudioScene(SceneApp):
-    activity_helper = helpers.STUDIO_ACTIVITY
+    activity = activities.Studio
     illuminance_sensor = entities.SENSOR_DESK_MS_ILLUMINANCE
     room_lights = entities.LIGHT_STUDIO
 

@@ -20,7 +20,7 @@ class KitchenCleaner(App):
         )
         self.listen_state(
             self.clean_kitchen,
-            helpers.LIVING_ROOM_ACTIVITY,
+            activities.LivingRoom.helper,
             new=activities.LivingRoom.EMPTY
         )
 
@@ -49,7 +49,7 @@ class KitchenCleaner(App):
             )
             return
 
-        if not (await self.is_activity(helpers.LIVING_ROOM_ACTIVITY, activities.LivingRoom.EMPTY)):
+        if not (await self.is_activity(activities.LivingRoom.helper, activities.LivingRoom.EMPTY)):
             self.log(
                 f'Postponing clean until nobody is around',
                 level="INFO"

@@ -1,11 +1,10 @@
 import activities
 import entities
-import helpers
 from scenes.scene_app import SceneApp
 
 
 class StorageRoomScene(SceneApp):
-    activity_helper = helpers.STORAGE_ROOM_ACTIVITY
+    activity = activities.StorageRoom
     illuminance_sensor = None
     room_lights = entities.LIGHT_STORAGE
 

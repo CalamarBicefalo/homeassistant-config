@@ -9,11 +9,11 @@ from scenes.scene_app import SceneApp
 
 DEFAULT_SCENE = "default_scene"
 ROOM_LIGHTS = "room_lights"
-ACTIVITY_HELPER = "activity_helper"
+ACTIVITY = activities.RoomActivity
 
 
 class GenericSceneWithoutIlluminance(SceneApp):
-    activity_helper = ACTIVITY_HELPER
+    activity = ACTIVITY
     room_lights = ROOM_LIGHTS
 
     def get_light_scene(self, activity: activities.LivingRoom):
@@ -28,7 +28,7 @@ def generic_room_scene():
 
 @pytest.mark.asyncio
 async def test_when_empty(given_that, generic_room_scene, assert_that):
-    given_that.scene_is(activity=activities.Common.EMPTY, are_lights_on=False)
+    given_that.scene_is(activity=activities.RoomActivity.EMPTY, are_lights_on=False)
 
     await generic_room_scene.handle_scene(None, None, None, None, None)
 
@@ -37,7 +37,7 @@ async def test_when_empty(given_that, generic_room_scene, assert_that):
 
 @pytest.mark.asyncio
 async def test_when_present(given_that, generic_room_scene, assert_that):
-    given_that.scene_is(activity=activities.Common.PRESENT, are_lights_on=False)
+    given_that.scene_is(activity=activities.RoomActivity.PRESENT, are_lights_on=False)
 
     await generic_room_scene.handle_scene(None, None, None, None, None)
 
@@ -45,7 +45,7 @@ async def test_when_present(given_that, generic_room_scene, assert_that):
 
 
 def scene_is(self, activity, are_lights_on):
-    self.state_of(ACTIVITY_HELPER).is_set_to(utils.awaitable(activity))
+    self.state_of(ACTIVITY.helper).is_set_to(utils.awaitable(activity))
     if are_lights_on:
         self.state_of(ROOM_LIGHTS).is_set_to(utils.awaitable(states.ON))
     else:

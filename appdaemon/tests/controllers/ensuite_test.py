@@ -28,7 +28,7 @@ async def test_when_away(given_that, ensuite_activity, assert_that):
 
     await ensuite_activity.controller_handler(None, None, None, None, None)
 
-    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(helpers.ENSUITE_ACTIVITY, activities.Ensuite.EMPTY)
+    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(activities.Ensuite.helper, activities.Ensuite.EMPTY)
 
 
 @pytest.mark.asyncio
@@ -37,4 +37,4 @@ async def test_when_present(given_that, ensuite_activity, assert_that):
 
     await ensuite_activity.controller_handler(None, None, None, None, None)
 
-    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(helpers.ENSUITE_ACTIVITY, activities.Ensuite.PRESENT)
+    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(activities.Ensuite.helper, activities.Ensuite.PRESENT)

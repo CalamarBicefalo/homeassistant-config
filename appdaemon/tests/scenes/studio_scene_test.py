@@ -48,7 +48,7 @@ async def test_when_drumming_and_dark(given_that, studio_scene, assert_that):
 def studio_scene_is(self, activity, illuminance):
     self.state_of(entities.LIGHT_STUDIO).is_set_to(utils.awaitable(states.OFF))
     self.state_of(entities.SENSOR_DESK_MS_ILLUMINANCE).is_set_to(utils.awaitable(illuminance))
-    self.state_of(helpers.STUDIO_ACTIVITY).is_set_to(utils.awaitable(activity))
+    self.state_of(activities.Studio.helper).is_set_to(utils.awaitable(activity))
 
 
 given.GivenThatWrapper.studio_scene_is = studio_scene_is

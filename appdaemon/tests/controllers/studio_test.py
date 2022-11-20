@@ -35,7 +35,7 @@ async def test_when_away(given_that, studio_activity, assert_that):
 
     await studio_activity.controller_handler(None, None, None, None, None)
 
-    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(helpers.STUDIO_ACTIVITY,
+    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(activities.Studio.helper,
                                                                          activities.Studio.EMPTY)
 
 
@@ -47,7 +47,7 @@ async def test_when_present(given_that, studio_activity, assert_that):
 
     await studio_activity.controller_handler(None, None, None, None, None)
 
-    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(helpers.STUDIO_ACTIVITY,
+    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(activities.Studio.helper,
                                                                          activities.Studio.PRESENT)
 
 
@@ -59,7 +59,7 @@ async def test_when_playing_drums(given_that, studio_activity, assert_that):
 
     await studio_activity.controller_handler(None, None, None, None, None)
 
-    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(helpers.STUDIO_ACTIVITY,
+    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(activities.Studio.helper,
                                                                          activities.Studio.DRUMMING)
 @pytest.mark.asyncio
 async def test_when_spurious_power_reading(given_that, studio_activity, assert_that):
@@ -68,7 +68,7 @@ async def test_when_spurious_power_reading(given_that, studio_activity, assert_t
 
     await studio_activity.controller_handler(entities.SENSOR_DRUMS_PLUG_POWER, None, 1, "0.1", None)
 
-    assert_that(services.INPUT_SELECT_SELECT_OPTION).was_not.set_to_activity(helpers.STUDIO_ACTIVITY,
+    assert_that(services.INPUT_SELECT_SELECT_OPTION).was_not.set_to_activity(activities.Studio.helper,
                                                                          activities.Studio.DRUMMING)
 
 
@@ -80,5 +80,5 @@ async def test_when_working(given_that, studio_activity, assert_that):
 
     await studio_activity.controller_handler(None, None, None, None, None)
 
-    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(helpers.STUDIO_ACTIVITY,
+    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(activities.Studio.helper,
                                                                          activities.Studio.WORKING)

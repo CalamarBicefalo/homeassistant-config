@@ -28,7 +28,7 @@ async def test_when_away(given_that, kitchen_activity, assert_that):
 
     await kitchen_activity.controller_handler(None, None, None, None, None)
 
-    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(helpers.KITCHEN_ACTIVITY, activities.Kitchen.EMPTY)
+    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(activities.Kitchen.helper, activities.Kitchen.EMPTY)
 
 
 @pytest.mark.asyncio
@@ -37,4 +37,4 @@ async def test_when_present(given_that, kitchen_activity, assert_that):
 
     await kitchen_activity.controller_handler(None, None, None, None, None)
 
-    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(helpers.KITCHEN_ACTIVITY, activities.Kitchen.PRESENT)
+    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(activities.Kitchen.helper, activities.Kitchen.PRESENT)

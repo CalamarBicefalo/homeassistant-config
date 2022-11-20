@@ -29,14 +29,14 @@ class ControllerApp(App):
 
         custom_activity = await self.get_custom_activity(entity, attribute, old, new)
         if custom_activity:
-            self.set_activity(self.activity_helper, custom_activity)
+            self.set_activity(self.activity.helper, custom_activity)
             return
 
         # Presence handling
         if await self.is_on(self.motion_sensor):
-            self.set_activity(self.activity_helper, activities.Common.PRESENT)
+            self.set_activity(self.activity.helper, activities.RoomActivity.PRESENT)
         else:
-            self.set_activity(self.activity_helper, activities.Common.EMPTY)
+            self.set_activity(self.activity.helper, activities.RoomActivity.EMPTY)
 
     async def get_custom_activity(self, entity, attribute, old, new) -> Optional[activities.Activity]:
         return None
@@ -59,5 +59,5 @@ class ControllerApp(App):
 
     @property
     @abstractmethod
-    def activity_helper(self) -> helpers.Helper:
+    def activity(self) -> activities.RoomActivity:
         pass

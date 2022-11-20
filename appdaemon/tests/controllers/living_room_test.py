@@ -33,7 +33,7 @@ async def test_when_away(given_that, living_room_activity, assert_that):
 
     await living_room_activity.controller_handler(None, None, None, None, None)
 
-    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(helpers.LIVING_ROOM_ACTIVITY,
+    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(activities.LivingRoom.helper,
                                                                          activities.LivingRoom.EMPTY)
 
 
@@ -47,7 +47,7 @@ async def test_when_present(given_that, living_room_activity, assert_that):
 
     await living_room_activity.controller_handler(None, None, None, None, None)
 
-    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(helpers.LIVING_ROOM_ACTIVITY,
+    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(activities.LivingRoom.helper,
                                                                          activities.LivingRoom.PRESENT)
 
 
@@ -61,7 +61,7 @@ async def test_when_watching_tv(given_that, living_room_activity, assert_that):
 
     await living_room_activity.controller_handler(None, None, None, None, None)
 
-    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(helpers.LIVING_ROOM_ACTIVITY,
+    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(activities.LivingRoom.helper,
                                                                          activities.LivingRoom.WATCHING_TV)
 
 
@@ -76,7 +76,7 @@ async def test_when_sitting_on_sofa(given_that, living_room_activity, assert_tha
     await living_room_activity.controller_handler(None, None, None, None, None)
 
     assert_that(services.INPUT_SELECT_SELECT_OPTION). \
-        was.set_to_activity(helpers.LIVING_ROOM_ACTIVITY, activities.LivingRoom.READING)
+        was.set_to_activity(activities.LivingRoom.helper, activities.LivingRoom.READING)
 
 
 def living_room_state_is(self, motion, tv, sofa):
