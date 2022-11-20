@@ -4,14 +4,14 @@ import yaml
 def generate_activities(root_dir: str):
     GENERATED_ACTIVITIES = f'{root_dir}/activities.py'
 
-    def get_common_activities(selects):
-        all_options = [*map(lambda select: set(select['options']), selects.values())]
-        common_activities = set.intersection(*all_options)
-        return common_activities
+    def get_common_activities(act):
+        all_options = [*map(lambda select: set(select['options']), act.values())]
+        return set.intersection(*all_options)
 
     with open("helpers/input_select.yaml", "r") as stream:
         selects = yaml.safe_load(stream)
-        common_activities = get_common_activities(selects)
+        defined_activities = {k: v for k, v in selects.items() if k.endswith('_activity')}
+        common_activities = get_common_activities(defined_activities)
         try:
             with open(GENERATED_ACTIVITIES, 'w') as f:
 
@@ -27,7 +27,7 @@ def generate_activities(root_dir: str):
                 for c in common_activities:
                     f.write(f'    {c.replace(" ", "_").upper()} : Activity = Activity("{c}")\n')
 
-                for i in selects.items():
+                for i in defined_activities.items():
                     f.write('\n\n')
                     f.write(f'class {i[0].replace("_activity", "").title().replace("_", "")}(RoomActivity):\n')
                     f.write(f'    helper = Helper("input_select.{i[0]}")\n')

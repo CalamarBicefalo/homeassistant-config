@@ -1,5 +1,5 @@
 ---
-global_modules:
+global_modules: &globals
   - states
   - activities
   - entities
@@ -10,3 +10,8 @@ global_modules:
   - app
   - scene_app
   - controller_app
+
+Mode manager:
+  module: mode_manager
+  class: ModeManager
+  global_dependencies: *globals

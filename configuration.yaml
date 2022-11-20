@@ -3,6 +3,7 @@ default_config:
 
 cloud:
 
+input_button: !include helpers/input_button.yaml
 input_boolean: !include helpers/input_boolean.yaml
 input_number: !include helpers/input_number.yaml
 input_datetime: !include helpers/input_datetime.yaml
