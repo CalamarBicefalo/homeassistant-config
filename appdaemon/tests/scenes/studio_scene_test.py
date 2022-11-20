@@ -5,6 +5,7 @@ import activities
 import entities
 import helpers
 import matchers
+import states
 import utils
 from scenes.studio_scene import StudioScene
 
@@ -13,32 +14,6 @@ from scenes.studio_scene import StudioScene
 def studio_scene():
     matchers.init()
     pass
-
-
-@pytest.mark.asyncio
-async def test_when_empty(given_that, studio_scene, assert_that):
-    given_that.studio_scene_is(activity=activities.Studio.EMPTY, illuminance=100)
-
-    await studio_scene.handle_scene(None, None, None, None, None)
-
-    assert_that(entities.LIGHT_STUDIO).was.turned_off()
-
-
-@pytest.mark.asyncio
-async def test_when_bright(given_that, studio_scene, assert_that):
-    given_that.studio_scene_is(activity=activities.Studio.PRESENT, illuminance=100)
-
-    await studio_scene.handle_scene(None, None, None, None, None)
-
-    assert_that(entities.LIGHT_STUDIO).was.turned_off()
-
-@pytest.mark.asyncio
-async def test_when_present(given_that, studio_scene, assert_that):
-    given_that.studio_scene_is(activity=activities.Studio.PRESENT, illuminance=30)
-
-    await studio_scene.handle_scene(None, None, None, None, None)
-
-    assert_that(entities.SCENE_STUDIO_CONCENTRATE).was.turned_on()
 
 
 @pytest.mark.asyncio
@@ -71,6 +46,7 @@ async def test_when_drumming_and_dark(given_that, studio_scene, assert_that):
 
 
 def studio_scene_is(self, activity, illuminance):
+    self.state_of(entities.LIGHT_STUDIO).is_set_to(utils.awaitable(states.OFF))
     self.state_of(entities.SENSOR_DESK_MS_ILLUMINANCE).is_set_to(utils.awaitable(illuminance))
     self.state_of(helpers.STUDIO_ACTIVITY).is_set_to(utils.awaitable(activity))
 

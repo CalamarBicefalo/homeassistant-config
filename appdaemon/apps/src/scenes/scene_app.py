@@ -55,9 +55,13 @@ class SceneApp(App):
             self.turn_off(self.room_lights)
             return
 
-        if (not self.illuminance_sensor) or \
-                (await self.is_off(self.room_lights) and float(await self.get_state(self.illuminance_sensor)) < 40) or \
-                (await self.is_on(self.room_lights) and float(await self.get_state(self.illuminance_sensor)) < 200):
+        if not self.illuminance_sensor:
+            self.turn_on(self.get_light_scene(activity))
+            return
+
+        illuminance = float(await self.get_state(self.illuminance_sensor))
+        lights_on = await self.is_on(self.room_lights)
+        if ((not lights_on) and illuminance < 40) or (lights_on and illuminance < 200):
             self.turn_on(self.get_light_scene(activity))
         else:
             self.turn_off(self.room_lights)
