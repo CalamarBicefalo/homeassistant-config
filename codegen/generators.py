@@ -5,7 +5,6 @@ import yaml
 
 
 def generate_services(root_dir: str, homeassistant_url: str):
-    global stream, token, resp, f, s
     GENERATED_SERVICES = f'{root_dir}/services.py'
     with open("secrets.yaml", "r") as stream:
         token = yaml.safe_load(stream)['apiToken']
@@ -21,8 +20,15 @@ def generate_services(root_dir: str, homeassistant_url: str):
                         f'{d["domain"].replace(".", "_").upper()}_{s.replace(".", "_").upper()}: Service = Service("{d["domain"]}/{s}")\n')
 
 
+def is_hub_reachable(homeassistant_url: str):
+    with open("secrets.yaml", "r") as stream:
+        token = yaml.safe_load(stream)['apiToken']
+        try:
+            return requests.get(url=f'{homeassistant_url}/api/states', headers={"Authorization": f'Bearer {token}'}).ok
+        finally:
+            return False
+
 def generate_entities(root_dir: str, homeassistant_url: str):
-    global stream, token, resp, f, s
     GENERATED_ENTITIES = f'{root_dir}/entities.py'
     with open("secrets.yaml", "r") as stream:
         token = yaml.safe_load(stream)['apiToken']
@@ -35,7 +41,6 @@ def generate_entities(root_dir: str, homeassistant_url: str):
 
 
 def generate_helpers(root_dir: str):
-    global f, stream, exc, i
     GENERATED_HELPERS = f'{root_dir}/helpers.py'
     helper_files = glob.glob("helpers/*")
     with open(GENERATED_HELPERS, 'w') as output:
@@ -55,7 +60,6 @@ def generate_helpers(root_dir: str):
 
 
 def generate_activities(root_dir: str):
-    global stream, f, i, exc
     GENERATED_ACTIVITIES = f'{root_dir}/activities.py'
 
     def get_common_activities(selects):
