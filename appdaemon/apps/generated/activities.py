@@ -7,8 +7,8 @@ class RoomActivity:
     @abstractmethod
     def helper(self) -> Helper:
         pass
-    PRESENT : Activity = Activity("Present")
     EMPTY : Activity = Activity("Empty")
+    PRESENT : Activity = Activity("Present")
 
 
 class Kitchen(RoomActivity):

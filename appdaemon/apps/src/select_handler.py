@@ -1,11 +1,12 @@
+from enum import Enum
+
 import appdaemon.plugins.hass.hassapi as hass
-from strenum import StrEnum
 from typing import TypeVar, Generic
 
 import services
 from helpers import Helper
 
-T = TypeVar("T", bound=StrEnum)
+T = TypeVar("T", bound=Enum)
 
 
 class SelectHandler(Generic[T]):
@@ -15,15 +16,15 @@ class SelectHandler(Generic[T]):
         self._app = app
 
     def set(self, value: T) -> None:
-        self._app.log("Setting select " + value, level="DEBUG")
+        self._app.log("Setting select " + value.value, level="DEBUG")
         self._app.call_service(
             services.INPUT_SELECT_SELECT_OPTION,
             entity_id=self._helper,
-            option=value
+            option=value.value
         )
 
     def is_value(self, value: T) -> bool:
-        return self._app.get_state(self._helper) == value
+        return self._app.get_state(self._helper) == value.value
 
     def get(self) -> T:
-        return StrEnum(self._app.get_state(self._helper))  # type: ignore
+        return Enum(self._app.get_state(self._helper))  # type: ignore
