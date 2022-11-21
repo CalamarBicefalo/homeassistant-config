@@ -4,8 +4,7 @@ from appdaemontestframework import automation_fixture, given_that as given
 import activities
 import entities
 import matchers
-from utils import states
-import utils
+import states
 from scenes.living_room_scene import LivingRoomScene
 
 

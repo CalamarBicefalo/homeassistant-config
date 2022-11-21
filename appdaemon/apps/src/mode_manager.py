@@ -2,7 +2,7 @@ from datetime import timedelta
 
 import entities
 import services
-from utils.app import App
+from app import App
 
 
 class ModeManager(App):

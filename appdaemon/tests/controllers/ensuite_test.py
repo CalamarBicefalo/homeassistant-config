@@ -6,7 +6,7 @@ import entities
 import services
 from controllers.ensuite_controller import EnsuiteController
 from test_utils import awaitable
-from utils import states
+import states
 
 
 @automation_fixture(EnsuiteController)

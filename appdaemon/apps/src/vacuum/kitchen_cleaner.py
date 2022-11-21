@@ -4,7 +4,7 @@ import activities
 import entities
 import helpers
 import services
-from utils.app import App
+from app import App
 
 kitchen_segment = 16
 

@@ -6,7 +6,7 @@ import entities
 import services
 from controllers.kitchen_controller import KitchenController
 from test_utils import awaitable
-from utils import states
+import states
 
 
 @automation_fixture(KitchenController)

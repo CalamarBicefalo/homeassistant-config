@@ -1,7 +1,7 @@
 from enum import StrEnum
 from typing import TypeVar, Generic
 
-from utils.app import App
+from app import App
 
 import services
 from helpers import Helper

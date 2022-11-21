@@ -7,7 +7,7 @@ import entities
 import services
 from controllers.studio_controller import StudioController
 from test_utils import awaitable
-from utils import states
+import states
 
 
 @automation_fixture(StudioController)

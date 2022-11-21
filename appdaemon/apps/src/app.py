@@ -8,7 +8,7 @@ import services
 from activities import Activity
 from entities import Entity
 from helpers import Helper
-from utils import states
+import states
 
 HELPER_DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"
 

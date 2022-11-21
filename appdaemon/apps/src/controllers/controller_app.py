@@ -3,7 +3,7 @@ from typing import Optional, List
 
 import activities
 import entities
-from utils.app import App
+from app import App
 
 
 class ControllerApp(App):

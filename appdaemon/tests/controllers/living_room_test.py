@@ -7,7 +7,7 @@ import entities
 import services
 from controllers.living_room_controller import LivingRoomController
 from test_utils import awaitable
-from utils import states
+import states
 
 
 @automation_fixture(LivingRoomController)

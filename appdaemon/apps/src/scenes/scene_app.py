@@ -1,7 +1,7 @@
 from abc import abstractmethod
 from typing import Optional
 
-from utils.app import App
+from app import App
 
 import activities
 import entities
