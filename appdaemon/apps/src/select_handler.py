@@ -1,7 +1,6 @@
-from enum import StrEnum
+import appdaemon.plugins.hass.hassapi as hass
+from strenum import StrEnum
 from typing import TypeVar, Generic
-
-from app import App
 
 import services
 from helpers import Helper
@@ -11,7 +10,7 @@ T = TypeVar("T", bound=StrEnum)
 
 class SelectHandler(Generic[T]):
 
-    def __init__(self, app: App, helper: Helper):
+    def __init__(self, app: hass.Hass, helper: Helper):
         self._helper = helper
         self._app = app
 
@@ -24,7 +23,7 @@ class SelectHandler(Generic[T]):
         )
 
     def is_value(self, value: T) -> bool:
-        return self._app.has_state(self._helper, value)
+        return self._app.get_state(self._helper) == value
 
     def get(self) -> T:
         return StrEnum(self._app.get_state(self._helper))  # type: ignore

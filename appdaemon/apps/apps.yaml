@@ -10,6 +10,7 @@ global_modules: &globals
   - app
   - scene_app
   - controller_app
+  - select_handler
 
 Mode manager:
   module: mode_manager

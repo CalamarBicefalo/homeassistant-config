@@ -4,11 +4,14 @@ from datetime import datetime
 
 import appdaemon.plugins.hass.hassapi as hass
 
+import helpers
 import services
 from activities import Activity
 from entities import Entity
 from helpers import Helper
 import states
+from modes import Mode
+from select_handler import SelectHandler
 
 HELPER_DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"
 
@@ -18,6 +21,10 @@ def datetime_to_helper(d: datetime):
 
 
 class App(hass.Hass):
+
+    mode: SelectHandler[Mode]
+    def __init__(self, ad, name, logging, args, config, app_config, global_vars):
+        self.mode = SelectHandler[Mode](super(), helpers.HOMEASSISTANT_MODE)
     def helper_to_datetime(self, helper: Helper):
         """
         Given a datetime helper, it returns a ready to use datetime

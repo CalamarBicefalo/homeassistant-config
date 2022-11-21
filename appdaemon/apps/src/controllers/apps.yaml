@@ -10,6 +10,7 @@ Living room activity:
     - services
     - app
     - controller_app
+    - select_handler
 Kitchen activity:
   module: kitchen_controller
   class: KitchenController
