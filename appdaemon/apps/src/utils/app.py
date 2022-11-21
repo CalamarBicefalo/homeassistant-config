@@ -35,24 +35,24 @@ class App(hass.Hass):
     def get_watt_consumption(self, device: Entity) -> int:
         return int(float(self.get_state(device)))
 
-    def is_on(self, device: Entity):
+    def is_on(self, device: Entity) -> bool:
         state = self.get_state(device)
         return state == states.ON or state == "playing"
 
-    def is_off(self, device: Entity):
+    def is_off(self, device: Entity) -> bool:
         return self.has_state(device, states.OFF)
 
     def has_state(self, device: Entity | Helper, desired_state: str) -> bool:
         state = self.get_state(device)
         return state == desired_state
 
-    def is_activity(self, helper: Helper, activity: Activity):
+    def is_activity(self, helper: Helper, activity: Activity) -> bool:
         return self.has_state(helper, activity)
 
     def get_activity_value(self, helper: Helper) -> Activity:
-        return self.get_state(helper)
+        return Activity(self.get_state(helper))
 
-    def set_activity(self, helper: Helper, activity: Activity):
+    def set_activity(self, helper: Helper, activity: Activity) -> None:
         self.log(f'Setting activity {activity} in {helper}', level="DEBUG")
         self.call_service(
             services.INPUT_SELECT_SELECT_OPTION,
