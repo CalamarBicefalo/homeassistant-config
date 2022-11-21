@@ -1,0 +1,21 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+pyyaml = "*"
+requests = "*"
+appdaemon = "*"
+appdaemontestframework = "*"
+asynctest = "*"
+mypy = "*"
+mypy-extensions = "*"
+pytest = "*"
+pytest-asyncio = "*"
+requests-oauthlib = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.10"
