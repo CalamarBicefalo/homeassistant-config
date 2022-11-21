@@ -11,6 +11,7 @@ Living room activity:
     - app
     - controller_app
     - select_handler
+    - modes
 Kitchen activity:
   module: kitchen_controller
   class: KitchenController

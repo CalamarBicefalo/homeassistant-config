@@ -12,6 +12,7 @@ Vacuum kitchen cleaner:
     - point
     - app
     - select_handler
+    - modes
 Vacuum mop maintenance:
   module: mop_maintenance
   class: MopMaintenance
