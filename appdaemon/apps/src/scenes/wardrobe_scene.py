@@ -8,7 +8,7 @@ class WardrobeScene(SceneApp):
     illuminance_sensor = entities.SENSOR_BEDROOM_MS_ILLUMINANCE
     room_lights = entities.LIGHT_WARDROBE
 
-    def get_light_scene(self, activity: activities.Activity):
+    def get_light_scene(self, activity: activities.Activity) -> entities.Entity:
         if activity == activities.Wardrobe.PRESENT:
             return entities.SCENE_WARDROBE_BRIGHT
 

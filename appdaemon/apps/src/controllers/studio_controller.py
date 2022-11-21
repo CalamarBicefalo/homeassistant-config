@@ -9,13 +9,13 @@ class StudioController(ControllerApp):
     activity = activities.Studio
     additional_triggers = [entities.BINARY_SENSOR_WORK_CHAIR_PS_WATER, entities.SENSOR_DRUMS_PLUG_POWER]
 
-    async def get_custom_activity(self, entity, attribute, old, new):
+    def get_custom_activity(self, entity, attribute, old, new):
         # Work handling
-        if await self.is_on(entities.BINARY_SENSOR_WORK_CHAIR_PS_WATER):
+        if self.is_on(entities.BINARY_SENSOR_WORK_CHAIR_PS_WATER):
             return activities.Studio.WORKING
 
         # Drum handling
-        if await self.is_consuming_at_least(entities.SENSOR_DRUMS_PLUG_POWER, watts=4):
+        if self.is_consuming_at_least(entities.SENSOR_DRUMS_PLUG_POWER, watts=4):
             return activities.Studio.DRUMMING
 
     def should_trigger(self, entity, attribute, old, new) -> bool:

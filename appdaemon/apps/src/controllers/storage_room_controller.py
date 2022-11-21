@@ -1,7 +1,6 @@
 import activities
 import entities
-import helpers
-from app import App
+from utils.app import App
 
 
 class StorageRoomController(App):

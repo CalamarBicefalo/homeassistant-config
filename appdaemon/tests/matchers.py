@@ -2,8 +2,8 @@ from datetime import datetime
 
 from appdaemontestframework import assert_that
 
-import app
 from activities import Activity
+from utils import app
 
 
 def set_to_activity(self, helper, activity: Activity):

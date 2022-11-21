@@ -25,3 +25,4 @@ secrets.yaml
 known_devices.yaml
 /ha_api/
 /venv/
+/.mypy_cache/

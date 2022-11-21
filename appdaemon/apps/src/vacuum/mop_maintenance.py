@@ -4,7 +4,7 @@ import activities
 import entities
 import helpers
 import services
-from app import App
+from utils.app import App
 
 
 class MopMaintenance(App):
@@ -18,10 +18,10 @@ class MopMaintenance(App):
             new=activities.Kitchen.PRESENT
         )
 
-    async def start_mop_maintenance(self, entity, attribute, old, new, kwargs):
+    def start_mop_maintenance(self, entity, attribute, old, new, kwargs):
         self.log(f'Triggering mop maintenance routine {entity} -> {attribute} old={old} new={new}', level="DEBUG")
-        last_cleaned_kitchen = await self.helper_to_datetime(helpers.LAST_CLEANED_KITCHEN)
-        last_cleaned_vacuum_mop = await self.helper_to_datetime(helpers.LAST_CLEANED_VACUUM_MOP)
+        last_cleaned_kitchen = self.helper_to_datetime(helpers.LAST_CLEANED_KITCHEN)
+        last_cleaned_vacuum_mop = self.helper_to_datetime(helpers.LAST_CLEANED_VACUUM_MOP)
 
         mop_is_dirty = last_cleaned_vacuum_mop < last_cleaned_kitchen
         is_not_cleaning = datetime.now() - timedelta(minutes=60) > last_cleaned_kitchen

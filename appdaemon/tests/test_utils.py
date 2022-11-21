@@ -21,5 +21,5 @@ def format_date(d) -> str:
     return d.strftime("%Y-%m-%d %H:%M:%S")
 
 
-async def awaitable(thing):
+def awaitable(thing):
     return thing

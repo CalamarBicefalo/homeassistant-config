@@ -1,9 +1,10 @@
 from abc import abstractmethod
 from typing import Optional
 
+from utils.app import App
+
 import activities
 import entities
-from app import App
 
 
 class SceneApp(App):
@@ -45,9 +46,9 @@ class SceneApp(App):
     def scene(self):
         return self.__class__.__name__
 
-    async def handle_scene(self, entity, attribute, old, new, kwargs):
+    def handle_scene(self, entity, attribute, old, new, kwargs):
         self.log(f'Changing {self.scene} scene {entity} -> {attribute} old={old} new={new}', level="DEBUG")
-        activity = await self.get_activity_value(self.activity.helper)
+        activity = self.get_activity_value(self.activity.helper)
 
         self.on_activity_change(activity)
 
@@ -59,8 +60,8 @@ class SceneApp(App):
             self.turn_on(self.get_light_scene(activity))
             return
 
-        illuminance = float(await self.get_state(self.illuminance_sensor))
-        lights_on = await self.is_on(self.room_lights)
+        illuminance = float(self.get_state(self.illuminance_sensor))
+        lights_on = self.is_on(self.room_lights)
         if ((not lights_on) and illuminance < 40) or (lights_on and illuminance < 200):
             self.turn_on(self.get_light_scene(activity))
         else:

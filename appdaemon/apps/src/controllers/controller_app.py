@@ -3,8 +3,7 @@ from typing import Optional, List
 
 import activities
 import entities
-import helpers
-from app import App
+from utils.app import App
 
 
 class ControllerApp(App):
@@ -17,7 +16,7 @@ class ControllerApp(App):
             [self.motion_sensor, *self.additional_triggers]
         )
 
-    async def controller_handler(self, entity, attribute, old, new, kwargs):
+    def controller_handler(self, entity, attribute, old, new, kwargs):
         if not self.should_trigger(entity, attribute, old, new):
             self.log(f'Skipping {self.controller} activity controller because precondition was not met '
                      f'{entity} -> {attribute} old={old} new={new}',
@@ -27,18 +26,18 @@ class ControllerApp(App):
         self.log(f'Triggering {self.controller} activity controller {entity} -> {attribute} old={old} new={new}',
                  level="DEBUG")
 
-        custom_activity = await self.get_custom_activity(entity, attribute, old, new)
+        custom_activity = self.get_custom_activity(entity, attribute, old, new)
         if custom_activity:
             self.set_activity(self.activity.helper, custom_activity)
             return
 
         # Presence handling
-        if await self.is_on(self.motion_sensor):
+        if self.is_on(self.motion_sensor):
             self.set_activity(self.activity.helper, activities.RoomActivity.PRESENT)
         else:
             self.set_activity(self.activity.helper, activities.RoomActivity.EMPTY)
 
-    async def get_custom_activity(self, entity, attribute, old, new) -> Optional[activities.Activity]:
+    def get_custom_activity(self, entity, attribute, old, new) -> Optional[activities.Activity]:
         return None
 
     @property

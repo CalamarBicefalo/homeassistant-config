@@ -3,6 +3,7 @@ import os
 from codegen.generate_activities import generate_activities
 from codegen.generate_helpers import generate_helpers
 from codegen.generate_entities import generate_entities
+from codegen.generate_modes import generate_modes
 from codegen.generate_services import generate_services
 from codegen.is_hub_reachable import is_hub_reachable
 
@@ -13,6 +14,7 @@ os.makedirs(GENERATED_PATH, exist_ok=True)
 #
 # Generation through config files
 #
+generate_modes(GENERATED_PATH)
 generate_activities(GENERATED_PATH)
 generate_helpers(GENERATED_PATH)
 

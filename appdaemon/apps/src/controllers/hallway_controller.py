@@ -1,6 +1,5 @@
 import activities
 import entities
-import helpers
 from controllers.controller_app import ControllerApp
 
 

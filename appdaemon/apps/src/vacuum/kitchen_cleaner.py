@@ -4,7 +4,7 @@ import activities
 import entities
 import helpers
 import services
-from app import App
+from utils.app import App
 
 kitchen_segment = 16
 
@@ -24,14 +24,14 @@ class KitchenCleaner(App):
             new=activities.LivingRoom.EMPTY
         )
 
-    async def clean_kitchen_daily(self, kwargs):
-        await self.clean_kitchen("scheduler", datetime.now(), None, None, None)
+    def clean_kitchen_daily(self, kwargs):
+        self.clean_kitchen("scheduler", datetime.now(), None, None, None)
 
-    async def clean_kitchen(self, entity, attribute, old, new, kwargs):
+    def clean_kitchen(self, entity, attribute, old, new, kwargs):
         self.log(f'Triggering kitchen clean {entity} -> {attribute} old={old} new={new}', level="DEBUG")
 
-        last_cooked = await self.helper_to_datetime(helpers.LAST_COOKED)
-        last_vacuumed = await self.helper_to_datetime(helpers.LAST_CLEANED_KITCHEN)
+        last_cooked = self.helper_to_datetime(helpers.LAST_COOKED)
+        last_vacuumed = self.helper_to_datetime(helpers.LAST_CLEANED_KITCHEN)
 
         if last_vacuumed > last_cooked:
             self.log(
@@ -49,16 +49,16 @@ class KitchenCleaner(App):
             )
             return
 
-        if not (await self.is_activity(activities.LivingRoom.helper, activities.LivingRoom.EMPTY)):
+        if not (self.is_activity(activities.LivingRoom.helper, activities.LivingRoom.EMPTY)):
             self.log(
                 f'Postponing clean until nobody is around',
                 level="INFO"
             )
             return
 
-        await self.__do_clean__(kwargs)
+        self.__do_clean__(kwargs)
 
-    async def __do_clean__(self, kwargs):
+    def __do_clean__(self, kwargs):
         self.log('Cleaning kitchen', level="DEBUG")
         self.call_service(
             services.XIAOMI_MIIO_VACUUM_CLEAN_SEGMENT,
