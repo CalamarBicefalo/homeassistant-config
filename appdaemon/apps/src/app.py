@@ -24,6 +24,7 @@ class App(hass.Hass):
 
     mode: SelectHandler[Mode]
     def __init__(self, ad, name, logging, args, config, app_config, global_vars):
+        super().__init__(self, ad, name, logging, args, config, app_config, global_vars)
         self.mode = SelectHandler[Mode](super(), helpers.HOMEASSISTANT_MODE)
     def helper_to_datetime(self, helper: Helper):
         """
