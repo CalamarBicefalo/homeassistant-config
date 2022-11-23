@@ -1,5 +1,7 @@
 import activities
 import entities
+from scenes import scene
+from scenes.scene import Scene
 from scenes.scene_app import SceneApp
 
 
@@ -8,13 +10,15 @@ class LivingRoomScene(SceneApp):
     illuminance_sensor = entities.SENSOR_DESK_MS_ILLUMINANCE
     room_lights = entities.LIGHT_LIVING_ROOM
 
-    def get_light_scene(self, activity: activities.LivingRoom):
+    def get_light_scene(self, activity: activities.Activity) -> Scene:
         if activity == activities.LivingRoom.READING:
-            return entities.SCENE_LIVING_ROOM_READING
+            return scene.of(entities.SCENE_LIVING_ROOM_READING)
         if activity == activities.LivingRoom.WATCHING_TV:
-            return entities.SCENE_LIVING_ROOM_MOVIE
+            return scene.of(entities.SCENE_LIVING_ROOM_MOVIE)
         if activity == activities.LivingRoom.PRESENT:
-            return entities.SCENE_LIVING_ROOM_WELCOME
+            return scene.of(entities.SCENE_LIVING_ROOM_WELCOME)
+
+        return scene.none()
 
 
 

@@ -1,10 +1,11 @@
+import typing
 from abc import abstractmethod
 from typing import Optional
 
-from app import App
-
 import activities
 import entities
+from app import App
+from scenes.scene import Scene
 
 
 class SceneApp(App):
@@ -22,7 +23,7 @@ class SceneApp(App):
 
     @property
     @abstractmethod
-    def activity(self) -> activities.RoomActivity:
+    def activity(self) -> typing.Type[activities.RoomActivity]:
         pass
 
     @property
@@ -36,17 +37,17 @@ class SceneApp(App):
         pass
 
     @abstractmethod
-    def get_light_scene(self, activity: activities.Activity) -> entities.Entity:
+    def get_light_scene(self, activity: activities.Activity) -> Scene:
         pass
 
     def on_activity_change(self, activity: activities.Activity):
         pass
 
     @property
-    def scene(self):
+    def scene(self) -> str:
         return self.__class__.__name__
 
-    def handle_scene(self, entity, attribute, old, new, kwargs):
+    def handle_scene(self, entity, attribute, old, new, kwargs) -> None:
         self.log(f'Changing {self.scene} scene {entity} -> {attribute} old={old} new={new}', level="DEBUG")
         activity = self.get_activity_value(self.activity.helper)
 
@@ -56,13 +57,17 @@ class SceneApp(App):
             self.turn_off(self.room_lights)
             return
 
+        scene = self.get_light_scene(activity).get_scene(self.mode.get())
+        if not scene:
+            self.turn_off(self.room_lights)
+            return
         if not self.illuminance_sensor:
-            self.turn_on(self.get_light_scene(activity))
+            self.turn_on(scene)
             return
 
         illuminance = float(self.get_state(self.illuminance_sensor))
         lights_on = self.is_on(self.room_lights)
         if ((not lights_on) and illuminance < 40) or (lights_on and illuminance < 200):
-            self.turn_on(self.get_light_scene(activity))
+            self.turn_on(scene)
         else:
             self.turn_off(self.room_lights)

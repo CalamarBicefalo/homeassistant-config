@@ -16,3 +16,5 @@ class LivingRoomController(ControllerApp):
 
         if self.is_on(entities.BINARY_SENSOR_SOFA_PS_WATER):
             return activities.LivingRoom.READING
+
+        return None

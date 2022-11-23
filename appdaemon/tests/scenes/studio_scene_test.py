@@ -3,7 +3,9 @@ from appdaemontestframework import automation_fixture, given_that as given
 
 import activities
 import entities
+import helpers
 import matchers
+import modes
 import states
 from scenes.studio_scene import StudioScene
 
@@ -43,10 +45,11 @@ def test_when_drumming_and_dark(given_that, studio_scene, assert_that):
     assert_that(entities.SCENE_STUDIO_DRUMMING).was.turned_on()
 
 
-def studio_scene_is(self, activity, illuminance):
-    self.state_of(entities.LIGHT_STUDIO).is_set_to((states.OFF))
-    self.state_of(entities.SENSOR_DESK_MS_ILLUMINANCE).is_set_to((illuminance))
-    self.state_of(activities.Studio.helper).is_set_to((activity))
+def studio_scene_is(self, activity, illuminance, mode=modes.Mode.NIGHT):
+    self.state_of(helpers.HOMEASSISTANT_MODE).is_set_to(mode)
+    self.state_of(entities.LIGHT_STUDIO).is_set_to(states.OFF)
+    self.state_of(entities.SENSOR_DESK_MS_ILLUMINANCE).is_set_to(illuminance)
+    self.state_of(activities.Studio.helper).is_set_to(activity)
 
 
 given.GivenThatWrapper.studio_scene_is = studio_scene_is

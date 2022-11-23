@@ -9,6 +9,7 @@ global_modules: &globals
   - point
   - app
   - scene_app
+  - scene
   - controller_app
   - select_handler
   - modes
