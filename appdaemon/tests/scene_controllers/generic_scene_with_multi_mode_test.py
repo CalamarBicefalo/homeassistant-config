@@ -25,7 +25,7 @@ class GenericSceneWithIlluminance(SceneApp):
     def get_light_scene(self, activity: activities.Activity) -> SceneSelector:
         return scene.by_mode({
             Mode.DAY: scenes.BEDROOM_BRIGHT,
-            Mode.AWAY: scene.off(),
+            Mode.SLEEPING: scene.off(),
         })
 
 
@@ -46,7 +46,7 @@ def test_when_defined_sets_scene(given_that, generic_room_scene, assert_that):
 
 @pytest.mark.asyncio
 def test_when_off_turns_off_lights(given_that, generic_room_scene, assert_that):
-    initial_state(given_that, mode=Mode.AWAY)
+    initial_state(given_that, mode=Mode.SLEEPING)
 
     generic_room_scene.handle_scene(None, None, None, None, None)
 
@@ -55,12 +55,22 @@ def test_when_off_turns_off_lights(given_that, generic_room_scene, assert_that):
 
 @pytest.mark.asyncio
 def test_when_undefined_ignores_lights_and_scene(given_that, generic_room_scene, assert_that):
-    initial_state(given_that, mode=Mode.SLEEPING)
+    initial_state(given_that, mode=Mode.NIGHT)
 
     generic_room_scene.handle_scene(None, None, None, None, None)
 
     assert_that(scenes.BEDROOM_BRIGHT.get()).was_not.turned_on()
     assert_that(ROOM_LIGHTS).was_not.turned_off()
+
+
+@pytest.mark.asyncio
+def test_when_undefined_away_turns_lights_off(given_that, generic_room_scene, assert_that):
+    initial_state(given_that, mode=Mode.AWAY)
+
+    generic_room_scene.handle_scene(None, None, None, None, None)
+
+    assert_that(scenes.BEDROOM_BRIGHT.get()).was_not.turned_on()
+    assert_that(ROOM_LIGHTS).was.turned_off()
 
 
 def initial_state(self, mode=Mode.NIGHT):

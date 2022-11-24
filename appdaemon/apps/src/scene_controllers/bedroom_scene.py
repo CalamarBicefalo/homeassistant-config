@@ -18,7 +18,6 @@ class BedroomScene(SceneApp):
                 Mode.DAY: scenes.BEDROOM_BRIGHT,
                 Mode.NIGHT: scenes.BEDROOM_NIGHTLIGHT,
                 Mode.BEDTIME: scenes.BEDROOM_GENTLE_READING,
-                Mode.AWAY: scene.off(),
                 Mode.SLEEPING: scene.off()
             })
         return scene.off()

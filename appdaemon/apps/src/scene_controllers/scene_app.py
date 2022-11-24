@@ -5,6 +5,7 @@ from typing import Optional
 import activities
 import entities
 from app import App
+from modes import Mode
 from scene_controllers import scene
 from scene_controllers.scene import SceneSelector, Scene, OffScene
 
@@ -60,8 +61,9 @@ class SceneApp(App):
 
         scene_resolver: Optional[Scene] | SceneSelector = self.get_light_scene(activity)
         desired_scene: Optional[Scene] = None
+        current_mode = self.mode.get()
         if type(scene_resolver) == SceneSelector:
-            desired_scene = scene_resolver.get_scene(self.mode.get())
+            desired_scene = scene_resolver.get_scene(current_mode)
         if isinstance(scene_resolver, Scene):
             desired_scene = scene_resolver
 
@@ -70,6 +72,8 @@ class SceneApp(App):
             return
 
         if not desired_scene:
+            if current_mode is Mode.AWAY:
+                self.turn_off(self.room_lights)
             return
 
         if not self.illuminance_sensor:

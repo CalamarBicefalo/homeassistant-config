@@ -12,16 +12,18 @@ class StudioScene(SceneApp):
     room_lights = entities.LIGHT_STUDIO
 
     def get_light_scene(self, activity: activities.Activity) -> Scene:
-        if activity == activities.Studio.WORKING:
-            return scenes.STUDIO_WORKING
-        if activity == activities.Studio.DRUMMING:
-            return scenes.STUDIO_DRUMMING
-        if activity == activities.Studio.PRESENT:
-            return scenes.STUDIO_CONCENTRATE
+        match activity:
+            case activities.Studio.WORKING:
+                return scenes.STUDIO_WORKING
+            case activities.Studio.DRUMMING:
+                return scenes.STUDIO_DRUMMING
+            case activities.Studio.PRESENT:
+                return scenes.STUDIO_CONCENTRATE
         return scene.off()
 
     def on_activity_change(self, activity: activities.Activity) -> None:
-        if activity == activities.Studio.WORKING:
-            self.turn_on(entities.SWITCH_MONITOR_PLUG)
-        else:
-            self.turn_off(entities.SWITCH_MONITOR_PLUG)
+        match activity:
+            case activities.Studio.WORKING:
+                self.turn_on(entities.SWITCH_MONITOR_PLUG)
+            case _:
+                self.turn_off(entities.SWITCH_MONITOR_PLUG)
