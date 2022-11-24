@@ -6,12 +6,13 @@ import entities
 import helpers
 import matchers
 import modes
+import scenes
 import states
-from scenes.studio_scene import StudioScene
+from scene_controllers.studio_scene import StudioScene
 
 
 @automation_fixture(StudioScene)
-def studio_scene():
+def studio_scene() -> None:
     matchers.init()
     pass
 
@@ -22,7 +23,7 @@ def test_when_working_and_dark(given_that, studio_scene, assert_that):
 
     studio_scene.handle_scene(None, None, None, None, None)
 
-    assert_that(entities.SCENE_STUDIO_WORKING).was.turned_on()
+    assert_that(scenes.STUDIO_WORKING.get()).was.turned_on()
     assert_that(entities.SWITCH_MONITOR_PLUG).was.turned_on()
 
 
@@ -42,7 +43,7 @@ def test_when_drumming_and_dark(given_that, studio_scene, assert_that):
 
     studio_scene.handle_scene(None, None, None, None, None)
 
-    assert_that(entities.SCENE_STUDIO_DRUMMING).was.turned_on()
+    assert_that(scenes.STUDIO_DRUMMING.get()).was.turned_on()
 
 
 def studio_scene_is(self, activity, illuminance, mode=modes.Mode.NIGHT):

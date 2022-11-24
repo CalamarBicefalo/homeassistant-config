@@ -5,12 +5,13 @@ from typing import Optional
 import activities
 import entities
 from app import App
-from scenes.scene import Scene
+from scene_controllers import scene
+from scene_controllers.scene import SceneSelector, Scene, OffScene
 
 
 class SceneApp(App):
 
-    def initialize(self):
+    def initialize(self) -> None:
         self.log(f'Initializing {self.scene} scene.', level="DEBUG")
         self.listen_state(
             self.handle_scene,
@@ -37,10 +38,10 @@ class SceneApp(App):
         pass
 
     @abstractmethod
-    def get_light_scene(self, activity: activities.Activity) -> Scene:
+    def get_light_scene(self, activity: activities.Activity) -> Scene | scene.SceneSelector:
         pass
 
-    def on_activity_change(self, activity: activities.Activity):
+    def on_activity_change(self, activity: activities.Activity) -> None:
         pass
 
     @property
@@ -57,17 +58,27 @@ class SceneApp(App):
             self.turn_off(self.room_lights)
             return
 
-        scene = self.get_light_scene(activity).get_scene(self.mode.get())
-        if not scene:
+        scene_resolver: Optional[Scene] | SceneSelector = self.get_light_scene(activity)
+        desired_scene: Optional[Scene] = None
+        if type(scene_resolver) == SceneSelector:
+            desired_scene = scene_resolver.get_scene(self.mode.get())
+        if isinstance(scene_resolver, Scene):
+            desired_scene = scene_resolver
+
+        if type(desired_scene) == OffScene:
             self.turn_off(self.room_lights)
             return
+
+        if not desired_scene:
+            return
+
         if not self.illuminance_sensor:
-            self.turn_on(scene)
+            self.turn_on(desired_scene.get())
             return
 
         illuminance = float(self.get_state(self.illuminance_sensor))
         lights_on = self.is_on(self.room_lights)
         if ((not lights_on) and illuminance < 40) or (lights_on and illuminance < 200):
-            self.turn_on(scene)
+            self.turn_on(desired_scene.get())
         else:
             self.turn_off(self.room_lights)

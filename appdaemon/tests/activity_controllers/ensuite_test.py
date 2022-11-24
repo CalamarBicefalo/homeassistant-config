@@ -4,7 +4,7 @@ from appdaemontestframework import automation_fixture
 import activities
 import entities
 import services
-from controllers.ensuite_controller import EnsuiteController
+from activity_controllers.ensuite_controller import EnsuiteController
 from test_utils import awaitable
 import states
 

@@ -4,7 +4,7 @@ from appdaemontestframework import automation_fixture
 import activities
 import entities
 import services
-from controllers.kitchen_controller import KitchenController
+from activity_controllers.kitchen_controller import KitchenController
 from test_utils import awaitable
 import states
 

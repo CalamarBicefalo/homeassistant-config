@@ -1,7 +1,7 @@
+from controllers.controller_app import ControllerApp
+
 import activities
 import entities
-import helpers
-from controllers.controller_app import ControllerApp
 
 
 class StudioController(ControllerApp):

@@ -1,8 +1,9 @@
 import activities
 import entities
-from scenes import scene
-from scenes.scene import Scene
-from scenes.scene_app import SceneApp
+import scenes
+from scene_controllers import scene
+from scene_controllers.scene import Scene
+from scene_controllers.scene_app import SceneApp
 
 
 class StudioScene(SceneApp):
@@ -12,12 +13,12 @@ class StudioScene(SceneApp):
 
     def get_light_scene(self, activity: activities.Activity) -> Scene:
         if activity == activities.Studio.WORKING:
-            return scene.of(entities.SCENE_STUDIO_WORKING)
+            return scenes.STUDIO_WORKING
         if activity == activities.Studio.DRUMMING:
-            return scene.of(entities.SCENE_STUDIO_DRUMMING)
+            return scenes.STUDIO_DRUMMING
         if activity == activities.Studio.PRESENT:
-            return scene.of(entities.SCENE_STUDIO_CONCENTRATE)
-        return scene.none()
+            return scenes.STUDIO_CONCENTRATE
+        return scene.off()
 
     def on_activity_change(self, activity: activities.Activity) -> None:
         if activity == activities.Studio.WORKING:

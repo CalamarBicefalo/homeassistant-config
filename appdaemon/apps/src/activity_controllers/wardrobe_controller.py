@@ -1,6 +1,7 @@
+from controllers.controller_app import ControllerApp
+
 import activities
 import entities
-from controllers.controller_app import ControllerApp
 
 
 class WardrobeController(ControllerApp):

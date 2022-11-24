@@ -1,8 +1,9 @@
 import activities
 import entities
-from scenes import scene
-from scenes.scene import Scene
-from scenes.scene_app import SceneApp
+import scenes
+from scene_controllers import scene
+from scene_controllers.scene import Scene
+from scene_controllers.scene_app import SceneApp
 
 
 class LivingRoomScene(SceneApp):
@@ -12,13 +13,13 @@ class LivingRoomScene(SceneApp):
 
     def get_light_scene(self, activity: activities.Activity) -> Scene:
         if activity == activities.LivingRoom.READING:
-            return scene.of(entities.SCENE_LIVING_ROOM_READING)
+            return scenes.LIVING_ROOM_READING
         if activity == activities.LivingRoom.WATCHING_TV:
-            return scene.of(entities.SCENE_LIVING_ROOM_MOVIE)
+            return scenes.LIVING_ROOM_MOVIE
         if activity == activities.LivingRoom.PRESENT:
-            return scene.of(entities.SCENE_LIVING_ROOM_WELCOME)
+            return scenes.LIVING_ROOM_WELCOME
 
-        return scene.none()
+        return scene.off()
 
 
 

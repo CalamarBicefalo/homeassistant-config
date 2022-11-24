@@ -2,25 +2,28 @@ import pytest
 from appdaemontestframework import automation_fixture, given_that as given
 
 import activities
+import entities
 import helpers
 import matchers
+import scenes
 import states
 from entities import Entity
 from modes import Mode
-from scenes import scene
-from scenes.scene_app import SceneApp
+from scene_controllers import scene
+from scene_controllers.scene import Scene
+from scene_controllers.scene_app import SceneApp
 
-DEFAULT_SCENE = Entity("default_scene")
+DEFAULT_SCENE = scenes.KITCHEN_TV
 ROOM_LIGHTS = "room_lights"
 ACTIVITY = activities.RoomActivity
 
 
 class GenericSceneWithoutIlluminance(SceneApp):
     activity = ACTIVITY
-    room_lights = ROOM_LIGHTS
+    room_lights = entities.Entity(ROOM_LIGHTS)
 
-    def get_light_scene(self, activity: activities.LivingRoom):
-        return scene.of(DEFAULT_SCENE)
+    def get_light_scene(self, activity: activities.LivingRoom) -> Scene:
+        return DEFAULT_SCENE
 
 
 @automation_fixture(GenericSceneWithoutIlluminance)
@@ -44,7 +47,7 @@ def test_when_present(given_that, generic_room_scene, assert_that):
 
     generic_room_scene.handle_scene(None, None, None, None, None)
 
-    assert_that(DEFAULT_SCENE).was.turned_on()
+    assert_that(DEFAULT_SCENE.get()).was.turned_on()
 
 
 def scene_is(self, activity, are_lights_on=False, mode=Mode.NIGHT):

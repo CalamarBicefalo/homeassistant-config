@@ -1,5 +1,6 @@
-from strenum import StrEnum
-class Mode(StrEnum):
+from enum import Enum
+
+class Mode(Enum):
     DAY = "Day"
     NIGHT = "Night"
     AWAY = "Away"

@@ -5,7 +5,7 @@ from appdaemontestframework import automation_fixture
 import activities
 import entities
 import services
-from controllers.studio_controller import StudioController
+from activity_controllers.studio_controller import StudioController
 from test_utils import awaitable
 import states
 

@@ -5,7 +5,7 @@ from appdaemontestframework import automation_fixture, given_that as given
 import activities
 import entities
 import services
-from controllers.living_room_controller import LivingRoomController
+from activity_controllers.living_room_controller import LivingRoomController
 from test_utils import awaitable
 import states
 
