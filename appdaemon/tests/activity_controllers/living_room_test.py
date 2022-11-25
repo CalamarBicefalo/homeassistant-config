@@ -11,71 +11,71 @@ import states
 
 
 @automation_fixture(LivingRoomController)
-def living_room_activity():
+def subject():
     matchers.init()
     pass
 
 
-def test_triggers_when_motion_or_tv_changes(given_that, living_room_activity, assert_that):
-    assert_that(living_room_activity) \
+def test_triggers_when_motion_or_tv_changes(given_that, subject, assert_that):
+    assert_that(subject) \
         .listens_to.state([entities.BINARY_SENSOR_LIVING_ROOM_MOTION, entities.MEDIA_PLAYER_TV, entities.BINARY_SENSOR_SOFA_PS_WATER]) \
-        .with_callback(living_room_activity.controller_handler)
+        .with_callback(subject.controller_handler)
 
 
 @pytest.mark.asyncio
-def test_when_away(given_that, living_room_activity, assert_that):
+def test_when_away(given_that, subject, assert_that):
     given_that.living_room_state_is(
         motion=states.OFF,
         tv=states.OFF,
         sofa=states.OFF,
     )
 
-    living_room_activity.controller_handler(None, None, None, None, None)
+    subject.controller_handler(None, None, None, None, None)
 
-    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(activities.LivingRoom.helper,
+    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(activities.livingroom_helper,
                                                                          activities.LivingRoom.EMPTY)
 
 
 @pytest.mark.asyncio
-def test_when_present(given_that, living_room_activity, assert_that):
+def test_when_present(given_that, subject, assert_that):
     given_that.living_room_state_is(
         motion=states.ON,
         tv=states.OFF,
         sofa=states.OFF,
     )
 
-    living_room_activity.controller_handler(None, None, None, None, None)
+    subject.controller_handler(None, None, None, None, None)
 
-    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(activities.LivingRoom.helper,
+    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(activities.livingroom_helper,
                                                                          activities.LivingRoom.PRESENT)
 
 
 @pytest.mark.asyncio
-def test_when_watching_tv(given_that, living_room_activity, assert_that):
+def test_when_watching_tv(given_that, subject, assert_that):
     given_that.living_room_state_is(
         motion=states.ON,
         tv=states.ON,
         sofa=states.ON,
     )
 
-    living_room_activity.controller_handler(None, None, None, None, None)
+    subject.controller_handler(None, None, None, None, None)
 
-    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(activities.LivingRoom.helper,
+    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(activities.livingroom_helper,
                                                                          activities.LivingRoom.WATCHING_TV)
 
 
 @pytest.mark.asyncio
-def test_when_sitting_on_sofa(given_that, living_room_activity, assert_that):
+def test_when_sitting_on_sofa(given_that, subject, assert_that):
     given_that.living_room_state_is(
         motion=states.ON,
         tv=states.OFF,
         sofa=states.ON,
     )
 
-    living_room_activity.controller_handler(None, None, None, None, None)
+    subject.controller_handler(None, None, None, None, None)
 
     assert_that(services.INPUT_SELECT_SELECT_OPTION). \
-        was.set_to_activity(activities.LivingRoom.helper, activities.LivingRoom.READING)
+        was.set_to_activity(activities.livingroom_helper, activities.LivingRoom.READING)
 
 
 def living_room_state_is(self, motion, tv, sofa):

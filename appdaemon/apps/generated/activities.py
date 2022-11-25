@@ -1,50 +1,85 @@
-from typing import NewType
 from helpers import Helper
-from abc import abstractmethod
-Activity = NewType('Activity', str)
-class RoomActivity:
-    @property
-    @abstractmethod
-    def helper(self) -> Helper:
-        pass
-    EMPTY : Activity = Activity("Empty")
-    PRESENT : Activity = Activity("Present")
+from strenum import StrEnum
+from select_handler import SelectHandler
 
 
-class Kitchen(RoomActivity):
-    helper = Helper("input_select.kitchen_activity")
-    COOKING: Activity = Activity("Cooking")
-
-
-class LivingRoom(RoomActivity):
-    helper = Helper("input_select.living_room_activity")
-    WATCHING_TV: Activity = Activity("Watching TV")
-    READING: Activity = Activity("Reading")
-
-
-class Studio(RoomActivity):
-    helper = Helper("input_select.studio_activity")
-    WORKING: Activity = Activity("Working")
-    DRUMMING: Activity = Activity("Drumming")
-
-
-class Ensuite(RoomActivity):
-    helper = Helper("input_select.ensuite_activity")
-    SHOWERING: Activity = Activity("Showering")
-
-
-class Hallway(RoomActivity):
-    helper = Helper("input_select.hallway_activity")
+class Activity(StrEnum):
     pass
 
-class Wardrobe(RoomActivity):
-    helper = Helper("input_select.wardrobe_activity")
-    pass
 
-class Bedroom(RoomActivity):
-    helper = Helper("input_select.bedroom_activity")
-    pass
+class Common(Activity):
+    EMPTY = "Empty"
+    PRESENT = "Present"
 
-class StorageRoom(RoomActivity):
-    helper = Helper("input_select.storage_room_activity")
-    pass
+
+class Kitchen(Activity):
+    EMPTY = "Empty"
+    PRESENT = "Present"
+    COOKING = "Cooking"
+
+
+class LivingRoom(Activity):
+    EMPTY = "Empty"
+    PRESENT = "Present"
+    WATCHING_TV = "Watching TV"
+    READING = "Reading"
+
+
+class Studio(Activity):
+    EMPTY = "Empty"
+    PRESENT = "Present"
+    WORKING = "Working"
+    DRUMMING = "Drumming"
+
+
+class Ensuite(Activity):
+    EMPTY = "Empty"
+    PRESENT = "Present"
+    SHOWERING = "Showering"
+
+
+class Hallway(Activity):
+    EMPTY = "Empty"
+    PRESENT = "Present"
+
+
+class Wardrobe(Activity):
+    EMPTY = "Empty"
+    PRESENT = "Present"
+
+
+class Bedroom(Activity):
+    EMPTY = "Empty"
+    PRESENT = "Present"
+
+
+class StorageRoom(Activity):
+    EMPTY = "Empty"
+    PRESENT = "Present"
+
+kitchen_helper = Helper("input_select.kitchen_activity")
+livingroom_helper = Helper("input_select.living_room_activity")
+studio_helper = Helper("input_select.studio_activity")
+ensuite_helper = Helper("input_select.ensuite_activity")
+hallway_helper = Helper("input_select.hallway_activity")
+wardrobe_helper = Helper("input_select.wardrobe_activity")
+bedroom_helper = Helper("input_select.bedroom_activity")
+storageroom_helper = Helper("input_select.storage_room_activity")
+class ActivityHandlers:
+    kitchen: SelectHandler[Kitchen]
+    livingroom: SelectHandler[LivingRoom]
+    studio: SelectHandler[Studio]
+    ensuite: SelectHandler[Ensuite]
+    hallway: SelectHandler[Hallway]
+    wardrobe: SelectHandler[Wardrobe]
+    bedroom: SelectHandler[Bedroom]
+    storageroom: SelectHandler[StorageRoom]
+    def __init__(self, app) -> None:
+        self.kitchen = SelectHandler[Kitchen](app, kitchen_helper)
+        self.livingroom = SelectHandler[LivingRoom](app, livingroom_helper)
+        self.studio = SelectHandler[Studio](app, studio_helper)
+        self.ensuite = SelectHandler[Ensuite](app, ensuite_helper)
+        self.hallway = SelectHandler[Hallway](app, hallway_helper)
+        self.wardrobe = SelectHandler[Wardrobe](app, wardrobe_helper)
+        self.bedroom = SelectHandler[Bedroom](app, bedroom_helper)
+        self.storageroom = SelectHandler[StorageRoom](app, storageroom_helper)

@@ -14,27 +14,38 @@ def generate_activities(root_dir: str):
         common_activities = get_common_activities(defined_activities)
         try:
             with open(GENERATED_ACTIVITIES, 'w') as f:
-
-                f.write("from typing import NewType\n"
-                        "from helpers import Helper\n"
-                        "from abc import abstractmethod\n"
-                        "Activity = NewType('Activity', str)\n"
-                        "class RoomActivity:\n"
-                        "    @property\n"
-                        "    @abstractmethod\n"
-                        "    def helper(self) -> Helper:\n"
-                        "        pass\n")
+                f.write("from helpers import Helper\n")
+                f.write("from strenum import StrEnum\n")
+                f.write("from select_handler import SelectHandler\n")
+                f.write('\n\n')
+                f.write("class Activity(StrEnum):\n")
+                f.write("    pass\n")
+                f.write('\n\n')
+                f.write(f'class Common(Activity):\n')
                 for c in common_activities:
-                    f.write(f'    {c.replace(" ", "_").upper()} : Activity = Activity("{c}")\n')
+                    f.write(f'    {c.replace(" ", "_").upper()} = "{c}"\n')
 
                 for i in defined_activities.items():
                     f.write('\n\n')
-                    f.write(f'class {i[0].replace("_activity", "").title().replace("_", "")}(RoomActivity):\n')
-                    f.write(f'    helper = Helper("input_select.{i[0]}")\n')
-                    if len(i[1]["options"]) == len(common_activities):
-                        f.write('    pass')
+                    f.write(f'class {enum_name(i)}(Activity):\n')
                     for o in i[1]["options"]:
-                        if o not in common_activities:
-                            f.write(f'    {o.replace(" ", "_").upper()}: Activity = Activity("{o}")\n')
+                        f.write(f'    {o.replace(" ", "_").upper()} = "{o}"\n')
+
+                f.write('\n')
+
+                for i in defined_activities.items():
+                    f.write(f'{enum_name(i).lower()}_helper = Helper("input_select.{i[0]}")\n')
+
+
+                f.write(f'class ActivityHandlers:\n')
+                for i in defined_activities.items():
+                    f.write(f'    {enum_name(i).lower()}: SelectHandler[{enum_name(i)}]\n')
+                f.write(f'    def __init__(self, app) -> None:\n')
+                for i in defined_activities.items():
+                    f.write(f'        self.{enum_name(i).lower()} = SelectHandler[{enum_name(i)}](app, {enum_name(i).lower()}_helper)\n')
         except yaml.YAMLError as exc:
             print(exc)
+
+
+def enum_name(activity_yaml_entries):
+    return activity_yaml_entries[0].replace("_activity", "").title().replace("_", "")

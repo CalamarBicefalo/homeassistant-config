@@ -5,10 +5,13 @@ from modes import Mode
 from scene_controllers import scene
 from scene_controllers.scene import SceneSelector, Scene
 from scene_controllers.scene_app import SceneApp
+from select_handler import SelectHandler
 
 
 class EnsuiteScene(SceneApp):
-    activity = activities.Ensuite
+    @property
+    def activity(self) -> SelectHandler:
+        return self.activities.ensuite
     illuminance_sensor = None
     room_lights = entities.LIGHT_BATHROOM
 

@@ -1,9 +1,10 @@
-from controllers.controller_app import ControllerApp
-
-import activities
 import entities
+from activity_controllers.controller_app import MotionController
+from select_handler import SelectHandler
 
 
-class EnsuiteController(ControllerApp):
+class EnsuiteController(MotionController):
     motion_sensor = entities.BINARY_SENSOR_ENSUITE_MOTION
-    activity = activities.Ensuite
+    @property
+    def activity(self) -> SelectHandler:
+        return self.activities.ensuite

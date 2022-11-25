@@ -50,7 +50,7 @@ def studio_scene_is(self, activity, illuminance, mode=modes.Mode.NIGHT):
     self.state_of(helpers.HOMEASSISTANT_MODE).is_set_to(mode)
     self.state_of(entities.LIGHT_STUDIO).is_set_to(states.OFF)
     self.state_of(entities.SENSOR_DESK_MS_ILLUMINANCE).is_set_to(illuminance)
-    self.state_of(activities.Studio.helper).is_set_to(activity)
+    self.state_of(activities.studio_helper).is_set_to(activity)
 
 
 given.GivenThatWrapper.studio_scene_is = studio_scene_is

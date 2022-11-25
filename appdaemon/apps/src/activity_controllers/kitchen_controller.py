@@ -1,9 +1,10 @@
-from controllers.controller_app import ControllerApp
-
-import activities
 import entities
+from activity_controllers.controller_app import MotionController
+from select_handler import SelectHandler
 
 
-class KitchenController(ControllerApp):
+class KitchenController(MotionController):
     motion_sensor = entities.BINARY_SENSOR_KITCHEN_MOTION
-    activity = activities.Kitchen
+    @property
+    def activity(self) -> SelectHandler:
+        return self.activities.kitchen

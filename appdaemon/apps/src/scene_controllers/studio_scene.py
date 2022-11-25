@@ -4,10 +4,13 @@ import scenes
 from scene_controllers import scene
 from scene_controllers.scene import Scene
 from scene_controllers.scene_app import SceneApp
+from select_handler import SelectHandler
 
 
 class StudioScene(SceneApp):
-    activity = activities.Studio
+    @property
+    def activity(self) -> SelectHandler:
+        return self.activities.studio
     illuminance_sensor = entities.SENSOR_DESK_MS_ILLUMINANCE
     room_lights = entities.LIGHT_STUDIO
 

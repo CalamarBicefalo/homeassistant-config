@@ -1,21 +1,34 @@
 from typing import Optional
 
-from controllers.controller_app import ControllerApp
-
 import activities
 import entities
+from activity_controllers.controller_app import MotionController
+from select_handler import SelectHandler
 
 
-class LivingRoomController(ControllerApp):
+class LivingRoomController(MotionController):
     motion_sensor = entities.BINARY_SENSOR_LIVING_ROOM_MOTION
-    activity = activities.LivingRoom
-    additional_triggers = [entities.MEDIA_PLAYER_TV, entities.BINARY_SENSOR_SOFA_PS_WATER]
+    @property
+    def activity(self) -> SelectHandler:
+        return self.activities.livingroom
 
-    def get_custom_activity(self, entity, attribute, old, new) -> Optional[activities.Activity]:
+    def initialize(self) -> None:
+        self.listen_state(
+            self.controller_handler,
+            [self.motion_sensor, entities.MEDIA_PLAYER_TV, entities.BINARY_SENSOR_SOFA_PS_WATER]
+        )
+
+    def controller_handler(self, entity, attribute, old, new, kwargs) -> None:
+        self.log(
+            f'Triggering {self.controller} motion based activity controller {entity} -> {attribute} old={old} new={new}',
+            level="DEBUG")
+
         if self.is_on(entities.MEDIA_PLAYER_TV):
-            return activities.LivingRoom.WATCHING_TV
+            self.activity.set(activities.LivingRoom.WATCHING_TV)
+            return
 
         if self.is_on(entities.BINARY_SENSOR_SOFA_PS_WATER):
-            return activities.LivingRoom.READING
+            self.activity.set(activities.LivingRoom.READING)
+            return
 
-        return None
+        self.handle_presence()

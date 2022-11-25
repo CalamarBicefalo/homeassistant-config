@@ -2,12 +2,10 @@ from datetime import datetime
 
 from appdaemontestframework import assert_that, given_that
 
-import helpers
-from activities import Activity
 import app
 
 
-def set_to_activity(self, helper, activity: Activity):
+def set_to_activity(self, helper, activity):
     self.called_with(
         entity_id=helper,
         option=activity,

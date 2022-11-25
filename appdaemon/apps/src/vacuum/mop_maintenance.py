@@ -13,7 +13,7 @@ class MopMaintenance(App):
         self.log(f'Initializing mop maintenance.', level="DEBUG")
         self.listen_state(
             self.start_mop_maintenance,
-            activities.Kitchen.helper,
+            self.activities.kitchen._helper,
             old=activities.Kitchen.EMPTY,
             new=activities.Kitchen.PRESENT
         )

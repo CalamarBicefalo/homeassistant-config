@@ -5,12 +5,15 @@ from modes import Mode
 from scene_controllers import scene
 from scene_controllers.scene import SceneSelector, Scene
 from scene_controllers.scene_app import SceneApp
+from select_handler import SelectHandler
 
 
 class BedroomScene(SceneApp):
-    activity = activities.Bedroom
     illuminance_sensor = entities.SENSOR_BEDROOM_MS_ILLUMINANCE
     room_lights = entities.LIGHT_BEDROOM
+    @property
+    def activity(self) -> SelectHandler:
+        return self.activities.bedroom
 
     def get_light_scene(self, activity: activities.Activity) -> SceneSelector | Scene:
         if activity == activities.Bedroom.PRESENT:

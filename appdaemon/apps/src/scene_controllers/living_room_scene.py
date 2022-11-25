@@ -5,10 +5,13 @@ from modes import Mode
 from scene_controllers import scene
 from scene_controllers.scene import Scene, SceneSelector
 from scene_controllers.scene_app import SceneApp
+from select_handler import SelectHandler
 
 
 class LivingRoomScene(SceneApp):
-    activity = activities.LivingRoom
+    @property
+    def activity(self) -> SelectHandler:
+        return self.activities.livingroom
     illuminance_sensor = entities.SENSOR_DESK_MS_ILLUMINANCE
     room_lights = entities.LIGHT_LIVING_ROOM
 

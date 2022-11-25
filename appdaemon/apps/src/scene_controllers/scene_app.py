@@ -8,6 +8,7 @@ from app import App
 from modes import Mode
 from scene_controllers import scene
 from scene_controllers.scene import SceneSelector, Scene, OffScene
+from select_handler import SelectHandler
 
 
 class SceneApp(App):
@@ -16,7 +17,7 @@ class SceneApp(App):
         self.log(f'Initializing {self.scene} scene.', level="DEBUG")
         self.listen_state(
             self.handle_scene,
-            self.activity.helper
+            self.activity._helper
         )
         self.listen_state(
             self.handle_scene,
@@ -25,7 +26,7 @@ class SceneApp(App):
 
     @property
     @abstractmethod
-    def activity(self) -> typing.Type[activities.RoomActivity]:
+    def activity(self) -> SelectHandler:
         pass
 
     @property
@@ -51,11 +52,11 @@ class SceneApp(App):
 
     def handle_scene(self, entity, attribute, old, new, kwargs) -> None:
         self.log(f'Changing {self.scene} scene {entity} -> {attribute} old={old} new={new}', level="DEBUG")
-        activity = self.get_activity_value(self.activity.helper)
+        activity = self.activity.get()
 
         self.on_activity_change(activity)
 
-        if activity == activities.RoomActivity.EMPTY:
+        if activity == activities.Common.EMPTY:
             self.turn_off(self.room_lights)
             return
 

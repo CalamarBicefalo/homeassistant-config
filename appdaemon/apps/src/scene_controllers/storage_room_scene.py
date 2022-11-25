@@ -4,10 +4,13 @@ import scenes
 from scene_controllers import scene
 from scene_controllers.scene import Scene
 from scene_controllers.scene_app import SceneApp
+from select_handler import SelectHandler
 
 
 class StorageRoomScene(SceneApp):
-    activity = activities.StorageRoom
+    @property
+    def activity(self) -> SelectHandler:
+        return self.activities.storageroom
     illuminance_sensor = None
     room_lights = entities.LIGHT_STORAGE
 

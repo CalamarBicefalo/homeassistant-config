@@ -38,7 +38,7 @@ def test_when_watching_tv(given_that, living_room_scene, assert_that):
 def living_room_scene_is(self, activity, illuminance=0, are_lights_on=False, mode=modes.Mode.NIGHT):
     self.state_of(helpers.HOMEASSISTANT_MODE).is_set_to(mode)
     self.state_of(entities.SENSOR_DESK_MS_ILLUMINANCE).is_set_to(illuminance)
-    self.state_of(activities.LivingRoom.helper).is_set_to(activity)
+    self.state_of(activities.livingroom_helper).is_set_to(activity)
     if are_lights_on:
         self.state_of(entities.LIGHT_LIVING_ROOM).is_set_to(states.ON)
     else:

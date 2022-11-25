@@ -1,22 +1,40 @@
-from controllers.controller_app import ControllerApp
 
 import activities
 import entities
+from activity_controllers.controller_app import MotionController
+from select_handler import SelectHandler
 
 
-class StudioController(ControllerApp):
+class StudioController(MotionController):
     motion_sensor = entities.BINARY_SENSOR_STUDIO_MOTION
-    activity = activities.Studio
-    additional_triggers = [entities.BINARY_SENSOR_WORK_CHAIR_PS_WATER, entities.SENSOR_DRUMS_PLUG_POWER]
 
-    def get_custom_activity(self, entity, attribute, old, new):
+    @property
+    def activity(self) -> SelectHandler:
+        return self.activities.studio
+
+
+    def initialize(self) -> None:
+        self.log(f'Initializing {self.controller} motion based activity controller.', level="DEBUG")
+
+        self.listen_state(
+            self.controller_handler,
+            [self.motion_sensor, entities.BINARY_SENSOR_WORK_CHAIR_PS_WATER, entities.SENSOR_DRUMS_PLUG_POWER]
+        )
+
+    def controller_handler(self, entity, attribute, old, new, kwargs) -> None:
+        self.log(f'Triggering {self.controller} motion based activity controller {entity} -> {attribute} old={old} new={new}',
+                 level="DEBUG")
+
+        if entity == entities.SENSOR_DRUMS_PLUG_POWER and abs(float(old) - float(new)) < 3:
+            return
+
         # Work handling
         if self.is_on(entities.BINARY_SENSOR_WORK_CHAIR_PS_WATER):
-            return activities.Studio.WORKING
+            self.activity.set(activities.Studio.WORKING)
 
         # Drum handling
         if self.is_consuming_at_least(entities.SENSOR_DRUMS_PLUG_POWER, watts=4):
-            return activities.Studio.DRUMMING
+            self.activity.set(activities.Studio.DRUMMING)
+            return
 
-    def should_trigger(self, entity, attribute, old, new) -> bool:
-        return not (entity == entities.SENSOR_DRUMS_PLUG_POWER and abs(float(old) - float(new)) < 3)
+        self.handle_presence()

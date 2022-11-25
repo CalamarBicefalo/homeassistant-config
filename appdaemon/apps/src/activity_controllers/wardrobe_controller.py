@@ -1,9 +1,10 @@
-from controllers.controller_app import ControllerApp
-
-import activities
 import entities
+from activity_controllers.controller_app import MotionController
+from select_handler import SelectHandler
 
 
-class WardrobeController(ControllerApp):
+class WardrobeController(MotionController):
     motion_sensor = entities.BINARY_SENSOR_BEDROOM_DOOR_MS_MOTION
-    activity = activities.Wardrobe
+    @property
+    def activity(self) -> SelectHandler:
+        return self.activities.wardrobe

@@ -11,14 +11,16 @@ from modes import Mode
 from scene_controllers import scene
 from scene_controllers.scene import SceneSelector
 from scene_controllers.scene_app import SceneApp
+from select_handler import SelectHandler
 
 ROOM_LIGHTS = "room_lights"
 ILLUMINANCE_SENSOR = "illuminance_sensor"
-ACTIVITY = activities.RoomActivity
 
 
 class GenericSceneWithIlluminance(SceneApp):
-    activity = ACTIVITY
+    @property
+    def activity(self) -> SelectHandler:
+        return self.activities.bedroom
     illuminance_sensor = None
     room_lights = entities.Entity(ROOM_LIGHTS)
 
@@ -37,7 +39,7 @@ def generic_room_scene() -> None:
 
 @pytest.mark.asyncio
 def test_when_defined_sets_scene(given_that, generic_room_scene, assert_that):
-    initial_state(given_that, mode=Mode.DAY)
+    initial_state(given_that, generic_room_scene, mode=Mode.DAY)
 
     generic_room_scene.handle_scene(None, None, None, None, None)
 
@@ -46,7 +48,7 @@ def test_when_defined_sets_scene(given_that, generic_room_scene, assert_that):
 
 @pytest.mark.asyncio
 def test_when_off_turns_off_lights(given_that, generic_room_scene, assert_that):
-    initial_state(given_that, mode=Mode.SLEEPING)
+    initial_state(given_that, generic_room_scene, mode=Mode.SLEEPING)
 
     generic_room_scene.handle_scene(None, None, None, None, None)
 
@@ -55,7 +57,7 @@ def test_when_off_turns_off_lights(given_that, generic_room_scene, assert_that):
 
 @pytest.mark.asyncio
 def test_when_undefined_ignores_lights_and_scene(given_that, generic_room_scene, assert_that):
-    initial_state(given_that, mode=Mode.NIGHT)
+    initial_state(given_that, generic_room_scene, mode=Mode.NIGHT)
 
     generic_room_scene.handle_scene(None, None, None, None, None)
 
@@ -65,7 +67,7 @@ def test_when_undefined_ignores_lights_and_scene(given_that, generic_room_scene,
 
 @pytest.mark.asyncio
 def test_when_undefined_away_turns_lights_off(given_that, generic_room_scene, assert_that):
-    initial_state(given_that, mode=Mode.AWAY)
+    initial_state(given_that, generic_room_scene, mode=Mode.AWAY)
 
     generic_room_scene.handle_scene(None, None, None, None, None)
 
@@ -73,8 +75,8 @@ def test_when_undefined_away_turns_lights_off(given_that, generic_room_scene, as
     assert_that(ROOM_LIGHTS).was.turned_off()
 
 
-def initial_state(self, mode=Mode.NIGHT):
+def initial_state(self, generic_room_scene, mode=Mode.NIGHT):
     self.state_of(helpers.HOMEASSISTANT_MODE).is_set_to(mode)
     self.state_of(ILLUMINANCE_SENSOR).is_set_to(0)
-    self.state_of(ACTIVITY.helper).is_set_to(activities.RoomActivity.PRESENT)
+    self.state_of(generic_room_scene.activity._helper).is_set_to(activities.Common.PRESENT)
     self.state_of(ROOM_LIGHTS).is_set_to(states.OFF)

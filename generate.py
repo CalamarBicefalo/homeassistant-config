@@ -21,7 +21,7 @@ generate_helpers(GENERATED_PATH)
 #
 # Generation through the wire
 #
-HA_HOST = 'https://kywev6rly341hnoyts4rd7h2msfp5uga.ui.nabu.casa'
+HA_HOST = 'http://homeassistant:8123'
 if is_hub_reachable(HA_HOST):
     generate_entities(GENERATED_PATH, HA_HOST)
     generate_services(GENERATED_PATH, HA_HOST)
