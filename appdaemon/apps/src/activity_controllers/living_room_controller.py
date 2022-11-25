@@ -18,7 +18,7 @@ class LivingRoomController(MotionController):
             [self.motion_sensor, entities.MEDIA_PLAYER_TV, entities.BINARY_SENSOR_SOFA_PS_WATER]
         )
 
-    def controller_handler(self, entity, attribute, old, new, kwargs) -> None:
+    def controller_handler(self, entity, attribute, old, new, kwargs) -> None:  # type: ignore
         self.log(
             f'Triggering {self.controller} motion based activity controller {entity} -> {attribute} old={old} new={new}',
             level="DEBUG")

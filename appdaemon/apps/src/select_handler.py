@@ -25,7 +25,8 @@ class SelectHandler(Generic[T]):
         )
 
     def is_value(self, value: T) -> bool:
-        return self._app.get_state(self._helper) == value
+        result: bool = self._app.get_state(self._helper) == value
+        return result
 
     def get(self) -> T:
         return self._app.get_state(self._helper)  # type: ignore

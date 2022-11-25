@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+from typing import Any
 
 import activities
 import entities
@@ -9,7 +10,7 @@ from app import App
 
 class MopMaintenance(App):
 
-    def initialize(self):
+    def initialize(self) -> None:
         self.log(f'Initializing mop maintenance.', level="DEBUG")
         self.listen_state(
             self.start_mop_maintenance,
@@ -18,7 +19,7 @@ class MopMaintenance(App):
             new=activities.Kitchen.PRESENT
         )
 
-    def start_mop_maintenance(self, entity, attribute, old, new, kwargs):
+    def start_mop_maintenance(self, entity: Any, attribute: Any, old: Any, new: Any, kwargs: Any) -> None:
         self.log(f'Triggering mop maintenance routine {entity} -> {attribute} old={old} new={new}', level="DEBUG")
         last_cleaned_kitchen = self.helper_to_datetime(helpers.LAST_CLEANED_KITCHEN)
         last_cleaned_vacuum_mop = self.helper_to_datetime(helpers.LAST_CLEANED_VACUUM_MOP)
@@ -40,11 +41,11 @@ class MopMaintenance(App):
 
 
 class Point:
-    def __init__(self, x_init, y_init):
+    def __init__(self, x_init: int, y_init: int) -> None:
         self.x = x_init
         self.y = y_init
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return "".join(["Point(", str(self.x), ",", str(self.y), ")"])
 
 

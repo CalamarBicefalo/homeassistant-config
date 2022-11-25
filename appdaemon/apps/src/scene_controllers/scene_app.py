@@ -1,6 +1,5 @@
-import typing
 from abc import abstractmethod
-from typing import Optional
+from typing import Optional, Any
 
 import activities
 import entities
@@ -50,7 +49,7 @@ class SceneApp(App):
     def scene(self) -> str:
         return self.__class__.__name__
 
-    def handle_scene(self, entity, attribute, old, new, kwargs) -> None:
+    def handle_scene(self, entity: Any, attribute: Any, old: Any, new: Any, kwargs: Any) -> None:
         self.log(f'Changing {self.scene} scene {entity} -> {attribute} old={old} new={new}', level="DEBUG")
         activity = self.activity.get()
 

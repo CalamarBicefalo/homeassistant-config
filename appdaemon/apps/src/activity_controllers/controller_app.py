@@ -17,7 +17,7 @@ class MotionController(App):
             [self.motion_sensor]
         )
 
-    def controller_handler(self, entity, attribute, old, new, kwargs):
+    def controller_handler(self, entity, attribute, old, new, kwargs):  # type: ignore
         self.log(f'Triggering {self.controller} motion based activity controller {entity} -> {attribute} old={old} new={new}',
                  level="DEBUG")
 

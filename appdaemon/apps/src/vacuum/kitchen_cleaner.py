@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Any
 
 import activities
 import entities
@@ -11,7 +12,7 @@ kitchen_segment = 16
 
 class KitchenCleaner(App):
 
-    def initialize(self):
+    def initialize(self) -> None:
         time = "22:30:00"
         self.log(f'Initializing kitchen clean at {time}.', level="DEBUG")
         self.run_daily(
@@ -24,10 +25,10 @@ class KitchenCleaner(App):
             new=activities.LivingRoom.EMPTY
         )
 
-    def clean_kitchen_daily(self, kwargs):
+    def clean_kitchen_daily(self, kwargs: Any) -> None:
         self.clean_kitchen("scheduler", datetime.now(), None, None, None)
 
-    def clean_kitchen(self, entity, attribute, old, new, kwargs):
+    def clean_kitchen(self, entity: Any, attribute: Any, old: Any, new: Any, kwargs: Any) -> None:
         self.log(f'Triggering kitchen clean {entity} -> {attribute} old={old} new={new}', level="DEBUG")
 
         last_cooked = self.helper_to_datetime(helpers.LAST_COOKED)
@@ -58,7 +59,7 @@ class KitchenCleaner(App):
 
         self.__do_clean__(kwargs)
 
-    def __do_clean__(self, kwargs):
+    def __do_clean__(self, kwargs: Any) -> None:
         self.log('Cleaning kitchen', level="DEBUG")
         self.call_service(
             services.XIAOMI_MIIO_VACUUM_CLEAN_SEGMENT,
