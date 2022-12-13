@@ -37,6 +37,16 @@ def generate_activities(root_dir: str):
                     f.write(f'{enum_name(i).lower()}_helper = Helper("input_select.{i[0]}")\n')
 
 
+
+                f.write('\n')
+
+
+                f.write('all_activity_helpers = [')
+                for i in defined_activities.items():
+                    f.write(f'{enum_name(i).lower()}_helper, ')
+                f.write(']')
+
+
                 f.write(f'class ActivityHandlers:\n')
                 for i in defined_activities.items():
                     f.write(f'    {enum_name(i).lower()}: SelectHandler[{enum_name(i)}]\n')

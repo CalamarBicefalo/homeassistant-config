@@ -18,3 +18,8 @@ Mode manager:
   module: mode_manager
   class: ModeManager
   global_dependencies: *globals
+
+Away monitor:
+  module: away_monitor
+  class: AwayMonitor
+  global_dependencies: *globals
