@@ -50,7 +50,7 @@ class KitchenCleaner(App):
             )
             return
 
-        if not (self.activities.livingroom.get() == activities.LivingRoom.EMPTY):
+        if not self.activities.livingroom.get() == activities.LivingRoom.EMPTY or not self.activities.kitchen.get() == activities.Kitchen.EMPTY:
             self.log(
                 f'Postponing clean until nobody is around',
                 level="INFO"

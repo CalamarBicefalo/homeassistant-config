@@ -35,7 +35,7 @@ class MotionController(App):
 
     @property
     @abstractmethod
-    def motion_sensor(self) ->entities.Entity:
+    def motion_sensor(self) -> entities.Entity:
         pass
 
 
