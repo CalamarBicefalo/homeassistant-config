@@ -79,9 +79,9 @@ def test_when_sitting_on_sofa(given_that, subject, assert_that):
 
 
 def living_room_state_is(self, motion, tv, sofa):
-    self.state_of(entities.BINARY_SENSOR_LIVING_ROOM_MOTION).is_set_to(awaitable(motion))
-    self.state_of(entities.MEDIA_PLAYER_TV).is_set_to(awaitable(tv))
-    self.state_of(entities.BINARY_SENSOR_SOFA_PS_WATER).is_set_to(awaitable(sofa))
+    self.state_of(entities.BINARY_SENSOR_LIVING_ROOM_MOTION).is_set_to(motion)
+    self.state_of(entities.MEDIA_PLAYER_TV).is_set_to(tv)
+    self.state_of(entities.BINARY_SENSOR_SOFA_PS_WATER).is_set_to(sofa)
 
 
 given.GivenThatWrapper.living_room_state_is = living_room_state_is

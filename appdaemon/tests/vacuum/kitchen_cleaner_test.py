@@ -132,6 +132,7 @@ def kitchen_cleaning_state_is(self, last_cleaned, last_cooked, livingroom_activi
 
 
 given.GivenThatWrapper.kitchen_cleaning_state_is = kitchen_cleaning_state_is
+del kitchen_cleaning_state_is  # clean up namespace
 
 
 def sent_to_clean_kitchen(self):

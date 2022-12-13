@@ -13,8 +13,7 @@ class StorageRoomController(App):
         )
 
     def controller_handler(self, entity, attribute, old, new, kwargs):  # type: ignore
-        if self.is_on(entities.BINARY_SENSOR_STORAGE_ROOM_CS_CONTACT) :
+        if self.is_on(entities.BINARY_SENSOR_STORAGE_ROOM_CS_CONTACT):
             self.activities.storageroom.set(activities.StorageRoom.PRESENT)
         else:
             self.activities.storageroom.set(activities.StorageRoom.EMPTY)
-

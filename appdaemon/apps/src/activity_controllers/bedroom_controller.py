@@ -1,4 +1,3 @@
-import activities
 import entities
 from activity_controllers.controller_app import MotionController
 from select_handler import SelectHandler
