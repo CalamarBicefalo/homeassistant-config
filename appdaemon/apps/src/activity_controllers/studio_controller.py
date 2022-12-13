@@ -30,13 +30,16 @@ class StudioController(MotionController):
             return
 
         # Work handling
-        if self.is_on(entities.BINARY_SENSOR_WORK_CHAIR_PS_WATER):
+        elif self.is_on(entities.BINARY_SENSOR_WORK_CHAIR_PS_WATER):
             self.activity.set(activities.Studio.WORKING)
-            return
 
         # Drum handling
-        if self.is_consuming_at_least(entities.SENSOR_DRUMS_PLUG_POWER, watts=4):
+        elif self.is_consuming_at_least(entities.SENSOR_DRUMS_PLUG_POWER, watts=4):
             self.activity.set(activities.Studio.DRUMMING)
-            return
 
-        self.handle_presence()
+        # Presence
+        elif self.is_on(self.motion_sensor):
+            self.activity.set(activities.Common.PRESENT)
+
+        else:
+            self.activity.set(activities.Common.EMPTY)

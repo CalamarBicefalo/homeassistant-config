@@ -2,6 +2,7 @@ from typing import Optional
 
 import activities
 import entities
+import states
 from activity_controllers.controller_app import MotionController
 from select_handler import SelectHandler
 
@@ -23,12 +24,17 @@ class LivingRoomController(MotionController):
             f'Triggering {self.controller} motion based activity controller {entity} -> {attribute} old={old} new={new}',
             level="DEBUG")
 
+        # TV Handling
         if self.is_on(entities.MEDIA_PLAYER_TV):
             self.activity.set(activities.LivingRoom.WATCHING_TV)
-            return
 
-        if self.is_on(entities.BINARY_SENSOR_SOFA_PS_WATER):
+        # Sofa Handling
+        elif self.is_on(entities.BINARY_SENSOR_SOFA_PS_WATER):
             self.activity.set(activities.LivingRoom.READING)
-            return
 
-        self.handle_presence()
+        # Presence Handling
+        elif self.is_on(self.motion_sensor):
+            self.activity.set(activities.Common.PRESENT)
+
+        else:
+            self.activity.set(activities.Common.EMPTY)

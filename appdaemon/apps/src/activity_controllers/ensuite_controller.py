@@ -7,10 +7,10 @@ from select_handler import SelectHandler
 
 class EnsuiteController(MotionController):
     motion_sensor = entities.BINARY_SENSOR_ENSUITE_MOTION
+
     @property
     def activity(self) -> SelectHandler:
         return self.activities.ensuite
-
 
     def initialize(self) -> None:
         self.listen_state(
@@ -26,8 +26,11 @@ class EnsuiteController(MotionController):
         if self.activity.is_value(activities.Ensuite.SHOWERING) and entity == self.motion_sensor:
             return
 
-        if entity == self.motion_sensor and new == states.ON and self.is_on(entities.BINARY_SENSOR_BATHROOM_CS_CONTACT):
+        elif entity == self.motion_sensor and new == states.ON and self.is_on(entities.BINARY_SENSOR_BATHROOM_CS_CONTACT):
             self.activity.set(activities.Ensuite.SHOWERING)
-            return
 
-        self.handle_presence()
+        elif self.is_on(self.motion_sensor):
+            self.activity.set(activities.Common.PRESENT)
+
+        else:
+            self.activity.set(activities.Common.EMPTY)

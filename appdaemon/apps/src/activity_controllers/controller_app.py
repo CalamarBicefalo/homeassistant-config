@@ -1,8 +1,8 @@
 from abc import abstractmethod
-from typing import Optional, List
 
 import activities
 import entities
+import states
 from app import App
 from select_handler import SelectHandler
 
@@ -21,13 +21,11 @@ class MotionController(App):
         self.log(f'Triggering {self.controller} motion based activity controller {entity} -> {attribute} old={old} new={new}',
                  level="DEBUG")
 
-        self.handle_presence()
-
-    def handle_presence(self) -> None:
-        if self.is_on(self.motion_sensor):
+        if new == states.DETECTED:
             self.activity.set(activities.Common.PRESENT)
         else:
             self.activity.set(activities.Common.EMPTY)
+
 
     @property
     def controller(self) -> str:
