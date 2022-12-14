@@ -8,8 +8,8 @@ class Activity(StrEnum):
 
 
 class Common(Activity):
-    PRESENT = "Present"
     EMPTY = "Empty"
+    PRESENT = "Present"
 
 
 class Kitchen(Activity):
@@ -65,7 +65,9 @@ hallway_helper = Helper("input_select.hallway_activity")
 wardrobe_helper = Helper("input_select.wardrobe_activity")
 bedroom_helper = Helper("input_select.bedroom_activity")
 storageroom_helper = Helper("input_select.storage_room_activity")
-all_activity_helpers = [kitchen_helper, livingroom_helper, studio_helper, ensuite_helper, hallway_helper, wardrobe_helper, bedroom_helper, storageroom_helper,]
+
+all_activity_helpers = [kitchen_helper, livingroom_helper, studio_helper, ensuite_helper, hallway_helper, wardrobe_helper, bedroom_helper, storageroom_helper, ]
+
 class ActivityHandlers:
     kitchen: SelectHandler[Kitchen]
     livingroom: SelectHandler[LivingRoom]

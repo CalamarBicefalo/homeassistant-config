@@ -46,6 +46,7 @@ def generate_activities(root_dir: str):
                     f.write(f'{enum_name(i).lower()}_helper, ')
                 f.write(']')
 
+                f.write('\n\n')
 
                 f.write(f'class ActivityHandlers:\n')
                 for i in defined_activities.items():

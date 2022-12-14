@@ -14,14 +14,16 @@ class SceneApp(App):
 
     def initialize(self) -> None:
         self.log(f'Initializing {self.scene} scene.', level="DEBUG")
-        self.listen_state(
-            self.handle_scene,
-            self.activity._helper
-        )
-        self.listen_state(
-            self.handle_scene,
-            self.illuminance_sensor
-        )
+        if self.activity:
+            self.listen_state(
+                self.handle_scene,
+                self.activity._helper
+            )
+        if self.illuminance_sensor:
+            self.listen_state(
+                self.handle_scene,
+                self.illuminance_sensor
+            )
 
     @property
     @abstractmethod

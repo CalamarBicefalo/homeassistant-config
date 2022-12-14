@@ -11,6 +11,7 @@ Living room scene:
     - app
     - scene_app
     - scene
+    - scenes
     - select_handler
     - modes
 Studio scene:
