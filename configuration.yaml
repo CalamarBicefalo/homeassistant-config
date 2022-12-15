@@ -23,3 +23,8 @@ spotcast:
   sp_key: !secret sp_key
 
 binary_sensor: !include devices/binary_sensor.yaml
+
+http:
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - 172.30.33.0/24
