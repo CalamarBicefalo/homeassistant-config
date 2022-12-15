@@ -30,9 +30,8 @@ class MopMaintenance(App):
             self.call_service(
                 services.VACUUM_SEND_COMMAND,
                 entity_id=entities.VACUUM_FLICK,
-                command="app_go_to",
-                x_coord=mop_maintenance.x,
-                y_coord=mop_maintenance.y
+                command="app_goto_target",
+                params=[mop_maintenance.x, mop_maintenance.y]
             )
             self.call_service(
                 services.INPUT_DATETIME_SET_DATETIME,

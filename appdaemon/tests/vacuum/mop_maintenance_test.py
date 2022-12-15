@@ -66,9 +66,8 @@ def test_mop_when_cleaned_updates_helper(given_that, vacuum_controller, assert_t
 def sent_for_maintenance_to_kitchen(self):
     self.called_with(
         entity_id=entities.VACUUM_FLICK,
-        command="app_go_to",
-        x_coord=mop_maintenance.x,
-        y_coord=mop_maintenance.y
+        command="app_goto_target",
+        params=[mop_maintenance.x, mop_maintenance.y]
     )
 
 
