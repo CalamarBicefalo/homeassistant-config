@@ -62,9 +62,10 @@ class KitchenCleaner(App):
     def __do_clean__(self, kwargs: Any) -> None:
         self.log('Cleaning kitchen', level="DEBUG")
         self.call_service(
-            services.XIAOMI_MIIO_VACUUM_CLEAN_SEGMENT,
-            entity_id=entities.VACUUM_ROBOROCK_VACUUM_A15,
-            segments=kitchen_segment
+            services.VACUUM_SEND_COMMAND,
+            entity_id=entities.VACUUM_FLICK,
+            command="app_segment_clean",
+            params=kitchen_segment,
         )
         self.call_service(
             services.INPUT_DATETIME_SET_DATETIME,

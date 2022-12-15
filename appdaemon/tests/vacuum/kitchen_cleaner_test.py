@@ -41,7 +41,7 @@ def test_when_didnt_cook_does_not_vacuum(given_that, vacuum_controller, assert_t
 
     vacuum_controller.clean_kitchen(None, None, None, None, None)
 
-    assert_that(services.XIAOMI_MIIO_VACUUM_CLEAN_SEGMENT).was_not.sent_to_clean_kitchen()
+    assert_that(services.VACUUM_SEND_COMMAND).was_not.sent_to_clean_kitchen()
 
 
 @pytest.mark.asyncio
@@ -54,7 +54,7 @@ def test_when_cooked_vacuums(given_that, vacuum_controller, assert_that):
 
     vacuum_controller.clean_kitchen(None, None, None, None, None)
 
-    assert_that(services.XIAOMI_MIIO_VACUUM_CLEAN_SEGMENT).was.sent_to_clean_kitchen()
+    assert_that(services.VACUUM_SEND_COMMAND).was.sent_to_clean_kitchen()
 
 
 @pytest.mark.asyncio
@@ -80,7 +80,7 @@ def test_when_in_the_living_room_does_not_clean(given_that, vacuum_controller, a
 
     vacuum_controller.clean_kitchen(None, None, None, None, None)
 
-    assert_that(services.XIAOMI_MIIO_VACUUM_CLEAN_SEGMENT).was_not.sent_to_clean_kitchen()
+    assert_that(services.VACUUM_SEND_COMMAND).was_not.sent_to_clean_kitchen()
 
 @pytest.mark.asyncio
 def test_when_in_the_kitchen_does_not_clean(given_that, vacuum_controller, assert_that, time_travel):
@@ -92,7 +92,7 @@ def test_when_in_the_kitchen_does_not_clean(given_that, vacuum_controller, asser
 
     vacuum_controller.clean_kitchen(None, None, None, None, None)
 
-    assert_that(services.XIAOMI_MIIO_VACUUM_CLEAN_SEGMENT).was_not.sent_to_clean_kitchen()
+    assert_that(services.VACUUM_SEND_COMMAND).was_not.sent_to_clean_kitchen()
 
 
 @pytest.mark.asyncio
@@ -106,7 +106,7 @@ def test_when_less_than_20_hours_since_last_clean_does_not_clean(given_that, vac
 
     vacuum_controller.clean_kitchen(None, None, None, None, None)
 
-    assert_that(services.XIAOMI_MIIO_VACUUM_CLEAN_SEGMENT).was_not.sent_to_clean_kitchen()
+    assert_that(services.VACUUM_SEND_COMMAND).was_not.sent_to_clean_kitchen()
 
 
 @pytest.mark.asyncio
@@ -119,7 +119,7 @@ def test_when_more_than_20_hours_since_last_clean_cleans(given_that, vacuum_cont
 
     vacuum_controller.clean_kitchen(None, None, None, None, None)
 
-    assert_that(services.XIAOMI_MIIO_VACUUM_CLEAN_SEGMENT).was.sent_to_clean_kitchen()
+    assert_that(services.VACUUM_SEND_COMMAND).was.sent_to_clean_kitchen()
 
 
 def kitchen_cleaning_state_is(self, last_cleaned, last_cooked, livingroom_activity=activities.LivingRoom.EMPTY,
@@ -137,8 +137,9 @@ del kitchen_cleaning_state_is  # clean up namespace
 
 def sent_to_clean_kitchen(self):
     self.called_with(
-        entity_id=entities.VACUUM_ROBOROCK_VACUUM_A15,
-        segments=kitchen_segment
+        entity_id=entities.VACUUM_FLICK,
+        command="app_segment_clean",
+        params=kitchen_segment
     )
 
 

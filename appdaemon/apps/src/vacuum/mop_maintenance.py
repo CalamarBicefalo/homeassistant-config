@@ -28,8 +28,9 @@ class MopMaintenance(App):
         is_not_cleaning = datetime.now() - timedelta(minutes=60) > last_cleaned_kitchen
         if mop_is_dirty and is_not_cleaning:
             self.call_service(
-                services.XIAOMI_MIIO_VACUUM_GOTO,
-                entity_id=entities.VACUUM_ROBOROCK_VACUUM_A15,
+                services.VACUUM_SEND_COMMAND,
+                entity_id=entities.VACUUM_FLICK,
+                command="app_go_to",
                 x_coord=mop_maintenance.x,
                 y_coord=mop_maintenance.y
             )

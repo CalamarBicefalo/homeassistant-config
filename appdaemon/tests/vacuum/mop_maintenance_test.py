@@ -31,7 +31,7 @@ def test_mop_when_clean_does_nothing(given_that, vacuum_controller, assert_that)
 
     vacuum_controller.start_mop_maintenance(None, None, None, None, None)
 
-    assert_that(services.XIAOMI_MIIO_VACUUM_GOTO).was_not.sent_for_maintenance_to_kitchen()
+    assert_that(services.VACUUM_SEND_COMMAND).was_not.sent_for_maintenance_to_kitchen()
 
 @pytest.mark.asyncio
 def test_mop_when_just_cleaned_does_nothing(given_that, vacuum_controller, assert_that):
@@ -40,7 +40,7 @@ def test_mop_when_just_cleaned_does_nothing(given_that, vacuum_controller, asser
 
     vacuum_controller.start_mop_maintenance(None, None, None, None, None)
 
-    assert_that(services.XIAOMI_MIIO_VACUUM_GOTO).was_not.sent_for_maintenance_to_kitchen()
+    assert_that(services.VACUUM_SEND_COMMAND).was_not.sent_for_maintenance_to_kitchen()
 
 
 @pytest.mark.asyncio
@@ -50,7 +50,7 @@ def test_mop_when_dirty_goes_to_maintenance_spot(given_that, vacuum_controller, 
 
     vacuum_controller.start_mop_maintenance(None, None, None, None, None)
 
-    assert_that(services.XIAOMI_MIIO_VACUUM_GOTO).was.sent_for_maintenance_to_kitchen()
+    assert_that(services.VACUUM_SEND_COMMAND).was.sent_for_maintenance_to_kitchen()
 
 
 @pytest.mark.asyncio
@@ -65,7 +65,8 @@ def test_mop_when_cleaned_updates_helper(given_that, vacuum_controller, assert_t
 
 def sent_for_maintenance_to_kitchen(self):
     self.called_with(
-        entity_id=entities.VACUUM_ROBOROCK_VACUUM_A15,
+        entity_id=entities.VACUUM_FLICK,
+        command="app_go_to",
         x_coord=mop_maintenance.x,
         y_coord=mop_maintenance.y
     )
