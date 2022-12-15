@@ -1,5 +1,6 @@
 import activities
 import entities
+import states
 from app import App
 
 
@@ -19,7 +20,7 @@ class StorageRoomController(App):
             self.cancel_timer(self.set_to_away_in_10_minutes)
             self.set_to_away_in_10_minutes = None
 
-        if self.is_on(entities.BINARY_SENSOR_STORAGE_ROOM_CS_CONTACT):
+        if self.get_state(entities.BINARY_SENSOR_STORAGE_ROOM_CS_CONTACT) == states.OPEN:
             self.activities.storageroom.set(activities.StorageRoom.PRESENT)
             self.set_to_away_in_10_minutes = self.run_in(lambda: self.activities.storageroom.set(activities.StorageRoom.EMPTY), 6000)
         else:
