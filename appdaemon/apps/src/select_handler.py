@@ -16,7 +16,7 @@ class SelectHandler(Generic[T]):
         self._helper = helper
         self._app = app
 
-    def set(self, value: T) -> None:
+    def set(self, value: T | str) -> None:
         self._app.log("Setting select " + value, level="DEBUG")
         self._app.call_service(
             services.INPUT_SELECT_SELECT_OPTION,
@@ -24,7 +24,7 @@ class SelectHandler(Generic[T]):
             option=value
         )
 
-    def is_value(self, value: T) -> bool:
+    def is_value(self, value: T | str) -> bool:
         result: bool = self._app.get_state(self._helper) == value
         return result
 

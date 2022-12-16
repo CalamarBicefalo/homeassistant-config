@@ -188,6 +188,7 @@ SENSOR_LIVING_ROOM_PS_POWERSOURCE: Entity = Entity("sensor.living_room_ps_powers
 SENSOR_LIVING_ROOM_PS_TEMPERATURE: Entity = Entity("sensor.living_room_ps_temperature")
 SENSOR_LIVINGROOM_DOOR_MS_BATTERY: Entity = Entity("sensor.livingroom_door_ms_battery")
 SENSOR_MONITOR_PLUG_POWER: Entity = Entity("sensor.monitor_plug_power")
+SENSOR_SLEEPASANDROID_S9: Entity = Entity("sensor.sleepasandroid_s9")
 SENSOR_SOFA_PS_BATTERY: Entity = Entity("sensor.sofa_ps_battery")
 SENSOR_STORAGE_ROOM_CS_BATTERY: Entity = Entity("sensor.storage_room_cs_battery")
 SENSOR_STUDIO_MS_BATTERY: Entity = Entity("sensor.studio_ms_battery")
