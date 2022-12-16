@@ -28,3 +28,8 @@ http:
   use_x_forwarded_for: true
   trusted_proxies:
     - 172.30.33.0/24
+
+google_assistant:
+  project_id: home-assistant-24120
+  service_account: !include SERVICE_ACCOUNT.json
+  report_state: true
