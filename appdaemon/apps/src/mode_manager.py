@@ -11,6 +11,7 @@ class ModeManager(App):
         self.log(f'Initializing mode manager.', level="DEBUG")
         self.run_at_sunrise(self.on_day, offset=timedelta(minutes=30).total_seconds())
         self.run_at_sunset(self.on_night, offset=timedelta(minutes=-30).total_seconds())
+        self.listen_event(self.debug_event)
         self.listen_event(self.on_alarm_dismissed, "alarm_alert_dismiss")
 
     def on_day(self, kwargs: Any) -> None:
@@ -28,3 +29,6 @@ class ModeManager(App):
             self.mode.set(Mode.DAY)
         else:
             self.mode.set(Mode.NIGHT)
+
+    def debug_event(self, event_name: str, data: Any, kwargs: Any) -> None:
+        self.log("Event found "+event_name)
