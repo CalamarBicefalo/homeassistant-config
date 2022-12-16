@@ -41,8 +41,10 @@ class LivingRoomScene(SceneApp):
     def on_activity_change(self, activity: activities.Activity) -> None:
         mode = self.mode.get()
         if mode == Mode.NIGHT or mode == Mode.SLEEPING:
-            self.turn_off(entities.COVER_BLINDS)
+            self.call_service("cover/close_cover",
+                              entity_id=entities.COVER_BLINDS)
         else:
-            self.turn_on(entities.COVER_BLINDS)
+            self.call_service("cover/open_cover",
+                              entity_id=entities.COVER_BLINDS)
 
 
