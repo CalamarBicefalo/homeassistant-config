@@ -27,3 +27,4 @@ known_devices.yaml
 /venv/
 /.mypy_cache/
 .HA_VERSION
+SERVICE_ACCOUNT.json
