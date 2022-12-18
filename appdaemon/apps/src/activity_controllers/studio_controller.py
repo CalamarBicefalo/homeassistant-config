@@ -8,6 +8,7 @@ from select_handler import SelectHandler
 
 class StudioController(App):
     motion_sensor = entities.BINARY_SENSOR_STUDIO_MOTION
+    cooldown = None
 
     @property
     def activity(self) -> SelectHandler:
@@ -29,8 +30,10 @@ class StudioController(App):
         if entity == entities.SENSOR_DRUMS_PLUG_POWER and abs(float(old) - float(new)) < 3:
             return
 
+        self.handle_cooldown()
+
         # Work handling
-        elif self.is_on(entities.BINARY_SENSOR_WORK_CHAIR_PS_WATER):
+        if self.is_on(entities.BINARY_SENSOR_WORK_CHAIR_PS_WATER):
             self.activity.set(activities.Studio.WORKING)
 
         # Drum handling
@@ -43,3 +46,8 @@ class StudioController(App):
 
         else:
             self.activity.set(activities.Common.EMPTY)
+
+    def handle_cooldown(self) -> None:
+        if self.cooldown:
+            self.cancel_timer(self.cooldown)
+        self.cooldown = self.run_in(lambda *_: self.activities.studio.set(activities.Studio.EMPTY), 5 * 60 * 60)

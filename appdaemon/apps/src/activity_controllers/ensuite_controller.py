@@ -10,6 +10,8 @@ class EnsuiteController(App):
     contact_sensor = entities.BINARY_SENSOR_BATHROOM_CS_CONTACT
     disable_showering_timer = None
     disable_present_timer = None
+    present_cooldown = 180
+
     @property
     def activity(self) -> SelectHandler:
         return self.activities.ensuite
@@ -41,13 +43,8 @@ class EnsuiteController(App):
                 self.disable_showering_timer = self.run_in(lambda *_: self.activities.ensuite.set(activities.Ensuite.EMPTY), 1800)
             else:
                 self.activity.set(activities.Ensuite.PRESENT)
-                self.disable_present_timer = self.run_in(lambda *_: self.activities.ensuite.set(activities.Ensuite.EMPTY), 180)
-
-    def cancel_timers(self):
-        if self.disable_showering_timer:
-            self.cancel_timer(self.disable_showering_timer)
-        if self.disable_present_timer:
-            self.cancel_timer(self.disable_present_timer)
+                self.disable_present_timer = self.run_in(lambda *_: self.activities.ensuite.set(activities.Ensuite.EMPTY),
+                                                         self.present_cooldown)
 
     def on_door(self, entity, attribute, old, new, kwargs) -> None:  # type: ignore
         self.log(
@@ -60,3 +57,11 @@ class EnsuiteController(App):
             self.activity.set(activities.Ensuite.EMPTY)
         else:
             self.activity.set(activities.Common.PRESENT)
+            self.disable_present_timer = self.run_in(lambda *_: self.activities.ensuite.set(activities.Ensuite.EMPTY), self.present_cooldown)
+
+
+    def cancel_timers(self) -> None:
+        if self.disable_showering_timer:
+            self.cancel_timer(self.disable_showering_timer)
+        if self.disable_present_timer:
+            self.cancel_timer(self.disable_present_timer)
