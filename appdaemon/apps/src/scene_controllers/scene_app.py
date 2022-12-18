@@ -41,7 +41,7 @@ class SceneApp(App):
         pass
 
     @abstractmethod
-    def get_light_scene(self, activity: activities.Activity) -> Scene | scene.SceneSelector:
+    def get_light_scene(self, activity: activities.Activity) -> Optional[Scene] | scene.SceneSelector:
         pass
 
     def on_activity_change(self, activity: activities.Activity) -> None:

@@ -1,3 +1,5 @@
+from typing import Optional
+
 import activities
 import entities
 import scenes
@@ -15,12 +17,13 @@ class BedroomScene(SceneApp):
     def activity(self) -> SelectHandler:
         return self.activities.bedroom
 
-    def get_light_scene(self, activity: activities.Activity) -> SceneSelector | Scene:
+    def get_light_scene(self, activity: activities.Activity) -> SceneSelector | Optional[Scene]:
+        mode = self.mode.get()
+        if mode == Mode.SLEEPING or mode == Mode.BEDTIME:
+            return None
         if activity == activities.Bedroom.PRESENT:
             return scene.by_mode({
                 Mode.DAY: scenes.BEDROOM_BRIGHT,
                 Mode.NIGHT: scenes.BEDROOM_NIGHTLIGHT,
-                Mode.BEDTIME: scenes.BEDROOM_GENTLE_READING,
-                Mode.SLEEPING: scene.off()
             })
         return scene.off()
