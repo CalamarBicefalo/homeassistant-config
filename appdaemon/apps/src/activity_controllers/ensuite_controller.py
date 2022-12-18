@@ -9,6 +9,7 @@ class EnsuiteController(App):
     motion_sensor = entities.BINARY_SENSOR_ENSUITE_MOTION
     contact_sensor = entities.BINARY_SENSOR_BATHROOM_CS_CONTACT
     disable_showering_timer = None
+    disable_present_timer = None
     @property
     def activity(self) -> SelectHandler:
         return self.activities.ensuite
@@ -32,21 +33,28 @@ class EnsuiteController(App):
         if self.activity.is_value(activities.Ensuite.SHOWERING):
             return
 
+        self.cancel_timers()
+
         if new == states.DETECTED:
             if self.get_state(self.contact_sensor) == states.CLOSED:
-                if self.disable_showering_timer:
-                    self.cancel_timer(self.disable_showering_timer)
                 self.activity.set(activities.Ensuite.SHOWERING)
                 self.disable_showering_timer = self.run_in(lambda *_: self.activities.ensuite.set(activities.Ensuite.EMPTY), 1800)
             else:
                 self.activity.set(activities.Ensuite.PRESENT)
-        else:
-            self.activity.set(activities.Ensuite.EMPTY)
+                self.disable_present_timer = self.run_in(lambda *_: self.activities.ensuite.set(activities.Ensuite.EMPTY), 180)
+
+    def cancel_timers(self):
+        if self.disable_showering_timer:
+            self.cancel_timer(self.disable_showering_timer)
+        if self.disable_present_timer:
+            self.cancel_timer(self.disable_present_timer)
 
     def on_door(self, entity, attribute, old, new, kwargs) -> None:  # type: ignore
         self.log(
             f'Triggering ensuite door controller {entity} -> {attribute} old={old} new={new}',
             level="DEBUG")
+
+        self.cancel_timers()
 
         if self.activity.is_value(activities.Ensuite.EMPTY) and new == states.CLOSED:
             self.activity.set(activities.Ensuite.EMPTY)

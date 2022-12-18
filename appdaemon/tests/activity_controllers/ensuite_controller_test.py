@@ -37,12 +37,7 @@ motion_test_cases = [
         current_activity.PRESENT, door.CLOSED,      # given
         motion.DETECTED,                            # when
         new_activity.SHOWERING                      # then
-    ),
-    (
-        current_activity.PRESENT, door.CLOSED,      # given
-        motion.NOT_DETECTED,                        # when
-        new_activity.EMPTY                          # then
-    ),
+    )
 ]
 
 door_test_cases = [
@@ -104,6 +99,16 @@ def test_after_30_minutes_showering_mode_is_disabled(given_that, ensuite_control
 
     assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(activities.ensuite_helper,
                                                                          activities.Ensuite.EMPTY)
+def test_after_2_minutes_sets_to_empty(given_that, ensuite_controller, assert_that, time_travel):
+    given_that.ensuite_has(activity=activities.Ensuite.EMPTY, door=door.OPEN)
+    ensuite_controller.on_motion(None, None, None, motion.DETECTED, None)
+
+    time_travel.fast_forward(3).minutes()
+
+    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(activities.ensuite_helper,
+                                                                         activities.Ensuite.EMPTY)
+
+
 
 
 def test_showering_timer_gets_reset_on_motion(given_that, ensuite_controller, assert_that, time_travel):
