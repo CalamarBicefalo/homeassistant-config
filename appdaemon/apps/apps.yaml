@@ -20,6 +20,11 @@ Mode manager:
   class: ModeManager
   global_dependencies: *globals
 
+Mode controller:
+  module: mode_controller
+  class: ModeController
+  global_dependencies: *globals
+
 Away monitor:
   module: away_monitor
   class: AwayMonitor
