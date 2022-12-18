@@ -36,3 +36,9 @@ class ModeController(App):
                                   entity_id=entities.COVER_BEDROOM_BLINDS)
                 self.call_service("cover/open_cover",
                                   entity_id=entities.COVER_BLINDS)
+            case Mode.AWAY:
+                self.turn_off(entities.ZONE_HOME)
+                self.turn_off(entities.MEDIA_PLAYER_HOME)
+                self.turn_off(entities.MEDIA_PLAYER_TV)
+                self.turn_off(entities.SWITCH_DRUMS_PLUG)
+                self.turn_off(entities.SWITCH_MONITOR_PLUG)
