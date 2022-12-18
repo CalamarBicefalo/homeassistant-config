@@ -23,6 +23,7 @@ class ModeController(App):
                 self.turn_off(entities.MEDIA_PLAYER_TV)
                 self.turn_off(entities.MEDIA_PLAYER_SONY_KD_49XF8096)
                 self.turn_on(entities.SCENE_HOME_CORRIDOR)
+                self.turn_on(entities.SCENE_BEDROOM_BRIGHT)
                 self.turn_on(entities.SWITCH_PREPARE_ME_TO_GO_TO_SLEEP_HUE_LABS_FORMULA)
                 self.call_service("cover/close_cover",
                                   entity_id=entities.COVER_BEDROOM_BLINDS)
