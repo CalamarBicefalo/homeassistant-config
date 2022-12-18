@@ -2,12 +2,11 @@ from typing import Optional
 
 import activities
 import entities
-import states
-from activity_controllers.controller_app import MotionController
+from app import App
 from select_handler import SelectHandler
 
 
-class LivingRoomController(MotionController):
+class LivingRoomController(App):
     motion_sensor = entities.BINARY_SENSOR_LIVING_ROOM_MOTION
     @property
     def activity(self) -> SelectHandler:
@@ -21,7 +20,7 @@ class LivingRoomController(MotionController):
 
     def controller_handler(self, entity, attribute, old, new, kwargs) -> None:  # type: ignore
         self.log(
-            f'Triggering {self.controller} motion based activity controller {entity} -> {attribute} old={old} new={new}',
+            f'Triggering living room activity controller {entity} -> {attribute} old={old} new={new}',
             level="DEBUG")
 
         # TV Handling

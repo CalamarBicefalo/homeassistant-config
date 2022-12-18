@@ -2,11 +2,11 @@ from typing import Any
 
 import activities
 import entities
-from activity_controllers.controller_app import MotionController
+from app import App
 from select_handler import SelectHandler
 
 
-class StudioController(MotionController):
+class StudioController(App):
     motion_sensor = entities.BINARY_SENSOR_STUDIO_MOTION
 
     @property
@@ -14,7 +14,7 @@ class StudioController(MotionController):
         return self.activities.studio
 
     def initialize(self) -> None:
-        self.log(f'Initializing {self.controller} motion based activity controller.', level="DEBUG")
+        self.log(f'Initializing studio activity controller.', level="DEBUG")
 
         self.listen_state(
             self.controller_handler,
@@ -23,7 +23,7 @@ class StudioController(MotionController):
 
     def controller_handler(self, entity: Any, attribute: Any, old: Any, new: Any, kwargs: Any) -> None:
         self.log(
-            f'Triggering {self.controller} motion based activity controller {entity} -> {attribute} old={old} new={new}',
+            f'Triggering studio activity controller {entity} -> {attribute} old={old} new={new}',
             level="DEBUG")
 
         if entity == entities.SENSOR_DRUMS_PLUG_POWER and abs(float(old) - float(new)) < 3:

@@ -11,7 +11,7 @@ global_modules: &globals
   - scene_app
   - scene
   - scenes
-  - controller_app
+  - motion_controller
   - select_handler
   - modes
 
