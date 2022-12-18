@@ -40,14 +40,12 @@ class EnsuiteController(MotionController):
         else:
             self.activity.set(activities.Ensuite.EMPTY)
 
+    def on_door(self, entity, attribute, old, new, kwargs) -> None:  # type: ignore
+        self.log(
+            f'Triggering {self.controller} door based activity controller {entity} -> {attribute} old={old} new={new}',
+            level="DEBUG")
 
-def on_door(self, entity, attribute, old, new, kwargs) -> None:  # type: ignore
-    self.log(
-        f'Triggering {self.controller} door based activity controller {entity} -> {attribute} old={old} new={new}',
-        level="DEBUG")
-
-    if self.activity.is_value(activities.Ensuite.PRESENT) and new == states.CLOSED:
-        self.activity.set(activities.Ensuite.SHOWERING)
-    else:
-        self.activity.set(activities.Common.PRESENT)
-
+        if self.activity.is_value(activities.Ensuite.EMPTY) and new == states.CLOSED:
+            self.activity.set(activities.Ensuite.EMPTY)
+        else:
+            self.activity.set(activities.Common.PRESENT)
