@@ -77,6 +77,20 @@ def test_when_sitting_on_sofa(given_that, subject, assert_that):
     assert_that(services.INPUT_SELECT_SELECT_OPTION). \
         was.set_to_activity(activities.livingroom_helper, activities.LivingRoom.READING)
 
+@pytest.mark.asyncio
+def test_after_3_hours_of_inactivity(given_that, subject, assert_that, time_travel):
+    given_that.living_room_state_is(
+        motion=states.ON,
+        tv=states.OFF,
+        sofa=states.ON,
+    )
+    subject.controller_handler(None, None, None, None, None)
+
+    time_travel.fast_forward(180).minutes()
+
+    assert_that(services.INPUT_SELECT_SELECT_OPTION). \
+        was.set_to_activity(activities.livingroom_helper, activities.LivingRoom.EMPTY)
+
 
 def living_room_state_is(self, motion, tv, sofa):
     self.state_of(entities.BINARY_SENSOR_LIVING_ROOM_MOTION).is_set_to(motion)

@@ -8,6 +8,8 @@ from select_handler import SelectHandler
 
 class LivingRoomController(App):
     motion_sensor = entities.BINARY_SENSOR_LIVING_ROOM_MOTION
+    no_activity_cooldown = None
+
     @property
     def activity(self) -> SelectHandler:
         return self.activities.livingroom
@@ -23,6 +25,8 @@ class LivingRoomController(App):
             f'Triggering living room activity controller {entity} -> {attribute} old={old} new={new}',
             level="DEBUG")
 
+        self.handle_cooldown()
+
         # TV Handling
         if self.is_on(entities.MEDIA_PLAYER_TV):
             self.activity.set(activities.LivingRoom.WATCHING_TV)
@@ -37,3 +41,9 @@ class LivingRoomController(App):
 
         else:
             self.activity.set(activities.Common.EMPTY)
+
+    def handle_cooldown(self) -> None:
+        if self.no_activity_cooldown:
+            self.cancel_timer(self.no_activity_cooldown)
+        self.no_activity_cooldown = self.run_in(
+            lambda *_: self.activities.livingroom.set(activities.LivingRoom.EMPTY), 3 * 60 * 60)
