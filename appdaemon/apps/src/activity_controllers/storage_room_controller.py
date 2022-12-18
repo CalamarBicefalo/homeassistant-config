@@ -20,8 +20,8 @@ class StorageRoomController(App):
             self.cancel_timer(self.set_to_away_in_10_minutes)
             self.set_to_away_in_10_minutes = None
 
-        if self.get_state(entities.BINARY_SENSOR_STORAGE_ROOM_CS_CONTACT) == states.OPEN:
+        if new == states.OPEN:
             self.activities.storageroom.set(activities.StorageRoom.PRESENT)
-            self.set_to_away_in_10_minutes = self.run_in(lambda: self.activities.storageroom.set(activities.StorageRoom.EMPTY), 6000)
+            self.set_to_away_in_10_minutes = self.run_in(lambda *_: self.activities.storageroom.set(activities.StorageRoom.EMPTY), 600)
         else:
             self.activities.storageroom.set(activities.StorageRoom.EMPTY)
