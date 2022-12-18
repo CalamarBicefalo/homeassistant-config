@@ -17,6 +17,8 @@
   device_class: motion
   entities:
     - binary_sensor.desk_ms_motion
+    - binary_sensor.studio_ms_presence
+    - binary_sensor.studio_ms_motion
 - platform: group
   name: ensuite_motion
   device_class: motion
