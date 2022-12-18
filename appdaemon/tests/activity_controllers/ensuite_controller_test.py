@@ -97,6 +97,31 @@ def test_on_door(activity, doors, new_activity, given_that, ensuite_controller, 
                                                                          new_activity)
 
 
+def test_after_30_minutes_showering_mode_is_disabled(given_that, ensuite_controller, assert_that, time_travel):
+    enable_showering(ensuite_controller, given_that)
+
+    time_travel.fast_forward(31).minutes()
+
+    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(activities.ensuite_helper,
+                                                                         activities.Ensuite.EMPTY)
+
+
+def test_showering_timer_gets_reset_on_motion(given_that, ensuite_controller, assert_that, time_travel):
+    enable_showering(ensuite_controller, given_that)
+    time_travel.fast_forward(20).minutes()
+
+    ensuite_controller.on_motion(None, None, None, motion.DETECTED, None)
+    time_travel.fast_forward(20).minutes()
+
+    assert_that(services.INPUT_SELECT_SELECT_OPTION).was_not.set_to_activity(activities.ensuite_helper,
+                                                                         activities.Ensuite.EMPTY)
+
+
+def enable_showering(ensuite_controller, given_that):
+    given_that.ensuite_has(activity=activities.Ensuite.EMPTY, door=door.CLOSED)
+    ensuite_controller.on_motion(None, None, None, motion.DETECTED, None)
+
+
 def ensuite_has(self, activity, door=door.OPEN):
     self.state_of(activities.ensuite_helper).is_set_to(activity)
     self.state_of(EnsuiteController.contact_sensor).is_set_to(door)

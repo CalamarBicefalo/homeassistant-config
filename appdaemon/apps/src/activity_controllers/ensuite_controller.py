@@ -8,7 +8,7 @@ from select_handler import SelectHandler
 class EnsuiteController(MotionController):
     motion_sensor = entities.BINARY_SENSOR_ENSUITE_MOTION
     contact_sensor = entities.BINARY_SENSOR_BATHROOM_CS_CONTACT
-
+    disable_showering_timer = None
     @property
     def activity(self) -> SelectHandler:
         return self.activities.ensuite
@@ -34,7 +34,10 @@ class EnsuiteController(MotionController):
 
         if new == states.DETECTED:
             if self.get_state(self.contact_sensor) == states.CLOSED:
+                if self.disable_showering_timer:
+                    self.cancel_timer(self.disable_showering_timer)
                 self.activity.set(activities.Ensuite.SHOWERING)
+                self.disable_showering_timer = self.run_in(lambda *_: self.activities.ensuite.set(activities.Ensuite.EMPTY), 1800)
             else:
                 self.activity.set(activities.Ensuite.PRESENT)
         else:
