@@ -11,7 +11,7 @@ import states
 
 class GenericMotionController(MotionController):
     motion_sensor = entities.Entity("motion-sensor")
-    cooldown_minutes = 2
+    cooldown_seconds = 2
 
     @property
     def activity(self) -> SelectHandler:
@@ -40,7 +40,7 @@ def test_when_present(given_that, subject, assert_that):
 
 @pytest.mark.asyncio
 def test_when_away(given_that, subject, assert_that, time_travel):
-    subject.controller_handler("motion-sensor", None, None, states.DETECTED, None)
+    subject.controller_handler("motion-sensor", None, None, states.NOT_DETECTED, None)
 
     time_travel.fast_forward(2).minutes()
 

@@ -8,7 +8,7 @@ from select_handler import SelectHandler
 
 
 class MotionController(App):
-    away_timer = None
+    empty_timer = None
     def initialize(self) -> None:
         self.log(f'Initializing {self.controller} motion based activity controller.', level="DEBUG")
 
@@ -22,12 +22,13 @@ class MotionController(App):
         self.log(f'Triggering {self.controller} motion based activity controller {entity} -> {attribute} old={old} new={new}',
                  level="DEBUG")
 
-        if self.away_timer:
-            self.cancel_timer(self.away_timer)
-        self.away_timer = self.run_in(lambda *_: self.activity.set(activities.Common.EMPTY), self.cooldown_minutes * 60)
+        if self.empty_timer:
+            self.cancel_timer(self.empty_timer)
 
         if new == states.DETECTED:
             self.activity.set(activities.Common.PRESENT)
+        else:
+            self.empty_timer = self.run_in(lambda *_: self.activity.set(activities.Common.EMPTY), self.cooldown_seconds)
 
 
     @property
@@ -40,7 +41,7 @@ class MotionController(App):
         pass
 
     @property
-    def cooldown_minutes(self) -> int:
+    def cooldown_seconds(self) -> int:
         return 1
 
 

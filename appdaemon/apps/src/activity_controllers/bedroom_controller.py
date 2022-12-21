@@ -5,7 +5,7 @@ from select_handler import SelectHandler
 
 class BedroomController(MotionController):
     motion_sensor = entities.BINARY_SENSOR_BEDROOM_MS_MOTION
-    cooldown_minutes = 2
+    cooldown_seconds = 60
 
     @property
     def activity(self) -> SelectHandler:

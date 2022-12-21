@@ -14,16 +14,27 @@ os.makedirs(GENERATED_PATH, exist_ok=True)
 #
 # Generation through config files
 #
+print("Parsing config files...")
+print("    🏠 Generating home mode types")
 generate_modes(GENERATED_PATH)
+print("    🎣 Generating activities types")
 generate_activities(GENERATED_PATH)
+print("    🔢 Generating helpers types")
 generate_helpers(GENERATED_PATH)
 
 #
 # Generation through the wire
 #
 HA_HOST = 'https://calamarbicefalo.uk'
+print("")
+print("")
+print("Connecting to hub...")
 if is_hub_reachable(HA_HOST):
+    print("    👻 Generating entities types")
     generate_entities(GENERATED_PATH, HA_HOST)
+    print("    🦮 Generating services types")
     generate_services(GENERATED_PATH, HA_HOST)
 else:
     print("Hub is not reachable, skipping entity and service generation.")
+print("")
+print("✅  All types generated, happy coding!")
