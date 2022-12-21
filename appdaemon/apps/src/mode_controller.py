@@ -27,6 +27,7 @@ class ModeController(App):
                 self.turn_on(entities.SWITCH_PREPARE_ME_TO_GO_TO_SLEEP_HUE_LABS_FORMULA)
                 self.call_service("cover/close_cover",
                                   entity_id=entities.COVER_BEDROOM_BLINDS)
+
             case Mode.NIGHT:
                 self.call_service("cover/close_cover",
                                   entity_id=entities.COVER_BEDROOM_BLINDS)
@@ -42,6 +43,13 @@ class ModeController(App):
                 self.turn_off(entities.MEDIA_PLAYER_TV)
                 self.turn_off(entities.SWITCH_DRUMS_PLUG)
                 self.turn_off(entities.SWITCH_MONITOR_PLUG)
+                self.call_service("mass.queue_command",
+                                  entity_id=entities.MEDIA_PLAYER_MASS_BEDROOM_SPEAKERS,
+                                  command="play_media",
+                                  uri="/config/media/rain.mp3",
+                                  enqueue_mode="replace",
+                                  radio_mode="false",
+                                  )
 
             case Mode.AWAY:
                 self.turn_off(entities.ZONE_HOME)
