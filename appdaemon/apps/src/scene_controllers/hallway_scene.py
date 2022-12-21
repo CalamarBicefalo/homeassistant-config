@@ -20,6 +20,7 @@ class HallwayScene(SceneApp):
             return scene.by_mode({
                 Mode.DAY: scenes.HALLWAY_BRIGHT,
                 Mode.NIGHT: scenes.HALLWAY_TYRELL,
+                Mode.BEDTIME: scenes.HALLWAY_TYRELL,
                 Mode.SLEEPING: scenes.HALLWAY_NIGHTLIGHT,
             })
         return scene.off()
