@@ -47,23 +47,23 @@ door_test_cases = [
         new_activity.PRESENT           # then
     ),
     (
+        current_activity.EMPTY,        # given
+        door.CLOSED,                   # when
+        None                           # then
+    ),
+    (
         current_activity.PRESENT,      # given
         door.OPEN,                     # when
-        new_activity.PRESENT           # then
+        None                           # then
+    ),
+    (
+        current_activity.PRESENT,      # given
+        door.CLOSED,                   # when
+        None                           # then
     ),
     (
         current_activity.SHOWERING,    # given
         door.OPEN,                     # when
-        new_activity.PRESENT           # then
-    ),
-    (
-        current_activity.EMPTY,        # given
-        door.CLOSED,                   # when
-        new_activity.EMPTY             # then
-    ),
-    (
-        current_activity.PRESENT,      # given
-        door.CLOSED,                   # when
         new_activity.PRESENT           # then
     ),
     (
@@ -88,22 +88,25 @@ def test_on_door(activity, doors, new_activity, given_that, ensuite_controller, 
 
     ensuite_controller.on_door(None, None, None, doors, None)
 
-    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(activities.ensuite_helper,
+    if new_activity:
+        assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(activities.ensuite_helper,
                                                                          new_activity)
+    else:
+        assert_that(services.INPUT_SELECT_SELECT_OPTION).was_not.called()
 
 
-def test_after_30_minutes_showering_mode_is_disabled(given_that, ensuite_controller, assert_that, time_travel):
+def test_after_34_minutes_showering_mode_is_disabled(given_that, ensuite_controller, assert_that, time_travel):
     enable_showering(ensuite_controller, given_that)
 
-    time_travel.fast_forward(31).minutes()
+    time_travel.fast_forward(34).minutes()
 
     assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(activities.ensuite_helper,
                                                                          activities.Ensuite.EMPTY)
-def test_after_2_minutes_sets_to_empty(given_that, ensuite_controller, assert_that, time_travel):
+def test_after_30_minutes_sets_to_empty(given_that, ensuite_controller, assert_that, time_travel):
     given_that.ensuite_has(activity=activities.Ensuite.EMPTY, door=door.OPEN)
     ensuite_controller.on_motion(None, None, None, motion.DETECTED, None)
 
-    time_travel.fast_forward(3).minutes()
+    time_travel.fast_forward(31).minutes()
 
     assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(activities.ensuite_helper,
                                                                          activities.Ensuite.EMPTY)
