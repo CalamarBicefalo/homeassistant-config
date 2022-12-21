@@ -38,6 +38,8 @@ class ModeController(App):
                                   uri="Discover Weekly",
                                   enqueue_mode="replace",
                                   )
+                self.run_in(lambda *_: self.turn_off(entities.LIGHT_FULL_LIVING_ROOM), 120)
+                self.run_in(lambda *_: self.mode.set(Mode.SLEEPING), 30 * 60)
 
             case Mode.NIGHT:
                 self.call_service("cover/close_cover",
