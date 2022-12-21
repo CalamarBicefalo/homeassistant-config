@@ -40,7 +40,6 @@ class ModeController(App):
                 self.call_service("cover/open_cover",
                                   entity_id=entities.COVER_BLINDS)
             case Mode.SLEEPING:
-                self.turn_off(entities.ZONE_HOME)
                 self.turn_off(entities.MEDIA_PLAYER_TV)
                 self.turn_off(entities.SWITCH_DRUMS_PLUG)
                 self.turn_off(entities.SWITCH_MONITOR_PLUG)
@@ -49,11 +48,9 @@ class ModeController(App):
                                   command="play_media",
                                   uri="/config/media/rain.mp3",
                                   enqueue_mode="replace",
-                                  radio_mode="false",
                                   )
 
             case Mode.AWAY:
-                self.turn_off(entities.ZONE_HOME)
                 self.turn_off(entities.MEDIA_PLAYER_HOME)
                 self.turn_off(entities.MEDIA_PLAYER_TV)
                 self.turn_off(entities.SWITCH_DRUMS_PLUG)
