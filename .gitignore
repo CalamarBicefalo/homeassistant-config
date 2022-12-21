@@ -28,3 +28,6 @@ known_devices.yaml
 /.mypy_cache/
 .HA_VERSION
 SERVICE_ACCOUNT.json
+media
+music_assistant.db
+image
