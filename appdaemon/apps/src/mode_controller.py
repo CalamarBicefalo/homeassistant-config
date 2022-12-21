@@ -3,6 +3,7 @@ from typing import Any
 
 import entities
 import helpers
+import services
 from app import App
 from modes import Mode
 
@@ -43,7 +44,7 @@ class ModeController(App):
                 self.turn_off(entities.MEDIA_PLAYER_TV)
                 self.turn_off(entities.SWITCH_DRUMS_PLUG)
                 self.turn_off(entities.SWITCH_MONITOR_PLUG)
-                self.call_service("mass.queue_command",
+                self.call_service(services.MASS_QUEUE_COMMAND,
                                   entity_id=entities.MEDIA_PLAYER_MASS_BEDROOM_SPEAKERS,
                                   command="play_media",
                                   uri="/config/media/rain.mp3",
