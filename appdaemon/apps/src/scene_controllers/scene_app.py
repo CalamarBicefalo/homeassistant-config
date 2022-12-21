@@ -57,10 +57,6 @@ class SceneApp(App):
 
         self.on_activity_change(activity)
 
-        if activity == activities.Common.EMPTY:
-            self.turn_off(self.room_lights)
-            return
-
         scene_resolver: Optional[Scene] | SceneSelector = self.get_light_scene(activity)
         desired_scene: Optional[Scene] = None
         current_mode = self.mode.get()

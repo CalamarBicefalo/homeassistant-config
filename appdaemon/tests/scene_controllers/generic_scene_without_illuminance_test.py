@@ -32,14 +32,6 @@ def generic_room_scene() -> None:
     pass
 
 
-@pytest.mark.asyncio
-def test_when_empty(given_that, generic_room_scene, assert_that):
-    given_that.scene_is(generic_room_scene, activity=activities.Common.EMPTY, are_lights_on=False)
-
-    generic_room_scene.handle_scene(None, None, None, None, None)
-
-    assert_that(ROOM_LIGHTS).was.turned_off()
-
 
 @pytest.mark.asyncio
 def test_when_present(given_that, generic_room_scene, assert_that):
