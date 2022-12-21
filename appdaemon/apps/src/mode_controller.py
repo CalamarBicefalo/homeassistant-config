@@ -28,6 +28,16 @@ class ModeController(App):
                 self.turn_on(entities.SWITCH_PREPARE_ME_TO_GO_TO_SLEEP_HUE_LABS_FORMULA)
                 self.call_service("cover/close_cover",
                                   entity_id=entities.COVER_BEDROOM_BLINDS)
+                self.call_service(services.MEDIA_PLAYER_VOLUME_SET,
+                                  entity_id=entities.MEDIA_PLAYER_MASS_BEDROOM_SPEAKERS, volume_level=0.3),
+                self.call_service(services.MEDIA_PLAYER_SHUFFLE_SET,
+                                  entity_id=entities.MEDIA_PLAYER_MASS_BEDROOM_SPEAKERS, shuffle=True)
+                self.call_service(services.MASS_QUEUE_COMMAND,
+                                  entity_id=entities.MEDIA_PLAYER_MASS_BEDROOM_SPEAKERS,
+                                  command="play_media",
+                                  uri="Discover Weekly",
+                                  enqueue_mode="replace",
+                                  )
 
             case Mode.NIGHT:
                 self.call_service("cover/close_cover",
@@ -43,6 +53,9 @@ class ModeController(App):
                 self.turn_off(entities.MEDIA_PLAYER_TV)
                 self.turn_off(entities.SWITCH_DRUMS_PLUG)
                 self.turn_off(entities.SWITCH_MONITOR_PLUG)
+                self.call_service(services.LIGHT_TURN_OFF, entity_id="all")
+                self.call_service(services.MEDIA_PLAYER_VOLUME_SET,
+                                  entity_id=entities.MEDIA_PLAYER_MASS_BEDROOM_SPEAKERS, volume_level=0.3),
                 self.call_service(services.MASS_QUEUE_COMMAND,
                                   entity_id=entities.MEDIA_PLAYER_MASS_BEDROOM_SPEAKERS,
                                   command="play_media",
@@ -51,6 +64,7 @@ class ModeController(App):
                                   )
 
             case Mode.AWAY:
+                self.call_service(services.LIGHT_TURN_OFF, entity_id="all")
                 self.turn_off(entities.MEDIA_PLAYER_HOME)
                 self.turn_off(entities.MEDIA_PLAYER_TV)
                 self.turn_off(entities.SWITCH_DRUMS_PLUG)
