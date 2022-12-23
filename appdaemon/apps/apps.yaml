@@ -15,6 +15,11 @@ global_modules: &globals
   - select_handler
   - modes
 
+Playground:
+  module: playground
+  class: Playground
+  global_dependencies: *globals
+
 Mode manager:
   module: mode_manager
   class: ModeManager
