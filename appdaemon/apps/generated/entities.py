@@ -1,6 +1,5 @@
 from typing import NewType
 Entity = NewType('Entity', str)
-AUTOMATION_AUTOMATION_1: Entity = Entity("automation.automation_1")
 AUTOMATION_AUTOMATION_3: Entity = Entity("automation.automation_3")
 BINARY_SENSOR_BATHROOM_CS_CONTACT: Entity = Entity("binary_sensor.bathroom_cs_contact")
 BINARY_SENSOR_BATHROOM_CS_PRESENCE: Entity = Entity("binary_sensor.bathroom_cs_presence")

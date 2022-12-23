@@ -13,6 +13,7 @@ living_room_activity:
     - Present
     - Watching TV
     - Reading
+    - Dinning
   icon: mdi:sofa
 studio_activity:
   name: Studio activity
