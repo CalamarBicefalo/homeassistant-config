@@ -59,6 +59,6 @@ class Playlist(StrEnum):
     FUSION_JAZZ_DYNAMIC = "https://open.spotify.com/playlist/37i9dQZF1EIgnYxCSnxPNW?si=2d26f96af97e4f2a"
     ETHIOPIAN_JAZZ_DYNAMIC = "https://open.spotify.com/playlist/37i9dQZF1EIeplPHHjgFR7?si=2817d69f221b4b29"
 
-    DISCOVER_WEEKLY = "https://open.spotify.com/playlist/0tDQQrNJNbZwQH8vkkVZnU?si=26134a9e6b1d4a67"
-    RELAXING = "https://open.spotify.com/playlist/0tDQQrNJNbZwQH8vkkVZnU?si=26134a9e6b1d4a67"
-    NEO_CLASSICAL = "https://open.spotify.com/playlist/0tDQQrNJNbZwQH8vkkVZnU?si=26134a9e6b1d4a67"
+    DISCOVER_WEEKLY = "https://open.spotify.com/playlist/37i9dQZEVXcVC84EBt43Lx?si=fbea7a1fd9e04fb5"
+    RELAXING = "https://open.spotify.com/playlist/4KfULjAkF7qPXlXFq170AR?si=f5103bd49709471f"
+    NEO_CLASSICAL = "https://open.spotify.com/playlist/37i9dQZF1EIgEh8GW3jo4P?si=7bd5a57889964f8c"
