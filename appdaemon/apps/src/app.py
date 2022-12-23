@@ -1,9 +1,12 @@
 from __future__ import annotations
 
+from abc import abstractmethod
 from datetime import datetime
+from typing import Optional
 
 import appdaemon.plugins.hass.hassapi as hass
 
+import entities
 import helpers
 import states
 from activities import ActivityHandlers
@@ -29,7 +32,11 @@ class App(hass.Hass):
         super().__init__(ad, name, logging, args, config, app_config, global_vars)
         self.mode = SelectHandler[Mode](super(), helpers.HOMEASSISTANT_MODE)
         self.activities = ActivityHandlers(super())
-        self.music = MusicHandler(super())
+        self.music = MusicHandler(super(), self.speakers)
+
+    @property
+    def speakers(self) -> Optional[entities.Entity]:
+        return None
 
     def helper_to_datetime(self, helper: Helper) -> datetime:
         """

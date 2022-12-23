@@ -36,6 +36,7 @@ def test_when_watching_tv(given_that, living_room_scene, assert_that):
 
 
 def living_room_scene_is(self, activity, illuminance=0, are_lights_on=False, mode=modes.Mode.NIGHT):
+    self.state_of(entities.MEDIA_PLAYER_MASS_COOKING_AREA).is_set_to(states.OFF)
     self.state_of(helpers.HOMEASSISTANT_MODE).is_set_to(mode)
     self.state_of(entities.SENSOR_DESK_MS_ILLUMINANCE).is_set_to(illuminance)
     self.state_of(activities.livingroom_helper).is_set_to(activity)

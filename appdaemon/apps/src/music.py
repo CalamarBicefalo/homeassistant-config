@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import Optional
+
 from appdaemon.plugins.hass import hassapi as hass
 from strenum import StrEnum
 
@@ -10,28 +12,34 @@ import random
 
 class MusicHandler:
 
-    def __init__(self, app: hass.Hass):
+    def __init__(self, app: hass.Hass, speakers: Optional[entities.Entity]):
         self._app = app
+        self._speakers = speakers
 
-    def play(self, tune: Playlist | str, speakers: entities.Entity, shuffle: bool = True,
+    def play(self, tune: Playlist | str, shuffle: bool = True,
              volume_level: float = 0.3) -> None:
+        self._validate()
         self._app.call_service(services.MEDIA_PLAYER_VOLUME_SET,
-                               entity_id=speakers, volume_level=volume_level),
-        self._app.log(f'Configured volume of {speakers} to {volume_level}.', level="DEBUG")
+                               entity_id=self._speakers, volume_level=volume_level),
+        self._app.log(f'Configured volume of {self._speakers} to {volume_level}.', level="DEBUG")
         self._app.call_service(services.MEDIA_PLAYER_SHUFFLE_SET,
-                               entity_id=speakers, shuffle=shuffle)
-        self._app.log(f'{"Shuffling" if shuffle else "Not shuffling"} queue of {speakers}.', level="DEBUG")
+                               entity_id=self._speakers, shuffle=shuffle)
+        self._app.log(f'{"Shuffling" if shuffle else "Not shuffling"} queue of {self._speakers}.', level="DEBUG")
         self._app.call_service(services.MASS_QUEUE_COMMAND,
-                               entity_id=speakers,
+                               entity_id=self._speakers,
                                command="play_media",
                                uri=tune,
                                enqueue_mode="replace",
                                )
-        self._app.log(f'Playing {tune} on {speakers} - replacing existing queue.', level="DEBUG")
+        self._app.log(f'Playing {tune} on {self._speakers} - replacing existing queue.', level="DEBUG")
 
-    def pause(self, speakers: entities.Entity) -> None:
-        self._app.call_service(services.MEDIA_PLAYER_MEDIA_PAUSE, entity_id=speakers)
+    def pause(self) -> None:
+        self._validate()
+        self._app.call_service(services.MEDIA_PLAYER_MEDIA_PAUSE, entity_id=self._speakers)
 
+    def _validate(self) -> None:
+        if not self._speakers:
+            raise Exception("cannot play music without speakers defined")
 
 class Tune(StrEnum):
     RAIN = "/config/media/rain.mp3"

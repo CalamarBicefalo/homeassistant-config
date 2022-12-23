@@ -1,18 +1,20 @@
 from datetime import timedelta
-from typing import Any
+from typing import Any, Optional
 
 import entities
 import helpers
 import services
 from app import App
 from modes import Mode
-from music import Playlist, Tune
+from music import Playlist, Tune, MusicHandler
 
 
 class ModeController(App):
+    bedroom_music: MusicHandler
 
     def initialize(self) -> None:
         self.log(f'Initializing mode controller.', level="DEBUG")
+        self.bedroom_music = MusicHandler(self, entities.MEDIA_PLAYER_MASS_BEDROOM_SPEAKERS)
 
         self.listen_state(
             self.controller_handler,
@@ -29,7 +31,7 @@ class ModeController(App):
                 self.turn_on(entities.SWITCH_PREPARE_ME_TO_GO_TO_SLEEP_HUE_LABS_FORMULA)
                 self.call_service("cover/close_cover",
                                   entity_id=entities.COVER_BEDROOM_BLINDS)
-                self.music.play(Playlist.DISCOVER_WEEKLY, entities.MEDIA_PLAYER_MASS_BEDROOM_SPEAKERS)
+                self.bedroom_music.play(Playlist.DISCOVER_WEEKLY)
                 self.run_in(lambda *_: self.turn_off(entities.LIGHT_FULL_LIVING_ROOM), 120)
                 self.run_in(lambda *_: self.mode.set(Mode.SLEEPING), 30 * 60)
 
@@ -48,7 +50,7 @@ class ModeController(App):
                 self.turn_off(entities.SWITCH_DRUMS_PLUG)
                 self.turn_off(entities.SWITCH_MONITOR_PLUG)
                 self.call_service(services.LIGHT_TURN_OFF, entity_id="all")
-                self.music.play(Tune.RAIN, entities.MEDIA_PLAYER_MASS_BEDROOM_SPEAKERS, volume_level=0.2)
+                self.bedroom_music.play(Tune.RAIN, volume_level=0.2)
 
             case Mode.AWAY:
                 self.call_service(services.LIGHT_TURN_OFF, entity_id="all")

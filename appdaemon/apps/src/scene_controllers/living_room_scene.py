@@ -18,6 +18,7 @@ class LivingRoomScene(SceneApp):
 
     illuminance_sensor = entities.SENSOR_DESK_MS_ILLUMINANCE
     room_lights = entities.LIGHT_LIVING_ROOM
+    speakers = entities.MEDIA_PLAYER_MASS_COOKING_AREA
 
     def get_light_scene(self, activity: activities.Activity) -> Scene | SceneSelector:
         match activity:
@@ -44,13 +45,14 @@ class LivingRoomScene(SceneApp):
     def on_activity_change(self, activity: activities.Activity) -> None:
         match activity:
             case activities.LivingRoom.DINNING:
-                self.music.play(Playlist.COOL_JAZZ, entities.MEDIA_PLAYER_MASS_COOKING_AREA)
+                self.music.play(Playlist.COOL_JAZZ)
 
             case activities.LivingRoom.READING:
-                self.music.play(Playlist.random(), entities.MEDIA_PLAYER_MASS_COOKING_AREA)
+                if not self.is_on(self.speakers):
+                    self.music.play(Playlist.random())
 
             case activities.LivingRoom.WATCHING_TV:
-                self.music.pause(entities.MEDIA_PLAYER_MASS_COOKING_AREA)
+                self.music.pause()
 
         mode = self.mode.get()
         if mode == Mode.NIGHT or mode == Mode.SLEEPING:
