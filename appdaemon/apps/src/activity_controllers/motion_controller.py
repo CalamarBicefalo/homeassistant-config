@@ -24,6 +24,7 @@ class MotionController(App):
 
         if self.empty_timer:
             self.cancel_timer(self.empty_timer)
+            self.empty_timer = None
 
         if new == states.DETECTED:
             self.activity.set(activities.Common.PRESENT)
