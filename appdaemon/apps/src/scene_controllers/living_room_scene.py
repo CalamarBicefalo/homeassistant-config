@@ -1,7 +1,10 @@
+
 import activities
 import entities
 import scenes
+import random
 from modes import Mode
+from music import Playlist
 from scene_controllers import scene
 from scene_controllers.scene import Scene, SceneSelector
 from scene_controllers.scene_app import SceneApp
@@ -41,10 +44,10 @@ class LivingRoomScene(SceneApp):
     def on_activity_change(self, activity: activities.Activity) -> None:
         match activity:
             case activities.LivingRoom.DINNING:
-                self.music.play("Just Jazz", entities.MEDIA_PLAYER_MASS_COOKING_AREA)
+                self.music.play(Playlist.COOL_JAZZ, entities.MEDIA_PLAYER_MASS_COOKING_AREA)
 
             case activities.LivingRoom.READING:
-                self.music.play("Fresh: Jazz Weekly", entities.MEDIA_PLAYER_MASS_COOKING_AREA)
+                self.music.play(Playlist.random(), entities.MEDIA_PLAYER_MASS_COOKING_AREA)
 
             case activities.LivingRoom.WATCHING_TV:
                 self.music.pause(entities.MEDIA_PLAYER_MASS_COOKING_AREA)

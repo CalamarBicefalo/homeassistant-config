@@ -4,14 +4,13 @@ from datetime import datetime
 
 import appdaemon.plugins.hass.hassapi as hass
 
-import entities
 import helpers
-import services
+import states
 from activities import ActivityHandlers
 from entities import Entity
 from helpers import Helper
-import states
 from modes import Mode
+from music import MusicHandler
 from select_handler import SelectHandler
 
 HELPER_DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"
@@ -61,26 +60,3 @@ class App(hass.Hass):
         state = self.get_state(device)
         b: bool = state == desired_state
         return b
-
-
-class MusicHandler:
-    def __init__(self, app: hass.Hass):
-        self._app = app
-
-    def play(self, tune: str, speakers: entities.Entity, shuffle: bool = True, volume_level: float = 0.3) -> None:
-        self._app.call_service(services.MEDIA_PLAYER_VOLUME_SET,
-                               entity_id=speakers, volume_level=volume_level),
-        self._app.log(f'Configured volume of {speakers} to {volume_level}.', level="DEBUG")
-        self._app.call_service(services.MEDIA_PLAYER_SHUFFLE_SET,
-                               entity_id=speakers, shuffle=shuffle)
-        self._app.log(f'{"Shuffling" if shuffle else "Not shuffling"} queue of {speakers}.', level="DEBUG")
-        self._app.call_service(services.MASS_QUEUE_COMMAND,
-                               entity_id=speakers,
-                               command="play_media",
-                               uri=tune,
-                               enqueue_mode="replace",
-                               )
-        self._app.log(f'Playing {tune} on {speakers} - replacing existing queue.', level="DEBUG")
-
-    def pause(self, speakers: entities.Entity) -> None:
-        self._app.call_service(services.MEDIA_PLAYER_MEDIA_PAUSE, entity_id=speakers)

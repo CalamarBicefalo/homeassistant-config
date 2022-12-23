@@ -8,6 +8,7 @@ global_modules: &globals
   - vacuum_location
   - point
   - app
+  - music
   - scene_app
   - scene
   - scenes

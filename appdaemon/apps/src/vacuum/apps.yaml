@@ -11,6 +11,7 @@ Vacuum kitchen cleaner:
     - vacuum_location
     - point
     - app
+    - music
     - select_handler
     - modes
 Vacuum mop maintenance:
