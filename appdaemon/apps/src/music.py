@@ -39,7 +39,8 @@ class Tune(StrEnum):
 
 class Playlist(StrEnum):
 
-    def random(self) -> Playlist:
+    @staticmethod
+    def random() -> Playlist:
         pl : Playlist = random.choice(list(Playlist))
         return pl
 
