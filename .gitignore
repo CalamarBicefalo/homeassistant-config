@@ -31,3 +31,4 @@ SERVICE_ACCOUNT.json
 media
 music_assistant.db
 image
+appdaemon/apps/src/playground.py
