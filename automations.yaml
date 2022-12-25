@@ -1,38 +1,3 @@
-- id: '1664296690201'
-  alias: Dinner time
-  description: ''
-  trigger:
-  - device_id: a0ea7271fcc3eb2407584197b15729a6
-    domain: hubitat
-    platform: device
-    type: pushed
-    subtype: '1'
-  condition: []
-  action:
-  - service: spotcast.start
-    data:
-      entity_id: media_player.cooking_area
-      search: cool jazz
-      random_song: true
-      shuffle: true
-      start_volume: 35
-  - type: turn_on
-    device_id: 37e32ff858913b100b9230a05461d7e1
-    entity_id: switch.dining_virtual_switch
-    domain: switch
-  - delay:
-      hours: 0
-      minutes: 0
-      seconds: 10
-      milliseconds: 0
-  - service: spotcast.start
-    data:
-      entity_id: media_player.cooking_area
-      search: cool jazz
-      random_song: true
-      shuffle: true
-      start_volume: 35
-  mode: single
 - id: '1664740449250'
   alias: Last cooked
   description: Updates the last cooked helper
@@ -53,4 +18,91 @@
       timestamp: '{{ now().timestamp() }}'
     target:
       entity_id: input_datetime.last_cooked
+  mode: single
+- id: '1671814169764'
+  alias: Dinner button
+  description: Manages the button in the dinning table
+  trigger:
+  - device_id: a0ea7271fcc3eb2407584197b15729a6
+    domain: hubitat
+    platform: device
+    type: pushed
+    subtype: '1'
+    id: button_pushed
+  - device_id: a0ea7271fcc3eb2407584197b15729a6
+    domain: hubitat
+    platform: device
+    type: held
+    subtype: '1'
+    id: button_held
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: button_pushed
+      sequence:
+      - service: input_select.select_option
+        data:
+          option: Dinning
+        target:
+          entity_id: input_select.living_room_activity
+    - conditions:
+      - condition: trigger
+        id: button_held
+      sequence:
+      - service: input_select.select_option
+        data:
+          option: Present
+        target:
+          entity_id: input_select.living_room_activity
+  mode: single
+- id: '1671973191702'
+  alias: Bedside button
+  description: Manages the button in the bedroom
+  trigger:
+  - device_id: 5c261fb1c358649bfeb0411ca3558e3b
+    domain: hubitat
+    platform: device
+    type: pushed
+    subtype: '1'
+    id: button_pushed
+  - device_id: 5c261fb1c358649bfeb0411ca3558e3b
+    domain: hubitat
+    platform: device
+    type: held
+    subtype: '1'
+    id: button_held
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: button_pushed
+      sequence:
+      - if:
+        - condition: state
+          entity_id: input_select.homeassistant_mode
+          state: Bedtime
+        then:
+        - service: input_select.select_option
+          data:
+            option: Sleeping
+          target:
+            entity_id: input_select.homeassistant_mode
+        else:
+        - service: input_select.select_option
+          data:
+            option: Bedtime
+          target:
+            entity_id: input_select.homeassistant_mode
+    - conditions:
+      - condition: trigger
+        id: button_held
+      sequence:
+      - service: input_select.select_option
+        data:
+          option: Present
+        target:
+          entity_id: input_select.bedroom_activity
   mode: single
