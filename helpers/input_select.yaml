@@ -47,6 +47,7 @@ bedroom_activity:
   options:
     - Empty
     - Present
+    - Relaxing
   icon: mdi:bed-king
 storage_room_activity:
   name: Storage room activity
