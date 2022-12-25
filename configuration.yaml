@@ -31,3 +31,12 @@ google_assistant:
   report_state: true
   exposed_domains:
     - input_select
+
+person:
+  - name: José Carlos
+    id: calamarbicefalo
+    user_id: affe11e198de496e8078cd4951b9949b
+    device_trackers:
+      - device_tracker.galaxy_s9
+  - name: Amanda
+    id: ahjones
