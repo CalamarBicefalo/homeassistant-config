@@ -1,3 +1,4 @@
+import activities
 import entities
 from activity_controllers.motion_controller import MotionController
 from select_handler import SelectHandler
@@ -10,3 +11,7 @@ class BedroomController(MotionController):
     @property
     def activity(self) -> SelectHandler:
         return self.activities.bedroom
+
+    def ignore_motion_trigger(self) -> bool:
+        return self.activity.is_value(activities.Bedroom.RELAXING)
+

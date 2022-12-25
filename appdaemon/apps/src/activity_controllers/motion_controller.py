@@ -26,6 +26,9 @@ class MotionController(App):
             self.cancel_timer(self.empty_timer)
             self.empty_timer = None
 
+        if self.ignore_motion_trigger():
+            return
+
         if new == states.DETECTED:
             self.activity.set(activities.Common.PRESENT)
         else:
@@ -50,3 +53,6 @@ class MotionController(App):
     @abstractmethod
     def activity(self) -> SelectHandler:
         pass
+
+    def ignore_motion_trigger(self) -> bool:
+        return False

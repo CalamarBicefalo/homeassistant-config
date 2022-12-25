@@ -7,6 +7,7 @@ def generate_scenes(root_dir: str, homeassistant_url: str):
     with open("secrets.yaml", "r") as stream:
         token = yaml.safe_load(stream)['apiToken']
         resp = requests.get(url=f'{homeassistant_url}/api/states', headers={"Authorization": f'Bearer {token}'}).json()
+        resp.sort(key=lambda x: x["entity_id"])
         with open(GENERATED_SCENES, 'w') as scenes_file:
             scenes_file.write("from scene_controllers import scene\n"
                               "from entities import Entity\n"

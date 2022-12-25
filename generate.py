@@ -4,6 +4,7 @@ from codegen.generate_activities import generate_activities
 from codegen.generate_helpers import generate_helpers
 from codegen.generate_entities import generate_entities
 from codegen.generate_modes import generate_modes
+from codegen.generate_scenes import generate_scenes
 from codegen.generate_services import generate_services
 from codegen.is_hub_reachable import is_hub_reachable
 
@@ -32,6 +33,8 @@ print("Connecting to hub...")
 if is_hub_reachable(HA_HOST):
     print("    👻 Generating entities types")
     generate_entities(GENERATED_PATH, HA_HOST)
+    print("    🎆 Generating scenes types")
+    generate_scenes(GENERATED_PATH, HA_HOST)
     print("    🦮 Generating services types")
     generate_services(GENERATED_PATH, HA_HOST)
 else:

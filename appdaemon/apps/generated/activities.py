@@ -52,6 +52,7 @@ class Wardrobe(Activity):
 class Bedroom(Activity):
     EMPTY = "Empty"
     PRESENT = "Present"
+    RELAXING = "Relaxing"
 
 
 class StorageRoom(Activity):
