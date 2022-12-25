@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 
 import pytest
 from appdaemontestframework import automation_fixture, given_that as given, assert_that as assertt
+from freezegun import freeze_time
 
 import activities
 import entities
@@ -32,6 +33,7 @@ def test_triggers_when_away(given_that, vacuum_controller, assert_that):
 
 
 @pytest.mark.asyncio
+@freeze_time("2012-01-14 23:00:01")
 def test_when_didnt_cook_does_not_vacuum(given_that, vacuum_controller, assert_that):
     given_that.kitchen_cleaning_state_is(
         livingroom_activity=activities.LivingRoom.EMPTY,
@@ -45,6 +47,7 @@ def test_when_didnt_cook_does_not_vacuum(given_that, vacuum_controller, assert_t
 
 
 @pytest.mark.asyncio
+@freeze_time("2012-01-14 23:00:01")
 def test_when_cooked_vacuums(given_that, vacuum_controller, assert_that):
     given_that.kitchen_cleaning_state_is(
         livingroom_activity=activities.LivingRoom.EMPTY,
@@ -56,8 +59,22 @@ def test_when_cooked_vacuums(given_that, vacuum_controller, assert_that):
 
     assert_that(services.VACUUM_SEND_COMMAND).was.sent_to_clean_kitchen()
 
+@pytest.mark.asyncio
+@freeze_time("2012-01-14 10:00:01")
+def test_when_morning_waits(given_that, vacuum_controller, assert_that):
+    given_that.kitchen_cleaning_state_is(
+        livingroom_activity=activities.LivingRoom.EMPTY,
+        last_cleaned=yesterday(),
+        last_cooked=now()
+    )
+
+    vacuum_controller.clean_kitchen(None, None, None, None, None)
+
+    assert_that(services.VACUUM_SEND_COMMAND).was_not.sent_to_clean_kitchen()
+
 
 @pytest.mark.asyncio
+@freeze_time("2012-01-14 23:00:01")
 def test_when_vacuumed_updates_last_cleaned(given_that, vacuum_controller, assert_that):
     given_that.kitchen_cleaning_state_is(
         livingroom_activity=activities.LivingRoom.EMPTY,
@@ -71,6 +88,7 @@ def test_when_vacuumed_updates_last_cleaned(given_that, vacuum_controller, asser
 
 
 @pytest.mark.asyncio
+@freeze_time("2012-01-14 23:00:01")
 def test_when_in_the_living_room_does_not_clean(given_that, vacuum_controller, assert_that, time_travel):
     given_that.kitchen_cleaning_state_is(
         livingroom_activity=activities.LivingRoom.WATCHING_TV,
@@ -83,6 +101,7 @@ def test_when_in_the_living_room_does_not_clean(given_that, vacuum_controller, a
     assert_that(services.VACUUM_SEND_COMMAND).was_not.sent_to_clean_kitchen()
 
 @pytest.mark.asyncio
+@freeze_time("2012-01-14 23:00:01")
 def test_when_in_the_kitchen_does_not_clean(given_that, vacuum_controller, assert_that, time_travel):
     given_that.kitchen_cleaning_state_is(
         livingroom_activity=activities.Kitchen.COOKING,
@@ -96,6 +115,7 @@ def test_when_in_the_kitchen_does_not_clean(given_that, vacuum_controller, asser
 
 
 @pytest.mark.asyncio
+@freeze_time("2012-01-14 23:00:01")
 def test_when_less_than_20_hours_since_last_clean_does_not_clean(given_that, vacuum_controller, assert_that,
                                                                  time_travel):
     given_that.kitchen_cleaning_state_is(
@@ -110,6 +130,7 @@ def test_when_less_than_20_hours_since_last_clean_does_not_clean(given_that, vac
 
 
 @pytest.mark.asyncio
+@freeze_time("2012-01-14 23:00:01")
 def test_when_more_than_20_hours_since_last_clean_cleans(given_that, vacuum_controller, assert_that, time_travel):
     given_that.kitchen_cleaning_state_is(
         livingroom_activity=activities.LivingRoom.EMPTY,
@@ -123,12 +144,13 @@ def test_when_more_than_20_hours_since_last_clean_cleans(given_that, vacuum_cont
 
 
 def kitchen_cleaning_state_is(self, last_cleaned, last_cooked, livingroom_activity=activities.LivingRoom.EMPTY,
-                              kitchen_activity=activities.Kitchen.EMPTY):
+                              kitchen_activity=activities.Kitchen.EMPTY, studio_activity=activities.Studio.EMPTY):
     activity_handlers = activities.ActivityHandlers(None)
     self.state_of(helpers.LAST_COOKED).is_set_to(last_cooked)
     self.state_of(helpers.LAST_CLEANED_KITCHEN).is_set_to(last_cleaned)
     self.state_of(activity_handlers.livingroom._helper).is_set_to(livingroom_activity)
     self.state_of(activity_handlers.kitchen._helper).is_set_to(kitchen_activity)
+    self.state_of(activity_handlers.studio._helper).is_set_to(studio_activity)
 
 
 given.GivenThatWrapper.kitchen_cleaning_state_is = kitchen_cleaning_state_is

@@ -43,14 +43,16 @@ class KitchenCleaner(App):
             return
 
         hours_since_last_clean = (datetime.now() - last_vacuumed).total_seconds() // 3600
-        if hours_since_last_clean < 20:
+        if hours_since_last_clean < 20 or datetime.now().hour < 21:
             self.log(
                 f'Ignoring kitchen clean because we cleaned {hours_since_last_clean} ago',
                 level="INFO"
             )
             return
 
-        if not self.activities.livingroom.get() == activities.LivingRoom.EMPTY or not self.activities.kitchen.get() == activities.Kitchen.EMPTY:
+        if not self.activities.livingroom.get() == activities.LivingRoom.EMPTY \
+                or not self.activities.kitchen.get() == activities.Kitchen.EMPTY \
+                or not self.activities.studio.get() == activities.Studio.EMPTY:
             self.log(
                 f'Postponing clean until nobody is around',
                 level="INFO"
