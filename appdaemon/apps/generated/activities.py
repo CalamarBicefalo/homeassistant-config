@@ -53,6 +53,7 @@ class Bedroom(Activity):
     EMPTY = "Empty"
     PRESENT = "Present"
     RELAXING = "Relaxing"
+    BEDTIME = "Bedtime"
 
 
 class StorageRoom(Activity):

@@ -3,6 +3,7 @@ from typing import Optional
 import activities
 import entities
 import scenes
+import services
 from modes import Mode
 from music import Playlist
 from scene_controllers import scene
@@ -21,19 +22,31 @@ class BedroomScene(SceneApp):
         return self.activities.bedroom
 
     def get_light_scene(self, activity: activities.Activity) -> SceneSelector | Optional[Scene]:
-        mode = self.mode.get()
-        if mode == Mode.SLEEPING or mode == Mode.BEDTIME:
-            return None
         if activity == activities.Bedroom.RELAXING:
             return scenes.BEDROOM_RELAXING
         if activity == activities.Bedroom.PRESENT:
             return scene.by_mode({
                 Mode.DAY: scenes.BEDROOM_BRIGHT,
                 Mode.NIGHT: scenes.BEDROOM_NIGHTLIGHT,
+                Mode.SLEEPING: scene.off()
             })
         return scene.off()
 
     def on_activity_change(self, activity: activities.Activity) -> None:
         if activity == activities.Bedroom.RELAXING:
             self.music.play(Playlist.random(), volume_level=0.3)
+
+        elif activity == activities.Bedroom.BEDTIME:
+            # Home cleanup
+            self.turn_off_media()
+            self.turn_on(entities.SCENE_HOME_CORRIDOR)
+
+            # Bedroom scene
+            self.turn_on(entities.SCENE_BEDROOM_BRIGHT)
+            self.turn_on(entities.SWITCH_PREPARE_ME_TO_GO_TO_SLEEP_HUE_LABS_FORMULA)
+            self.call_service("cover/close_cover",
+                              entity_id=entities.COVER_BEDROOM_BLINDS)
+            self.music.play(Playlist.DISCOVER_WEEKLY)
+            self.run_in(lambda *_: self.turn_off(entities.LIGHT_FULL_LIVING_ROOM), 120)
+            self.run_in(lambda *_: self.mode.set(Mode.SLEEPING), 30 * 60)
 

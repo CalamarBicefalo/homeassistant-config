@@ -8,6 +8,7 @@ import appdaemon.plugins.hass.hassapi as hass
 
 import entities
 import helpers
+import services
 import states
 from activities import ActivityHandlers
 from entities import Entity
@@ -67,3 +68,13 @@ class App(hass.Hass):
         state = self.get_state(device)
         b: bool = state == desired_state
         return b
+
+    def turn_off_media(self):
+        self.call_service(services.MEDIA_PLAYER_TURN_OFF, entity_id="all")
+
+    def turn_off_lights(self):
+        self.call_service(services.LIGHT_TURN_OFF, entity_id="all")
+
+    def turn_off_plugs(self):
+        self.turn_off(entities.SWITCH_DRUMS_PLUG)
+        self.turn_off(entities.SWITCH_MONITOR_PLUG)

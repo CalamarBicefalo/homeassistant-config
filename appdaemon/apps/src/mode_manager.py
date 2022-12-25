@@ -14,7 +14,7 @@ class ModeManager(App):
         self.listen_event(self.on_alarm_dismissed, "SleepAsAndroid_phone")
 
     def on_schedule(self, kwargs: Any) -> None:
-        if self.mode.get() not in [Mode.AWAY, Mode.BEDTIME, Mode.SLEEPING]:
+        if self.mode.get() not in [Mode.AWAY, Mode.SLEEPING]:
             self.set_mode_by_time()
 
     def on_alarm_dismissed(self, event_name: str, data: Any, kwargs: Any) -> None:

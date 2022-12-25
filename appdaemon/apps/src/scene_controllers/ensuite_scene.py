@@ -20,7 +20,6 @@ class EnsuiteScene(SceneApp):
             return scene.by_mode({
                 Mode.DAY: scenes.BATHROOM_CONCENTRATE,
                 Mode.NIGHT: scenes.BATHROOM_CONCENTRATE,
-                Mode.BEDTIME: scenes.BATHROOM_CONCENTRATE,
                 Mode.SLEEPING: scenes.BATHROOM_NIGHTLIGHT,
             })
         return scene.off()

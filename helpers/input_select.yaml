@@ -48,6 +48,7 @@ bedroom_activity:
     - Empty
     - Present
     - Relaxing
+    - Bedtime
   icon: mdi:bed-king
 storage_room_activity:
   name: Storage room activity
@@ -62,6 +63,5 @@ homeassistant_mode:
     - Day
     - Night
     - Away
-    - Bedtime
     - Sleeping
   icon: mdi:house

@@ -20,7 +20,6 @@ class WardrobeScene(SceneApp):
             return scene.by_mode({
                 Mode.DAY: scenes.WARDROBE_BRIGHT,
                 Mode.NIGHT: scenes.WARDROBE_NIGHTLIGHT,
-                Mode.BEDTIME: scenes.WARDROBE_NIGHTLIGHT,
                 Mode.SLEEPING: scene.off(),
             })
         return scene.off()
