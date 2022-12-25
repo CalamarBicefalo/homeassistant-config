@@ -31,3 +31,6 @@ class ModeManager(App):
             self.mode.set(Mode.DAY)
         else:
             self.mode.set(Mode.NIGHT)
+        self.call_service("notify/notify",
+                          message=f'Mode set to {self.mode.get()}',
+                          title=f'Mode set to {self.mode.get()}')
