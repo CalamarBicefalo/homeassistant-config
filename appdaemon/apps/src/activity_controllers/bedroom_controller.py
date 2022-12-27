@@ -13,5 +13,5 @@ class BedroomController(MotionController):
         return self.activities.bedroom
 
     def ignore_motion_trigger(self) -> bool:
-        return self.activity.is_value(activities.Bedroom.RELAXING)
+        return self.activity.is_value(activities.Bedroom.RELAXING) or self.activity.is_value(activities.Bedroom.BEDTIME)
 

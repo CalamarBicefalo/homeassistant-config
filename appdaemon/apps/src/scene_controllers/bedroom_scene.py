@@ -22,6 +22,8 @@ class BedroomScene(SceneApp):
         return self.activities.bedroom
 
     def get_light_scene(self, activity: activities.Activity) -> SceneSelector | Optional[Scene]:
+        if activity == activities.Bedroom.BEDTIME:
+            return None
         if activity == activities.Bedroom.RELAXING:
             return scenes.BEDROOM_RELAXING
         if activity == activities.Bedroom.PRESENT:
