@@ -73,6 +73,12 @@
     type: held
     subtype: '1'
     id: button_held
+  - device_id: 5c261fb1c358649bfeb0411ca3558e3b
+    domain: hubitat
+    platform: device
+    type: double_tapped
+    subtype: '1'
+    id: button_double_tapped
   condition: []
   action:
   - choose:
@@ -82,7 +88,7 @@
       sequence:
       - if:
         - condition: state
-          entity_id: input_select.homeassistant_mode
+          entity_id: input_select.bedroom_activity
           state: Bedtime
         then:
         - service: input_select.select_option
@@ -95,7 +101,7 @@
           data:
             option: Bedtime
           target:
-            entity_id: input_select.homeassistant_mode
+            entity_id: input_select.bedroom_activity
     - conditions:
       - condition: trigger
         id: button_held
@@ -103,6 +109,15 @@
       - service: input_select.select_option
         data:
           option: Present
+        target:
+          entity_id: input_select.bedroom_activity
+    - conditions:
+      - condition: trigger
+        id: button_double_tapped
+      sequence:
+      - service: input_select.select_option
+        data:
+          option: Relaxing
         target:
           entity_id: input_select.bedroom_activity
   mode: single
