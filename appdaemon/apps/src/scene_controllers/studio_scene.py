@@ -28,5 +28,7 @@ class StudioScene(SceneApp):
         match activity:
             case activities.Studio.WORKING:
                 self.turn_on(entities.SWITCH_MONITOR_PLUG)
+            case activities.Studio.DRUMMING:
+                self.turn_off_media()
             case _:
                 self.turn_off(entities.SWITCH_MONITOR_PLUG)
