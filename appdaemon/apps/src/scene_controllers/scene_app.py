@@ -55,7 +55,8 @@ class SceneApp(App):
         self.log(f'Changing {self.scene} scene {entity} -> {attribute} old={old} new={new}', level="DEBUG")
         activity = self.activity.get()
 
-        self.on_activity_change(activity)
+        if entity == self.activity._helper:
+            self.on_activity_change(activity)
 
         scene_resolver: Optional[Scene] | SceneSelector = self.get_light_scene(activity)
         desired_scene: Optional[Scene] = None
