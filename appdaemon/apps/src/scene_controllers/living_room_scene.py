@@ -39,6 +39,8 @@ class LivingRoomScene(SceneApp):
                 })
             case activities.LivingRoom.DINNING:
                 return scenes.DINING_ROOM_DINNER_TIME
+            case activities.LivingRoom.DRUMMING:
+                return scenes.LIVING_ROOM_DRUMMING
 
         return scene.off()
 
@@ -52,6 +54,9 @@ class LivingRoomScene(SceneApp):
                     self.music.play(Playlist.random())
 
             case activities.LivingRoom.WATCHING_TV:
+                self.music.pause()
+
+            case activities.LivingRoom.DRUMMING:
                 self.music.pause()
 
         mode = self.mode.get()

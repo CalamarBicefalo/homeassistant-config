@@ -8,8 +8,8 @@ class Activity(StrEnum):
 
 
 class Common(Activity):
-    PRESENT = "Present"
     EMPTY = "Empty"
+    PRESENT = "Present"
 
 
 class Kitchen(Activity):
@@ -24,6 +24,7 @@ class LivingRoom(Activity):
     WATCHING_TV = "Watching TV"
     READING = "Reading"
     DINNING = "Dinning"
+    DRUMMING = "Drumming"
 
 
 class Studio(Activity):

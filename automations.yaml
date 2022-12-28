@@ -19,6 +19,7 @@
     target:
       entity_id: input_datetime.last_cooked
   mode: single
+
 - id: '1671814169764'
   alias: Dinner button
   description: Manages the button in the dinning table
@@ -57,6 +58,7 @@
         target:
           entity_id: input_select.living_room_activity
   mode: single
+
 - id: '1671973191702'
   alias: Bedside button
   description: Manages the button in the bedroom
