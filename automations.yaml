@@ -19,7 +19,6 @@
     target:
       entity_id: input_datetime.last_cooked
   mode: single
-
 - id: '1671814169764'
   alias: Dinner button
   description: Manages the button in the dinning table
@@ -58,7 +57,6 @@
         target:
           entity_id: input_select.living_room_activity
   mode: single
-
 - id: '1671973191702'
   alias: Bedside button
   description: Manages the button in the bedroom
@@ -122,4 +120,56 @@
           option: Relaxing
         target:
           entity_id: input_select.bedroom_activity
+  mode: single
+- id: '1672262824314'
+  alias: Living room button
+  description: Manages the button in the living room coffee table
+  trigger:
+  - device_id: d478c4f7337cb5dadbe49f28ad831654
+    domain: hubitat
+    platform: device
+    type: pushed
+    subtype: '1'
+    id: button_pushed
+  - device_id: d478c4f7337cb5dadbe49f28ad831654
+    domain: hubitat
+    platform: device
+    type: double_tapped
+    subtype: '1'
+    id: button_double_tapped
+  - device_id: d478c4f7337cb5dadbe49f28ad831654
+    domain: hubitat
+    platform: device
+    type: held
+    subtype: '1'
+    id: button_held
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: button_pushed
+      sequence:
+      - service: input_select.select_option
+        data:
+          option: Drumming
+        target:
+          entity_id: input_select.living_room_activity
+    - conditions:
+      - condition: trigger
+        id: button_held
+      sequence:
+      - service: input_select.select_option
+        data:
+          option: Present
+        target:
+          entity_id: input_select.living_room_activity
+    - conditions:
+      - condition: trigger
+        id: button_double_tapped
+      sequence:
+      - service: media_player.media_stop
+        data: {}
+        target:
+          entity_id: media_player.mass_cooking_area
   mode: single
