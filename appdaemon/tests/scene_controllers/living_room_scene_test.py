@@ -18,7 +18,15 @@ def living_room_scene():
 
 
 @pytest.mark.asyncio
-def test_when_reading(given_that, living_room_scene, assert_that):
+def test_reading_sets_reading_scene(given_that, living_room_scene, assert_that):
+    given_that.living_room_scene_is(activity=activities.LivingRoom.READING, illuminance=30, are_lights_on=False)
+
+    living_room_scene.handle_scene(None, None, None, None, None)
+
+    assert_that(scenes.LIVING_ROOM_READING.get()).was.turned_on()
+
+@pytest.mark.asyncio
+def test_reading_plays_music(given_that, living_room_scene, assert_that):
     given_that.living_room_scene_is(activity=activities.LivingRoom.READING, illuminance=30, are_lights_on=False)
 
     living_room_scene.handle_scene(None, None, None, None, None)
@@ -27,7 +35,7 @@ def test_when_reading(given_that, living_room_scene, assert_that):
 
 
 @pytest.mark.asyncio
-def test_when_watching_tv(given_that, living_room_scene, assert_that):
+def test_watching_tv_sets_movie_scene(given_that, living_room_scene, assert_that):
     given_that.living_room_scene_is(activity=activities.LivingRoom.WATCHING_TV, illuminance=30, are_lights_on=False)
 
     living_room_scene.handle_scene(None, None, None, None, None)
