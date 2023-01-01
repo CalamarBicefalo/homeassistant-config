@@ -41,7 +41,9 @@ class BedroomScene(SceneApp):
             self.mode_change = None
 
         if activity == activities.Bedroom.RELAXING:
-            self.music.play(Playlist.random(), volume_level=0.3)
+            self.music.play(Playlist.NEO_CLASSICAL, volume_level=0.3)
+            self.call_service("cover/close_cover",
+                              entity_id=entities.COVER_BEDROOM_BLINDS)
 
         elif activity == activities.Bedroom.BEDTIME:
             # Home cleanup
