@@ -29,7 +29,7 @@ class LivingRoomController(App):
 
         if self.activity.get() == activities.LivingRoom.DRUMMING:
             self.no_activity_cooldown = self.run_in(
-                lambda *_: self.activities.livingroom.set(activities.LivingRoom.EMPTY), 10 * 60)
+                lambda *_: self.activities.livingroom.set(activities.LivingRoom.EMPTY), 90 * 60)
             return
 
         # TV Handling
