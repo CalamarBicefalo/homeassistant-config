@@ -111,6 +111,11 @@
           option: Present
         target:
           entity_id: input_select.bedroom_activity
+      - service: input_select.select_option
+        data:
+          option: Day
+        target:
+          entity_id: input_select.homeassistant_mode
     - conditions:
       - condition: trigger
         id: button_double_tapped
@@ -148,7 +153,7 @@
   - choose:
     - conditions:
       - condition: trigger
-        id: button_pushed
+        id: button_double_tapped
       sequence:
       - service: input_select.select_option
         data:
@@ -166,9 +171,9 @@
           entity_id: input_select.living_room_activity
     - conditions:
       - condition: trigger
-        id: button_double_tapped
+        id: button_pushed
       sequence:
-      - service: media_player.media_stop
+      - service: media_player.media_play_pause
         data: {}
         target:
           entity_id: media_player.mass_cooking_area
