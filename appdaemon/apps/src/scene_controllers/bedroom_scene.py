@@ -53,7 +53,9 @@ class BedroomScene(SceneApp):
             self.turn_on(entities.SWITCH_PREPARE_ME_TO_GO_TO_SLEEP_HUE_LABS_FORMULA)
             self.call_service("cover/close_cover",
                               entity_id=entities.COVER_BEDROOM_BLINDS)
-            self.music.play(Playlist.DISCOVER_WEEKLY, volume_level=0.2)
+            self.music.play(Playlist.DISCOVER_WEEKLY, volume_level=0.3)
+            self.run_in(lambda *_: self.music.volume(0.2), 10 * 60)
+            self.run_in(lambda *_: self.music.volume(0.1), 20 * 60)
             self.run_in(lambda *_: self.turn_off(entities.LIGHT_FULL_LIVING_ROOM), 120)
             self.mode_change = self.run_in(lambda *_: self.mode.set(Mode.SLEEPING), 30 * 60)
 
