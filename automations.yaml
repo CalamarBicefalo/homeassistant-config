@@ -111,11 +111,8 @@
           option: Present
         target:
           entity_id: input_select.bedroom_activity
-      - service: input_select.select_option
-        data:
-          option: Day
-        target:
-          entity_id: input_select.homeassistant_mode
+      - event: bedroom.activity_unlocked
+        event_data: {}
     - conditions:
       - condition: trigger
         id: button_double_tapped
