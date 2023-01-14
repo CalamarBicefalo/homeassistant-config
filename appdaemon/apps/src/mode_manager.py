@@ -11,6 +11,7 @@ class ModeManager(App):
         self.run_at_sunrise(self.on_schedule)
         self.run_at_sunset(self.on_schedule)
         self.listen_event(self.on_alarm_dismissed, "SleepAsAndroid_phone")
+        self.listen_event(self.on_bedroom_unlock, "bedroom.activity_unlocked")
         self.listen_state(self.on_person_event, "person")
 
     def on_schedule(self, kwargs: Any) -> None:
@@ -20,6 +21,8 @@ class ModeManager(App):
     def on_alarm_dismissed(self, event_name: str, data: Any, kwargs: Any) -> None:
         if data['event'] == 'alarm_alert_dismiss':
             self._handle_mode()
+    def on_bedroom_unlock(self, event_name: str, data: Any, kwargs: Any) -> None:
+        self._handle_mode()
 
     def on_person_event(self, entity, attribute, old, new, kwargs):  # type: ignore
         self._handle_mode()
