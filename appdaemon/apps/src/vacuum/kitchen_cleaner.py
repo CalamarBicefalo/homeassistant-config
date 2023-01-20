@@ -8,6 +8,14 @@ import services
 from app import App
 
 kitchen_segment = 16
+living_room_segment = 24
+dining_room_segment = 17
+hallway_segment = 20
+bedroom_segment = 21
+ensuite_segment = 22
+storage_room_segment = 19
+bathroom_segment = 18
+office_segment = 23
 
 
 class KitchenCleaner(App):
