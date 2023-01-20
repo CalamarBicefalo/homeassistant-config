@@ -1,5 +1,3 @@
-from typing import Optional
-
 import activities
 import entities
 from app import App
@@ -27,17 +25,21 @@ class LivingRoomController(App):
 
         self.handle_cooldown()
 
-        if self.activity.get() == activities.LivingRoom.DRUMMING:
-            self.no_activity_cooldown = self.run_in(
-                lambda *_: self.activities.livingroom.set(activities.LivingRoom.EMPTY), 90 * 60)
-            return
-
         # TV Handling
         if self.is_on(entities.MEDIA_PLAYER_TV):
             self.activity.set(activities.LivingRoom.WATCHING_TV)
 
+        # Drumming Handling
+        elif self.activity.get() == activities.LivingRoom.DRUMMING:
+            if self.is_on(self.motion_sensor) or self.sitting_on_sofa():
+                self.no_activity_cooldown = self.run_in(
+                    lambda *_: self.activities.livingroom.set(activities.LivingRoom.EMPTY), 90 * 60)
+            else:
+                self.no_activity_cooldown = self.run_in(
+                    lambda *_: self.activities.livingroom.set(activities.LivingRoom.EMPTY), 10 * 60)
+
         # Sofa Handling
-        elif self.is_on(entities.BINARY_SENSOR_SOFA_PS_WATER):
+        elif self.sitting_on_sofa():
             self.activity.set(activities.LivingRoom.READING)
 
         # Presence Handling
@@ -46,6 +48,9 @@ class LivingRoomController(App):
 
         else:
             self.activity.set(activities.Common.EMPTY)
+
+    def sitting_on_sofa(self) -> bool:
+        return self.is_on(entities.BINARY_SENSOR_SOFA_PS_WATER)
 
     def handle_cooldown(self) -> None:
         if self.no_activity_cooldown:
