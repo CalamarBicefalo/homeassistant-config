@@ -1,11 +1,14 @@
 import activities
 import entities
 import states
-from app import App
+from activity_controllers.generic_controller import ActivityController
+from select_handler import SelectHandler
 
 
-class StorageRoomController(App):
-    set_to_away_in_10_minutes = None
+class StorageRoomController(ActivityController):
+    @property
+    def activity(self) -> SelectHandler:
+        return self.activities.storageroom
 
     def initialize(self) -> None:
         self.log(f'Initializing storage room controller.', level="DEBUG")
@@ -16,12 +19,11 @@ class StorageRoomController(App):
         )
 
     def controller_handler(self, entity, attribute, old, new, kwargs):  # type: ignore
-        if self.set_to_away_in_10_minutes:
-            self.cancel_timer(self.set_to_away_in_10_minutes)
-            self.set_to_away_in_10_minutes = None
+        self.cancel_empty_timer()
 
         if new == states.OPEN:
             self.activities.storageroom.set(activities.StorageRoom.PRESENT)
-            self.set_to_away_in_10_minutes = self.run_in(lambda *_: self.activities.storageroom.set(activities.StorageRoom.EMPTY), 600)
+            self.set_as_empty_in(minutes=10)
         else:
+            self.cancel_empty_timer()
             self.activities.storageroom.set(activities.StorageRoom.EMPTY)

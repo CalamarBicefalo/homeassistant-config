@@ -1,12 +1,11 @@
 import activities
 import entities
-from app import App
+from activity_controllers.generic_controller import ActivityController
 from select_handler import SelectHandler
 
 
-class LivingRoomController(App):
+class LivingRoomController(ActivityController):
     motion_sensor = entities.BINARY_SENSOR_LIVING_ROOM_MOTION
-    no_activity_cooldown = None
 
     @property
     def activity(self) -> SelectHandler:
@@ -23,7 +22,7 @@ class LivingRoomController(App):
             f'Triggering living room activity controller {entity} -> {attribute} old={old} new={new}',
             level="DEBUG")
 
-        self.handle_cooldown()
+        self.cancel_empty_timer()
 
         # TV Handling
         if self.is_on(entities.MEDIA_PLAYER_TV):
@@ -32,11 +31,9 @@ class LivingRoomController(App):
         # Drumming Handling
         elif self.activity.get() == activities.LivingRoom.DRUMMING:
             if self.is_on(self.motion_sensor) or self.sitting_on_sofa():
-                self.no_activity_cooldown = self.run_in(
-                    lambda *_: self.activities.livingroom.set(activities.LivingRoom.EMPTY), 90 * 60)
+                self.set_as_empty_in(minutes=90)
             else:
-                self.no_activity_cooldown = self.run_in(
-                    lambda *_: self.activities.livingroom.set(activities.LivingRoom.EMPTY), 10 * 60)
+                self.set_as_empty_in(minutes=10)
 
         # Sofa Handling
         elif self.sitting_on_sofa():
@@ -51,9 +48,3 @@ class LivingRoomController(App):
 
     def sitting_on_sofa(self) -> bool:
         return self.is_on(entities.BINARY_SENSOR_SOFA_PS_WATER)
-
-    def handle_cooldown(self) -> None:
-        if self.no_activity_cooldown:
-            self.cancel_timer(self.no_activity_cooldown)
-        self.no_activity_cooldown = self.run_in(
-            lambda *_: self.activities.livingroom.set(activities.LivingRoom.EMPTY), 3 * 60 * 60)

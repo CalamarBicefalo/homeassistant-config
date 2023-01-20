@@ -26,12 +26,13 @@ def test_triggers_when_motion(given_that, subject, assert_that):
 
 
 @pytest.mark.asyncio
-def test_when_away(given_that, subject, assert_that):
+def test_when_away(given_that, subject, assert_that, time_travel):
     given_that.state_of(entities.BINARY_SENSOR_STUDIO_MOTION).is_set_to(states.OFF)
     given_that.state_of(entities.SENSOR_DRUMS_PLUG_POWER).is_set_to(0)
     given_that.state_of(entities.BINARY_SENSOR_WORK_CHAIR_PS_WATER).is_set_to(states.OFF)
 
     subject.controller_handler(None, None, None, None, None)
+    time_travel.fast_forward(11).seconds()
 
     assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(activities.studio_helper,
                                                                          activities.Studio.EMPTY)

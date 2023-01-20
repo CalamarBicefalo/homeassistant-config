@@ -10,7 +10,7 @@ Living room activity:
     - services
     - app
     - music
-    - motion_controller
+    - generic_controller
     - select_handler
     - modes
 Kitchen activity:

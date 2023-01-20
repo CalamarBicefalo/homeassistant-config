@@ -21,17 +21,17 @@ def studio_scene() -> None:
 def test_when_working_and_dark(given_that, studio_scene, assert_that):
     given_that.studio_scene_is(activity=activities.Studio.WORKING, illuminance=30)
 
-    studio_scene.handle_scene(None, None, None, None, None)
+    studio_scene.handle_scene(activities.studio_helper, None, None, None, None)
 
     assert_that(scenes.STUDIO_WORKING.get()).was.turned_on()
     assert_that(entities.SWITCH_MONITOR_PLUG).was.turned_on()
 
 
 @pytest.mark.asyncio
-def test_when_working_and_bright(given_that, studio_scene, assert_that):
+def test_when_working_and_bright(given_that, studio_scene, assert_that, time_travel):
     given_that.studio_scene_is(activity=activities.Studio.WORKING, illuminance=100)
 
-    studio_scene.handle_scene(None, None, None, None, None)
+    studio_scene.handle_scene(activities.studio_helper, None, None, None, None)
 
     assert_that(entities.LIGHT_STUDIO).was.turned_off()
     assert_that(entities.SWITCH_MONITOR_PLUG).was.turned_on()
@@ -41,7 +41,7 @@ def test_when_working_and_bright(given_that, studio_scene, assert_that):
 def test_when_drumming_and_dark(given_that, studio_scene, assert_that):
     given_that.studio_scene_is(activity=activities.Studio.DRUMMING, illuminance=30)
 
-    studio_scene.handle_scene(None, None, None, None, None)
+    studio_scene.handle_scene(activities.studio_helper, None, None, None, None)
 
     assert_that(scenes.STUDIO_DRUMMING.get()).was.turned_on()
 

@@ -1,14 +1,13 @@
 import activities
 import entities
 import states
-from app import App
+from activity_controllers.generic_controller import ActivityController
 from select_handler import SelectHandler
 
 
-class EnsuiteController(App):
+class EnsuiteController(ActivityController):
     motion_sensor = entities.BINARY_SENSOR_ENSUITE_MOTION
     contact_sensor = entities.BINARY_SENSOR_BATHROOM_CS_CONTACT
-    turnoff_timer = None
     turnoff_time = 60
     present_cooldown = 1800
     shower_cooldown = 2000
@@ -36,7 +35,7 @@ class EnsuiteController(App):
         if self.activity.is_value(activities.Ensuite.SHOWERING):
             return
 
-        self.cancel_timers()
+        self.cancel_empty_timer()
 
         if new == states.DETECTED:
             if self.get_state(self.contact_sensor) == states.CLOSED:
@@ -54,20 +53,10 @@ class EnsuiteController(App):
             level="DEBUG")
 
         if self.activity.is_value(activities.Ensuite.EMPTY) and new == states.OPEN:
-            self.cancel_timers()
             self.activity.set(activities.Common.PRESENT)
             self.set_as_empty_in(self.present_cooldown)
 
         if self.activity.is_value(activities.Ensuite.SHOWERING):
-            self.cancel_timers()
             self.activity.set(activities.Common.PRESENT)
             self.set_as_empty_in(self.present_cooldown)
 
-    def cancel_timers(self) -> None:
-        if self.turnoff_timer:
-            self.cancel_timer(self.turnoff_timer)
-            self.turnoff_timer = None
-
-    def set_as_empty_in(self, seconds: int) -> None:
-        self.turnoff_timer = self.run_in(
-            lambda *_: self.activities.ensuite.set(activities.Ensuite.EMPTY), seconds)

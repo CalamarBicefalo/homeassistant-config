@@ -2,13 +2,12 @@ from typing import Any
 
 import activities
 import entities
-from app import App
+from activity_controllers.generic_controller import ActivityController
 from select_handler import SelectHandler
 
 
-class StudioController(App):
+class StudioController(ActivityController):
     motion_sensor = entities.BINARY_SENSOR_STUDIO_MOTION
-    cooldown = None
 
     @property
     def activity(self) -> SelectHandler:
@@ -30,7 +29,7 @@ class StudioController(App):
         if entity == entities.SENSOR_DRUMS_PLUG_POWER and abs(float(old) - float(new)) < 3:
             return
 
-        self.handle_cooldown()
+        self.cancel_empty_timer()
 
         # Work handling
         if self.is_on(entities.BINARY_SENSOR_WORK_CHAIR_PS_WATER):
@@ -45,9 +44,4 @@ class StudioController(App):
             self.activity.set(activities.Common.PRESENT)
 
         else:
-            self.activity.set(activities.Common.EMPTY)
-
-    def handle_cooldown(self) -> None:
-        if self.cooldown:
-            self.cancel_timer(self.cooldown)
-        self.cooldown = self.run_in(lambda *_: self.activities.studio.set(activities.Studio.EMPTY), 5 * 60 * 60)
+            self.set_as_empty_in(seconds=10)

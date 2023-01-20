@@ -11,6 +11,7 @@ class StudioScene(SceneApp):
     @property
     def activity(self) -> SelectHandler:
         return self.activities.studio
+
     illuminance_sensor = entities.SENSOR_DESK_MS_ILLUMINANCE
     room_lights = entities.LIGHT_STUDIO
 
