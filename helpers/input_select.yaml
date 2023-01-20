@@ -42,6 +42,7 @@ wardrobe_activity:
   options:
     - Empty
     - Present
+    - Dressing
   icon: mdi:wardrobe
 bedroom_activity:
   name: Bedroom activity

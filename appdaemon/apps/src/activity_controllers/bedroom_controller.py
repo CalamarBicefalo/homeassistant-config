@@ -14,7 +14,7 @@ class BedroomController(ActivityController):
     def initialize(self) -> None:
         self.listen_state(
             self.controller_handler,
-            [self.motion_sensor, entities.MEDIA_PLAYER_TV, entities.BINARY_SENSOR_SOFA_PS_WATER]
+            [self.motion_sensor]
         )
 
     def controller_handler(self, entity, attribute, old, new, kwargs) -> None:  # type: ignore

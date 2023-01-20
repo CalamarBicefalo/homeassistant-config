@@ -48,6 +48,7 @@ class Hallway(Activity):
 class Wardrobe(Activity):
     EMPTY = "Empty"
     PRESENT = "Present"
+    DRESSING = "Dressing"
 
 
 class Bedroom(Activity):

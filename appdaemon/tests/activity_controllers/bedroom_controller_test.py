@@ -15,10 +15,10 @@ def subject() -> None:
     pass
 
 
-def test_triggers_when_motion_or_tv_changes(given_that, subject, assert_that):
+def test_triggers_when_motion(given_that, subject, assert_that):
     assert_that(subject) \
         .listens_to.state(
-        [entities.BINARY_SENSOR_BEDROOM_MS_MOTION, entities.MEDIA_PLAYER_TV, entities.BINARY_SENSOR_SOFA_PS_WATER]) \
+        [entities.BINARY_SENSOR_BEDROOM_MS_MOTION]) \
         .with_callback(subject.controller_handler)
 
 

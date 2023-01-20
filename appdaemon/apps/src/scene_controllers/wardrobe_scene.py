@@ -16,10 +16,14 @@ class WardrobeScene(SceneApp):
     room_lights = entities.LIGHT_WARDROBE
 
     def get_light_scene(self, activity: activities.Activity) -> Scene | SceneSelector:
-        if activity == activities.Wardrobe.PRESENT:
-            return scene.by_mode({
-                Mode.DAY: scenes.WARDROBE_BRIGHT,
-                Mode.NIGHT: scenes.WARDROBE_NIGHTLIGHT,
-                Mode.SLEEPING: scene.off(),
-            })
+        match activity:
+            case activities.Wardrobe.PRESENT:
+                return scene.by_mode({
+                    Mode.DAY: scenes.WARDROBE_BRIGHT,
+                    Mode.NIGHT: scenes.WARDROBE_NIGHTLIGHT,
+                    Mode.SLEEPING: scene.off(),
+                })
+            case activities.Wardrobe.DRESSING:
+                return scenes.WARDROBE_DRESSING
+
         return scene.off()
