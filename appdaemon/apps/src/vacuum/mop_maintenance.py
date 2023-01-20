@@ -5,6 +5,7 @@ import activities
 import entities
 import helpers
 import services
+import states
 from app import App
 
 
@@ -20,6 +21,9 @@ class MopMaintenance(App):
         )
 
     def start_mop_maintenance(self, entity: Any, attribute: Any, old: Any, new: Any, kwargs: Any) -> None:
+        if self.has_state(entities.VACUUM_FLICK, states.CLEANING):
+            return
+
         self.log(f'Triggering mop maintenance routine {entity} -> {attribute} old={old} new={new}', level="DEBUG")
         last_cleaned_kitchen = self.helper_to_datetime(helpers.LAST_CLEANED_KITCHEN)
         last_cleaned_vacuum_mop = self.helper_to_datetime(helpers.LAST_CLEANED_VACUUM_MOP)
