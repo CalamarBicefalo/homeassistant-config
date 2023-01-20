@@ -1,13 +1,11 @@
-from datetime import timedelta
-from typing import Any, Optional
+from typing import Any
 
 import activities
 import entities
 import helpers
-import services
 from app import App
 from modes import Mode
-from music import Playlist, Tune, MusicHandler
+from music import Tune, MusicHandler
 
 
 class ModeController(App):
@@ -25,15 +23,9 @@ class ModeController(App):
     def controller_handler(self, entity: Any, attribute: Any, old: Any, new: Any, kwargs: Any) -> None:
         match new:
             case Mode.NIGHT:
-                self.call_service("cover/close_cover",
-                                  entity_id=entities.COVER_BEDROOM_BLINDS)
-                self.call_service("cover/close_cover",
-                                  entity_id=entities.COVER_BLINDS)
+                self.close_blinds()
             case Mode.DAY:
-                self.call_service("cover/open_cover",
-                                  entity_id=entities.COVER_BEDROOM_BLINDS)
-                self.call_service("cover/open_cover",
-                                  entity_id=entities.COVER_BLINDS)
+                self.open_blinds()
             case Mode.SLEEPING:
                 self.turn_off_media()
                 self.turn_off_lights()
@@ -42,6 +34,7 @@ class ModeController(App):
                 self.bedroom_music.play(Tune.RAIN, volume_level=0.2)
 
             case Mode.AWAY:
+                self.open_blinds()
                 self.turn_off_media()
                 self.turn_off_lights()
                 self.turn_off_plugs()

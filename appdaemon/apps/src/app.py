@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from abc import abstractmethod
 from datetime import datetime
 from typing import Optional
 
@@ -69,12 +68,20 @@ class App(hass.Hass):
         b: bool = state == desired_state
         return b
 
-    def turn_off_media(self):
+    def turn_off_media(self) -> None:
         self.call_service(services.MEDIA_PLAYER_TURN_OFF, entity_id="all")
 
-    def turn_off_lights(self):
+    def open_blinds(self) -> None:
+        self.call_service("cover/open_cover",
+                          entity_id="all")
+
+    def close_blinds(self) -> None:
+        self.call_service("cover/close_cover",
+                          entity_id="all")
+
+    def turn_off_lights(self) -> None:
         self.call_service(services.LIGHT_TURN_OFF, entity_id="all")
 
-    def turn_off_plugs(self):
+    def turn_off_plugs(self) -> None:
         self.turn_off(entities.SWITCH_DRUMS_PLUG)
         self.turn_off(entities.SWITCH_MONITOR_PLUG)
