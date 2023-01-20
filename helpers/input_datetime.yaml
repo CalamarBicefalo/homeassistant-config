@@ -9,6 +9,11 @@ last_cleaned_kitchen:
   icon: mdi:broom
   has_date: true
   has_time: true
+last_cleaned_flat:
+  name: Last cleaned flat
+  icon: mdi:broom
+  has_date: true
+  has_time: true
 last_cleaned_vacuum_mop:
   name: Last cleaned vacuum mop
   icon: mdi:robot-vacuum

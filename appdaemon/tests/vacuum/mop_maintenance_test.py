@@ -96,7 +96,7 @@ assertt.Was.sent_for_maintenance_to_kitchen = sent_for_maintenance_to_kitchen
 del sent_for_maintenance_to_kitchen
 
 def mop_maintenance_state_is(self, last_cleaned, last_maintenance, flick=states.DOCKED):
-    self.state_of(helpers.LAST_CLEANED_KITCHEN).is_set_to(last_cleaned)
+    self.state_of(helpers.LAST_CLEANED_FLAT).is_set_to(last_cleaned)
     self.state_of(helpers.LAST_CLEANED_VACUUM_MOP).is_set_to(last_maintenance)
     self.state_of(entities.VACUUM_FLICK).is_set_to(flick)
 

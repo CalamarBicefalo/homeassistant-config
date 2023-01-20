@@ -25,7 +25,7 @@ class MopMaintenance(App):
             return
 
         self.log(f'Triggering mop maintenance routine {entity} -> {attribute} old={old} new={new}', level="DEBUG")
-        last_cleaned_kitchen = self.helper_to_datetime(helpers.LAST_CLEANED_KITCHEN)
+        last_cleaned_kitchen = self.helper_to_datetime(helpers.LAST_CLEANED_FLAT)
         last_cleaned_vacuum_mop = self.helper_to_datetime(helpers.LAST_CLEANED_VACUUM_MOP)
 
         mop_is_dirty = last_cleaned_vacuum_mop < last_cleaned_kitchen

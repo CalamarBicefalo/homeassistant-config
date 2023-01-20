@@ -14,7 +14,12 @@ Vacuum kitchen cleaner:
     - music
     - select_handler
     - modes
+    - segments
 Vacuum mop maintenance:
   module: mop_maintenance
   class: MopMaintenance
+  global_dependencies: *globals
+Vacuum flat cleaner:
+  module: flat_cleaner
+  class: FlatCleaner
   global_dependencies: *globals

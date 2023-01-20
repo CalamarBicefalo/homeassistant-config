@@ -11,7 +11,8 @@ import matchers
 import services
 from test_utils import formatted_yesterday as yesterday, formatted_now as now, formatted_days_ago as days_ago, \
     format_date
-from vacuum.kitchen_cleaner import KitchenCleaner, kitchen_segment
+from vacuum import segments
+from vacuum.kitchen_cleaner import KitchenCleaner
 
 
 @automation_fixture(KitchenCleaner)
@@ -161,7 +162,7 @@ def sent_to_clean_kitchen(self):
     self.called_with(
         entity_id=entities.VACUUM_FLICK,
         command="app_segment_clean",
-        params=kitchen_segment
+        params=segments.kitchen
     )
 
 
