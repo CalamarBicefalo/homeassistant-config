@@ -2,6 +2,7 @@ from typing import Optional
 
 import activities
 import entities
+import modes
 import scenes
 from modes import Mode
 from music import Playlist
@@ -58,4 +59,8 @@ class BedroomScene(SceneApp):
             self.run_in(lambda *_: self.music.volume(0.1), 20 * 60)
             self.run_in(lambda *_: self.turn_off(entities.LIGHT_FULL_LIVING_ROOM), 120)
             self.mode_change = self.run_in(lambda *_: self.mode.set(Mode.SLEEPING), 30 * 60)
+
+        elif self.mode.get() == modes.Mode.DAY:
+            self.call_service("cover/open_cover",
+                              entity_id=entities.COVER_BEDROOM_BLINDS)
 
