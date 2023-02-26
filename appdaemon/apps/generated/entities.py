@@ -135,7 +135,6 @@ NUMBER_OFFICE_SPEAKER_ANNOUNCEMENTS_VOLUME_INCREASE_RELATIVE: Entity = Entity("n
 NUMBER_OFFICE_SPEAKER_CROSSFADE_DURATION: Entity = Entity("number.office_speaker_crossfade_duration")
 PERSON_AMANDA: Entity = Entity("person.amanda")
 PERSON_JOSE_CARLOS: Entity = Entity("person.jose_carlos")
-PERSON_JOSE_CARLOS_2: Entity = Entity("person.jose_carlos_2")
 REMOTE_SONY_KD_49XF8096: Entity = Entity("remote.sony_kd_49xf8096")
 SCENE_BATHROOM_CONCENTRATE: Entity = Entity("scene.bathroom_concentrate")
 SCENE_BATHROOM_NIGHTLIGHT: Entity = Entity("scene.bathroom_nightlight")

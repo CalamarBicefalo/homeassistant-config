@@ -27,8 +27,8 @@ known_devices.yaml
 /venv/
 /.mypy_cache/
 .HA_VERSION
+.DS_Store
 SERVICE_ACCOUNT.json
 media
 music_assistant.db
-image
 appdaemon/apps/src/playground.py
