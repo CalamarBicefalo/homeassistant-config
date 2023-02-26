@@ -8,8 +8,8 @@ class Activity(StrEnum):
 
 
 class Common(Activity):
-    PRESENT = "Present"
     EMPTY = "Empty"
+    PRESENT = "Present"
 
 
 class Kitchen(Activity):

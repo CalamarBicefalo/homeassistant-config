@@ -1,0 +1,5 @@
+project_id: home-assistant-24120
+service_account: !include SERVICE_ACCOUNT.json
+report_state: true
+exposed_domains:
+  - input_select

@@ -1,6 +1,4 @@
-# Loads default set of integrations. Do not remove.
 default_config:
-
 cloud:
 
 input_button: !include helpers/input_button.yaml
@@ -9,36 +7,12 @@ input_number: !include helpers/input_number.yaml
 input_datetime: !include helpers/input_datetime.yaml
 input_select: !include helpers/input_select.yaml
 
-      
-# Text to speech
-tts:
-  - platform: google_translate
-
-automation: !include automations.yaml
-script: !include scripts.yaml
-scene: !include scenes.yaml
-
 binary_sensor: !include devices/binary_sensor.yaml
 
-http:
-  use_x_forwarded_for: true
-  trusted_proxies:
-    - 172.30.33.0/24
-  ip_ban_enabled: true
-  login_attempts_threshold: 5
+automation: !include config/automations.yaml
+person: !include config/people.yaml
+tts: !include config/text_to_speech.yaml
+http: !include config/http.yaml
+google_assistant: !include config/google_assistant.yaml
 
-google_assistant:
-  project_id: home-assistant-24120
-  service_account: !include SERVICE_ACCOUNT.json
-  report_state: true
-  exposed_domains:
-    - input_select
 
-person:
-  - name: José Carlos
-    id: calamarbicefalo
-    user_id: affe11e198de496e8078cd4951b9949b
-    device_trackers:
-      - device_tracker.galaxy_s9
-  - name: Amanda
-    id: ahjones
