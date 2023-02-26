@@ -12,7 +12,7 @@ from select_handler import SelectHandler
 class KitchenScene(SceneApp):
     @property
     def activity(self) -> SelectHandler:
-        return self.activities.livingroom
+        return self.activities.kitchen
 
     illuminance_sensor = entities.SENSOR_KITCHEN_MS_ILLUMINANCE
     room_lights = entities.LIGHT_KITCHEN
