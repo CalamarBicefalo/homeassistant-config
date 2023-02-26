@@ -9,6 +9,7 @@
 .pytest_cache
 __pycache__
 out
+secrets
 
 custom_components
 www
@@ -21,7 +22,6 @@ home-assistant_v2.db-shm
 home-assistant_v2.db
 
 ip_bans.yaml
-secrets.yaml
 known_devices.yaml
 /ha_api/
 /venv/

@@ -4,7 +4,7 @@ import yaml
 
 def generate_services(root_dir: str, homeassistant_url: str):
     GENERATED_SERVICES = f'{root_dir}/services.py'
-    with open("secrets.yaml", "r") as stream:
+    with open("secrets/secrets.yaml", "r") as stream:
         token = yaml.safe_load(stream)['apiToken']
         resp = requests.get(url=f'{homeassistant_url}/api/services',
                             headers={"Authorization": f'Bearer {token}'}).json()

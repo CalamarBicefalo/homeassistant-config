@@ -4,7 +4,7 @@ import yaml
 
 def generate_entities(root_dir: str, homeassistant_url: str):
     GENERATED_ENTITIES = f'{root_dir}/entities.py'
-    with open("secrets.yaml", "r") as stream:
+    with open("secrets/secrets.yaml", "r") as stream:
         token = yaml.safe_load(stream)['apiToken']
         resp = requests.get(url=f'{homeassistant_url}/api/states', headers={"Authorization": f'Bearer {token}'}).json()
         resp.sort(key=lambda x: x["entity_id"])
