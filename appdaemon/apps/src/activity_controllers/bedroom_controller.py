@@ -1,10 +1,10 @@
 import activities
 import entities
-from activity_controllers.generic_controller import ActivityController
+from activity_controllers.generic_controller import MotionController
 from select_handler import SelectHandler
 
 
-class BedroomController(ActivityController):
+class BedroomController(MotionController):
     motion_sensor = entities.BINARY_SENSOR_BEDROOM_MS_MOTION
 
     @property

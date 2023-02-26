@@ -16,6 +16,7 @@ class Kitchen(Activity):
     EMPTY = "Empty"
     PRESENT = "Present"
     COOKING = "Cooking"
+    TV_BREAK = "TV Break"
 
 
 class LivingRoom(Activity):

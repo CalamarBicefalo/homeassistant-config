@@ -39,3 +39,7 @@ Storage room scene:
   module: storage_room_scene
   class: StorageRoomScene
   global_dependencies: *globals
+Kitchen scene:
+  module: kitchen_scene
+  class: KitchenScene
+  global_dependencies: *globals

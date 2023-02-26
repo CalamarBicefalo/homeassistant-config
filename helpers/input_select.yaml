@@ -5,6 +5,7 @@ kitchen_activity:
     - Empty
     - Present
     - Cooking
+    - TV Break
   icon: mdi:stove
 living_room_activity:
   name: Living room activity
