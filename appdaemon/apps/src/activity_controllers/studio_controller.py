@@ -3,7 +3,7 @@ from typing import Any
 import activities
 import entities
 from activity_controllers.generic_controller import ActivityController
-from select_handler import SelectHandler
+from handlers.select_handler import SelectHandler
 
 
 class StudioController(ActivityController):

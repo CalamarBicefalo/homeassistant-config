@@ -1,5 +1,5 @@
 import pytest
-from appdaemontestframework import automation_fixture, given_that as given
+from appdaemontestframework import automation_fixture
 
 import activities
 import entities
@@ -11,7 +11,7 @@ from modes import Mode
 from scene_controllers import scene
 from scene_controllers.scene import SceneSelector
 from scene_controllers.scene_app import SceneApp
-from select_handler import SelectHandler
+from handlers.select_handler import SelectHandler
 
 ROOM_LIGHTS = "room_lights"
 ILLUMINANCE_SENSOR = "illuminance_sensor"

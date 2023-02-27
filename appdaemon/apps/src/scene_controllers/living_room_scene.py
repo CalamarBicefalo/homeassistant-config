@@ -2,13 +2,12 @@
 import activities
 import entities
 import scenes
-import random
 from modes import Mode
-from music import Playlist
+from handlers.music import Playlist
 from scene_controllers import scene
 from scene_controllers.scene import Scene, SceneSelector
 from scene_controllers.scene_app import SceneApp
-from select_handler import SelectHandler
+from handlers.select_handler import SelectHandler
 
 
 class LivingRoomScene(SceneApp):
@@ -61,8 +60,6 @@ class LivingRoomScene(SceneApp):
 
         mode = self.mode.get()
         if mode == Mode.NIGHT or mode == Mode.SLEEPING:
-            self.call_service("cover/close_cover",
-                              entity_id=entities.COVER_BLINDS)
+            self.blinds.close(entities.COVER_BLINDS)
         else:
-            self.call_service("cover/open_cover",
-                              entity_id=entities.COVER_BLINDS)
+            self.blinds.open(entities.COVER_BLINDS)

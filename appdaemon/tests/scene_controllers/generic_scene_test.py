@@ -6,12 +6,11 @@ import entities
 import helpers
 import matchers
 import scene_controllers.scene
-import scenes
 import states
 from modes import Mode
 from scene_controllers.scene import Scene
 from scene_controllers.scene_app import SceneApp
-from select_handler import SelectHandler
+from handlers.select_handler import SelectHandler
 
 DEFAULT_SCENE = entities.SCENE_KITCHEN_TV
 ROOM_LIGHTS = "room_lights"

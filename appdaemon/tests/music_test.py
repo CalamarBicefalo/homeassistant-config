@@ -3,15 +3,10 @@ from typing import Any
 import pytest
 from appdaemontestframework import automation_fixture
 
-import activities
 import entities
-import helpers
 import matchers
-import modes
 import services
 from app import App
-from away_monitor import AwayMonitor
-from music import MusicHandler
 
 speakers = entities.MEDIA_PLAYER_MASS_COOKING_AREA
 

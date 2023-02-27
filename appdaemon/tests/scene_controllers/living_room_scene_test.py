@@ -10,7 +10,7 @@ import matchers
 import modes
 import scenes
 import states
-from music import MusicHandler
+from handlers.music import MusicHandler
 from scene_controllers.living_room_scene import LivingRoomScene
 
 

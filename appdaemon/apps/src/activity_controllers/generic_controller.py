@@ -4,7 +4,7 @@ import activities
 import entities
 import states
 from app import App
-from select_handler import SelectHandler
+from handlers.select_handler import SelectHandler
 
 
 class ActivityController(App):

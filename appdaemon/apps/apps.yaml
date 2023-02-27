@@ -21,6 +21,7 @@ Away monitor:
   class: AwayMonitor
   dependencies: !include dependencies.yaml
 
+# Global dependencies
 states:
   module: states.py
   global: true

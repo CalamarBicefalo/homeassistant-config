@@ -10,12 +10,12 @@ import helpers
 import services
 import states
 from activities import ActivityHandlers
-from blinds import BlindsHandler
+from handlers.blinds import BlindsHandler
 from entities import Entity
 from helpers import Helper
 from modes import Mode
-from music import MusicHandler
-from select_handler import SelectHandler
+from handlers.music import MusicHandler
+from handlers.select_handler import SelectHandler
 
 HELPER_DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"
 

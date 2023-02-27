@@ -7,7 +7,7 @@ from app import App
 from modes import Mode
 from scene_controllers import scene
 from scene_controllers.scene import SceneSelector, Scene, OffScene
-from select_handler import SelectHandler
+from handlers.select_handler import SelectHandler
 
 
 class SceneApp(App):

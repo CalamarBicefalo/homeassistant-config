@@ -5,7 +5,7 @@ import activities
 import entities
 import services
 from activity_controllers.generic_controller import MotionController
-from select_handler import SelectHandler
+from handlers.select_handler import SelectHandler
 import states
 
 

@@ -2,11 +2,11 @@ import activities
 import entities
 import scenes
 from modes import Mode
-from music import Playlist
+from handlers.music import Playlist
 from scene_controllers import scene
 from scene_controllers.scene import Scene, SceneSelector
 from scene_controllers.scene_app import SceneApp
-from select_handler import SelectHandler
+from handlers.select_handler import SelectHandler
 
 
 class KitchenScene(SceneApp):
