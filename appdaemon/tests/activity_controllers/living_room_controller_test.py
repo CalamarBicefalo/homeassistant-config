@@ -6,7 +6,7 @@ import activities
 import entities
 import services
 from activity_controllers.living_room_controller import LivingRoomController
-import states
+from utils import states
 
 
 @automation_fixture(LivingRoomController)

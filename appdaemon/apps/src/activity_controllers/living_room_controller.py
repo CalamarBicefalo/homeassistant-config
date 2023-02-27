@@ -1,7 +1,7 @@
 import activities
 import entities
 from activity_controllers.generic_controller import ActivityController
-from handlers.select_handler import SelectHandler
+from utils.select_handler import SelectHandler
 
 
 class LivingRoomController(ActivityController):

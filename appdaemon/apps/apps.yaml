@@ -1,31 +1,27 @@
 ---
-global_modules: !include dependencies.yaml
+global_modules: !include /config/appdaemon/apps/dependencies.yaml
 
 Playground:
   module: playground
   class: Playground
-  dependencies: !include dependencies.yaml
+  dependencies: !include /config/appdaemon/apps/dependencies.yaml
 
 Mode manager:
   module: mode_manager
   class: ModeManager
-  dependencies: !include dependencies.yaml
+  dependencies: !include /config/appdaemon/apps/dependencies.yaml
 
 Mode controller:
   module: mode_controller
   class: ModeController
-  dependencies: !include dependencies.yaml
+  dependencies: !include /config/appdaemon/apps/dependencies.yaml
 
 Away monitor:
   module: away_monitor
   class: AwayMonitor
-  dependencies: !include dependencies.yaml
+  dependencies: !include /config/appdaemon/apps/dependencies.yaml
 
 # Global dependencies
-states:
-  module: states.py
-  global: true
-
 activities:
   module: activities.py
   global: true
@@ -54,14 +50,6 @@ app:
   module: app.py
   global: true
 
-music:
-  module: music.py
-  global: true
-
-blinds:
-  module: blinds.py
-  global: true
-
 scene_app:
   module: scene_app.py
   global: true
@@ -76,10 +64,6 @@ scenes:
 
 generic_controller:
   module: generic_controller.py
-  global: true
-
-select_handler:
-  module: select_handler.py
   global: true
 
 modes:

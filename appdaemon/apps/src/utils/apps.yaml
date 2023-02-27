@@ -1,0 +1,17 @@
+---
+states:
+  module: states.py
+  global: true
+
+music:
+  module: music.py
+  global: true
+
+blinds:
+  module: blinds.py
+  global: true
+
+select_handler:
+  module: select_handler.py
+  global: true
+

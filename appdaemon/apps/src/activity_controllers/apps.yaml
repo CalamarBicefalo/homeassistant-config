@@ -2,32 +2,32 @@
 Living room activity:
   module: living_room_controller
   class: LivingRoomController
-  dependencies: !include ../../dependencies.yaml
+  dependencies: !include /config/appdaemon/apps/dependencies.yaml
 Kitchen activity:
   module: kitchen_controller
   class: KitchenController
-  dependencies: !include ../../dependencies.yaml
+  dependencies: !include /config/appdaemon/apps/dependencies.yaml
 Studio activity:
   module: studio_controller
   class: StudioController
-  dependencies: !include ../../dependencies.yaml
+  dependencies: !include /config/appdaemon/apps/dependencies.yaml
 Ensuite activity:
   module: ensuite_controller
   class: EnsuiteController
-  dependencies: !include ../../dependencies.yaml
+  dependencies: !include /config/appdaemon/apps/dependencies.yaml
 Wardrobe activity:
   module: wardrobe_controller
   class: WardrobeController
-  dependencies: !include ../../dependencies.yaml
+  dependencies: !include /config/appdaemon/apps/dependencies.yaml
 Bedroom activity:
   module: bedroom_controller
   class: BedroomController
-  dependencies: !include ../../dependencies.yaml
+  dependencies: !include /config/appdaemon/apps/dependencies.yaml
 Hallway activity:
   module: hallway_controller
   class: HallwayController
-  dependencies: !include ../../dependencies.yaml
+  dependencies: !include /config/appdaemon/apps/dependencies.yaml
 Storage room activity:
   module: storage_room_controller
   class: StorageRoomController
-  dependencies: !include ../../dependencies.yaml
+  dependencies: !include /config/appdaemon/apps/dependencies.yaml

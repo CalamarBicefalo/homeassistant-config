@@ -4,7 +4,7 @@ from appdaemontestframework import automation_fixture
 import activities
 import matchers
 import services
-import states as door
+from utils import states as door
 from activity_controllers.storage_room_controller import StorageRoomController
 
 

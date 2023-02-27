@@ -1,6 +1,6 @@
 import entities
 from activity_controllers.generic_controller import MotionController
-from handlers.select_handler import SelectHandler
+from utils.select_handler import SelectHandler
 
 
 class HallwayController(MotionController):

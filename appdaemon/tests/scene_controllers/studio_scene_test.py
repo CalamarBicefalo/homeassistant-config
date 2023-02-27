@@ -7,7 +7,7 @@ import helpers
 import matchers
 import modes
 import scenes
-import states
+from utils import states
 from scene_controllers.studio_scene import StudioScene
 
 

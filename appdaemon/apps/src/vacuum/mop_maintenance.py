@@ -5,7 +5,7 @@ import activities
 import entities
 import helpers
 import services
-import states
+from utils import states
 from app import App
 
 

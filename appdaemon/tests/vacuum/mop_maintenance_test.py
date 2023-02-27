@@ -6,7 +6,7 @@ from appdaemontestframework import automation_fixture, given_that as given, asse
 import activities
 import helpers
 import services
-import states
+from utils import states
 import test_utils
 from vacuum.mop_maintenance import MopMaintenance, mop_maintenance
 

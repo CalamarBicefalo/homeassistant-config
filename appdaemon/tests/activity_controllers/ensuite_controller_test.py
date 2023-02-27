@@ -4,8 +4,7 @@ from appdaemontestframework import automation_fixture, given_that as given
 import activities
 import matchers
 import services
-import states as door
-import states as motion
+from utils import states as door, states as motion
 from activity_controllers.ensuite_controller import EnsuiteController
 
 

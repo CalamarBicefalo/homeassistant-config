@@ -2,12 +2,12 @@
 Vacuum kitchen cleaner:
   module: kitchen_cleaner
   class: KitchenCleaner
-  dependencies: !include ../../dependencies.yaml
+  dependencies: !include /config/appdaemon/apps/dependencies.yaml
 Vacuum mop maintenance:
   module: mop_maintenance
   class: MopMaintenance
-  dependencies: !include ../../dependencies.yaml
+  dependencies: !include /config/appdaemon/apps/dependencies.yaml
 Vacuum flat cleaner:
   module: flat_cleaner
   class: FlatCleaner
-  dependencies: !include ../../dependencies.yaml
+  dependencies: !include /config/appdaemon/apps/dependencies.yaml

@@ -8,14 +8,14 @@ import appdaemon.plugins.hass.hassapi as hass
 import entities
 import helpers
 import services
-import states
+from utils import states
 from activities import ActivityHandlers
-from handlers.blinds import BlindsHandler
+from utils.blinds import BlindsHandler
 from entities import Entity
 from helpers import Helper
 from modes import Mode
-from handlers.music import MusicHandler
-from handlers.select_handler import SelectHandler
+from utils.music import MusicHandler
+from utils.select_handler import SelectHandler
 
 HELPER_DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"
 

@@ -1,6 +1,6 @@
 from helpers import Helper
 from strenum import StrEnum
-from handlers.select_handler import SelectHandler
+from utils.select_handler import SelectHandler
 
 
 class Activity(StrEnum):
