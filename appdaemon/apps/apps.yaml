@@ -1,37 +1,87 @@
 ---
-global_modules: &globals
-  - states
-  - activities
-  - entities
-  - helpers
-  - services
-  - vacuum_location
-  - point
-  - app
-  - music
-  - scene_app
-  - scene
-  - scenes
-  - generic_controller
-  - select_handler
-  - modes
+global_modules: !include dependencies.yaml
 
 Playground:
   module: playground
   class: Playground
-  global_dependencies: *globals
+  dependencies: !include dependencies.yaml
 
 Mode manager:
   module: mode_manager
   class: ModeManager
-  global_dependencies: *globals
+  dependencies: !include dependencies.yaml
 
 Mode controller:
   module: mode_controller
   class: ModeController
-  global_dependencies: *globals
+  dependencies: !include dependencies.yaml
 
 Away monitor:
   module: away_monitor
   class: AwayMonitor
-  global_dependencies: *globals
+  dependencies: !include dependencies.yaml
+
+states:
+  module: states.py
+  global: true
+
+activities:
+  module: activities.py
+  global: true
+
+entities:
+  module: entities.py
+  global: true
+
+helpers:
+  module: helpers.py
+  global: true
+
+services:
+  module: services.py
+  global: true
+
+vacuum_location:
+  module: vacuum_location.py
+  global: true
+
+point:
+  module: point.py
+  global: true
+
+app:
+  module: app.py
+  global: true
+
+music:
+  module: music.py
+  global: true
+
+blinds:
+  module: blinds.py
+  global: true
+
+scene_app:
+  module: scene_app.py
+  global: true
+
+scene:
+  module: scene.py
+  global: true
+
+scenes:
+  module: scenes.py
+  global: true
+
+generic_controller:
+  module: generic_controller.py
+  global: true
+
+select_handler:
+  module: select_handler.py
+  global: true
+
+modes:
+  module: modes.py
+  global: true
+

@@ -2,44 +2,32 @@
 Living room scene:
   module: living_room_scene
   class: LivingRoomScene
-  global_dependencies: &globals
-    - states
-    - activities
-    - entities
-    - helpers
-    - services
-    - app
-    - music
-    - scene_app
-    - scene
-    - scenes
-    - select_handler
-    - modes
+  dependencies: !include ../../dependencies.yaml
 Studio scene:
   module: studio_scene
   class: StudioScene
-  global_dependencies: *globals
+  dependencies: !include ../../dependencies.yaml
 Ensuite scene:
   module: ensuite_scene
   class: EnsuiteScene
-  global_dependencies: *globals
+  dependencies: !include ../../dependencies.yaml
 Wardrobe scene:
   module: wardrobe_scene
   class: WardrobeScene
-  global_dependencies: *globals
+  dependencies: !include ../../dependencies.yaml
 Bedroom scene:
   module: bedroom_scene
   class: BedroomScene
-  global_dependencies: *globals
+  dependencies: !include ../../dependencies.yaml
 Hallway scene:
   module: hallway_scene
   class: HallwayScene
-  global_dependencies: *globals
+  dependencies: !include ../../dependencies.yaml
 Storage room scene:
   module: storage_room_scene
   class: StorageRoomScene
-  global_dependencies: *globals
+  dependencies: !include ../../dependencies.yaml
 Kitchen scene:
   module: kitchen_scene
   class: KitchenScene
-  global_dependencies: *globals
+  dependencies: !include ../../dependencies.yaml

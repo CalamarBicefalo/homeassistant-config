@@ -2,42 +2,32 @@
 Living room activity:
   module: living_room_controller
   class: LivingRoomController
-  global_dependencies: &globals
-    - states
-    - activities
-    - entities
-    - helpers
-    - services
-    - app
-    - music
-    - generic_controller
-    - select_handler
-    - modes
+  dependencies: !include ../../dependencies.yaml
 Kitchen activity:
   module: kitchen_controller
   class: KitchenController
-  global_dependencies: *globals
+  dependencies: !include ../../dependencies.yaml
 Studio activity:
   module: studio_controller
   class: StudioController
-  global_dependencies: *globals
+  dependencies: !include ../../dependencies.yaml
 Ensuite activity:
   module: ensuite_controller
   class: EnsuiteController
-  global_dependencies: *globals
+  dependencies: !include ../../dependencies.yaml
 Wardrobe activity:
   module: wardrobe_controller
   class: WardrobeController
-  global_dependencies: *globals
+  dependencies: !include ../../dependencies.yaml
 Bedroom activity:
   module: bedroom_controller
   class: BedroomController
-  global_dependencies: *globals
+  dependencies: !include ../../dependencies.yaml
 Hallway activity:
   module: hallway_controller
   class: HallwayController
-  global_dependencies: *globals
+  dependencies: !include ../../dependencies.yaml
 Storage room activity:
   module: storage_room_controller
   class: StorageRoomController
-  global_dependencies: *globals
+  dependencies: !include ../../dependencies.yaml

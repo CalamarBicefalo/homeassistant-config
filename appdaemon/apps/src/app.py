@@ -10,6 +10,7 @@ import helpers
 import services
 import states
 from activities import ActivityHandlers
+from blinds import BlindsHandler
 from entities import Entity
 from helpers import Helper
 from modes import Mode
@@ -27,12 +28,14 @@ class App(hass.Hass):
     mode: SelectHandler[Mode]
     activities: ActivityHandlers
     music: MusicHandler
+    blinds: BlindsHandler
 
     def __init__(self, ad, name, logging, args, config, app_config, global_vars) -> None:  # type: ignore
         super().__init__(ad, name, logging, args, config, app_config, global_vars)
         self.mode = SelectHandler[Mode](super(), helpers.HOMEASSISTANT_MODE)
         self.activities = ActivityHandlers(super())
         self.music = MusicHandler(super(), self.speakers)
+        self.blinds = BlindsHandler(super())
 
     @property
     def speakers(self) -> Optional[entities.Entity]:
@@ -70,14 +73,6 @@ class App(hass.Hass):
 
     def turn_off_media(self) -> None:
         self.call_service(services.MEDIA_PLAYER_TURN_OFF, entity_id="all")
-
-    def open_blinds(self) -> None:
-        self.call_service("cover/open_cover",
-                          entity_id="all")
-
-    def close_blinds(self) -> None:
-        self.call_service("cover/close_cover",
-                          entity_id="all")
 
     def turn_off_lights(self) -> None:
         self.call_service(services.LIGHT_TURN_OFF, entity_id="all")

@@ -23,9 +23,9 @@ class ModeController(App):
     def controller_handler(self, entity: Any, attribute: Any, old: Any, new: Any, kwargs: Any) -> None:
         match new:
             case Mode.NIGHT:
-                self.close_blinds()
+                self.blinds.close_all()
             case Mode.DAY:
-                self.open_blinds()
+                self.blinds.open_all()
             case Mode.SLEEPING:
                 self.turn_off_media()
                 self.turn_off_lights()
@@ -34,7 +34,7 @@ class ModeController(App):
                 self.bedroom_music.play(Tune.RAIN, volume_level=0.2)
 
             case Mode.AWAY:
-                self.open_blinds()
+                self.blinds.open_all()
                 self.turn_off_media()
                 self.turn_off_lights()
                 self.turn_off_plugs()

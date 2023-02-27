@@ -2,24 +2,12 @@
 Vacuum kitchen cleaner:
   module: kitchen_cleaner
   class: KitchenCleaner
-  global_dependencies: &globals
-    - states
-    - activities
-    - entities
-    - helpers
-    - services
-    - vacuum_location
-    - point
-    - app
-    - music
-    - select_handler
-    - modes
-    - segments
+  dependencies: !include ../../dependencies.yaml
 Vacuum mop maintenance:
   module: mop_maintenance
   class: MopMaintenance
-  global_dependencies: *globals
+  dependencies: !include ../../dependencies.yaml
 Vacuum flat cleaner:
   module: flat_cleaner
   class: FlatCleaner
-  global_dependencies: *globals
+  dependencies: !include ../../dependencies.yaml
