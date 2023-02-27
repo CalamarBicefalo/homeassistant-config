@@ -9,8 +9,8 @@ import helpers
 import matchers
 import modes
 import scenes
-from utils import states
-from utils.music import MusicHandler
+import states
+from music import MusicHandler
 from scene_controllers.living_room_scene import LivingRoomScene
 
 

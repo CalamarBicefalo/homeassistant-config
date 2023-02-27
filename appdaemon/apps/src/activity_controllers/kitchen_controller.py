@@ -1,7 +1,7 @@
 import activities
 import entities
 from activity_controllers.generic_controller import MotionController
-from utils.select_handler import SelectHandler
+from select_handler import SelectHandler
 
 
 class KitchenController(MotionController):

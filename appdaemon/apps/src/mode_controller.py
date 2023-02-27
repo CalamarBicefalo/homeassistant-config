@@ -5,7 +5,7 @@ import entities
 import helpers
 from app import App
 from modes import Mode
-from utils.music import Tune, MusicHandler
+from music import Tune, MusicHandler
 
 
 class ModeController(App):

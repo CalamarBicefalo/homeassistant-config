@@ -5,7 +5,7 @@ from modes import Mode
 from scene_controllers import scene
 from scene_controllers.scene import SceneSelector, Scene
 from scene_controllers.scene_app import SceneApp
-from utils.select_handler import SelectHandler
+from select_handler import SelectHandler
 
 
 class EnsuiteScene(SceneApp):

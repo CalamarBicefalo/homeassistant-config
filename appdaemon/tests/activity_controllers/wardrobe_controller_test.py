@@ -5,7 +5,7 @@ from appdaemontestframework import automation_fixture, given_that as given
 import activities
 import entities
 import services
-from utils import states
+import states
 from activity_controllers.wardrobe_controller import WardrobeController
 
 

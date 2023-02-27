@@ -1,8 +1,8 @@
 import activities
 import entities
-from utils import states
+import states
 from activity_controllers.generic_controller import ActivityController
-from utils.select_handler import SelectHandler
+from select_handler import SelectHandler
 
 
 class WardrobeController(ActivityController):

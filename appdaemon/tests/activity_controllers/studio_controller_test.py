@@ -6,7 +6,7 @@ import activities
 import entities
 import services
 from activity_controllers.studio_controller import StudioController
-from utils import states
+import states
 
 
 @automation_fixture(StudioController)

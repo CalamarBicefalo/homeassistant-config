@@ -5,8 +5,8 @@ import activities
 import entities
 import services
 from activity_controllers.generic_controller import MotionController
-from utils.select_handler import SelectHandler
-from utils import states
+from select_handler import SelectHandler
+import states
 
 
 class GenericMotionController(MotionController):

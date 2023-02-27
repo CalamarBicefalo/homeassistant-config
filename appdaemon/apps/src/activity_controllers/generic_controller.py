@@ -2,9 +2,9 @@ from abc import abstractmethod
 
 import activities
 import entities
-from utils import states
+import states
 from app import App
-from utils.select_handler import SelectHandler
+from select_handler import SelectHandler
 
 
 class ActivityController(App):
