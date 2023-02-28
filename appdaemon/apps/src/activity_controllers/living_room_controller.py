@@ -25,7 +25,7 @@ class LivingRoomController(ActivityController):
         self.cancel_empty_timer()
 
         # TV Handling
-        if self.is_on(entities.MEDIA_PLAYER_TV):
+        if self.is_on(entities.MEDIA_PLAYER_TV) or self.is_on(entities.MEDIA_PLAYER_SONY_KD_49XF8096):
             self.activity.set(activities.LivingRoom.WATCHING_TV)
 
         # Drumming Handling

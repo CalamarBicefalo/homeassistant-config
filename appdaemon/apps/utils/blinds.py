@@ -19,7 +19,7 @@ class BlindsHandler:
                               entity_id="all")
 
     def close(self, entity: Entity) -> None:
-        if self.app.get_state(entity) == states.OPEN:
+        if self.app.get_state(entity) != states.CLOSED:
             self.app.call_service("cover/close_cover",
                                   entity_id=entity)
 
