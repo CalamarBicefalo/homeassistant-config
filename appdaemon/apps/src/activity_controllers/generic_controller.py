@@ -6,20 +6,31 @@ import states
 from app import App
 from select_handler import SelectHandler
 
+MAX_INACTIVE_ACTIVITY_DURATION = 3 * 60 * 60
+
 
 class ActivityController(App):
     _empty_timer = None
 
     def set_as_empty_in(self, seconds: int = 0, minutes: int = 0) -> None:
-        countdown = seconds + (minutes * 60)
-        if self._empty_timer:
-            self.cancel_timer(self._empty_timer)
-        self._empty_timer = self.run_in(lambda *_: self.activity.set(activities.Common.EMPTY), countdown)
+        self._cancel_empty_timer()
+        self._run_empty_timer_in(seconds=seconds + (minutes * 60))
 
     def cancel_empty_timer(self) -> None:
-        if self._empty_timer:
+        self._cancel_empty_timer()
+        # Ensures every room eventually converges to the EMPTY state
+        self._run_empty_timer_in(MAX_INACTIVE_ACTIVITY_DURATION)
+
+    def _cancel_empty_timer(self) -> None:
+        if self._empty_timer and self.timer_running(self._empty_timer):
             self.cancel_timer(self._empty_timer)
-        self._empty_timer = self.run_in(lambda *_: self.activity.set(activities.Common.EMPTY), 3 * 60 * 60)
+
+    def _run_empty_timer_in(self, seconds: int) -> None:
+        def callback() -> None:
+            self.activity.set(activities.Common.EMPTY)
+            self._empty_timer = None
+
+        self._empty_timer = self.run_in(lambda *_: callback(), seconds)
 
     @property
     @abstractmethod
