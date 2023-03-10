@@ -11,12 +11,6 @@ class BedroomController(MotionController):
     def activity(self) -> SelectHandler:
         return self.activities.bedroom
 
-    def initialize(self) -> None:
-        self.listen_state(
-            self.controller_handler,
-            [self.motion_sensor]
-        )
-
     def controller_handler(self, entity, attribute, old, new, kwargs) -> None:  # type: ignore
         self.log(
             f'Triggering bedroom activity controller {entity} -> {attribute} old={old} new={new}',
