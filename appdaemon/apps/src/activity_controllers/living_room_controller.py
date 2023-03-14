@@ -14,7 +14,12 @@ class LivingRoomController(ActivityController):
     def initialize(self) -> None:
         self.listen_state(
             self.controller_handler,
-            [self.motion_sensor, entities.MEDIA_PLAYER_TV, entities.BINARY_SENSOR_SOFA_PS_WATER]
+            [
+                self.motion_sensor,
+                entities.MEDIA_PLAYER_TV,
+                entities.MEDIA_PLAYER_SONY_KD_49XF8096,
+                entities.BINARY_SENSOR_SOFA_PS_WATER
+            ]
         )
 
     def controller_handler(self, entity, attribute, old, new, kwargs) -> None:  # type: ignore
@@ -24,8 +29,16 @@ class LivingRoomController(ActivityController):
 
         self.cancel_empty_timer()
 
+        # PS5 Handling
+        if self.is_on(entities.MEDIA_PLAYER_SONY_KD_49XF8096) and self.has_state_attr(
+                entities.MEDIA_PLAYER_SONY_KD_49XF8096,
+                attr="source",
+                desired_state="PlayStation 5"
+        ):
+            self.activity.set(activities.LivingRoom.GAMING)
+
         # TV Handling
-        if self.is_on(entities.MEDIA_PLAYER_TV) or self.is_on(entities.MEDIA_PLAYER_SONY_KD_49XF8096):
+        elif self.is_on(entities.MEDIA_PLAYER_TV) or self.is_on(entities.MEDIA_PLAYER_SONY_KD_49XF8096):
             self.activity.set(activities.LivingRoom.WATCHING_TV)
 
         # Drumming Handling

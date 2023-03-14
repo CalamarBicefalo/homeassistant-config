@@ -22,7 +22,7 @@ class ActivityController(App):
         self._run_empty_timer_in(MAX_INACTIVE_ACTIVITY_DURATION)
 
     def _cancel_empty_timer(self) -> None:
-        if self._empty_timer and self.timer_running(self._empty_timer):
+        if self._empty_timer and hasattr(self, 'AD') and self.timer_running(self._empty_timer):
             self.cancel_timer(self._empty_timer)
 
     def _run_empty_timer_in(self, seconds: int) -> None:

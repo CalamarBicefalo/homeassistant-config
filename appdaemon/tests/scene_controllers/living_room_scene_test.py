@@ -59,8 +59,58 @@ def test_watching_tv_sets_movie_scene(given_that, living_room_scene, assert_that
 
     assert_that(scenes.LIVING_ROOM_MOVIE.get()).was.turned_on()
 
+@pytest.mark.asyncio
+def test_watching_tv_pauses_music(given_that) -> None:
+    given_that.living_room_scene_is(activity=activities.LivingRoom.PRESENT)
+
+    with mock.patch.object(MusicHandler, 'pause') as music:
+        scene = LivingRoomScene(None, LivingRoomScene.__class__, None, None, None, None, None)
+        scene.music = music
+        scene.on_activity_change(activities.LivingRoom.WATCHING_TV)
+
+        music.pause.assert_called_once()
+
+@pytest.mark.asyncio
+def test_drumming_sets_drumming_scene(given_that, living_room_scene, assert_that):
+    given_that.living_room_scene_is(activity=activities.LivingRoom.DRUMMING, illuminance=30, are_lights_on=False)
+
+    living_room_scene.handle_scene(None, None, None, None, None)
+
+    assert_that(scenes.LIVING_ROOM_DRUMMING.get()).was.turned_on()
+
+@pytest.mark.asyncio
+def test_drumming_pauses_music(given_that) -> None:
+    given_that.living_room_scene_is(activity=activities.LivingRoom.PRESENT)
+
+    with mock.patch.object(MusicHandler, 'pause') as music:
+        scene = LivingRoomScene(None, LivingRoomScene.__class__, None, None, None, None, None)
+        scene.music = music
+        scene.on_activity_change(activities.LivingRoom.DRUMMING)
+
+        music.pause.assert_called_once()
+
+@pytest.mark.asyncio
+def test_gaming_sets_gaming_scene(given_that, living_room_scene, assert_that):
+    given_that.living_room_scene_is(activity=activities.LivingRoom.GAMING, illuminance=30, are_lights_on=False)
+
+    living_room_scene.handle_scene(None, None, None, None, None)
+
+    assert_that(scenes.LIVING_ROOM_GAMING.get()).was.turned_on()
+
+@pytest.mark.asyncio
+def test_gaming_pauses_music(given_that) -> None:
+    given_that.living_room_scene_is(activity=activities.LivingRoom.PRESENT)
+
+    with mock.patch.object(MusicHandler, 'pause') as music:
+        scene = LivingRoomScene(None, LivingRoomScene.__class__, None, None, None, None, None)
+        scene.music = music
+        scene.on_activity_change(activities.LivingRoom.GAMING)
+
+        music.pause.assert_called_once()
+
 
 def living_room_scene_is(self, activity, illuminance=0, are_lights_on=False, mode=modes.Mode.NIGHT, playing_music=states.OFF):
+    self.state_of(entities.COVER_BLINDS).is_set_to(states.OPEN)
     self.state_of(entities.MEDIA_PLAYER_MASS_COOKING_AREA).is_set_to(playing_music)
     self.state_of(helpers.HOMEASSISTANT_MODE).is_set_to(mode)
     self.state_of(entities.SENSOR_DESK_MS_ILLUMINANCE).is_set_to(illuminance)

@@ -23,6 +23,7 @@ class LivingRoom(Activity):
     EMPTY = "Empty"
     PRESENT = "Present"
     WATCHING_TV = "Watching TV"
+    GAMING = "Gaming"
     READING = "Reading"
     DINNING = "Dinning"
     DRUMMING = "Drumming"

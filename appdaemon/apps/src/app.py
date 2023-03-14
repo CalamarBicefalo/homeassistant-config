@@ -71,6 +71,11 @@ class App(hass.Hass):
         b: bool = state == desired_state
         return b
 
+    def has_state_attr(self, device: Entity | Helper, attr: str, desired_state: str) -> bool:
+        state = self.get_state(device, attribute=attr)
+        b: bool = state == desired_state
+        return b
+
     def turn_off_media(self) -> None:
         self.call_service(services.MEDIA_PLAYER_TURN_OFF, entity_id="all")
 

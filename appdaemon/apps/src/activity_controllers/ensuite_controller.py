@@ -9,7 +9,7 @@ class EnsuiteController(ActivityController):
     motion_sensor = entities.BINARY_SENSOR_ENSUITE_MOTION
     contact_sensor = entities.BINARY_SENSOR_BATHROOM_CS_CONTACT
     turnoff_time = 60
-    present_cooldown = 1800
+    present_cooldown = 1500
     shower_cooldown = 2000
 
     @property
@@ -33,9 +33,8 @@ class EnsuiteController(ActivityController):
             level="DEBUG")
 
         if self.activity.is_value(activities.Ensuite.SHOWERING):
+            self.set_as_empty_in(self.shower_cooldown)
             return
-
-        self.cancel_empty_timer()
 
         if new == states.DETECTED:
             if self.get_state(self.contact_sensor) == states.CLOSED:

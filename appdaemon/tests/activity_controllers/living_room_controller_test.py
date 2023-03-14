@@ -18,7 +18,13 @@ def subject() -> None:
 def test_triggers_when_motion_or_tv_changes(given_that, subject, assert_that):
     assert_that(subject) \
         .listens_to.state(
-        [entities.BINARY_SENSOR_LIVING_ROOM_MOTION, entities.MEDIA_PLAYER_TV, entities.BINARY_SENSOR_SOFA_PS_WATER]) \
+        [
+            entities.BINARY_SENSOR_LIVING_ROOM_MOTION,
+            entities.MEDIA_PLAYER_TV,
+            entities.MEDIA_PLAYER_SONY_KD_49XF8096,
+            entities.BINARY_SENSOR_SOFA_PS_WATER
+        ]
+    )\
         .with_callback(subject.controller_handler)
 
 
@@ -54,6 +60,16 @@ def test_when_watching_tv(given_that, subject, assert_that):
 
     assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(activities.livingroom_helper,
                                                                          activities.LivingRoom.WATCHING_TV)
+
+
+@pytest.mark.asyncio
+def test_when_playing_ps5(given_that, subject, assert_that):
+    given_that.living_room_state_is(tv=states.ON, tv_attr={'source': 'PlayStation 5'})
+
+    subject.controller_handler(None, None, None, None, None)
+
+    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(activities.livingroom_helper,
+                                                                         activities.LivingRoom.GAMING)
 
 
 @pytest.mark.asyncio
@@ -132,7 +148,8 @@ def test_after_3_hours_of_inactivity(given_that, subject, assert_that, time_trav
         was.set_to_activity(activities.livingroom_helper, activities.LivingRoom.EMPTY)
 
 
-def living_room_state_is(self, motion=states.OFF, tv=states.OFF, sofa=states.OFF, activity=activities.LivingRoom.EMPTY):
+def living_room_state_is(self, motion=states.OFF, tv=states.OFF, sofa=states.OFF, activity=activities.LivingRoom.EMPTY, tv_attr=None):
+    self.state_of(entities.MEDIA_PLAYER_SONY_KD_49XF8096).is_set_to(tv, tv_attr)
     self.state_of(entities.BINARY_SENSOR_LIVING_ROOM_MOTION).is_set_to(motion)
     self.state_of(entities.MEDIA_PLAYER_TV).is_set_to(tv)
     self.state_of(entities.BINARY_SENSOR_SOFA_PS_WATER).is_set_to(sofa)

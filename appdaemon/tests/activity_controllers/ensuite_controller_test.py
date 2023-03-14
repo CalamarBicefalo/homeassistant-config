@@ -95,6 +95,13 @@ def test_on_door(activity, doors, new_activity, given_that, ensuite_controller, 
         assert_that(services.INPUT_SELECT_SELECT_OPTION).was_not.called()
 
 
+def test_showering_timer_holds_for_33_minutes(given_that, ensuite_controller, assert_that, time_travel):
+    enable_showering(ensuite_controller, given_that)
+
+    time_travel.fast_forward(32).minutes()
+
+    assert_that(services.INPUT_SELECT_SELECT_OPTION).was_not.set_to_activity(activities.ensuite_helper,
+                                                                         activities.Ensuite.EMPTY)
 def test_after_34_minutes_showering_mode_is_disabled(given_that, ensuite_controller, assert_that, time_travel):
     enable_showering(ensuite_controller, given_that)
 
@@ -102,26 +109,25 @@ def test_after_34_minutes_showering_mode_is_disabled(given_that, ensuite_control
 
     assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(activities.ensuite_helper,
                                                                          activities.Ensuite.EMPTY)
-def test_after_30_minutes_sets_to_empty(given_that, ensuite_controller, assert_that, time_travel):
+
+
+def test_after_25_minutes_sets_to_empty(given_that, ensuite_controller, assert_that, time_travel):
     given_that.ensuite_has(activity=activities.Ensuite.EMPTY, door=door.OPEN)
     ensuite_controller.on_motion(None, None, None, motion.DETECTED, None)
 
-    time_travel.fast_forward(31).minutes()
+    time_travel.fast_forward(26).minutes()
 
     assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(activities.ensuite_helper,
                                                                          activities.Ensuite.EMPTY)
 
 
+def test_after_1_minute_of_inactivity_sets_to_empty(given_that, ensuite_controller, assert_that, time_travel):
+    given_that.ensuite_has(activity=activities.Ensuite.PRESENT, door=door.OPEN)
+    ensuite_controller.on_motion(None, None, None, motion.NOT_DETECTED, None)
 
+    time_travel.fast_forward(1).minutes()
 
-def test_showering_timer_gets_reset_on_motion(given_that, ensuite_controller, assert_that, time_travel):
-    enable_showering(ensuite_controller, given_that)
-    time_travel.fast_forward(20).minutes()
-
-    ensuite_controller.on_motion(None, None, None, motion.DETECTED, None)
-    time_travel.fast_forward(20).minutes()
-
-    assert_that(services.INPUT_SELECT_SELECT_OPTION).was_not.set_to_activity(activities.ensuite_helper,
+    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(activities.ensuite_helper,
                                                                          activities.Ensuite.EMPTY)
 
 
