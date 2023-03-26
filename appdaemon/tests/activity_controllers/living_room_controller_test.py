@@ -29,7 +29,7 @@ def test_triggers_when_motion_or_tv_changes(given_that, subject, assert_that):
 
 
 @pytest.mark.asyncio
-def test_when_away(given_that, subject, assert_that):
+def test_sets_away(given_that, subject, assert_that):
     given_that.living_room_state_is(
         motion=states.OFF,
         tv=states.OFF,
@@ -43,7 +43,7 @@ def test_when_away(given_that, subject, assert_that):
 
 
 @pytest.mark.asyncio
-def test_when_present(given_that, subject, assert_that):
+def test_sets_present(given_that, subject, assert_that):
     given_that.living_room_state_is(motion=states.ON)
 
     subject.controller_handler(None, None, None, None, None)
@@ -53,7 +53,7 @@ def test_when_present(given_that, subject, assert_that):
 
 
 @pytest.mark.asyncio
-def test_when_watching_tv(given_that, subject, assert_that):
+def test_sets_watching_tv(given_that, subject, assert_that):
     given_that.living_room_state_is(tv=states.ON)
 
     subject.controller_handler(None, None, None, None, None)
@@ -63,7 +63,7 @@ def test_when_watching_tv(given_that, subject, assert_that):
 
 
 @pytest.mark.asyncio
-def test_when_playing_ps5(given_that, subject, assert_that):
+def test_sets_playing_ps5(given_that, subject, assert_that):
     given_that.living_room_state_is(tv=states.ON, tv_attr={'source': 'PlayStation 5'})
 
     subject.controller_handler(None, None, None, None, None)
@@ -115,7 +115,7 @@ def test_presence_going_off_when_drumming_sets_empty_after_10_minutes(given_that
 
 
 @pytest.mark.asyncio
-def test_turn_on_tv_when_drumming_enables_tv_mode(given_that, subject, assert_that, time_travel):
+def test_turn_on_tv_when_drumming_enables_watching_tv_activity(given_that, subject, assert_that, time_travel):
     given_that.living_room_state_is(tv=states.ON, activity=activities.LivingRoom.DRUMMING)
 
     subject.controller_handler(None, None, None, None, None)
@@ -125,7 +125,7 @@ def test_turn_on_tv_when_drumming_enables_tv_mode(given_that, subject, assert_th
 
 
 @pytest.mark.asyncio
-def test_when_sitting_on_sofa(given_that, subject, assert_that):
+def test_sets_reading(given_that, subject, assert_that):
     given_that.living_room_state_is(sofa=states.ON)
 
     subject.controller_handler(None, None, None, None, None)

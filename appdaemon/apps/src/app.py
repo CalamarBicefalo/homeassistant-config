@@ -10,6 +10,7 @@ import helpers
 import services
 import states
 from activities import ActivityHandlers
+from alarmclock import AlarmClock
 from blinds import BlindsHandler
 from entities import Entity
 from helpers import Helper
@@ -29,6 +30,7 @@ class App(hass.Hass):
     activities: ActivityHandlers
     music: MusicHandler
     blinds: BlindsHandler
+    alarmclock: AlarmClock
 
     def __init__(self, ad, name, logging, args, config, app_config, global_vars) -> None:  # type: ignore
         super().__init__(ad, name, logging, args, config, app_config, global_vars)
@@ -36,6 +38,7 @@ class App(hass.Hass):
         self.activities = ActivityHandlers(super())
         self.music = MusicHandler(super(), self.speakers)
         self.blinds = BlindsHandler(super())
+        self.alarmclock = AlarmClock(super())
 
     @property
     def speakers(self) -> Optional[entities.Entity]:
@@ -60,7 +63,7 @@ class App(hass.Hass):
 
     def is_on(self, device: Entity) -> bool:
         state = self.get_state(device)
-        on: bool = state == states.ON or state == "playing"
+        on: bool = state == states.ON or state == states.PLAYING
         return on
 
     def is_off(self, device: Entity) -> bool:

@@ -1,9 +1,9 @@
-import matchers
 import pytest
 from appdaemontestframework import automation_fixture, given_that as given
 
 import activities
 import entities
+import matchers
 import services
 import states
 from activity_controllers.bedroom_controller import BedroomController
@@ -23,7 +23,7 @@ def test_triggers_when_motion(given_that, subject, assert_that):
 
 
 @pytest.mark.asyncio
-def test_when_away(given_that, subject, assert_that, time_travel):
+def test_when_no_motion_then_empty(given_that, subject, assert_that, time_travel):
     given_that.bedroom_state_is(
         motion=states.OFF,
     )
@@ -36,7 +36,7 @@ def test_when_away(given_that, subject, assert_that, time_travel):
 
 
 @pytest.mark.asyncio
-def test_when_present(given_that, subject, assert_that):
+def test_when_motion_then_present(given_that, subject, assert_that):
     given_that.bedroom_state_is(motion=states.ON)
 
     subject.controller_handler(None, None, None, None, None)
@@ -46,7 +46,7 @@ def test_when_present(given_that, subject, assert_that):
 
 
 @pytest.mark.asyncio
-def test_presence_going_on_when_relaxing_keeps_relaxing(given_that, subject, assert_that):
+def test_given_relaxing_when_motion_then_keeps_relaxing(given_that, subject, assert_that):
     given_that.bedroom_state_is(
         motion=states.ON,
         activity=activities.Bedroom.RELAXING,
@@ -55,10 +55,11 @@ def test_presence_going_on_when_relaxing_keeps_relaxing(given_that, subject, ass
     subject.controller_handler(None, None, None, None, None)
 
     assert_that(services.INPUT_SELECT_SELECT_OPTION).was_not.set_to_activity(activities.bedroom_helper,
-                                                                         activities.Bedroom.PRESENT)
+                                                                             activities.Bedroom.PRESENT)
+
 
 @pytest.mark.asyncio
-def test_presence_going_off_when_bedtime_keeps_bedtime(given_that, subject, assert_that):
+def test_given_bedtime_when_motion_then_keeps_bedtime(given_that, subject, assert_that):
     given_that.bedroom_state_is(
         motion=states.ON,
         activity=activities.Bedroom.BEDTIME,
@@ -67,12 +68,12 @@ def test_presence_going_off_when_bedtime_keeps_bedtime(given_that, subject, asse
     subject.controller_handler(None, None, None, None, None)
 
     assert_that(services.INPUT_SELECT_SELECT_OPTION).was_not.set_to_activity(activities.bedroom_helper,
-                                                                         activities.Bedroom.PRESENT)
-
+                                                                             activities.Bedroom.PRESENT)
 
 
 @pytest.mark.asyncio
-def test_presence_going_off_when_relaxing_keeps_relaxing_for_30_minutes(given_that, subject, assert_that, time_travel):
+def test_given_relaxing_when_no_motion_then_keeps_relaxing_for_up_to_30_minutes(given_that, subject, assert_that,
+                                                                                time_travel):
     given_that.bedroom_state_is(
         motion=states.OFF,
         activity=activities.Bedroom.RELAXING,
@@ -84,8 +85,9 @@ def test_presence_going_off_when_relaxing_keeps_relaxing_for_30_minutes(given_th
     assert_that(services.INPUT_SELECT_SELECT_OPTION).was_not.set_to_activity(activities.bedroom_helper,
                                                                              activities.Bedroom.EMPTY)
 
+
 @pytest.mark.asyncio
-def test_presence_going_off_when_relaxing_sets_empty_after_30_minutes(given_that, subject, assert_that, time_travel):
+def test_given_relaxing_when_no_motion_then_sets_empty_afger_30_minutes(given_that, subject, assert_that, time_travel):
     given_that.bedroom_state_is(
         motion=states.OFF,
         activity=activities.Bedroom.RELAXING,
@@ -98,9 +100,8 @@ def test_presence_going_off_when_relaxing_sets_empty_after_30_minutes(given_that
                                                                          activities.Bedroom.EMPTY)
 
 
-
 @pytest.mark.asyncio
-def test_after_3_hours_of_inactivity(given_that, subject, assert_that, time_travel):
+def test_after_3_hours_of_inactivity_then_empty(given_that, subject, assert_that, time_travel):
     given_that.bedroom_state_is(
         motion=states.ON,
     )

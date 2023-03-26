@@ -36,5 +36,5 @@ class KitchenScene(SceneApp):
     def on_activity_change(self, activity: activities.Activity) -> None:
         match activity:
             case activities.Kitchen.COOKING:
-                if not self.is_on(self.speakers):
+                if not self.music.is_playing():
                     self.music.play(Playlist.random())

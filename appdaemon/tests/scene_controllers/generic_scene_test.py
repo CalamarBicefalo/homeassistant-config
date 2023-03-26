@@ -35,16 +35,24 @@ def generic_room_scene() -> None:
 
 
 @pytest.mark.asyncio
-def test_when_bright(given_that, generic_room_scene, assert_that):
+def test_when_bright_not_night_then_lights_off(given_that, generic_room_scene, assert_that):
     initial_state(given_that, activity=activities.Common.PRESENT, illuminance=100, are_lights_on=False)
 
     generic_room_scene.handle_scene(None, None, None, None, None)
 
     assert_that(ROOM_LIGHTS).was.turned_off()
 
+@pytest.mark.asyncio
+def test_when_bright_at_night_then_lights_on(given_that, generic_room_scene, assert_that):
+    initial_state(given_that, activity=activities.Common.PRESENT, mode=Mode.NIGHT, illuminance=500)
+
+    generic_room_scene.handle_scene(None, None, None, None, None)
+
+    assert_that(DEFAULT_SCENE).was.turned_on()
+
 
 @pytest.mark.asyncio
-def test_when_bright_because_of_light(given_that, generic_room_scene, assert_that):
+def test_when_bright_because_of_light_then_lights_on(given_that, generic_room_scene, assert_that):
     initial_state(given_that, activity=activities.Common.PRESENT, are_lights_on=True)
 
     generic_room_scene.handle_scene(None, None, None, None, None)
@@ -52,16 +60,7 @@ def test_when_bright_because_of_light(given_that, generic_room_scene, assert_tha
     assert_that(ROOM_LIGHTS).was_not.turned_off()
 
 
-@pytest.mark.asyncio
-def test_when_present(given_that, generic_room_scene, assert_that):
-    initial_state(given_that, activity=activities.Common.PRESENT)
-
-    generic_room_scene.handle_scene(None, None, None, None, None)
-
-    assert_that(DEFAULT_SCENE).was.turned_on()
-
-
-def initial_state(self, activity, illuminance=0, are_lights_on=False, mode=Mode.NIGHT):
+def initial_state(self, activity, illuminance=0, are_lights_on=False, mode=Mode.DAY):
     self.state_of(helpers.HOMEASSISTANT_MODE).is_set_to(mode)
     self.state_of(ILLUMINANCE_SENSOR).is_set_to(illuminance)
     self.state_of(activities.livingroom_helper).is_set_to(activity)

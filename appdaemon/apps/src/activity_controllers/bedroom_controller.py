@@ -1,31 +1,59 @@
 import activities
+import alarmclock
 import entities
 from activity_controllers.generic_controller import MotionController
 from select_handler import SelectHandler
 
+COOLDOWN_MINUTES = 90
+
 
 class BedroomController(MotionController):
     motion_sensor = entities.BINARY_SENSOR_BEDROOM_MS_MOTION
+    _waking_up_schedule = None
 
     @property
     def activity(self) -> SelectHandler:
         return self.activities.bedroom
 
+    @property
+    def max_inactive_activity_seconds(self) -> int:
+        return 90 * 60
+
+    def initialize(self) -> None:
+        self.log(f'Initializing {self.controller} motion based activity controller.', level="DEBUG")
+
+        if self.motion_sensor:
+            self.listen_state(
+                self.controller_handler,
+                [self.motion_sensor]
+            )
+            self.alarmclock.listen(self.on_1_hour_to_wake_up, alarmclock.Event.ONE_HOUR_BEFORE_ALARM)
+
+    def on_1_hour_to_wake_up(self) -> None:
+        self.log(
+            f'Triggering bedroom activity controller: 1 hour to wake up',
+            level="DEBUG")
+        self.cancel_empty_timer()
+        self._waking_up_schedule = self.run_in(lambda *_: self.activity.set(activities.Bedroom.WAKING_UP), 1800)
+
     def controller_handler(self, entity, attribute, old, new, kwargs) -> None:  # type: ignore
         self.log(
             f'Triggering bedroom activity controller {entity} -> {attribute} old={old} new={new}',
             level="DEBUG")
-
         self.cancel_empty_timer()
 
         if self.activity.get() == activities.Bedroom.BEDTIME:
             return
 
+        if self._waking_up_schedule and self.timer_running(self._waking_up_schedule):
+            self.cancel_timer(self._waking_up_schedule)
+
+        if self.activity.get() == activities.Bedroom.WAKING_UP:
+            return
+
         # Relaxing Handling
-        elif self.activity.get() == activities.Bedroom.RELAXING:
-            if self.is_on(self.motion_sensor):
-                self.set_as_empty_in(minutes=90)
-            else:
+        if self.activity.get() == activities.Bedroom.RELAXING:
+            if self.is_off(self.motion_sensor):
                 self.set_as_empty_in(minutes=30)
 
         # Presence Handling

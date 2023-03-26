@@ -29,35 +29,39 @@ class LivingRoomController(ActivityController):
 
         self.cancel_empty_timer()
 
-        # PS5 Handling
-        if self.is_on(entities.MEDIA_PLAYER_SONY_KD_49XF8096) and self.has_state_attr(
-                entities.MEDIA_PLAYER_SONY_KD_49XF8096,
-                attr="source",
-                desired_state="PlayStation 5"
-        ):
+        if self.activity.is_value(activities.LivingRoom.DINNING):
+            return
+
+        elif self.playing_ps5():
             self.activity.set(activities.LivingRoom.GAMING)
 
-        # TV Handling
-        elif self.is_on(entities.MEDIA_PLAYER_TV) or self.is_on(entities.MEDIA_PLAYER_SONY_KD_49XF8096):
+        elif self.watching_tv():
             self.activity.set(activities.LivingRoom.WATCHING_TV)
 
-        # Drumming Handling
-        elif self.activity.get() == activities.LivingRoom.DRUMMING:
+        elif self.activity.is_value(activities.LivingRoom.DRUMMING):
             if self.is_on(self.motion_sensor) or self.sitting_on_sofa():
                 self.set_as_empty_in(minutes=90)
             else:
                 self.set_as_empty_in(minutes=10)
 
-        # Sofa Handling
         elif self.sitting_on_sofa():
             self.activity.set(activities.LivingRoom.READING)
 
-        # Presence Handling
         elif self.is_on(self.motion_sensor):
             self.activity.set(activities.Common.PRESENT)
 
         else:
             self.activity.set(activities.Common.EMPTY)
+
+    def playing_ps5(self) -> bool:
+        return self.is_on(entities.MEDIA_PLAYER_SONY_KD_49XF8096) and self.has_state_attr(
+            entities.MEDIA_PLAYER_SONY_KD_49XF8096,
+            attr="source",
+            desired_state="PlayStation 5"
+        )
+
+    def watching_tv(self) -> bool:
+        return self.is_on(entities.MEDIA_PLAYER_TV) or self.is_on(entities.MEDIA_PLAYER_SONY_KD_49XF8096)
 
     def sitting_on_sofa(self) -> bool:
         return self.is_on(entities.BINARY_SENSOR_SOFA_PS_WATER)

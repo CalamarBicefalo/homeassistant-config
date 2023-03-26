@@ -6,6 +6,9 @@ OFF = "off"
 DETECTED = "on"
 NOT_DETECTED = "off"
 
+# Music
+PLAYING = "playing"
+
 # Contact
 CLOSED = "off"
 OPEN = "on"

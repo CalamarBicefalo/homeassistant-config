@@ -3,6 +3,7 @@ from typing import Optional, Any
 
 import activities
 import entities
+import modes
 from app import App
 from modes import Mode
 from scene_controllers import scene
@@ -81,7 +82,8 @@ class SceneApp(App):
 
         illuminance = float(self.get_state(self.illuminance_sensor))
         lights_on = self.is_on(self.room_lights)
-        if ((not lights_on) and illuminance < 40) or (lights_on and illuminance < 200):
+        if current_mode == modes.Mode.NIGHT or ((not lights_on) and illuminance < 40) or (
+                lights_on and illuminance < 200):
             self.turn_on(desired_scene.get())
         else:
             self.turn_off(self.room_lights)

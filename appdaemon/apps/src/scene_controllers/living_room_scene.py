@@ -51,7 +51,7 @@ class LivingRoomScene(SceneApp):
                 self.music.play(Playlist.COOL_JAZZ)
 
             case activities.LivingRoom.READING:
-                if not self.is_on(self.speakers):
+                if not self.music.is_playing() and not self.activities.studio.is_value(activities.Studio.WORKING):
                     self.music.play(Playlist.random())
 
             case activities.LivingRoom.WATCHING_TV:

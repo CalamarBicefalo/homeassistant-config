@@ -17,9 +17,12 @@ class ActivityController(App):
         self._run_empty_timer_in(seconds=seconds + (minutes * 60))
 
     def cancel_empty_timer(self) -> None:
+        """
+        Cancels any running timer and ensures room gets to EMPTY state after the cooldown period
+        """
         self._cancel_empty_timer()
         # Ensures every room eventually converges to the EMPTY state
-        self._run_empty_timer_in(MAX_INACTIVE_ACTIVITY_DURATION)
+        self._run_empty_timer_in(self.max_inactive_activity_seconds)
 
     def _cancel_empty_timer(self) -> None:
         if self._empty_timer and hasattr(self, 'AD') and self.timer_running(self._empty_timer):
@@ -36,6 +39,10 @@ class ActivityController(App):
     @abstractmethod
     def activity(self) -> SelectHandler:
         pass
+
+    @property
+    def max_inactive_activity_seconds(self) -> int:
+        return MAX_INACTIVE_ACTIVITY_DURATION
 
 
 class MotionController(ActivityController):

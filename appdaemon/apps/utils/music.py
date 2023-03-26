@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import random
 from typing import Optional
 
 from appdaemon.plugins.hass import hassapi as hass
@@ -7,7 +8,7 @@ from strenum import StrEnum
 
 import entities
 import services
-import random
+import states
 
 
 class MusicHandler:
@@ -15,6 +16,11 @@ class MusicHandler:
     def __init__(self, app: hass.Hass, speakers: Optional[entities.Entity]):
         self._app = app
         self._speakers = speakers
+
+    def is_playing(self) -> bool:
+        state = self._app.get_state(self._speakers)
+        playing: bool = state == states.ON or state == states.PLAYING
+        return playing
 
     def play(self, tune: Playlist | str, shuffle: bool = True,
              volume_level: float = 0.3) -> None:

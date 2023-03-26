@@ -53,6 +53,7 @@ bedroom_activity:
     - Present
     - Relaxing
     - Bedtime
+    - Waking up
   icon: mdi:bed-king
 storage_room_activity:
   name: Storage room activity

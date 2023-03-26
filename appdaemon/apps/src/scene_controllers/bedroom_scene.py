@@ -23,7 +23,7 @@ class BedroomScene(SceneApp):
         return self.activities.bedroom
 
     def get_light_scene(self, activity: activities.Activity) -> SceneSelector | Optional[Scene]:
-        if activity == activities.Bedroom.BEDTIME:
+        if activity == activities.Bedroom.BEDTIME or activity == activities.Bedroom.WAKING_UP:
             return None
         if activity == activities.Bedroom.RELAXING:
             return scenes.BEDROOM_RELAXING
@@ -44,6 +44,9 @@ class BedroomScene(SceneApp):
             self.music.play(Playlist.NEO_CLASSICAL, volume_level=0.3)
             self.blinds.close(entities.COVER_BEDROOM_BLINDS)
 
+        elif activity == activities.Bedroom.WAKING_UP:
+            self.blinds.open_for(entities.COVER_BEDROOM_BLINDS, 30)
+
         elif activity == activities.Bedroom.BEDTIME:
             # Home cleanup
             self.turn_off_media()
@@ -60,4 +63,3 @@ class BedroomScene(SceneApp):
 
         elif self.mode.get() == modes.Mode.DAY:
             self.blinds.open(entities.COVER_BEDROOM_BLINDS)
-
