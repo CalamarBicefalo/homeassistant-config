@@ -25,7 +25,7 @@ class AlarmClock:
 
 
 def on_event(event: Event, callback: Callable) -> Callable[[Any, str, Any, Any], None]:
-    def on_alarm_dismissed(s: Any, event_name: str, data: Any, kwargs: Any) -> None:
+    def on_specified_event(s: Any, event_name: str, data: Any, kwargs: Any) -> None:
         if data['event'] == event: callback()
 
-    return on_alarm_dismissed
+    return on_specified_event
