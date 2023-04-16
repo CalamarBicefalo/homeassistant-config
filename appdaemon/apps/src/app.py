@@ -13,6 +13,7 @@ from activities import ActivityHandlers
 from alarmclock import AlarmClock
 from blinds import BlindsHandler
 from entities import Entity
+from flick import FlickHandler
 from helpers import Helper
 from modes import Mode
 from music import MusicHandler
@@ -31,6 +32,7 @@ class App(hass.Hass):
     music: MusicHandler
     blinds: BlindsHandler
     alarmclock: AlarmClock
+    flick: FlickHandler
 
     def __init__(self, ad, name, logging, args, config, app_config, global_vars) -> None:  # type: ignore
         super().__init__(ad, name, logging, args, config, app_config, global_vars)
@@ -39,6 +41,7 @@ class App(hass.Hass):
         self.music = MusicHandler(super(), self.speakers)
         self.blinds = BlindsHandler(super())
         self.alarmclock = AlarmClock(super())
+        self.flick = FlickHandler(super())
 
     @property
     def speakers(self) -> Optional[entities.Entity]:
@@ -54,6 +57,13 @@ class App(hass.Hass):
 
     def datetime_to_helper(self, d: datetime) -> str:
         return datetime_to_helper(d)
+
+    def set_helper_to_now(self, helper: Helper) -> None:
+        self.call_service(
+            services.INPUT_DATETIME_SET_DATETIME,
+            entity_id=helper,
+            datetime=self.datetime_to_helper(datetime.now())
+        )
 
     def is_consuming_at_least(self, device: Entity, watts: int) -> bool:
         return self.get_watt_consumption(device) >= watts

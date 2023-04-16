@@ -2,11 +2,9 @@ from datetime import datetime
 from typing import Any
 
 import activities
-import entities
+import flick
 import helpers
-import services
 from app import App
-from vacuum import segments
 
 
 class KitchenCleaner(App):
@@ -31,12 +29,12 @@ class KitchenCleaner(App):
         self.log(f'Triggering kitchen clean {entity} -> {attribute} old={old} new={new}', level="DEBUG")
 
         last_cooked = self.helper_to_datetime(helpers.LAST_COOKED)
-        last_vacuumed = self.helper_to_datetime(helpers.LAST_CLEANED_KITCHEN)
+        last_vacuumed = self.flick.last_cleaned_kitchen()
 
         if last_vacuumed > last_cooked:
             self.log(
                 f'Ignoring kitchen clean because we have not cooked for {(datetime.now() - last_cooked).days} '
-                f'days, and we vacuumed on {self.datetime_to_helper(last_vacuumed)}.',
+                f'days, and we vacuumed on {last_vacuumed}.',
                 level="INFO"
             )
             return
@@ -58,18 +56,5 @@ class KitchenCleaner(App):
             )
             return
 
-        self.__do_clean__(kwargs)
-
-    def __do_clean__(self, kwargs: Any) -> None:
         self.log('Cleaning kitchen', level="DEBUG")
-        self.call_service(
-            services.VACUUM_SEND_COMMAND,
-            entity_id=entities.VACUUM_FLICK,
-            command="app_segment_clean",
-            params=segments.kitchen,
-        )
-        self.call_service(
-            services.INPUT_DATETIME_SET_DATETIME,
-            entity_id=helpers.LAST_CLEANED_KITCHEN,
-            datetime=self.datetime_to_helper(datetime.now())
-        )
+        self.flick.clean_room(flick.Room.kitchen)
