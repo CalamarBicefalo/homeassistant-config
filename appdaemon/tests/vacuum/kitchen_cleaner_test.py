@@ -6,12 +6,12 @@ from freezegun import freeze_time
 
 import activities
 import entities
+import flick
 import helpers
 import matchers
 import services
 from test_utils import formatted_yesterday as yesterday, formatted_now as now, formatted_days_ago as days_ago, \
     format_date
-from vacuum import segments
 from vacuum.kitchen_cleaner import KitchenCleaner
 
 
@@ -162,7 +162,7 @@ def sent_to_clean_kitchen(self):
     self.called_with(
         entity_id=entities.VACUUM_FLICK,
         command="app_segment_clean",
-        params=segments.kitchen
+        params=flick.Room.kitchen.value
     )
 
 

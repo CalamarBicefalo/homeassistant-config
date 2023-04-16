@@ -8,7 +8,9 @@ def generate_helpers(root_dir: str):
     helper_files = glob.glob("helpers/input_*.yaml")
     with open(GENERATED_HELPERS, 'w') as output:
         output.write("from typing import NewType\n"
-                     "Helper = NewType('Helper', str)\n")
+                     "from datetime import datetime\n"
+                     "Helper = NewType('Helper', str)\n"
+                     "HELPER_DATETIME_FORMAT = '%Y-%m-%d %H:%M:%S'\n")
         output.write('\n\n')
         for f in helper_files:
             with open(f, "r") as stream:
@@ -22,3 +24,11 @@ def generate_helpers(root_dir: str):
                                 f'{i.upper()} = Helper("{f.replace(".yaml", ".").replace("helpers/", "") + i}")\n')
                     except yaml.YAMLError as exc:
                         print(exc)
+        output.write('\n\n')
+        output.write("def datetime_to_helper(d: datetime) -> str:\n"
+                     "    return d.strftime(HELPER_DATETIME_FORMAT)\n")
+
+        output.write('\n')
+        output.write("def helper_to_datetime(helper_state: str) -> datetime:\n"
+                     "    return datetime.strptime(str(helper_state), HELPER_DATETIME_FORMAT)\n"
+                     )

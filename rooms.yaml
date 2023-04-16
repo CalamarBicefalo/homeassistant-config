@@ -1,0 +1,79 @@
+# dining_room = 17
+# bathroom = 18
+# office = 23
+
+kitchen:
+  name: Kitchen
+  activities:
+    - Empty
+    - Present
+    - Cooking
+    - TV Break
+  icon: mdi:stove
+  vacuum_segment: 16
+
+living_room:
+  name: Living room
+  activities:
+    - Empty
+    - Present
+    - Watching TV
+    - Gaming
+    - Reading
+    - Dinning
+    - Drumming
+  icon: mdi:sofa
+  vacuum_segment: 24
+
+studio:
+  name: Studio
+  activities:
+    - Empty
+    - Present
+    - Working
+    - Drumming
+  icon: mdi:android-studio
+
+ensuite:
+  name: Ensuite
+  activities:
+    - Empty
+    - Present
+    - Showering
+  icon: mdi:shower-head
+  vacuum_segment: 22
+
+hallway:
+  name: Hallway
+  activities:
+    - Empty
+    - Present
+  icon: mdi:coat-rack
+  vacuum_segment: 20
+
+wardrobe:
+  name: Wardrobe
+  activities:
+    - Empty
+    - Present
+    - Dressing
+  icon: mdi:wardrobe
+
+bedroom:
+  name: Bedroom
+  activities:
+    - Empty
+    - Present
+    - Relaxing
+    - Bedtime
+    - Waking up
+  icon: mdi:bed-king
+  vacuum_segment: 21
+
+storage_room:
+  name: Storage room
+  activities:
+    - Empty
+    - Present
+  icon: mdi:washing-machine
+  vacuum_segment: 19

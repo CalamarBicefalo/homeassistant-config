@@ -19,12 +19,6 @@ from modes import Mode
 from music import MusicHandler
 from select_handler import SelectHandler
 
-HELPER_DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"
-
-
-def datetime_to_helper(d: datetime) -> str:
-    return d.strftime(HELPER_DATETIME_FORMAT)
-
 
 class App(hass.Hass):
     mode: SelectHandler[Mode]
@@ -53,17 +47,7 @@ class App(hass.Hass):
         :param helper:
         :return: a datetime object
         """
-        return datetime.strptime(str(self.get_state(helper)), HELPER_DATETIME_FORMAT)
-
-    def datetime_to_helper(self, d: datetime) -> str:
-        return datetime_to_helper(d)
-
-    def set_helper_to_now(self, helper: Helper) -> None:
-        self.call_service(
-            services.INPUT_DATETIME_SET_DATETIME,
-            entity_id=helper,
-            datetime=self.datetime_to_helper(datetime.now())
-        )
+        return datetime.strptime(str(self.get_state(helper)), helpers.HELPER_DATETIME_FORMAT)
 
     def is_consuming_at_least(self, device: Entity, watts: int) -> bool:
         return self.get_watt_consumption(device) >= watts

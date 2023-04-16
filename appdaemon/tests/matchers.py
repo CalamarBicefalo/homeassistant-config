@@ -3,6 +3,7 @@ from datetime import datetime
 from appdaemontestframework import assert_that, given_that
 
 import app
+import helpers
 
 
 def set_to_activity(self, helper, activity):
@@ -15,7 +16,7 @@ def set_to_activity(self, helper, activity):
 def set_to_now(self, helper):
     self.called_with(
         entity_id=helper,
-        datetime=app.datetime_to_helper(datetime.now()),
+        datetime=helpers.datetime_to_helper(datetime.now()),
     )
 
 
