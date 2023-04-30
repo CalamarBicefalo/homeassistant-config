@@ -1,7 +1,7 @@
 import pytest
 from appdaemontestframework import automation_fixture
 
-import activities
+from rooms import *
 import entities
 import helpers
 import matchers
@@ -21,11 +21,11 @@ ILLUMINANCE_SENSOR = "illuminance_sensor"
 class GenericSceneWithIlluminance(SceneApp):
     @property
     def activity(self) -> SelectHandler:
-        return self.activities.bedroom
+        return self.rooms.bedroom.activity
     illuminance_sensor = entities.Entity(ILLUMINANCE_SENSOR)
     room_lights = entities.Entity(ROOM_LIGHTS)
 
-    def get_light_scene(self, activity: activities.LivingRoom) -> Scene:
+    def get_light_scene(self, activity: LivingRoom.Activity) -> Scene:
         return scene.off()
 
 
@@ -37,7 +37,7 @@ def generic_room_scene():
 
 @pytest.mark.asyncio
 def test_when_present(given_that, generic_room_scene, assert_that):
-    initial_state(given_that, generic_room_scene, activity=activities.Common.PRESENT, illuminance=30, are_lights_on=False)
+    initial_state(given_that, generic_room_scene, activity=CommonActivities.PRESENT, illuminance=30, are_lights_on=False)
 
     generic_room_scene.handle_scene(None, None, None, None, None)
 

@@ -1,9 +1,9 @@
 import os
 
-from codegen.generate_activities import generate_activities
 from codegen.generate_helpers import generate_helpers
 from codegen.generate_entities import generate_entities
 from codegen.generate_modes import generate_modes
+from codegen.generate_rooms import generate_rooms
 from codegen.generate_scenes import generate_scenes
 from codegen.generate_services import generate_services
 from codegen.is_hub_reachable import is_hub_reachable
@@ -18,8 +18,8 @@ os.makedirs(GENERATED_PATH, exist_ok=True)
 print("Parsing config files...")
 print("    🏠 Generating home mode types")
 generate_modes(GENERATED_PATH)
-print("    🎣 Generating activities types")
-generate_activities(GENERATED_PATH)
+print("    🗺️ Generating rooms")
+generate_rooms(GENERATED_PATH)
 print("    🔢 Generating helpers types")
 generate_helpers(GENERATED_PATH)
 

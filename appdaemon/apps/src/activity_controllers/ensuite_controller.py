@@ -1,7 +1,7 @@
-import activities
 import entities
 import states
 from activity_controllers.generic_controller import ActivityController
+from rooms import *
 from select_handler import SelectHandler
 
 
@@ -14,7 +14,7 @@ class EnsuiteController(ActivityController):
 
     @property
     def activity(self) -> SelectHandler:
-        return self.activities.ensuite
+        return self.rooms.ensuite.activity
 
     def initialize(self) -> None:
         self.listen_state(
@@ -32,16 +32,16 @@ class EnsuiteController(ActivityController):
             f'Triggering ensuite motion activity controller {entity} -> {attribute} old={old} new={new}',
             level="DEBUG")
 
-        if self.activity.is_value(activities.Ensuite.SHOWERING):
+        if self.activity.is_value(Ensuite.Activity.SHOWERING):
             self.set_as_empty_in(self.shower_cooldown)
             return
 
         if new == states.DETECTED:
             if self.get_state(self.contact_sensor) == states.CLOSED:
-                self.activity.set(activities.Ensuite.SHOWERING)
+                self.activity.set(Ensuite.Activity.SHOWERING)
                 self.set_as_empty_in(self.shower_cooldown)
             else:
-                self.activity.set(activities.Ensuite.PRESENT)
+                self.activity.set(Ensuite.Activity.PRESENT)
                 self.set_as_empty_in(self.present_cooldown)
         else:
             self.set_as_empty_in(self.turnoff_time)
@@ -51,11 +51,11 @@ class EnsuiteController(ActivityController):
             f'Triggering ensuite door controller {entity} -> {attribute} old={old} new={new}',
             level="DEBUG")
 
-        if self.activity.is_value(activities.Ensuite.EMPTY) and new == states.OPEN:
-            self.activity.set(activities.Common.PRESENT)
+        if self.activity.is_value(Ensuite.Activity.EMPTY) and new == states.OPEN:
+            self.activity.set(CommonActivities.PRESENT)
             self.set_as_empty_in(self.present_cooldown)
 
-        if self.activity.is_value(activities.Ensuite.SHOWERING):
-            self.activity.set(activities.Common.PRESENT)
+        if self.activity.is_value(Ensuite.Activity.SHOWERING):
+            self.activity.set(CommonActivities.PRESENT)
             self.set_as_empty_in(self.present_cooldown)
 

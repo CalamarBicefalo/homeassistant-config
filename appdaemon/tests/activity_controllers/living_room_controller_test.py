@@ -2,7 +2,7 @@ import matchers
 import pytest
 from appdaemontestframework import automation_fixture, given_that as given
 
-import activities
+from rooms import *
 import entities
 import services
 from activity_controllers.living_room_controller import LivingRoomController
@@ -38,8 +38,8 @@ def test_sets_away(given_that, subject, assert_that):
 
     subject.controller_handler(None, None, None, None, None)
 
-    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(activities.livingroom_helper,
-                                                                         activities.LivingRoom.EMPTY)
+    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(LivingRoom._activity_helper,
+                                                                         LivingRoom.Activity.EMPTY)
 
 
 @pytest.mark.asyncio
@@ -48,8 +48,8 @@ def test_sets_present(given_that, subject, assert_that):
 
     subject.controller_handler(None, None, None, None, None)
 
-    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(activities.livingroom_helper,
-                                                                         activities.LivingRoom.PRESENT)
+    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(LivingRoom._activity_helper,
+                                                                         LivingRoom.Activity.PRESENT)
 
 
 @pytest.mark.asyncio
@@ -58,8 +58,8 @@ def test_sets_watching_tv(given_that, subject, assert_that):
 
     subject.controller_handler(None, None, None, None, None)
 
-    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(activities.livingroom_helper,
-                                                                         activities.LivingRoom.WATCHING_TV)
+    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(LivingRoom._activity_helper,
+                                                                         LivingRoom.Activity.WATCHING_TV)
 
 
 @pytest.mark.asyncio
@@ -68,21 +68,21 @@ def test_sets_playing_ps5(given_that, subject, assert_that):
 
     subject.controller_handler(None, None, None, None, None)
 
-    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(activities.livingroom_helper,
-                                                                         activities.LivingRoom.GAMING)
+    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(LivingRoom._activity_helper,
+                                                                         LivingRoom.Activity.GAMING)
 
 
 @pytest.mark.asyncio
 def test_presence_going_on_when_drumming_keeps_drumming(given_that, subject, assert_that):
     given_that.living_room_state_is(
         motion=states.ON,
-        activity=activities.LivingRoom.DRUMMING,
+        activity=LivingRoom.Activity.DRUMMING,
     )
 
     subject.controller_handler(None, None, None, None, None)
 
-    assert_that(services.INPUT_SELECT_SELECT_OPTION).was_not.set_to_activity(activities.livingroom_helper,
-                                                                         activities.LivingRoom.PRESENT)
+    assert_that(services.INPUT_SELECT_SELECT_OPTION).was_not.set_to_activity(LivingRoom._activity_helper,
+                                                                         LivingRoom.Activity.PRESENT)
 
 
 
@@ -90,38 +90,38 @@ def test_presence_going_on_when_drumming_keeps_drumming(given_that, subject, ass
 def test_presence_going_off_when_drumming_keeps_drumming_for_10_minutes(given_that, subject, assert_that, time_travel):
     given_that.living_room_state_is(
         motion=states.OFF,
-        activity=activities.LivingRoom.DRUMMING,
+        activity=LivingRoom.Activity.DRUMMING,
     )
 
     subject.controller_handler(None, None, None, None, None)
     time_travel.fast_forward(9).minutes()
 
-    assert_that(services.INPUT_SELECT_SELECT_OPTION).was_not.set_to_activity(activities.livingroom_helper,
-                                                                             activities.LivingRoom.EMPTY)
+    assert_that(services.INPUT_SELECT_SELECT_OPTION).was_not.set_to_activity(LivingRoom._activity_helper,
+                                                                             LivingRoom.Activity.EMPTY)
 
 @pytest.mark.asyncio
 def test_presence_going_off_when_drumming_sets_empty_after_10_minutes(given_that, subject, assert_that, time_travel):
     given_that.living_room_state_is(
         motion=states.OFF,
-        activity=activities.LivingRoom.DRUMMING,
+        activity=LivingRoom.Activity.DRUMMING,
     )
 
     subject.controller_handler(None, None, None, None, None)
     time_travel.fast_forward(11).minutes()
 
-    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(activities.livingroom_helper,
-                                                                         activities.LivingRoom.EMPTY)
+    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(LivingRoom._activity_helper,
+                                                                         LivingRoom.Activity.EMPTY)
 
 
 
 @pytest.mark.asyncio
 def test_turn_on_tv_when_drumming_enables_watching_tv_activity(given_that, subject, assert_that, time_travel):
-    given_that.living_room_state_is(tv=states.ON, activity=activities.LivingRoom.DRUMMING)
+    given_that.living_room_state_is(tv=states.ON, activity=LivingRoom.Activity.DRUMMING)
 
     subject.controller_handler(None, None, None, None, None)
 
-    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(activities.livingroom_helper,
-                                                                         activities.LivingRoom.WATCHING_TV)
+    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(LivingRoom._activity_helper,
+                                                                         LivingRoom.Activity.WATCHING_TV)
 
 
 @pytest.mark.asyncio
@@ -131,7 +131,7 @@ def test_sets_reading(given_that, subject, assert_that):
     subject.controller_handler(None, None, None, None, None)
 
     assert_that(services.INPUT_SELECT_SELECT_OPTION). \
-        was.set_to_activity(activities.livingroom_helper, activities.LivingRoom.READING)
+        was.set_to_activity(LivingRoom._activity_helper, LivingRoom.Activity.READING)
 
 
 @pytest.mark.asyncio
@@ -145,15 +145,15 @@ def test_after_3_hours_of_inactivity(given_that, subject, assert_that, time_trav
     time_travel.fast_forward(180).minutes()
 
     assert_that(services.INPUT_SELECT_SELECT_OPTION). \
-        was.set_to_activity(activities.livingroom_helper, activities.LivingRoom.EMPTY)
+        was.set_to_activity(LivingRoom._activity_helper, LivingRoom.Activity.EMPTY)
 
 
-def living_room_state_is(self, motion=states.OFF, tv=states.OFF, sofa=states.OFF, activity=activities.LivingRoom.EMPTY, tv_attr=None):
+def living_room_state_is(self, motion=states.OFF, tv=states.OFF, sofa=states.OFF, activity=LivingRoom.Activity.EMPTY, tv_attr=None):
     self.state_of(entities.MEDIA_PLAYER_SONY_KD_49XF8096).is_set_to(tv, tv_attr)
     self.state_of(entities.BINARY_SENSOR_LIVING_ROOM_MOTION).is_set_to(motion)
     self.state_of(entities.MEDIA_PLAYER_TV).is_set_to(tv)
     self.state_of(entities.BINARY_SENSOR_SOFA_PS_WATER).is_set_to(sofa)
-    self.state_of(activities.livingroom_helper).is_set_to(activity)
+    self.state_of(LivingRoom._activity_helper).is_set_to(activity)
 
 
 given.GivenThatWrapper.living_room_state_is = living_room_state_is

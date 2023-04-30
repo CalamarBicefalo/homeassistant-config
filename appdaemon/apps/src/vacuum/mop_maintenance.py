@@ -1,10 +1,10 @@
 from datetime import datetime, timedelta
 from typing import Any
 
-import activities
 import entities
 import states
 from app import App
+from rooms import *
 
 
 class MopMaintenance(App):
@@ -13,9 +13,9 @@ class MopMaintenance(App):
         self.log(f'Initializing mop maintenance.', level="DEBUG")
         self.listen_state(
             self.start_mop_maintenance,
-            self.activities.kitchen._helper,
-            old=activities.Kitchen.EMPTY,
-            new=activities.Kitchen.PRESENT
+            self.rooms.kitchen.activity._helper,
+            old=Kitchen.Activity.EMPTY,
+            new=Kitchen.Activity.PRESENT
         )
 
     def start_mop_maintenance(self, entity: Any, attribute: Any, old: Any, new: Any, kwargs: Any) -> None:

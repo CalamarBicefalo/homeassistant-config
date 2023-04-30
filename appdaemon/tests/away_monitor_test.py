@@ -1,7 +1,6 @@
 import pytest
 from appdaemontestframework import automation_fixture
 
-import activities
 import helpers
 import matchers
 import modes

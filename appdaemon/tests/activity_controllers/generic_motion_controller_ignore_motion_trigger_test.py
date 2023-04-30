@@ -1,7 +1,7 @@
 import pytest, matchers
 from appdaemontestframework import automation_fixture
 
-import activities
+from rooms import *
 import entities
 import services
 from activity_controllers.generic_controller import MotionController
@@ -15,7 +15,7 @@ class GenericMotionController(MotionController):
 
     @property
     def activity(self) -> SelectHandler:
-        return self.activities.bedroom
+        return self.rooms.bedroom.activity
 
     def ignore_motion_trigger(self) -> bool:
         return True
@@ -31,5 +31,5 @@ def subject():
 def test_triggers_when_ignoring_motion_does_nothing(given_that, subject, assert_that):
     subject.controller_handler("motion-sensor", None, None, states.DETECTED, None)
 
-    assert_that(services.INPUT_SELECT_SELECT_OPTION).was_not.set_to_activity(activities.bedroom_helper,
-                                                                         activities.Bedroom.PRESENT)
+    assert_that(services.INPUT_SELECT_SELECT_OPTION).was_not.set_to_activity(Bedroom._activity_helper,
+                                                                         Bedroom.Activity.PRESENT)

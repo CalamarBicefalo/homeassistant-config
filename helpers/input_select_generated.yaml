@@ -1,0 +1,62 @@
+kitchen_activity:
+  name: Kitchen activity
+  icon: mdi:stove
+  options:
+    - Empty
+    - Present
+    - Cooking
+    - TV Break
+living_room_activity:
+  name: Living room activity
+  icon: mdi:sofa
+  options:
+    - Empty
+    - Present
+    - Watching TV
+    - Gaming
+    - Reading
+    - Dinning
+    - Drumming
+studio_activity:
+  name: Studio activity
+  icon: mdi:android-studio
+  options:
+    - Empty
+    - Present
+    - Working
+    - Drumming
+ensuite_activity:
+  name: Ensuite activity
+  icon: mdi:shower-head
+  options:
+    - Empty
+    - Present
+    - Showering
+hallway_activity:
+  name: Hallway activity
+  icon: mdi:coat-rack
+  options:
+    - Empty
+    - Present
+wardrobe_activity:
+  name: Wardrobe activity
+  icon: mdi:wardrobe
+  options:
+    - Empty
+    - Present
+    - Dressing
+bedroom_activity:
+  name: Bedroom activity
+  icon: mdi:bed-king
+  options:
+    - Empty
+    - Present
+    - Relaxing
+    - Bedtime
+    - Waking up
+storage_room_activity:
+  name: Storage room activity
+  icon: mdi:washing-machine
+  options:
+    - Empty
+    - Present

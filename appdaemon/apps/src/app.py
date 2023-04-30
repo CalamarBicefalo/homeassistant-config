@@ -9,7 +9,6 @@ import entities
 import helpers
 import services
 import states
-from activities import ActivityHandlers
 from alarmclock import AlarmClock
 from blinds import BlindsHandler
 from entities import Entity
@@ -17,12 +16,13 @@ from flick import FlickHandler
 from helpers import Helper
 from modes import Mode
 from music import MusicHandler
+from rooms import RoomHandlers
 from select_handler import SelectHandler
 
 
 class App(hass.Hass):
     mode: SelectHandler[Mode]
-    activities: ActivityHandlers
+    rooms: RoomHandlers
     music: MusicHandler
     blinds: BlindsHandler
     alarmclock: AlarmClock
@@ -31,7 +31,7 @@ class App(hass.Hass):
     def __init__(self, ad, name, logging, args, config, app_config, global_vars) -> None:  # type: ignore
         super().__init__(ad, name, logging, args, config, app_config, global_vars)
         self.mode = SelectHandler[Mode](super(), helpers.HOMEASSISTANT_MODE)
-        self.activities = ActivityHandlers(super())
+        self.rooms = RoomHandlers(super())
         self.music = MusicHandler(super(), self.speakers)
         self.blinds = BlindsHandler(super())
         self.alarmclock = AlarmClock(super())

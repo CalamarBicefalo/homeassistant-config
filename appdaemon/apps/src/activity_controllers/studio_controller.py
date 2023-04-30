@@ -1,8 +1,8 @@
 from typing import Any
 
-import activities
 import entities
 from activity_controllers.generic_controller import ActivityController
+from rooms import *
 from select_handler import SelectHandler
 
 
@@ -11,7 +11,7 @@ class StudioController(ActivityController):
 
     @property
     def activity(self) -> SelectHandler:
-        return self.activities.studio
+        return self.rooms.studio.activity
 
     def initialize(self) -> None:
         self.log(f'Initializing studio activity controller.', level="DEBUG")
@@ -33,15 +33,15 @@ class StudioController(ActivityController):
 
         # Work handling
         if self.is_on(entities.BINARY_SENSOR_WORK_CHAIR_PS_WATER):
-            self.activity.set(activities.Studio.WORKING)
+            self.activity.set(Studio.Activity.WORKING)
 
         # Drum handling
         elif self.is_consuming_at_least(entities.SENSOR_DRUMS_PLUG_POWER, watts=4):
-            self.activity.set(activities.Studio.DRUMMING)
+            self.activity.set(Studio.Activity.DRUMMING)
 
         # Presence
         elif self.is_on(self.motion_sensor):
-            self.activity.set(activities.Common.PRESENT)
+            self.activity.set(CommonActivities.PRESENT)
 
         else:
             self.set_as_empty_in(seconds=10)

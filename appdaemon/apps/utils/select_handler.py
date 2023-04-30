@@ -1,7 +1,7 @@
 
-import appdaemon.plugins.hass.hassapi as hass
 from typing import TypeVar, Generic
 
+import appdaemon.plugins.hass.hassapi as hass
 from strenum import StrEnum
 
 import services
@@ -12,7 +12,7 @@ T = TypeVar("T", bound=StrEnum)
 
 class SelectHandler(Generic[T]):
 
-    def __init__(self, app: hass.Hass, helper: Helper):
+    def __init__(self, app: hass.Hass, helper: Helper | str):
         self._helper = helper
         self._app = app
 

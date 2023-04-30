@@ -4,8 +4,8 @@ cloud:
 input_button: !include helpers/input_button.yaml
 input_boolean: !include helpers/input_boolean.yaml
 input_number: !include helpers/input_number.yaml
-input_datetime: !include helpers/input_datetime.yaml
-input_select: !include helpers/input_select.yaml
+input_datetime: !include helpers/input_datetime*.yaml
+input_select: !include helpers/input_select*.yaml
 
 binary_sensor: !include devices/binary_sensor.yaml
 

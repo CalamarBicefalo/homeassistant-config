@@ -1,10 +1,8 @@
-import activities
 import alarmclock
 import entities
 from activity_controllers.generic_controller import MotionController
+from rooms import *
 from select_handler import SelectHandler
-
-COOLDOWN_MINUTES = 90
 
 
 class BedroomController(MotionController):
@@ -13,7 +11,7 @@ class BedroomController(MotionController):
 
     @property
     def activity(self) -> SelectHandler:
-        return self.activities.bedroom
+        return self.rooms.bedroom.activity
 
     @property
     def max_inactive_activity_seconds(self) -> int:
@@ -34,7 +32,7 @@ class BedroomController(MotionController):
             f'Triggering bedroom activity controller: 1 hour to wake up',
             level="DEBUG")
         self.cancel_empty_timer()
-        self._waking_up_schedule = self.run_in(lambda *_: self.activity.set(activities.Bedroom.WAKING_UP), 1800)
+        self._waking_up_schedule = self.run_in(lambda *_: self.activity.set(Bedroom.Activity.WAKING_UP), 1800)
 
     def controller_handler(self, entity, attribute, old, new, kwargs) -> None:  # type: ignore
         self.log(
@@ -42,23 +40,23 @@ class BedroomController(MotionController):
             level="DEBUG")
         self.cancel_empty_timer()
 
-        if self.activity.get() == activities.Bedroom.BEDTIME:
+        if self.activity.get() == Bedroom.Activity.BEDTIME:
             return
 
         if self._waking_up_schedule and self.timer_running(self._waking_up_schedule):
             self.cancel_timer(self._waking_up_schedule)
 
-        if self.activity.get() == activities.Bedroom.WAKING_UP:
+        if self.activity.get() == Bedroom.Activity.WAKING_UP:
             return
 
         # Relaxing Handling
-        if self.activity.get() == activities.Bedroom.RELAXING:
+        if self.activity.get() == Bedroom.Activity.RELAXING:
             if self.is_off(self.motion_sensor):
                 self.set_as_empty_in(minutes=30)
 
         # Presence Handling
         elif self.is_on(self.motion_sensor):
-            self.activity.set(activities.Common.PRESENT)
+            self.activity.set(CommonActivities.PRESENT)
 
         else:
             self.set_as_empty_in(minutes=1)

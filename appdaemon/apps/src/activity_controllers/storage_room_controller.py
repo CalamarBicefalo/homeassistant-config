@@ -1,14 +1,14 @@
-import activities
 import entities
 import states
 from activity_controllers.generic_controller import ActivityController
+from rooms import *
 from select_handler import SelectHandler
 
 
 class StorageRoomController(ActivityController):
     @property
     def activity(self) -> SelectHandler:
-        return self.activities.storageroom
+        return self.rooms.storage_room.activity
 
     def initialize(self) -> None:
         self.log(f'Initializing storage room controller.', level="DEBUG")
@@ -22,8 +22,8 @@ class StorageRoomController(ActivityController):
         self.cancel_empty_timer()
 
         if new == states.OPEN:
-            self.activities.storageroom.set(activities.StorageRoom.PRESENT)
+            self.activity.set(StorageRoom.Activity.PRESENT)
             self.set_as_empty_in(minutes=10)
         else:
             self.cancel_empty_timer()
-            self.activities.storageroom.set(activities.StorageRoom.EMPTY)
+            self.activity.set(StorageRoom.Activity.EMPTY)

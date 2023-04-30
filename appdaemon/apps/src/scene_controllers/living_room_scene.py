@@ -1,9 +1,9 @@
 
-import activities
 import entities
 import scenes
 from modes import Mode
 from music import Playlist
+from rooms import *
 from scene_controllers import scene
 from scene_controllers.scene import Scene, SceneSelector
 from scene_controllers.scene_app import SceneApp
@@ -13,54 +13,54 @@ from select_handler import SelectHandler
 class LivingRoomScene(SceneApp):
     @property
     def activity(self) -> SelectHandler:
-        return self.activities.livingroom
+        return self.rooms.living_room.activity
 
     illuminance_sensor = entities.SENSOR_DESK_MS_ILLUMINANCE
     room_lights = entities.LIGHT_LIVING_ROOM
     speakers = entities.MEDIA_PLAYER_MASS_COOKING_AREA
 
-    def get_light_scene(self, activity: activities.Activity) -> Scene | SceneSelector:
+    def get_light_scene(self, activity: LivingRoom.Activity) -> Scene | SceneSelector:
         match activity:
-            case activities.LivingRoom.READING:
+            case LivingRoom.Activity.READING:
                 return scene.by_mode({
                     Mode.DAY: scenes.LIVING_ROOM_READING,
                     Mode.NIGHT: scenes.LIVING_ROOM_READING,
                 })
-            case activities.LivingRoom.WATCHING_TV:
+            case LivingRoom.Activity.WATCHING_TV:
                 return scene.by_mode({
                     Mode.DAY: scenes.LIVING_ROOM_MOVIE,
                     Mode.NIGHT: scenes.LIVING_ROOM_MOVIE,
                 })
-            case activities.LivingRoom.PRESENT:
+            case LivingRoom.Activity.PRESENT:
                 return scene.by_mode({
                     Mode.DAY: scenes.LIVING_ROOM_WELCOME,
                     Mode.NIGHT: scenes.LIVING_ROOM_WELCOME,
                 })
-            case activities.LivingRoom.DINNING:
+            case LivingRoom.Activity.DINNING:
                 return scenes.DINING_ROOM_DINNER_TIME
-            case activities.LivingRoom.DRUMMING:
+            case LivingRoom.Activity.DRUMMING:
                 return scenes.LIVING_ROOM_DRUMMING
-            case activities.LivingRoom.GAMING:
+            case LivingRoom.Activity.GAMING:
                 return scenes.LIVING_ROOM_GAMING
 
         return scene.off()
 
-    def on_activity_change(self, activity: activities.Activity) -> None:
+    def on_activity_change(self, activity: LivingRoom.Activity) -> None:
         match activity:
-            case activities.LivingRoom.DINNING:
+            case LivingRoom.Activity.DINNING:
                 self.music.play(Playlist.COOL_JAZZ)
 
-            case activities.LivingRoom.READING:
-                if not self.music.is_playing() and not self.activities.studio.is_value(activities.Studio.WORKING):
+            case LivingRoom.Activity.READING:
+                if not self.music.is_playing() and not self.rooms.studio.activity.is_value(Studio.Activity.WORKING):
                     self.music.play(Playlist.random())
 
-            case activities.LivingRoom.WATCHING_TV:
+            case LivingRoom.Activity.WATCHING_TV:
                 self.music.pause()
 
-            case activities.LivingRoom.DRUMMING:
+            case LivingRoom.Activity.DRUMMING:
                 self.music.pause()
 
-            case activities.LivingRoom.GAMING:
+            case LivingRoom.Activity.GAMING:
                 self.music.pause()
 
         mode = self.mode.get()

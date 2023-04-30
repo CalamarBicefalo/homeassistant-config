@@ -1,11 +1,11 @@
 from typing import Optional
 
-import activities
 import entities
 import modes
 import scenes
 from modes import Mode
 from music import Playlist
+from rooms import *
 from scene_controllers import scene
 from scene_controllers.scene import SceneSelector, Scene
 from scene_controllers.scene_app import SceneApp
@@ -20,14 +20,14 @@ class BedroomScene(SceneApp):
 
     @property
     def activity(self) -> SelectHandler:
-        return self.activities.bedroom
+        return self.rooms.bedroom.activity
 
-    def get_light_scene(self, activity: activities.Activity) -> SceneSelector | Optional[Scene]:
-        if activity == activities.Bedroom.BEDTIME or activity == activities.Bedroom.WAKING_UP:
+    def get_light_scene(self, activity: StrEnum) -> SceneSelector | Optional[Scene]:
+        if activity == Bedroom.Activity.BEDTIME or activity == Bedroom.Activity.WAKING_UP:
             return None
-        if activity == activities.Bedroom.RELAXING:
+        if activity == Bedroom.Activity.RELAXING:
             return scenes.BEDROOM_RELAXING
-        if activity == activities.Bedroom.PRESENT:
+        if activity == Bedroom.Activity.PRESENT:
             return scene.by_mode({
                 Mode.DAY: scenes.BEDROOM_BRIGHT,
                 Mode.NIGHT: scenes.BEDROOM_NIGHTLIGHT,
@@ -35,19 +35,19 @@ class BedroomScene(SceneApp):
             })
         return scene.off()
 
-    def on_activity_change(self, activity: activities.Activity) -> None:
+    def on_activity_change(self, activity: StrEnum) -> None:
         if self.mode_change:
             self.cancel_timer(self.mode_change)
             self.mode_change = None
 
-        if activity == activities.Bedroom.RELAXING:
+        if activity == Bedroom.Activity.RELAXING:
             self.music.play(Playlist.NEO_CLASSICAL, volume_level=0.3)
             self.blinds.close(entities.COVER_BEDROOM_BLINDS)
 
-        elif activity == activities.Bedroom.WAKING_UP:
+        elif activity == Bedroom.Activity.WAKING_UP:
             self.blinds.open_for(entities.COVER_BEDROOM_BLINDS, 30)
 
-        elif activity == activities.Bedroom.BEDTIME:
+        elif activity == Bedroom.Activity.BEDTIME:
             # Home cleanup
             self.turn_off_media()
 

@@ -2,7 +2,7 @@ import matchers
 import pytest
 from appdaemontestframework import automation_fixture, given_that as given
 
-import activities
+from rooms import *
 import entities
 import services
 import states
@@ -35,8 +35,8 @@ def test_when_away(given_that, subject, assert_that, time_travel):
     subject.controller_handler(None, None, None, None, None)
     time_travel.fast_forward(1).minutes()
 
-    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(activities.wardrobe_helper,
-                                                                         activities.Wardrobe.EMPTY)
+    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(Wardrobe._activity_helper,
+                                                                         Wardrobe.Activity.EMPTY)
 
 
 @pytest.mark.asyncio
@@ -45,8 +45,8 @@ def test_when_present(given_that, subject, assert_that):
 
     subject.controller_handler(None, None, None, None, None)
 
-    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(activities.wardrobe_helper,
-                                                                         activities.Wardrobe.PRESENT)
+    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(Wardrobe._activity_helper,
+                                                                         Wardrobe.Activity.PRESENT)
 
 @pytest.mark.asyncio
 def test_given_wardrobe_open_when_entering(given_that, subject, assert_that):
@@ -54,8 +54,8 @@ def test_given_wardrobe_open_when_entering(given_that, subject, assert_that):
 
     subject.controller_handler(None, None, None, None, None)
 
-    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(activities.wardrobe_helper,
-                                                                         activities.Wardrobe.PRESENT)
+    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(Wardrobe._activity_helper,
+                                                                         Wardrobe.Activity.PRESENT)
 
 @pytest.mark.asyncio
 def test_when_dressing(given_that, subject, assert_that):
@@ -63,16 +63,16 @@ def test_when_dressing(given_that, subject, assert_that):
 
     subject.controller_handler(entities.BINARY_SENSOR_WARDROBE_RIGHT_CS_CONTACT, None, None, None, None)
 
-    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(activities.wardrobe_helper,
-                                                                         activities.Wardrobe.DRESSING)
+    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(Wardrobe._activity_helper,
+                                                                         Wardrobe.Activity.DRESSING)
 @pytest.mark.asyncio
 def test_given_dressing_when_all_wardrobe_sensors_off(given_that, subject, assert_that):
     given_that.wardrobe_state_is(motion=states.OFF)
 
     subject.controller_handler(entities.BINARY_SENSOR_WARDROBE_RIGHT_CS_CONTACT, None, None, None, None)
 
-    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(activities.wardrobe_helper,
-                                                                         activities.Wardrobe.PRESENT)
+    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(Wardrobe._activity_helper,
+                                                                         Wardrobe.Activity.PRESENT)
 
 @pytest.mark.asyncio
 def test_given_dressing_timesout_after_10_minutes(given_that, subject, assert_that, time_travel):
@@ -81,8 +81,8 @@ def test_given_dressing_timesout_after_10_minutes(given_that, subject, assert_th
     subject.controller_handler(entities.BINARY_SENSOR_WARDROBE_RIGHT_CS_CONTACT, None, None, None, None)
     time_travel.fast_forward(11).minutes()
 
-    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(activities.wardrobe_helper,
-                                                                         activities.Wardrobe.EMPTY)
+    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(Wardrobe._activity_helper,
+                                                                         Wardrobe.Activity.EMPTY)
 
 
 @pytest.mark.asyncio
@@ -95,12 +95,12 @@ def test_after_3_hours_of_inactivity(given_that, subject, assert_that, time_trav
     time_travel.fast_forward(180).minutes()
 
     assert_that(services.INPUT_SELECT_SELECT_OPTION). \
-        was.set_to_activity(activities.wardrobe_helper, activities.Wardrobe.EMPTY)
+        was.set_to_activity(Wardrobe._activity_helper, Wardrobe.Activity.EMPTY)
 
 
 def wardrobe_state_is(self,
                       motion=states.OFF,
-                      activity=activities.Wardrobe.EMPTY,
+                      activity=Wardrobe.Activity.EMPTY,
                       wardrobe_motion=states.OFF,
                       wardrobe_right_door=states.CLOSED,
                       wardrobe_left_door=states.CLOSED):
@@ -108,7 +108,7 @@ def wardrobe_state_is(self,
     self.state_of(entities.BINARY_SENSOR_WARDROBE_MS_MOTION).is_set_to(wardrobe_motion)
     self.state_of(entities.BINARY_SENSOR_WARDROBE_RIGHT_CS_CONTACT).is_set_to(wardrobe_right_door)
     self.state_of(entities.BINARY_SENSOR_WARDROBE_LEFT_CS_CONTACT).is_set_to(wardrobe_left_door)
-    self.state_of(activities.wardrobe_helper).is_set_to(activity)
+    self.state_of(Wardrobe._activity_helper).is_set_to(activity)
 
 
 given.GivenThatWrapper.wardrobe_state_is = wardrobe_state_is

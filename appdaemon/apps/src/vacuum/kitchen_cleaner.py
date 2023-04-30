@@ -1,10 +1,9 @@
 from datetime import datetime
 from typing import Any
 
-import activities
-import flick
 import helpers
 from app import App
+from rooms import *
 
 
 class KitchenCleaner(App):
@@ -18,8 +17,8 @@ class KitchenCleaner(App):
         )
         self.listen_state(
             self.clean_kitchen,
-            self.activities.livingroom._helper,
-            new=activities.LivingRoom.EMPTY
+            self.rooms.living_room.activity._helper,
+            new=LivingRoom.Activity.EMPTY
         )
 
     def clean_kitchen_daily(self, kwargs: Any) -> None:
@@ -29,7 +28,7 @@ class KitchenCleaner(App):
         self.log(f'Triggering kitchen clean {entity} -> {attribute} old={old} new={new}', level="DEBUG")
 
         last_cooked = helpers.helper_to_datetime(self.get_state(helpers.LAST_COOKED))
-        last_vacuumed = self.flick.last_cleaned_kitchen()
+        last_vacuumed = self.rooms.kitchen.last_cleaned()
 
         if last_vacuumed > last_cooked:
             self.log(
@@ -47,9 +46,9 @@ class KitchenCleaner(App):
             )
             return
 
-        if not self.activities.livingroom.get() == activities.LivingRoom.EMPTY \
-                or not self.activities.kitchen.get() == activities.Kitchen.EMPTY \
-                or not self.activities.studio.get() == activities.Studio.EMPTY:
+        if not self.rooms.living_room.activity.get() == LivingRoom.Activity.EMPTY \
+                or not self.rooms.kitchen.activity.get() == Kitchen.Activity.EMPTY \
+                or not self.rooms.studio.activity.get() == Studio.Activity.EMPTY:
             self.log(
                 f'Postponing clean until nobody is around',
                 level="INFO"
@@ -57,4 +56,4 @@ class KitchenCleaner(App):
             return
 
         self.log('Cleaning kitchen', level="DEBUG")
-        self.flick.clean_room(flick.Room.kitchen)
+        self.rooms.kitchen.clean()

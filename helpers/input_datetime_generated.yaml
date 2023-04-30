@@ -1,0 +1,40 @@
+last_cleaned_kitchen:
+    name: Last cleaned Kitchen
+    icon: mdi:broom
+    has_date: true
+    has_time: true
+last_cleaned_living_room:
+    name: Last cleaned Living room
+    icon: mdi:broom
+    has_date: true
+    has_time: true
+last_cleaned_studio:
+    name: Last cleaned Studio
+    icon: mdi:broom
+    has_date: true
+    has_time: true
+last_cleaned_ensuite:
+    name: Last cleaned Ensuite
+    icon: mdi:broom
+    has_date: true
+    has_time: true
+last_cleaned_hallway:
+    name: Last cleaned Hallway
+    icon: mdi:broom
+    has_date: true
+    has_time: true
+last_cleaned_wardrobe:
+    name: Last cleaned Wardrobe
+    icon: mdi:broom
+    has_date: true
+    has_time: true
+last_cleaned_bedroom:
+    name: Last cleaned Bedroom
+    icon: mdi:broom
+    has_date: true
+    has_time: true
+last_cleaned_storage_room:
+    name: Last cleaned Storage room
+    icon: mdi:broom
+    has_date: true
+    has_time: true

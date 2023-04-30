@@ -1,7 +1,7 @@
 import pytest
 from appdaemontestframework import automation_fixture
 
-import activities
+from rooms import *
 import entities
 import helpers
 import matchers
@@ -20,11 +20,11 @@ ILLUMINANCE_SENSOR = "illuminance_sensor"
 class GenericSceneWithIlluminance(SceneApp):
     @property
     def activity(self) -> SelectHandler:
-        return self.activities.bedroom
+        return self.rooms.bedroom.activity
     illuminance_sensor = None
     room_lights = entities.Entity(ROOM_LIGHTS)
 
-    def get_light_scene(self, activity: activities.Activity) -> SceneSelector:
+    def get_light_scene(self, activity: Bedroom.Activity) -> SceneSelector:
         return scene.by_mode({
             Mode.DAY: scenes.BEDROOM_BRIGHT,
             Mode.SLEEPING: scene.off(),
@@ -78,5 +78,5 @@ def test_when_undefined_away_turns_lights_off(given_that, generic_room_scene, as
 def initial_state(self, generic_room_scene, mode=Mode.NIGHT):
     self.state_of(helpers.HOMEASSISTANT_MODE).is_set_to(mode)
     self.state_of(ILLUMINANCE_SENSOR).is_set_to(0)
-    self.state_of(generic_room_scene.activity._helper).is_set_to(activities.Common.PRESENT)
+    self.state_of(generic_room_scene.activity._helper).is_set_to(CommonActivities.PRESENT)
     self.state_of(ROOM_LIGHTS).is_set_to(states.OFF)

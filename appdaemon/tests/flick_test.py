@@ -4,6 +4,7 @@ from appdaemontestframework import automation_fixture
 import entities
 import flick
 import matchers
+import rooms
 import services
 from app import App
 
@@ -21,12 +22,12 @@ def app() -> None:
 
 @pytest.mark.asyncio
 def test_clean_room(given_that, app: FlickApp, assert_that):
-    app.flick.clean_room(flick.Room.kitchen)
+    app.rooms.kitchen.clean()
 
     assert_that(services.VACUUM_SEND_COMMAND).was.called_with(
         entity_id=entities.VACUUM_FLICK,
         command="app_segment_clean",
-        params=flick.Room.kitchen.value
+        params=rooms.Kitchen._room_cleaner_segment
     )
 
 

@@ -1,6 +1,6 @@
-import activities
 import entities
 from activity_controllers.generic_controller import MotionController
+from rooms import *
 from select_handler import SelectHandler
 
 
@@ -10,7 +10,7 @@ class KitchenController(MotionController):
 
     @property
     def activity(self) -> SelectHandler:
-        return self.activities.kitchen
+        return self.rooms.kitchen.activity
 
     def controller_handler(self, entity, attribute, old, new, kwargs) -> None:  # type: ignore
         self.log(
@@ -20,12 +20,12 @@ class KitchenController(MotionController):
         self.cancel_empty_timer()
 
         # TV Break Handling
-        if self.activities.livingroom.get() == activities.LivingRoom.WATCHING_TV and self.is_on(self.motion_sensor):
-            self.activity.set(activities.Kitchen.TV_BREAK)
+        if self.activity.get() == LivingRoom.Activity.WATCHING_TV and self.is_on(self.motion_sensor):
+            self.activity.set(Kitchen.Activity.TV_BREAK)
 
         # Presence Handling
         elif self.is_on(self.motion_sensor):
-            self.activity.set(activities.Common.PRESENT)
+            self.activity.set(CommonActivities.PRESENT)
 
         else:
             self.set_as_empty_in(self.cooldown_seconds)

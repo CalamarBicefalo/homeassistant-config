@@ -1,7 +1,7 @@
-import activities
 import entities
 import states
 from activity_controllers.generic_controller import ActivityController
+from rooms import *
 from select_handler import SelectHandler
 
 
@@ -10,7 +10,7 @@ class WardrobeController(ActivityController):
 
     @property
     def activity(self) -> SelectHandler:
-        return self.activities.wardrobe
+        return self.rooms.wardrobe.activity
 
     def initialize(self) -> None:
         self.listen_state(
@@ -33,14 +33,14 @@ class WardrobeController(ActivityController):
         # Dressing Handling
         if self.is_wardrobe_sensor(entity):
             if self.wardrobe_is_open():
-                self.activity.set(activities.Wardrobe.DRESSING)
+                self.activity.set(Wardrobe.Activity.DRESSING)
                 self.set_as_empty_in(minutes=5)
             else:
-                self.activity.set(activities.Wardrobe.PRESENT)
+                self.activity.set(Wardrobe.Activity.PRESENT)
 
         # Presence Handling
         elif self.is_on(self.motion_sensor):
-            self.activity.set(activities.Common.PRESENT)
+            self.activity.set(CommonActivities.PRESENT)
 
         else:
             self.set_as_empty_in(minutes=1)

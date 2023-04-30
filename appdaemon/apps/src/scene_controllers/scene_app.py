@@ -1,11 +1,11 @@
 from abc import abstractmethod
 from typing import Optional, Any
 
-import activities
 import entities
 import modes
 from app import App
 from modes import Mode
+from rooms import *
 from scene_controllers import scene
 from scene_controllers.scene import SceneSelector, Scene, OffScene
 from select_handler import SelectHandler
@@ -42,10 +42,10 @@ class SceneApp(App):
         pass
 
     @abstractmethod
-    def get_light_scene(self, activity: activities.Activity) -> Optional[Scene] | scene.SceneSelector:
+    def get_light_scene(self, activity: StrEnum) -> Optional[Scene] | scene.SceneSelector:
         pass
 
-    def on_activity_change(self, activity: activities.Activity) -> None:
+    def on_activity_change(self, activity: StrEnum) -> None:
         pass
 
     @property

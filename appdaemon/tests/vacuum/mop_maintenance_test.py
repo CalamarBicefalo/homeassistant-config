@@ -4,11 +4,11 @@ import matchers
 import pytest
 from appdaemontestframework import automation_fixture, given_that as given, assert_that as assertt
 
-import activities
 import helpers
 import services
 import states
 import test_utils
+from rooms import *
 from vacuum.mop_maintenance import MopMaintenance
 
 
@@ -20,9 +20,9 @@ def vacuum_controller():
 
 def test_clean_mop_maintenance_triggers_while_in_kitchen(given_that, vacuum_controller, assert_that):
     assert_that(vacuum_controller) \
-        .listens_to.state(vacuum_controller.activities.kitchen._helper,
-                          old=activities.Kitchen.EMPTY,
-                          new=activities.Kitchen.PRESENT) \
+        .listens_to.state(Kitchen._activity_helper,
+                          old=Kitchen.Activity.EMPTY,
+                          new=Kitchen.Activity.PRESENT) \
         .with_callback(vacuum_controller.start_mop_maintenance)
 
 

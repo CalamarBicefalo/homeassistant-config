@@ -1,7 +1,7 @@
 import pytest
 from appdaemontestframework import automation_fixture, given_that as given
 
-import activities
+from rooms import *
 import matchers
 import services
 import states as door
@@ -14,8 +14,8 @@ def ensuite_controller():
     matchers.init()
     pass
 
-current_activity = activities.Ensuite
-new_activity = activities.Ensuite
+current_activity = Ensuite.Activity
+new_activity = Ensuite.Activity
 
 motion_test_cases = [
     (
@@ -79,7 +79,7 @@ def test_on_motion(activity, doors, motion, new_activity, given_that, ensuite_co
 
     ensuite_controller.on_motion(None, None, None, motion, None)
 
-    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(activities.ensuite_helper,
+    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(Ensuite._activity_helper,
                                                                          new_activity)
 
 @pytest.mark.parametrize("activity,doors,new_activity", door_test_cases)
@@ -89,7 +89,7 @@ def test_on_door(activity, doors, new_activity, given_that, ensuite_controller, 
     ensuite_controller.on_door(None, None, None, doors, None)
 
     if new_activity:
-        assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(activities.ensuite_helper,
+        assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(Ensuite._activity_helper,
                                                                          new_activity)
     else:
         assert_that(services.INPUT_SELECT_SELECT_OPTION).was_not.called()
@@ -100,44 +100,44 @@ def test_showering_timer_holds_for_33_minutes(given_that, ensuite_controller, as
 
     time_travel.fast_forward(32).minutes()
 
-    assert_that(services.INPUT_SELECT_SELECT_OPTION).was_not.set_to_activity(activities.ensuite_helper,
-                                                                         activities.Ensuite.EMPTY)
+    assert_that(services.INPUT_SELECT_SELECT_OPTION).was_not.set_to_activity(Ensuite._activity_helper,
+                                                                         Ensuite.Activity.EMPTY)
 def test_after_34_minutes_showering_mode_is_disabled(given_that, ensuite_controller, assert_that, time_travel):
     enable_showering(ensuite_controller, given_that)
 
     time_travel.fast_forward(34).minutes()
 
-    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(activities.ensuite_helper,
-                                                                         activities.Ensuite.EMPTY)
+    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(Ensuite._activity_helper,
+                                                                         Ensuite.Activity.EMPTY)
 
 
 def test_after_25_minutes_sets_to_empty(given_that, ensuite_controller, assert_that, time_travel):
-    given_that.ensuite_has(activity=activities.Ensuite.EMPTY, door=door.OPEN)
+    given_that.ensuite_has(activity=Ensuite.Activity.EMPTY, door=door.OPEN)
     ensuite_controller.on_motion(None, None, None, motion.DETECTED, None)
 
     time_travel.fast_forward(26).minutes()
 
-    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(activities.ensuite_helper,
-                                                                         activities.Ensuite.EMPTY)
+    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(Ensuite._activity_helper,
+                                                                         Ensuite.Activity.EMPTY)
 
 
 def test_after_1_minute_of_inactivity_sets_to_empty(given_that, ensuite_controller, assert_that, time_travel):
-    given_that.ensuite_has(activity=activities.Ensuite.PRESENT, door=door.OPEN)
+    given_that.ensuite_has(activity=Ensuite.Activity.PRESENT, door=door.OPEN)
     ensuite_controller.on_motion(None, None, None, motion.NOT_DETECTED, None)
 
     time_travel.fast_forward(1).minutes()
 
-    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(activities.ensuite_helper,
-                                                                         activities.Ensuite.EMPTY)
+    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(Ensuite._activity_helper,
+                                                                         Ensuite.Activity.EMPTY)
 
 
 def enable_showering(ensuite_controller, given_that):
-    given_that.ensuite_has(activity=activities.Ensuite.EMPTY, door=door.CLOSED)
+    given_that.ensuite_has(activity=Ensuite.Activity.EMPTY, door=door.CLOSED)
     ensuite_controller.on_motion(None, None, None, motion.DETECTED, None)
 
 
 def ensuite_has(self, activity, door=door.OPEN):
-    self.state_of(activities.ensuite_helper).is_set_to(activity)
+    self.state_of(Ensuite._activity_helper).is_set_to(activity)
     self.state_of(EnsuiteController.contact_sensor).is_set_to(door)
 
 

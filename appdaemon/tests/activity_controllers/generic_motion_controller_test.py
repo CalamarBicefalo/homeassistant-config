@@ -1,7 +1,7 @@
 import pytest, matchers
 from appdaemontestframework import automation_fixture
 
-import activities
+from rooms import *
 import entities
 import services
 from activity_controllers.generic_controller import MotionController
@@ -15,7 +15,7 @@ class GenericMotionController(MotionController):
 
     @property
     def activity(self) -> SelectHandler:
-        return self.activities.kitchen
+        return self.rooms.kitchen.activity
 
 
 @automation_fixture(GenericMotionController)
@@ -34,8 +34,8 @@ def test_triggers_when_motion(given_that, subject, assert_that):
 def test_when_present(given_that, subject, assert_that):
     subject.controller_handler("motion-sensor", None, None, states.DETECTED, None)
 
-    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(activities.kitchen_helper,
-                                                                         activities.Kitchen.PRESENT)
+    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(Kitchen._activity_helper,
+                                                                         Kitchen.Activity.PRESENT)
 
 
 @pytest.mark.asyncio
@@ -44,8 +44,8 @@ def test_when_away(given_that, subject, assert_that, time_travel):
 
     time_travel.fast_forward(2).minutes()
 
-    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(activities.kitchen_helper,
-                                                                         activities.Kitchen.EMPTY)
+    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(Kitchen._activity_helper,
+                                                                         Kitchen.Activity.EMPTY)
 
 @pytest.mark.asyncio
 def test_when_retriggering(given_that, subject, assert_that, time_travel):
@@ -59,5 +59,5 @@ def test_when_retriggering(given_that, subject, assert_that, time_travel):
     time_travel.fast_forward(1).minutes()
 
 
-    assert_that(services.INPUT_SELECT_SELECT_OPTION).was_not.set_to_activity(activities.kitchen_helper,
-                                                                         activities.Kitchen.EMPTY)
+    assert_that(services.INPUT_SELECT_SELECT_OPTION).was_not.set_to_activity(Kitchen._activity_helper,
+                                                                         Kitchen.Activity.EMPTY)

@@ -13,15 +13,15 @@ def generate_helpers(root_dir: str):
                      "HELPER_DATETIME_FORMAT = '%Y-%m-%d %H:%M:%S'\n")
         output.write('\n\n')
         for f in helper_files:
+            if f.endswith("_generated.yaml"):
+                continue
             with open(f, "r") as stream:
                 yml = yaml.safe_load(stream)
                 if yml is not None:
                     try:
                         for i in yml.keys():
-                            if i.endswith("_activity"):
-                                continue
                             output.write(
-                                f'{i.upper()} = Helper("{f.replace(".yaml", ".").replace("helpers/", "") + i}")\n')
+                                f'{i.upper()} = Helper("{f.replace("_generated", "").replace(".yaml", ".").replace("helpers/", "") + i}")\n')
                     except yaml.YAMLError as exc:
                         print(exc)
         output.write('\n\n')

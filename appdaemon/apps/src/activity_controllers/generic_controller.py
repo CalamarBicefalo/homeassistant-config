@@ -1,9 +1,9 @@
 from abc import abstractmethod
 
-import activities
 import entities
 import states
 from app import App
+from rooms import *
 from select_handler import SelectHandler
 
 MAX_INACTIVE_ACTIVITY_DURATION = 3 * 60 * 60
@@ -30,7 +30,7 @@ class ActivityController(App):
 
     def _run_empty_timer_in(self, seconds: int) -> None:
         def callback() -> None:
-            self.activity.set(activities.Common.EMPTY)
+            self.activity.set(CommonActivities.EMPTY)
             self._empty_timer = None
 
         self._empty_timer = self.run_in(lambda *_: callback(), seconds)
@@ -67,7 +67,7 @@ class MotionController(ActivityController):
             return
 
         if new == states.DETECTED:
-            self.activity.set(activities.Common.PRESENT)
+            self.activity.set(CommonActivities.PRESENT)
         else:
             self.set_as_empty_in(self.cooldown_seconds)
 
