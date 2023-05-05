@@ -3,24 +3,19 @@
   name: kitchen_motion
   device_class: motion
   entities:
-    - binary_sensor.kitchen_entry_ms_motion
-    - binary_sensor.kitchen_ms_motion
+    - binary_sensor.kitchen_ms_occupancy
 - platform: group
   name: living_room_motion
   device_class: motion
   entities:
-    - binary_sensor.livingroom_door_ms_motion
-    - binary_sensor.living_room_ps_presence
-    - binary_sensor.living_room_ps_motion
+    - binary_sensor.living_room_ms_occupancy
 - platform: group
   name: studio_motion
   device_class: motion
   entities:
-    - binary_sensor.desk_ms_motion
-    - binary_sensor.studio_ms_presence
-    - binary_sensor.studio_ms_motion
+    - binary_sensor.studio_ms_occupancy
 - platform: group
   name: ensuite_motion
   device_class: motion
   entities:
-    - binary_sensor.bathroom_ms_motion
+    - binary_sensor.ensuite_ms

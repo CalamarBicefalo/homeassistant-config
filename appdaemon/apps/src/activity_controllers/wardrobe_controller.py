@@ -6,7 +6,7 @@ from select_handler import SelectHandler
 
 
 class WardrobeController(ActivityController):
-    motion_sensor = entities.BINARY_SENSOR_BEDROOM_DOOR_MS_MOTION
+    # motion_sensor = entities.BINARY_SENSOR_BEDROOM_DOOR_MS_MOTION
 
     @property
     def activity(self) -> SelectHandler:
@@ -16,10 +16,9 @@ class WardrobeController(ActivityController):
         self.listen_state(
             self.controller_handler,
             [
-                self.motion_sensor,
-                entities.BINARY_SENSOR_WARDROBE_MS_MOTION,
-                entities.BINARY_SENSOR_WARDROBE_RIGHT_CS_CONTACT,
-                entities.BINARY_SENSOR_WARDROBE_LEFT_CS_CONTACT,
+                # self.motion_sensor,
+                entities.BINARY_SENSOR_WARDROBE_DOOR_RIGHT_CS_IASZONE,
+                entities.BINARY_SENSOR_WARDROBE_DOOR_LEFT_CS_IASZONE,
             ]
         )
 
@@ -39,22 +38,22 @@ class WardrobeController(ActivityController):
                 self.activity.set(Wardrobe.Activity.PRESENT)
 
         # Presence Handling
-        elif self.is_on(self.motion_sensor):
-            self.activity.set(CommonActivities.PRESENT)
+        # elif self.is_on(self.motion_sensor):
+        #     self.activity.set(CommonActivities.PRESENT)
 
         else:
             self.set_as_empty_in(minutes=1)
 
     def is_wardrobe_sensor(self, entity: entities.Entity) -> bool:
         return entity in [
-            entities.BINARY_SENSOR_WARDROBE_MS_MOTION,
-            entities.BINARY_SENSOR_WARDROBE_RIGHT_CS_CONTACT,
-            entities.BINARY_SENSOR_WARDROBE_LEFT_CS_CONTACT,
+            # self.motion_sensor
+            entities.BINARY_SENSOR_WARDROBE_DOOR_RIGHT_CS_IASZONE,
+            entities.BINARY_SENSOR_WARDROBE_DOOR_LEFT_CS_IASZONE,
         ]
 
     def wardrobe_is_open(self) -> bool:
         return (
-                self.is_on(entities.BINARY_SENSOR_WARDROBE_MS_MOTION)
-                or self.has_state(entities.BINARY_SENSOR_WARDROBE_RIGHT_CS_CONTACT, states.OPEN)
-                or self.has_state(entities.BINARY_SENSOR_WARDROBE_LEFT_CS_CONTACT, states.OPEN)
+                # self.is_on(self.motion_sensor) or
+                self.has_state(entities.BINARY_SENSOR_WARDROBE_DOOR_RIGHT_CS_IASZONE, states.OPEN)
+                or self.has_state(entities.BINARY_SENSOR_WARDROBE_DOOR_LEFT_CS_IASZONE, states.OPEN)
         )

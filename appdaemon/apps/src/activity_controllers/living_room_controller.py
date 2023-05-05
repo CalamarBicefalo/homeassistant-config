@@ -18,7 +18,7 @@ class LivingRoomController(ActivityController):
                 self.motion_sensor,
                 entities.MEDIA_PLAYER_TV,
                 entities.MEDIA_PLAYER_SONY_KD_49XF8096,
-                entities.BINARY_SENSOR_SOFA_PS_WATER
+                entities.BINARY_SENSOR_SOFA_PS
             ]
         )
 
@@ -64,4 +64,4 @@ class LivingRoomController(ActivityController):
         return self.is_on(entities.MEDIA_PLAYER_TV) or self.is_on(entities.MEDIA_PLAYER_SONY_KD_49XF8096)
 
     def sitting_on_sofa(self) -> bool:
-        return self.is_on(entities.BINARY_SENSOR_SOFA_PS_WATER)
+        return self.is_on(entities.BINARY_SENSOR_SOFA_PS)

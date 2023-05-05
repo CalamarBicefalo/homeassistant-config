@@ -12,7 +12,7 @@ class StudioScene(SceneApp):
     def activity(self) -> SelectHandler:
         return self.rooms.studio.activity
 
-    illuminance_sensor = entities.SENSOR_DESK_MS_ILLUMINANCE
+    illuminance_sensor = entities.SENSOR_STUDIO_MS_ILLUMINANCE
     room_lights = entities.LIGHT_STUDIO
 
     def get_light_scene(self, activity: Studio.Activity) -> Scene:
@@ -28,8 +28,8 @@ class StudioScene(SceneApp):
     def on_activity_change(self, activity: Studio.Activity) -> None:
         match activity:
             case Studio.Activity.WORKING:
-                self.turn_on(entities.SWITCH_MONITOR_PLUG)
+                self.turn_on(entities.SWITCH_MONITOR)
             case Studio.Activity.DRUMMING:
                 self.turn_off_media()
             case _:
-                self.turn_off(entities.SWITCH_MONITOR_PLUG)
+                self.turn_off(entities.SWITCH_MONITOR)

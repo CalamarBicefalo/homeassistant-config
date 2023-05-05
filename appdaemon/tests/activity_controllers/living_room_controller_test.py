@@ -22,7 +22,7 @@ def test_triggers_when_motion_or_tv_changes(given_that, subject, assert_that):
             entities.BINARY_SENSOR_LIVING_ROOM_MOTION,
             entities.MEDIA_PLAYER_TV,
             entities.MEDIA_PLAYER_SONY_KD_49XF8096,
-            entities.BINARY_SENSOR_SOFA_PS_WATER
+            entities.BINARY_SENSOR_SOFA_PS
         ]
     )\
         .with_callback(subject.controller_handler)
@@ -152,7 +152,7 @@ def living_room_state_is(self, motion=states.OFF, tv=states.OFF, sofa=states.OFF
     self.state_of(entities.MEDIA_PLAYER_SONY_KD_49XF8096).is_set_to(tv, tv_attr)
     self.state_of(entities.BINARY_SENSOR_LIVING_ROOM_MOTION).is_set_to(motion)
     self.state_of(entities.MEDIA_PLAYER_TV).is_set_to(tv)
-    self.state_of(entities.BINARY_SENSOR_SOFA_PS_WATER).is_set_to(sofa)
+    self.state_of(entities.BINARY_SENSOR_SOFA_PS).is_set_to(sofa)
     self.state_of(LivingRoom._activity_helper).is_set_to(activity)
 
 

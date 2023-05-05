@@ -15,7 +15,7 @@ class LivingRoomScene(SceneApp):
     def activity(self) -> SelectHandler:
         return self.rooms.living_room.activity
 
-    illuminance_sensor = entities.SENSOR_DESK_MS_ILLUMINANCE
+    illuminance_sensor = entities.SENSOR_STUDIO_MS_ILLUMINANCE
     room_lights = entities.LIGHT_LIVING_ROOM
     speakers = entities.MEDIA_PLAYER_MASS_COOKING_AREA
 
