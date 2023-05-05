@@ -5,7 +5,7 @@ import yaml
 
 def generate_helpers(root_dir: str):
     GENERATED_HELPERS = f'{root_dir}/helpers.py'
-    helper_files = glob.glob("helpers/input_*.yaml")
+    helper_files = glob.glob("helpers/**/input_*.yaml")
     with open(GENERATED_HELPERS, 'w') as output:
         output.write("from typing import NewType\n"
                      "from datetime import datetime\n"
@@ -21,7 +21,7 @@ def generate_helpers(root_dir: str):
                     try:
                         for i in yml.keys():
                             output.write(
-                                f'{i.upper()} = Helper("{f.replace("_generated", "").replace(".yaml", ".").replace("helpers/", "") + i}")\n')
+                                f'{i.upper()} = Helper("{f.replace("_generated", "").replace(".yaml", ".").rsplit("/", 1)[1] + i}")\n')
                     except yaml.YAMLError as exc:
                         print(exc)
         output.write('\n\n')
