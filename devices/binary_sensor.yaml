@@ -9,6 +9,7 @@
   device_class: motion
   entities:
     - binary_sensor.living_room_ms_occupancy
+    - binary_sensor.living_room_instant_ms
 - platform: group
   name: studio_motion
   device_class: motion
@@ -19,3 +20,9 @@
   device_class: motion
   entities:
     - binary_sensor.ensuite_ms
+- platform: group
+  name: bedroom_motion
+  device_class: motion
+  entities:
+    - binary_sensor.bedroom_ms_occupancy
+    - binary_sensor.bedroom_instant_ms
