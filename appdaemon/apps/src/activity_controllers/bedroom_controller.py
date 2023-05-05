@@ -6,7 +6,7 @@ from select_handler import SelectHandler
 
 
 class BedroomController(MotionController):
-    motion_sensor = entities.BINARY_SENSOR_BEDROOM_MS_OCCUPANCY
+    motion_sensor = entities.BINARY_SENSOR_BEDROOM_MOTION
     _waking_up_schedule = None
 
     @property
