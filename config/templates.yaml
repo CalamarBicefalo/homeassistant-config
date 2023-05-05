@@ -12,7 +12,7 @@
       device_class: motion
   sensor:
     - name: "Bedroom MS command"
-      state: "{{ trigger.event_data.command }}"
+      state: "{{ trigger.event.data.command }}"
       device_class: enum
 
 - trigger:
@@ -28,5 +28,5 @@
       device_class: motion
   sensor:
     - name: "Living room MS command"
-      state: "{{ trigger.event_data.command }}"
+      state: "{{ trigger.event.data.command }}"
       device_class: enum
