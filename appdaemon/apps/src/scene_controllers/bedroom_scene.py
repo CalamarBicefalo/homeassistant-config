@@ -13,7 +13,7 @@ from select_handler import SelectHandler
 
 
 class BedroomScene(SceneApp):
-    illuminance_sensor = entities.SENSOR_BEDROOM_MS_ILLUMINANCE
+    illuminance_sensor = entities.SENSOR_BEDROOM_ENTRANCE_MS_ILLUMINANCE
     room_lights = entities.LIGHT_BEDROOM
     speakers = entities.MEDIA_PLAYER_MASS_BEDROOM_SPEAKERS
     mode_change = None
