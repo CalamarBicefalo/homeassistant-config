@@ -14,5 +14,6 @@ person: !include config/people.yaml
 tts: !include config/text_to_speech.yaml
 http: !include config/http.yaml
 google_assistant: !include config/google_assistant.yaml
+zha: !include config/zigbee_home_assistant.yaml
 
 

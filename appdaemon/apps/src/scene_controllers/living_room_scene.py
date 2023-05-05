@@ -65,6 +65,6 @@ class LivingRoomScene(SceneApp):
 
         mode = self.mode.get()
         if mode == Mode.NIGHT or mode == Mode.SLEEPING:
-            self.blinds.close(entities.COVER_BLINDS)
+            self.blinds.close(entities.COVER_BLINDS_CURTAIN)
         else:
-            self.blinds.open(entities.COVER_BLINDS)
+            self.blinds.open(entities.COVER_BLINDS_CURTAIN)
