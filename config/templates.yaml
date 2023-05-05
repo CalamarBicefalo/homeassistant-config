@@ -31,11 +31,6 @@
     - name: "Bedroom MS command"
       state: "{{ trigger.event.data.command }}"
       device_class: enum
-      options:
-        - Leave
-        - Enter
-        - Away
-        - Approach
 
 - trigger:
     - platform: event
@@ -52,10 +47,5 @@
     - name: "Living room MS command"
       state: "{{ trigger.event.data.command }}"
       device_class: enum
-      options:
-        - Leave
-        - Enter
-        - Away
-        - Approach
 
 
