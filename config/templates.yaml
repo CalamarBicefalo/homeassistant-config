@@ -7,7 +7,7 @@
   binary_sensor:
     - name: "Bedroom Instant MS"
       state: >
-        {{not trigger.event_data.command, "leave")}}
+        {{not trigger.event_data.command=="leave"}}
       icon: mdi:motion-sensor
       device_class: motion
   sensor:
@@ -23,7 +23,7 @@
   binary_sensor:
     - name: "Living room Instant MS"
       state: >
-        {{not trigger.event_data.command, "leave")}}
+        {{not trigger.event_data.command=="leave"}}
       icon: mdi:motion-sensor
       device_class: motion
   sensor:
