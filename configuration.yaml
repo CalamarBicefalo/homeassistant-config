@@ -17,3 +17,4 @@ google_assistant: !include config/google_assistant.yaml
 zha: !include config/zigbee_home_assistant.yaml
 
 
+template: !include config/templates.yaml

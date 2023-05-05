@@ -1,0 +1,32 @@
+
+- trigger:
+    - platform: event
+      event_type: zha_event
+      event_data:
+        device_ieee: 54:ef:44:10:00:58:1b:fa
+  binary_sensor:
+    - name: "Bedroom Instant MS"
+      state: >
+        {{not trigger.event_data.command, "leave")}}
+      icon: mdi:motion-sensor
+      device_class: motion
+  sensor:
+    - name: "Bedroom MS command"
+      state: "{{ trigger.event_data.command }}"
+      device_class: enum
+
+- trigger:
+    - platform: event
+      event_type: zha_event
+      event_data:
+        device_ieee: 54:ef:44:10:00:58:4e:83
+  binary_sensor:
+    - name: "Living room Instant MS"
+      state: >
+        {{not trigger.event_data.command, "leave")}}
+      icon: mdi:motion-sensor
+      device_class: motion
+  sensor:
+    - name: "Living room MS command"
+      state: "{{ trigger.event_data.command }}"
+      device_class: enum
