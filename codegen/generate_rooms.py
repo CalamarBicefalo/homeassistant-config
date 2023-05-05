@@ -50,7 +50,7 @@ def generate_rooms(root_dir: str):
                     f.write(f'    {activity.replace(" ", "_").upper()} = "{activity}"\n')
                 f.write('\n')
 
-            with open("helpers/input_datetime_generated.yaml", 'w') as f:
+            with open("helpers/input_datetime/input_datetime_generated.yaml", 'w') as f:
                 for room in rooms:
                     f.write(f'last_cleaned_{snake_name(room)}:\n')
                     f.write(f'    name: Last cleaned {room["name"]}\n')
@@ -58,7 +58,7 @@ def generate_rooms(root_dir: str):
                     f.write("    has_date: true\n")
                     f.write("    has_time: true\n")
 
-            with open('helpers/input_select_generated.yaml', 'w') as f:
+            with open('helpers/input_select/input_select_generated.yaml', 'w') as f:
                 for room in rooms:
                     f.write(f'{snake_name(room)}_activity:\n')
                     f.write(f'  name: {room["name"]} activity\n')

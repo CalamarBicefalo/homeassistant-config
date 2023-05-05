@@ -3,7 +3,7 @@ import yaml
 def generate_modes(root_dir: str):
     GENERATED_MODES = f'{root_dir}/modes.py'
     SELECT_NAME = "homeassistant_mode"
-    with open("helpers/input_select.yaml", "r") as stream:
+    with open("helpers/input_select/input_select.yaml", "r") as stream:
         selects = yaml.safe_load(stream)
         homeassistant_mode = selects[SELECT_NAME]
         try:

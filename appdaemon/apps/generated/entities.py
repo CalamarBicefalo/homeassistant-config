@@ -113,6 +113,7 @@ NUMBER_LIVING_ROOM_SPEAKER_ANNOUNCEMENTS_VOLUME_INCREASE_RELATIVE: Entity = Enti
 NUMBER_LIVING_ROOM_SPEAKER_CROSSFADE_DURATION: Entity = Entity("number.living_room_speaker_crossfade_duration")
 NUMBER_OFFICE_SPEAKER_ANNOUNCEMENTS_VOLUME_INCREASE_RELATIVE: Entity = Entity("number.office_speaker_announcements_volume_increase_relative")
 NUMBER_OFFICE_SPEAKER_CROSSFADE_DURATION: Entity = Entity("number.office_speaker_crossfade_duration")
+PERSISTENT_NOTIFICATION_HOMEASSISTANT_CHECK_CONFIG: Entity = Entity("persistent_notification.homeassistant_check_config")
 PERSON_AMANDA: Entity = Entity("person.amanda")
 PERSON_JOSE_CARLOS: Entity = Entity("person.jose_carlos")
 REMOTE_SONY_KD_49XF8096: Entity = Entity("remote.sony_kd_49xf8096")
