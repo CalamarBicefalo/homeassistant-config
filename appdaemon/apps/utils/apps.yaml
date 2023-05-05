@@ -19,3 +19,7 @@ alarmclock:
   module: alarmclock.py
   global: true
 
+flick:
+  module: flick.py
+  global: true
+
