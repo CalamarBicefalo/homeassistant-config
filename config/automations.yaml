@@ -19,159 +19,17 @@
     target:
       entity_id: input_datetime.last_cooked
   mode: single
-- id: '1671814169764'
-  alias: Dinner button
-  description: Manages the button in the dinning table
+
+- id: '1664740449259'
+  alias: debug
+  description: ""
   trigger:
-  - device_id: a0ea7271fcc3eb2407584197b15729a6
-    domain: hubitat
-    platform: device
-    type: pushed
-    subtype: '1'
-    id: button_pushed
-  - device_id: a0ea7271fcc3eb2407584197b15729a6
-    domain: hubitat
-    platform: device
-    type: held
-    subtype: '1'
-    id: button_held
+    - platform: event
+      event_type: zha_event
   condition: []
   action:
-  - choose:
-    - conditions:
-      - condition: trigger
-        id: button_pushed
-      sequence:
-      - service: input_select.select_option
-        data:
-          option: Dinning
-        target:
-          entity_id: input_select.living_room_activity
-    - conditions:
-      - condition: trigger
-        id: button_held
-      sequence:
-      - service: input_select.select_option
-        data:
-          option: Present
-        target:
-          entity_id: input_select.living_room_activity
-  mode: single
-- id: '1671973191702'
-  alias: Bedside button
-  description: Manages the button in the bedroom
-  trigger:
-  - device_id: 5c261fb1c358649bfeb0411ca3558e3b
-    domain: hubitat
-    platform: device
-    type: pushed
-    subtype: '1'
-    id: button_pushed
-  - device_id: 5c261fb1c358649bfeb0411ca3558e3b
-    domain: hubitat
-    platform: device
-    type: held
-    subtype: '1'
-    id: button_held
-  - device_id: 5c261fb1c358649bfeb0411ca3558e3b
-    domain: hubitat
-    platform: device
-    type: double_tapped
-    subtype: '1'
-    id: button_double_tapped
-  condition: []
-  action:
-  - choose:
-    - conditions:
-      - condition: trigger
-        id: button_pushed
-      sequence:
-      - if:
-        - condition: state
-          entity_id: input_select.bedroom_activity
-          state: Bedtime
-        then:
-        - service: input_select.select_option
-          data:
-            option: Sleeping
-          target:
-            entity_id: input_select.homeassistant_mode
-        else:
-        - service: input_select.select_option
-          data:
-            option: Bedtime
-          target:
-            entity_id: input_select.bedroom_activity
-    - conditions:
-      - condition: trigger
-        id: button_held
-      sequence:
-      - service: input_select.select_option
-        data:
-          option: Present
-        target:
-          entity_id: input_select.bedroom_activity
-      - event: bedroom.activity_unlocked
-        event_data: {}
-    - conditions:
-      - condition: trigger
-        id: button_double_tapped
-      sequence:
-      - service: input_select.select_option
-        data:
-          option: Relaxing
-        target:
-          entity_id: input_select.bedroom_activity
-  mode: single
-- id: '1672262824314'
-  alias: Living room button
-  description: Manages the button in the living room coffee table
-  trigger:
-  - device_id: d478c4f7337cb5dadbe49f28ad831654
-    domain: hubitat
-    platform: device
-    type: pushed
-    subtype: '1'
-    id: button_pushed
-  - device_id: d478c4f7337cb5dadbe49f28ad831654
-    domain: hubitat
-    platform: device
-    type: double_tapped
-    subtype: '1'
-    id: button_double_tapped
-  - device_id: d478c4f7337cb5dadbe49f28ad831654
-    domain: hubitat
-    platform: device
-    type: held
-    subtype: '1'
-    id: button_held
-  condition: []
-  action:
-  - choose:
-    - conditions:
-      - condition: trigger
-        id: button_double_tapped
-      sequence:
-      - service: input_select.select_option
-        data:
-          option: Drumming
-        target:
-          entity_id: input_select.living_room_activity
-    - conditions:
-      - condition: trigger
-        id: button_held
-      sequence:
-      - service: input_select.select_option
-        data:
-          option: Present
-        target:
-          entity_id: input_select.living_room_activity
-    - conditions:
-      - condition: trigger
-        id: button_pushed
-      sequence:
-      - service: media_player.media_play_pause
-        data: {}
-        target:
-          entity_id: media_player.mass_cooking_area
+    - service: system_log.write
+      data:
+        level: error
+        message: "{{ trigger.event.data }}"
   mode: single
