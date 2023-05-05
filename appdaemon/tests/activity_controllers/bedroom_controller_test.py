@@ -18,7 +18,7 @@ def subject() -> None:
 def test_triggers_when_motion(given_that, subject, assert_that):
     assert_that(subject) \
         .listens_to.state(
-        [entities.BINARY_SENSOR_BEDROOM_MS_OCCUPANCY]) \
+        [entities.BINARY_SENSOR_BEDROOM_MOTION]) \
         .with_callback(subject.controller_handler)
 
 
@@ -114,7 +114,7 @@ def test_after_3_hours_of_inactivity_then_empty(given_that, subject, assert_that
 
 
 def bedroom_state_is(self, motion=states.OFF, activity=Bedroom.Activity.EMPTY):
-    self.state_of(entities.BINARY_SENSOR_BEDROOM_MS_OCCUPANCY).is_set_to(motion)
+    self.state_of(entities.BINARY_SENSOR_BEDROOM_MOTION).is_set_to(motion)
     self.state_of(Bedroom._activity_helper).is_set_to(activity)
 
 
