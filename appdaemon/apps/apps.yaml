@@ -1,6 +1,4 @@
 ---
-global_modules: !include /config/appdaemon/apps/dependencies.yaml
-
 Playground:
   module: playground
   class: Playground
@@ -22,10 +20,6 @@ Away monitor:
   dependencies: !include /config/appdaemon/apps/dependencies.yaml
 
 # Global dependencies
-activities:
-  module: activities.py
-  global: true
-
 entities:
   module: entities.py
   global: true
@@ -36,14 +30,6 @@ helpers:
 
 services:
   module: services.py
-  global: true
-
-vacuum_location:
-  module: vacuum_location.py
-  global: true
-
-point:
-  module: point.py
   global: true
 
 app:
