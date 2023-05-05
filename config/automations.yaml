@@ -19,17 +19,3 @@
     target:
       entity_id: input_datetime.last_cooked
   mode: single
-
-- id: '1664740449259'
-  alias: debug
-  description: ""
-  trigger:
-    - platform: event
-      event_type: zha_event
-  condition: []
-  action:
-    - service: system_log.write
-      data:
-        level: error
-        message: "{{ trigger.event.data }}"
-  mode: single
