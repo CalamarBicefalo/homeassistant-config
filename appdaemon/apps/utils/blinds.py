@@ -52,7 +52,7 @@ class BlindsHandler:
 
         def increment_cover_position() -> None:
             self._opening.add(entity)
-            current_position = self.app.get_state(entity, attribute="position")
+            current_position = self.app.get_state(entity, attribute="current_position")
             if current_position >= 100:
                 self._opening.remove(entity)
                 return
