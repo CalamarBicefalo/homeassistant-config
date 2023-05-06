@@ -1,4 +1,5 @@
 import math
+from datetime import datetime
 from typing import Optional
 
 import entities
@@ -13,11 +14,14 @@ from scene_controllers.scene_app import SceneApp
 from select_handler import SelectHandler
 
 
+
 class BedroomScene(SceneApp):
     illuminance_sensor = entities.SENSOR_BEDROOM_ENTRANCE_MS_ILLUMINANCE
     room_lights = entities.LIGHT_BEDROOM
     speakers = entities.MEDIA_PLAYER_MASS_BEDROOM_SPEAKERS
     bedtime_duration_minutes = 30
+    bedtime_initial_brightness = 255
+    bedtime_initial_volume = 0.3
     minutes_left = 0
 
     bedtime_loop = None
@@ -59,15 +63,14 @@ class BedroomScene(SceneApp):
             self.turn_on(entities.SCENE_BEDROOM_WARM_EMBRACE)
             self.blinds.close(entities.COVER_BEDROOM_CURTAIN_COVER)
 
-            self.music.play(Playlist.DISCOVER_WEEKLY, volume_level=0.3)
-
-            brightness_step = math.floor(
-                self.get_entity(self.room_lights).get_state(attribute="brightness") / 30)
+            self.music.play(Playlist.DISCOVER_WEEKLY, volume_level=self.bedtime_initial_volume)
 
             self.minutes_left = self.bedtime_duration_minutes
 
-            def every_minute_callback() -> None:
+            def every_minute_callback(kwargs) -> None:
+                self.log(f'Running bedtime loop, {self.minutes_left} minutes left.', level="DEBUG")
                 if self.minutes_left <= 0:
+                    self.log(f'Bedtime!', level="DEBUG")
                     self.mode.set(Mode.SLEEPING)
                     self.cancel_timer(self.bedtime_loop)
                     self.bedtime_loop = None
@@ -76,18 +79,17 @@ class BedroomScene(SceneApp):
                 self.minutes_left = self.minutes_left - 1
 
                 # Dim lights
-                current_brightness = self.get_entity(self.room_lights).get_state(attribute="brightness")
-                new_brightness = current_brightness - brightness_step
+                new_brightness = round(self.bedtime_initial_brightness * self.minutes_left / self.bedtime_duration_minutes)
+                self.log(f'new brightness = {new_brightness}', level="DEBUG")
                 self.get_entity(self.room_lights).turn_on(brightness=new_brightness)
 
                 # Dim music
-                dim_volume_every = math.floor(self.bedtime_duration_minutes / 3)
-                if self.minutes_left == dim_volume_every * 2:
-                    self.music.volume(0.2)
-                elif self.minutes_left == dim_volume_every:
-                    self.music.volume(0.1)
+                new_volume = round(self.bedtime_initial_volume * self.minutes_left / self.bedtime_duration_minutes, 2)
+                self.log(f'new volume = {new_brightness}', level="DEBUG")
+                self.music.volume(new_volume)
 
-            self.bedtime_loop = self.run_minutely(every_minute_callback, 'now')
+
+            self.bedtime_loop = self.run_minutely(every_minute_callback, datetime.now())
 
 
         elif self.mode.get() == modes.Mode.DAY:
