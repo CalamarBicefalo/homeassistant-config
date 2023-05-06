@@ -18,7 +18,7 @@ def subject() -> None:
 def test_triggers_when_motion(given_that, subject, assert_that):
     assert_that(subject) \
         .listens_to.state(
-        [entities.BINARY_SENSOR_BEDROOM_MOTION]) \
+        entities.BINARY_SENSOR_BEDROOM_MOTION) \
         .with_callback(subject.controller_handler)
 
 

@@ -1,8 +1,13 @@
+from typing import Any
+
 import alarmclock
 import entities
+import modes
 from activity_controllers.generic_controller import MotionController
 from rooms import *
 from select_handler import SelectHandler
+
+BEDSIDE_BUTTON_IEEE_ID = '00:12:4b:00:29:19:85:49'
 
 
 class BedroomController(MotionController):
@@ -19,13 +24,27 @@ class BedroomController(MotionController):
 
     def initialize(self) -> None:
         self.log(f'Initializing {self.controller} motion based activity controller.', level="DEBUG")
+        self.listen_state(
+            self.controller_handler,
+            self.motion_sensor
+        )
+        self.alarmclock.listen(self.on_1_hour_to_wake_up, alarmclock.Event.ONE_HOUR_BEFORE_ALARM)
+        self.listen_event(self.on_click, "zha_event", command='toggle', device_ieee=BEDSIDE_BUTTON_IEEE_ID)
+        self.listen_event(self.on_double_click, "zha_event", command='on', device_ieee=BEDSIDE_BUTTON_IEEE_ID)
+        self.listen_event(self.on_long_press, "zha_event", command='off', device_ieee=BEDSIDE_BUTTON_IEEE_ID)
 
-        if self.motion_sensor:
-            self.listen_state(
-                self.controller_handler,
-                [self.motion_sensor]
-            )
-            self.alarmclock.listen(self.on_1_hour_to_wake_up, alarmclock.Event.ONE_HOUR_BEFORE_ALARM)
+
+    def on_double_click(self, event_name: str, data: Any, kwargs: Any) -> None:
+        self.activity.set(Bedroom.Activity.RELAXING)
+
+    def on_long_press(self, event_name: str, data: Any, kwargs: Any) -> None:
+        self.activity.set(CommonActivities.PRESENT)
+
+    def on_click(self, event_name: str, data: Any, kwargs: Any) -> None:
+        if self.activity.is_value(Bedroom.Activity.BEDTIME):
+            self.mode.set(modes.Mode.SLEEPING)
+        else:
+            self.activity.set(Bedroom.Activity.BEDTIME)
 
     def on_1_hour_to_wake_up(self) -> None:
         self.log(

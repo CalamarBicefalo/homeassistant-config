@@ -80,5 +80,6 @@ class App(hass.Hass):
         self.call_service(services.LIGHT_TURN_OFF, entity_id="all")
 
     def turn_off_plugs(self) -> None:
-        self.turn_off(entities.SWITCH_DRUMS_PLUG)
-        self.turn_off(entities.SWITCH_MONITOR_PLUG)
+        self.turn_off(entities.SWITCH_DRUMKIT)
+        self.turn_off(entities.SWITCH_MONITOR)
+        self.turn_off(entities.SWITCH_DYSON)
