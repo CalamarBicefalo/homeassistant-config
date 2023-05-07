@@ -19,7 +19,7 @@ def test_triggers_when_motion_or_doors_changes(given_that, subject, assert_that)
     assert_that(subject) \
         .listens_to.state(
         [
-            # entities.BINARY_SENSOR_WARDROBE_MS_MOTION,
+            entities.BINARY_SENSOR_WARDROBE_MOTION,
             entities.BINARY_SENSOR_WARDROBE_MIDDLE_DOOR,
             entities.BINARY_SENSOR_WARDROBE_DOOR_RIGHT_CS_IASZONE,
             entities.BINARY_SENSOR_WARDROBE_DOOR_LEFT_CS_IASZONE,
@@ -104,8 +104,8 @@ def wardrobe_state_is(self,
                       wardrobe_motion=states.OFF,
                       wardrobe_right_door=states.CLOSED,
                       wardrobe_left_door=states.CLOSED):
-    self.state_of(entities.BINARY_SENSOR_WARDROBE_MIDDLE_DOOR).is_set_to(motion)
-    # self.state_of(entities.BINARY_SENSOR_WARDROBE_MS_MOTION).is_set_to(wardrobe_motion)
+    self.state_of(entities.BINARY_SENSOR_WARDROBE_MOTION).is_set_to(motion)
+    self.state_of(entities.BINARY_SENSOR_WARDROBE_MIDDLE_DOOR).is_set_to(wardrobe_motion)
     self.state_of(entities.BINARY_SENSOR_WARDROBE_DOOR_RIGHT_CS_IASZONE).is_set_to(wardrobe_right_door)
     self.state_of(entities.BINARY_SENSOR_WARDROBE_DOOR_LEFT_CS_IASZONE).is_set_to(wardrobe_left_door)
     self.state_of(Wardrobe._activity_helper).is_set_to(activity)

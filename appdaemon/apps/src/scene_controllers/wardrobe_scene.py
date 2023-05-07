@@ -12,7 +12,7 @@ class WardrobeScene(SceneApp):
     @property
     def activity(self) -> SelectHandler:
         return self.rooms.wardrobe.activity
-    illuminance_sensor = entities.SENSOR_BEDROOM_ENTRANCE_MS_ILLUMINANCE
+    illuminance_sensor = entities.SENSOR_HALLWAY_MS_ILLUMINANCE
     room_lights = entities.LIGHT_WARDROBE
 
     def get_light_scene(self, activity: StrEnum) -> Scene | SceneSelector:

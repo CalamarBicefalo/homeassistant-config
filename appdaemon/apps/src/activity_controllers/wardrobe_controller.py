@@ -6,7 +6,7 @@ from select_handler import SelectHandler
 
 
 class WardrobeController(ActivityController):
-    motion_sensor = entities.BINARY_SENSOR_WARDROBE_MIDDLE_DOOR
+    motion_sensor = entities.BINARY_SENSOR_WARDROBE_MOTION
 
     @property
     def activity(self) -> SelectHandler:
@@ -17,6 +17,7 @@ class WardrobeController(ActivityController):
             self.controller_handler,
             [
                 self.motion_sensor,
+                entities.BINARY_SENSOR_WARDROBE_MIDDLE_DOOR,
                 entities.BINARY_SENSOR_WARDROBE_DOOR_RIGHT_CS_IASZONE,
                 entities.BINARY_SENSOR_WARDROBE_DOOR_LEFT_CS_IASZONE,
             ]
@@ -46,14 +47,14 @@ class WardrobeController(ActivityController):
 
     def is_wardrobe_sensor(self, entity: entities.Entity) -> bool:
         return entity in [
-            # self.motion_sensor
+            entities.BINARY_SENSOR_WARDROBE_MIDDLE_DOOR,
             entities.BINARY_SENSOR_WARDROBE_DOOR_RIGHT_CS_IASZONE,
             entities.BINARY_SENSOR_WARDROBE_DOOR_LEFT_CS_IASZONE,
         ]
 
     def wardrobe_is_open(self) -> bool:
         return (
-                self.is_on(self.motion_sensor)
+                self.is_on(entities.BINARY_SENSOR_WARDROBE_MIDDLE_DOOR)
                 or self.has_state(entities.BINARY_SENSOR_WARDROBE_DOOR_RIGHT_CS_IASZONE, states.OPEN)
                 or self.has_state(entities.BINARY_SENSOR_WARDROBE_DOOR_LEFT_CS_IASZONE, states.OPEN)
         )
