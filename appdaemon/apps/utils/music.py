@@ -42,6 +42,10 @@ class MusicHandler:
         self._validate()
         self._app.call_service(services.MEDIA_PLAYER_MEDIA_PAUSE, entity_id=self._speakers)
 
+    def toggle_play_pause(self) -> None:
+        self._validate()
+        self._app.call_service(services.MEDIA_PLAYER_TOGGLE, entity_id=self._speakers)
+
     def volume(self, volume_level: float) -> None:
         self._validate()
         self._app.call_service(services.MEDIA_PLAYER_VOLUME_SET,
