@@ -52,6 +52,13 @@ class App(hass.Hass):
         """
         return datetime.strptime(str(self.get_state(helper)), helpers.HELPER_DATETIME_FORMAT)
 
+    def set_helper_to_now(self, helper: helpers.Helper) -> None:
+        self.call_service(
+            services.INPUT_DATETIME_SET_DATETIME,
+            entity_id=helper,
+            datetime=helpers.datetime_to_helper(datetime.now())
+        )
+
     def is_consuming_at_least(self, device: Entity, watts: int) -> bool:
         return self.get_watt_consumption(device) >= watts
 

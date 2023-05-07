@@ -1,4 +1,8 @@
+from datetime import datetime
+
 import entities
+import helpers
+import services
 from activity_controllers.generic_controller import MotionController
 from rooms import *
 from select_handler import SelectHandler
@@ -26,6 +30,7 @@ class KitchenController(MotionController):
         # Presence Handling
         elif self.is_on(self.motion_sensor):
             self.activity.set(CommonActivities.PRESENT)
+            self.set_helper_to_now(helpers.LAST_COOKED)
 
         else:
             self.set_as_empty_in(self.cooldown_seconds)
