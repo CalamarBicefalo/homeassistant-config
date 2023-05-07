@@ -39,9 +39,16 @@ class KitchenCleaner(App):
             return
 
         hours_since_last_clean = (datetime.now() - last_vacuumed).total_seconds() // 3600
-        if hours_since_last_clean < 20 or datetime.now().hour < 21:
+        if hours_since_last_clean < 20:
             self.log(
                 f'Ignoring kitchen clean because we cleaned {hours_since_last_clean} hours ago',
+                level="INFO"
+            )
+            return
+
+        if datetime.now().hour < 21:
+            self.log(
+                f'Ignoring kitchen clean because it is too early on the day, we will clean at by 21:00',
                 level="INFO"
             )
             return

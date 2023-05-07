@@ -41,7 +41,7 @@ class Room:
     def last_cleaned(self) -> datetime:
         last_cleaned: str = self.app.get_state(self._last_cleaned_helper)
         if not last_cleaned:
-            self.app.log(f'Last cleaned not set for {self.name}, returning default value', level="WARNING")
+            self.app.log(f'Last cleaned not set for {self._last_cleaned_helper}, returning default value', level="WARNING")
             return datetime.fromisoformat('1970-01-01')
         return helpers.helper_to_datetime(last_cleaned)
 
