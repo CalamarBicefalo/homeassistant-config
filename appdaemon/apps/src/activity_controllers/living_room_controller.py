@@ -1,9 +1,8 @@
 import entities
 from activity_controllers.generic_controller import ActivityController
+from ieee_addresses import COFFEE_TABLE_BUTTON_IEEE_ADDRESS
 from rooms import *
 from select_handler import SelectHandler
-
-COFFE_TABLE_BUTTON_IEEE_ADDRESS = "00:12:4b:00:25:1e:36:2b"
 
 
 class LivingRoomController(ActivityController):
@@ -23,8 +22,7 @@ class LivingRoomController(ActivityController):
                 entities.BINARY_SENSOR_SOFA_PS
             ]
         )
-        self.buttons.on(COFFE_TABLE_BUTTON_IEEE_ADDRESS,
-                        click=self.toggle_music,
+        self.buttons.on(COFFEE_TABLE_BUTTON_IEEE_ADDRESS,
                         double_click=self.set_drumming,
                         long_press=self.clear_activity)
 
@@ -74,9 +72,6 @@ class LivingRoomController(ActivityController):
 
     def clear_activity(self) -> None:
         self.activity.set(CommonActivities.EMPTY)
-
-    def toggle_music(self) -> None:
-        self.music.toggle_play_pause()
 
     def set_drumming(self) -> None:
         self.activity.set(LivingRoom.Activity.DRUMMING)

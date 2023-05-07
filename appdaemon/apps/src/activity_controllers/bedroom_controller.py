@@ -5,10 +5,9 @@ import entities
 import mode_controller
 import modes
 from activity_controllers.generic_controller import MotionController
+from ieee_addresses import BEDSIDE_BUTTON_IEEE_ID
 from rooms import *
 from select_handler import SelectHandler
-
-BEDSIDE_BUTTON_IEEE_ID = '00:12:4b:00:29:19:85:49'
 
 
 class BedroomController(MotionController):

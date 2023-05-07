@@ -1,6 +1,6 @@
-
 import entities
 import scenes
+from activity_controllers.living_room_controller import COFFEE_TABLE_BUTTON_IEEE_ADDRESS
 from modes import Mode
 from music import Playlist
 from rooms import *
@@ -11,6 +11,11 @@ from select_handler import SelectHandler
 
 
 class LivingRoomScene(SceneApp):
+
+    def initialize(self) -> None:
+        super().initialize()
+        self.buttons.on_click(COFFEE_TABLE_BUTTON_IEEE_ADDRESS, self.music_manual_override_toggle)
+
     @property
     def activity(self) -> SelectHandler:
         return self.rooms.living_room.activity
@@ -18,6 +23,7 @@ class LivingRoomScene(SceneApp):
     illuminance_sensor = entities.SENSOR_STUDIO_MS_ILLUMINANCE
     room_lights = entities.LIGHT_LIVING_ROOM
     speakers = entities.MEDIA_PLAYER_MASS_COOKING_AREA
+    music_manual_override = False
 
     def get_light_scene(self, activity: LivingRoom.Activity) -> Scene | SceneSelector:
         match activity:
@@ -63,8 +69,15 @@ class LivingRoomScene(SceneApp):
             case LivingRoom.Activity.GAMING:
                 self.music.pause()
 
+            case LivingRoom.Activity.EMPTY:
+                self.music_manual_override = False
+
         mode = self.mode.get()
         if mode == Mode.NIGHT or mode == Mode.SLEEPING:
             self.blinds.close(entities.COVER_BLINDS_CURTAIN)
         else:
             self.blinds.open(entities.COVER_BLINDS_CURTAIN)
+
+    def music_manual_override_toggle(self) -> None:
+        self.music_manual_override = True
+        self.music.toggle_play_pause()

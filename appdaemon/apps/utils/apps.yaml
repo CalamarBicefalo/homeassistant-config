@@ -27,3 +27,7 @@ flick:
   module: flick.py
   global: true
 
+ieee_addresses:
+  module: ieee_addresses.py
+  global: true
+
