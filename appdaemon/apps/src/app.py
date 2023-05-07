@@ -28,6 +28,7 @@ class App(hass.Hass):
     blinds: BlindsHandler
     alarmclock: AlarmClock
     flick: FlickHandler
+    buttons: ButtonHandler
 
     def __init__(self, ad, name, logging, args, config, app_config, global_vars) -> None:  # type: ignore
         super().__init__(ad, name, logging, args, config, app_config, global_vars)
