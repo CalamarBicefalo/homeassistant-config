@@ -31,3 +31,7 @@ ieee_addresses:
   module: ieee_addresses.py
   global: true
 
+room:
+  module: room.py
+  global: true
+
