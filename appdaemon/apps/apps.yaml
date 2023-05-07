@@ -28,6 +28,10 @@ helpers:
   module: helpers.py
   global: true
 
+rooms:
+  module: rooms.py
+  global: true
+
 services:
   module: services.py
   global: true
