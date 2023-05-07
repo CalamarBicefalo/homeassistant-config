@@ -5,8 +5,8 @@ Playground:
   dependencies: !include /config/appdaemon/apps/dependencies.yaml
 
 Mode manager:
-  module: mode_manager
-  class: ModeManager
+  module: mode_scene
+  class: ModeScene
   dependencies: !include /config/appdaemon/apps/dependencies.yaml
 
 Mode controller:

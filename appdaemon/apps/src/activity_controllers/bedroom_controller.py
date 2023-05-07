@@ -2,6 +2,7 @@ from typing import Any
 
 import alarmclock
 import entities
+import mode_controller
 import modes
 from activity_controllers.generic_controller import MotionController
 from rooms import *
@@ -39,12 +40,14 @@ class BedroomController(MotionController):
             self.cancel_timer(self._waking_up_schedule)
 
         self.activity.set(Bedroom.Activity.RELAXING)
+        self.fire_event(mode_controller.EVENT_MODE_RECOMPUTE_NEEDED)
 
     def on_long_press(self, event_name: str, data: Any, kwargs: Any) -> None:
         if self._waking_up_schedule and self.timer_running(self._waking_up_schedule):
             self.cancel_timer(self._waking_up_schedule)
 
         self.activity.set(CommonActivities.PRESENT)
+        self.fire_event(mode_controller.EVENT_MODE_RECOMPUTE_NEEDED)
 
     def on_click(self, event_name: str, data: Any, kwargs: Any) -> None:
         if self._waking_up_schedule and self.timer_running(self._waking_up_schedule):
@@ -54,6 +57,7 @@ class BedroomController(MotionController):
             self.mode.set(modes.Mode.SLEEPING)
         else:
             self.activity.set(Bedroom.Activity.BEDTIME)
+            self.fire_event(mode_controller.EVENT_MODE_RECOMPUTE_NEEDED)
 
     def on_1_hour_to_wake_up(self) -> None:
         self.log(
