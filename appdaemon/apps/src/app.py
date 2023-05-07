@@ -10,7 +10,8 @@ import helpers
 import services
 import states
 from alarmclock import AlarmClock
-from blinds import BlindsHandler
+from blinds_handler import BlindsHandler
+from button_handler import ButtonHandler
 from entities import Entity
 from flick import FlickHandler
 from helpers import Helper
@@ -36,6 +37,7 @@ class App(hass.Hass):
         self.blinds = BlindsHandler(super())
         self.alarmclock = AlarmClock(super())
         self.flick = FlickHandler(super())
+        self.buttons = ButtonHandler(super())
 
     @property
     def speakers(self) -> Optional[entities.Entity]:

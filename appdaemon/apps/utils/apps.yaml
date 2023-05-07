@@ -7,12 +7,16 @@ music:
   module: music.py
   global: true
 
-blinds:
-  module: blinds.py
+blinds_handler:
+  module: blinds_handler.py
   global: true
 
 select_handler:
   module: select_handler.py
+  global: true
+
+button_handler:
+  module: button_handler.py
   global: true
 
 alarmclock:

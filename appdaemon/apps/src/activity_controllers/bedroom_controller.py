@@ -30,10 +30,11 @@ class BedroomController(MotionController):
             self.motion_sensor
         )
         self.alarmclock.listen(self.on_1_hour_to_wake_up, alarmclock.Event.ONE_HOUR_BEFORE_ALARM)
-        self.listen_event(self.on_click, "zha_event", command='toggle', device_ieee=BEDSIDE_BUTTON_IEEE_ID)
-        self.listen_event(self.on_double_click, "zha_event", command='on', device_ieee=BEDSIDE_BUTTON_IEEE_ID)
-        self.listen_event(self.on_long_press, "zha_event", command='off', device_ieee=BEDSIDE_BUTTON_IEEE_ID)
-
+        self.buttons.on(BEDSIDE_BUTTON_IEEE_ID,
+                        click=self.on_click,
+                        double_click=self.on_double_click,
+                        long_press=self.on_long_press
+                        )
 
     def on_double_click(self, event_name: str, data: Any, kwargs: Any) -> None:
         if self._waking_up_schedule and self.timer_running(self._waking_up_schedule):
