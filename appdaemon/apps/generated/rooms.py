@@ -17,7 +17,7 @@ class Kitchen(Room):
     _activity_helper : Helper = "input_select.kitchen_activity"
     name = "Kitchen"
     _room_cleaner_segment = 16
-    _last_cleaned_helper = Helper("input_select.last_cleaned_kitchen")
+    _last_cleaned_helper = Helper("input_datetime.last_cleaned_kitchen")
 
     def __init__(self, app: hass.Hass) -> None:
         super().__init__(app)
@@ -38,7 +38,7 @@ class LivingRoom(Room):
     _activity_helper : Helper = "input_select.living_room_activity"
     name = "Living room"
     _room_cleaner_segment = 24
-    _last_cleaned_helper = Helper("input_select.last_cleaned_living_room")
+    _last_cleaned_helper = Helper("input_datetime.last_cleaned_living_room")
 
     def __init__(self, app: hass.Hass) -> None:
         super().__init__(app)
@@ -55,7 +55,7 @@ class Studio(Room):
     activity: SelectHandler[Activity]
     _activity_helper : Helper = "input_select.studio_activity"
     name = "Studio"
-    _last_cleaned_helper = Helper("input_select.last_cleaned_studio")
+    _last_cleaned_helper = Helper("input_datetime.last_cleaned_studio")
 
     def __init__(self, app: hass.Hass) -> None:
         super().__init__(app)
@@ -72,7 +72,7 @@ class Ensuite(Room):
     _activity_helper : Helper = "input_select.ensuite_activity"
     name = "Ensuite"
     _room_cleaner_segment = 22
-    _last_cleaned_helper = Helper("input_select.last_cleaned_ensuite")
+    _last_cleaned_helper = Helper("input_datetime.last_cleaned_ensuite")
 
     def __init__(self, app: hass.Hass) -> None:
         super().__init__(app)
@@ -88,7 +88,7 @@ class Hallway(Room):
     _activity_helper : Helper = "input_select.hallway_activity"
     name = "Hallway"
     _room_cleaner_segment = 20
-    _last_cleaned_helper = Helper("input_select.last_cleaned_hallway")
+    _last_cleaned_helper = Helper("input_datetime.last_cleaned_hallway")
 
     def __init__(self, app: hass.Hass) -> None:
         super().__init__(app)
@@ -104,7 +104,7 @@ class Wardrobe(Room):
     activity: SelectHandler[Activity]
     _activity_helper : Helper = "input_select.wardrobe_activity"
     name = "Wardrobe"
-    _last_cleaned_helper = Helper("input_select.last_cleaned_wardrobe")
+    _last_cleaned_helper = Helper("input_datetime.last_cleaned_wardrobe")
 
     def __init__(self, app: hass.Hass) -> None:
         super().__init__(app)
@@ -123,7 +123,7 @@ class Bedroom(Room):
     _activity_helper : Helper = "input_select.bedroom_activity"
     name = "Bedroom"
     _room_cleaner_segment = 21
-    _last_cleaned_helper = Helper("input_select.last_cleaned_bedroom")
+    _last_cleaned_helper = Helper("input_datetime.last_cleaned_bedroom")
 
     def __init__(self, app: hass.Hass) -> None:
         super().__init__(app)
@@ -139,7 +139,7 @@ class StorageRoom(Room):
     _activity_helper : Helper = "input_select.storage_room_activity"
     name = "Storage room"
     _room_cleaner_segment = 19
-    _last_cleaned_helper = Helper("input_select.last_cleaned_storage_room")
+    _last_cleaned_helper = Helper("input_datetime.last_cleaned_storage_room")
 
     def __init__(self, app: hass.Hass) -> None:
         super().__init__(app)

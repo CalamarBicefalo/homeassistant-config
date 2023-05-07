@@ -27,7 +27,7 @@ def generate_rooms(root_dir: str):
                     f.write(f'    name = "{room["name"]}"\n')
                     if "room_cleaner_segment" in room:
                         f.write(f'    _room_cleaner_segment = {room["room_cleaner_segment"]}\n')
-                    f.write(f'    _last_cleaned_helper = Helper("input_select.last_cleaned_{snake_name(room)}")\n')
+                    f.write(f'    _last_cleaned_helper = Helper("input_datetime.last_cleaned_{snake_name(room)}")\n')
                     f.write('\n')
 
                     f.write(f'    def __init__(self, app: hass.Hass) -> None:\n')
