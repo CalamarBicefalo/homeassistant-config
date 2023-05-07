@@ -15,6 +15,7 @@ class LivingRoomScene(SceneApp):
     def initialize(self) -> None:
         super().initialize()
         self.buttons.on_click(COFFEE_TABLE_BUTTON_IEEE_ADDRESS, self.music_manual_override_toggle)
+        self.buttons.on_long_press(COFFEE_TABLE_BUTTON_IEEE_ADDRESS, self.disable_music_manual_override)
 
     @property
     def activity(self) -> SelectHandler:
@@ -77,6 +78,9 @@ class LivingRoomScene(SceneApp):
             self.blinds.close(entities.COVER_BLINDS_CURTAIN)
         else:
             self.blinds.open(entities.COVER_BLINDS_CURTAIN)
+
+    def disable_music_manual_override(self) -> None:
+        self.music_manual_override = False
 
     def music_manual_override_toggle(self) -> None:
         self.music_manual_override = True
