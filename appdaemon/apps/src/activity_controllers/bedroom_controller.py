@@ -35,21 +35,21 @@ class BedroomController(MotionController):
                         long_press=self.on_long_press
                         )
 
-    def on_double_click(self, event_name: str, data: Any, kwargs: Any) -> None:
+    def on_double_click(self) -> None:
         if self._waking_up_schedule and self.timer_running(self._waking_up_schedule):
             self.cancel_timer(self._waking_up_schedule)
 
         self.activity.set(Bedroom.Activity.RELAXING)
         self.fire_event(mode_controller.EVENT_MODE_RECOMPUTE_NEEDED)
 
-    def on_long_press(self, event_name: str, data: Any, kwargs: Any) -> None:
+    def on_long_press(self) -> None:
         if self._waking_up_schedule and self.timer_running(self._waking_up_schedule):
             self.cancel_timer(self._waking_up_schedule)
 
         self.activity.set(CommonActivities.PRESENT)
         self.fire_event(mode_controller.EVENT_MODE_RECOMPUTE_NEEDED)
 
-    def on_click(self, event_name: str, data: Any, kwargs: Any) -> None:
+    def on_click(self) -> None:
         if self._waking_up_schedule and self.timer_running(self._waking_up_schedule):
             self.cancel_timer(self._waking_up_schedule)
 
