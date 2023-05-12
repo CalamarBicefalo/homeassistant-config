@@ -20,7 +20,7 @@ class BedroomController(MotionController):
 
     @property
     def max_inactive_activity_seconds(self) -> int:
-        return 90 * 60
+        return 10 * 60 * 60
 
     def initialize(self) -> None:
         self.log(f'Initializing {self.controller} motion based activity controller.', level="DEBUG")
@@ -36,6 +36,7 @@ class BedroomController(MotionController):
                         )
 
     def on_double_click(self) -> None:
+        self.cancel_empty_timer()
         if self._waking_up_schedule and self.timer_running(self._waking_up_schedule):
             self.cancel_timer(self._waking_up_schedule)
 
@@ -43,6 +44,7 @@ class BedroomController(MotionController):
         self.fire_event(mode_controller.EVENT_MODE_RECOMPUTE_NEEDED)
 
     def on_long_press(self) -> None:
+        self.cancel_empty_timer()
         if self._waking_up_schedule and self.timer_running(self._waking_up_schedule):
             self.cancel_timer(self._waking_up_schedule)
 
@@ -50,6 +52,8 @@ class BedroomController(MotionController):
         self.fire_event(mode_controller.EVENT_MODE_RECOMPUTE_NEEDED)
 
     def on_click(self) -> None:
+        self.cancel_empty_timer()
+
         if self._waking_up_schedule and self.timer_running(self._waking_up_schedule):
             self.cancel_timer(self._waking_up_schedule)
 
@@ -62,7 +66,7 @@ class BedroomController(MotionController):
     def on_1_hour_to_wake_up(self) -> None:
         self.log(
             f'Triggering bedroom activity controller: 1 hour to wake up',
-            level="DEBUG")
+            level="INFO")
         self.cancel_empty_timer()
         self._waking_up_schedule = self.run_in(lambda *_: self.activity.set(Bedroom.Activity.WAKING_UP), 1800)
 

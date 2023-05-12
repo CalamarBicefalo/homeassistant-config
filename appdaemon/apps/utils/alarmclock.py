@@ -21,11 +21,12 @@ class AlarmClock:
         self._app = app
 
     def listen(self, callback: Callable, event: Event) -> None:
-        self._app.listen_event(_on_event(event, callback), SLEEP_AS_ANDROID_EVENT)
+        self._app.listen_event(self._on_event(event, callback), SLEEP_AS_ANDROID_EVENT)
 
 
-def _on_event(event: Event, callback: Callable) -> Callable[[Any, str, Any, Any], None]:
-    def on_specified_event(s: Any, event_name: str, data: Any, kwargs: Any) -> None:
-        if data['event'] == event: callback()
+    def _on_event(self, event: Event, callback: Callable) -> Callable[[Any, str, Any, Any], None]:
+        def on_specified_event(s: Any, event_name: str, data: Any, kwargs: Any) -> None:
+            self._app.log(f'Received sleep as android event {data["event"]}')
+            if data['event'] == event: callback()
 
-    return on_specified_event
+        return on_specified_event
