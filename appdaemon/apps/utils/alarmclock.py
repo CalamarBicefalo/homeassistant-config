@@ -25,8 +25,9 @@ class AlarmClock:
 
 
     def _on_event(self, event: Event, callback: Callable) -> Callable[[Any, str, Any, Any], None]:
-        def on_specified_event(s: Any, event_name: str, data: Any, kwargs: Any) -> None:
-            self._app.log(f'Received sleep as android event {data["event"]}')
+        def on_specified_event(event_name: str, data: Any, kwargs: Any) -> None:
+            self._app.log(f'received alarm clock event {data["event"]} ',
+                level="INFO")
             if data['event'] == event: callback()
 
         return on_specified_event
