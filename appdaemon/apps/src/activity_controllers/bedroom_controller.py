@@ -29,6 +29,7 @@ class BedroomController(MotionController):
             self.motion_sensor
         )
         self.alarmclock.listen(self.on_1_hour_to_wake_up, alarmclock.Event.ONE_HOUR_BEFORE_ALARM)
+        self.alarmclock.listen(self.on_alarm_dismissed, alarmclock.Event.ALARM_DISMISSED)
         self.buttons.on(BEDSIDE_BUTTON_IEEE_ID,
                         click=self.on_click,
                         double_click=self.on_double_click,
@@ -37,25 +38,21 @@ class BedroomController(MotionController):
 
     def on_double_click(self) -> None:
         self.cancel_empty_timer()
-        if self._waking_up_schedule and self.timer_running(self._waking_up_schedule):
-            self.cancel_timer(self._waking_up_schedule)
+        self.cancel_wakeup_timer()
 
         self.activity.set(Bedroom.Activity.RELAXING)
         self.fire_event(mode_controller.EVENT_MODE_RECOMPUTE_NEEDED)
 
     def on_long_press(self) -> None:
         self.cancel_empty_timer()
-        if self._waking_up_schedule and self.timer_running(self._waking_up_schedule):
-            self.cancel_timer(self._waking_up_schedule)
+        self.cancel_wakeup_timer()
 
         self.activity.set(CommonActivities.PRESENT)
         self.fire_event(mode_controller.EVENT_MODE_RECOMPUTE_NEEDED)
 
     def on_click(self) -> None:
         self.cancel_empty_timer()
-
-        if self._waking_up_schedule and self.timer_running(self._waking_up_schedule):
-            self.cancel_timer(self._waking_up_schedule)
+        self.cancel_wakeup_timer()
 
         if self.activity.is_value(Bedroom.Activity.BEDTIME):
             self.mode.set(modes.Mode.SLEEPING)
@@ -69,6 +66,13 @@ class BedroomController(MotionController):
             level="INFO")
         self.cancel_empty_timer()
         self._waking_up_schedule = self.run_in(lambda *_: self.activity.set(Bedroom.Activity.WAKING_UP), 1800)
+        self._waking_up_schedule = self.run_in(lambda *_: self.handle_presence(), 3600)
+
+    def on_alarm_dismissed(self) -> None:
+        self.cancel_empty_timer()
+        self.cancel_wakeup_timer()
+
+        self.handle_presence()
 
     def controller_handler(self, entity, attribute, old, new, kwargs) -> None:  # type: ignore
         self.log(
@@ -76,13 +80,7 @@ class BedroomController(MotionController):
             level="DEBUG")
         self.cancel_empty_timer()
 
-        if self.activity.get() == Bedroom.Activity.BEDTIME:
-            return
-
-        if self._waking_up_schedule and self.timer_running(self._waking_up_schedule):
-            self.cancel_timer(self._waking_up_schedule)
-
-        if self.activity.get() == Bedroom.Activity.WAKING_UP:
+        if self.activity.get() in [Bedroom.Activity.BEDTIME, Bedroom.Activity.WAKING_UP]:
             return
 
         # Relaxing Handling
@@ -90,9 +88,16 @@ class BedroomController(MotionController):
             if self.is_off(self.motion_sensor):
                 self.set_as_empty_in(minutes=30)
 
-        # Presence Handling
-        elif self.is_on(self.motion_sensor):
+        else:
+            self.handle_presence()
+
+    def handle_presence(self) -> None:
+        if self.is_on(self.motion_sensor):
             self.activity.set(CommonActivities.PRESENT)
 
         else:
             self.set_as_empty_in(minutes=1)
+
+    def cancel_wakeup_timer(self) -> None:
+        if self._waking_up_schedule and self.timer_running(self._waking_up_schedule):
+            self.cancel_timer(self._waking_up_schedule)
