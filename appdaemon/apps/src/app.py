@@ -118,10 +118,11 @@ class App(hass.Hass):
         """
         timer = uuid.uuid4()
 
-        def every_minute_callback(kwargs: Any) -> None:
-            minutes_left = self.timers[kwargs['timer']] - 1
+        def every_minute_callback(*_: Any) -> None:
+            minutes_left = self.timers[timer] - 1
+            self.log(f'Running scheduled minutely callback. Remaining time: {minutes_left}', level="INFO")
 
-            self.timers[kwargs['timer']] = minutes_left
+            self.timers[timer] = minutes_left
 
             if minutes_left <= 0 and afterwards:
                 afterwards()
@@ -133,8 +134,8 @@ class App(hass.Hass):
                 self.log(f'Aborting run_for loop due to exception: {exc}', level="INFO")
                 return
 
-            self.run_in(every_minute_callback, 60, timer=timer)
+            self.run_in(every_minute_callback, 60)
             self.timers[timer] = minutes_left
 
-        self.run_in(every_minute_callback, 60, timer=timer)
+        self.run_in(every_minute_callback, 60)
         self.timers[timer] = minutes
