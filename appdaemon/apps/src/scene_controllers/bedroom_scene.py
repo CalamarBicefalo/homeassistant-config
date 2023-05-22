@@ -19,7 +19,7 @@ class BedroomScene(SceneApp):
     speakers = entities.MEDIA_PLAYER_MASS_BEDROOM_SPEAKERS
     blinds = entities.COVER_BEDROOM_CURTAIN_COVER
     bedtime_duration_minutes = 30
-    bedtime_initial_brightness = 255
+    bedtime_initial_brightness = 150
     bedtime_initial_volume = 0.3
     minutes_left = 0
 
