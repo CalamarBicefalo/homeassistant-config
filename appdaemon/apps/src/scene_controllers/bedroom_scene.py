@@ -55,7 +55,9 @@ class BedroomScene(SceneApp):
                 current_position = self.handlers.blinds.get_position()
                 left_to_open = 100 - current_position
                 next_increment = math.floor(left_to_open / minutes_left)
-                self.handlers.blinds.set_position(current_position + next_increment)
+                next_position = current_position + next_increment
+                self.log(f'current blind position = {current_position}. next position = {next_position}', level="DEBUG")
+                self.handlers.blinds.set_position()
 
             self.run_for(self.bedtime_duration_minutes, during_waking_up, None)
 
