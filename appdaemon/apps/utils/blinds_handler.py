@@ -22,21 +22,26 @@ class BlindsHandler:
                               entity_id="all")
 
     def close(self) -> None:
-        if self.app.get_state(self._blinds) != states.CLOSED:
+        if self.is_open():
             self.app.call_service("cover/close_cover",
                                   entity_id=self._blinds)
 
     def open(self) -> None:
-        if self.app.get_state(self._blinds) == states.CLOSED:
+        if self.is_closed():
             self.app.call_service("cover/open_cover",
                                   entity_id=self._blinds)
 
     def set_position(self, open_percentage: int) -> None:
-        if self.app.get_state(self._blinds) == states.CLOSED:
-            self.app.call_service("cover/set_cover_position",
-                                  entity_id=self._blinds, position=open_percentage)
+        self.app.call_service("cover/set_cover_position",
+                              entity_id=self._blinds, position=open_percentage)
 
     def get_position(self) -> int:
         position: int = self.app.get_state(self._blinds, attribute="current_position")
         return position
+
+    def is_closed(self) -> bool:
+        return self.get_position() == 0
+
+    def is_open(self) -> bool:
+        return self.get_position() == 100
 
