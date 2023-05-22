@@ -48,7 +48,7 @@ class BedroomScene(SceneApp):
         elif activity == Bedroom.Activity.WAKING_UP:
             def during_waking_up(minutes_left: int) -> None:
                 self.log(f'Running bedtime loop, {self.minutes_left} minutes left.', level="DEBUG")
-                if self.activity.is_value(Bedroom.Activity.WAKING_UP):
+                if not self.activity.is_value(Bedroom.Activity.WAKING_UP):
                     raise Exception("waking up loop can only run during waking up activity")
 
                 # Open blinds
@@ -76,7 +76,7 @@ class BedroomScene(SceneApp):
 
             def during_bedtime(minutes_left: int) -> None:
                 self.log(f'Running bedtime loop, {self.minutes_left} minutes left.', level="DEBUG")
-                if self.activity.is_value(Bedroom.Activity.BEDTIME):
+                if not self.activity.is_value(Bedroom.Activity.BEDTIME):
                     raise Exception("bedtime loop can only run during bedtime activity")
 
                 # Dim lights
