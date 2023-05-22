@@ -15,7 +15,7 @@ class GenericMotionController(MotionController):
 
     @property
     def activity(self) -> SelectHandler:
-        return self.rooms.bedroom.activity
+        return self.handlers.rooms.bedroom.activity
 
     def ignore_motion_trigger(self) -> bool:
         return True

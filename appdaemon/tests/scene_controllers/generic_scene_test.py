@@ -20,7 +20,7 @@ ILLUMINANCE_SENSOR = "illuminance_sensor"
 class GenericSceneWithIlluminance(SceneApp):
     @property
     def activity(self) -> SelectHandler:
-        return self.rooms.living_room.activity
+        return self.handlers.rooms.living_room.activity
     illuminance_sensor = entities.Entity(ILLUMINANCE_SENSOR)
     room_lights = entities.Entity(ROOM_LIGHTS)
 

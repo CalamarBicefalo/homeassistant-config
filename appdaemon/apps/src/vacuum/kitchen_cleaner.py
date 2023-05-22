@@ -17,7 +17,7 @@ class KitchenCleaner(App):
         )
         self.listen_state(
             self.clean_kitchen,
-            self.rooms.living_room.activity._helper,
+            self.handlers.rooms.living_room.activity._helper,
             new=LivingRoom.Activity.EMPTY
         )
 
@@ -28,7 +28,7 @@ class KitchenCleaner(App):
         self.log(f'Triggering kitchen clean {entity} -> {attribute} old={old} new={new}', level="DEBUG")
 
         last_cooked = helpers.helper_to_datetime(self.get_state(helpers.LAST_COOKED))
-        last_vacuumed = self.rooms.kitchen.last_cleaned()
+        last_vacuumed = self.handlers.rooms.kitchen.last_cleaned()
 
         if last_vacuumed > last_cooked:
             self.log(
@@ -53,9 +53,9 @@ class KitchenCleaner(App):
             )
             return
 
-        if not self.rooms.living_room.activity.get() == LivingRoom.Activity.EMPTY \
-                or not self.rooms.kitchen.activity.get() == Kitchen.Activity.EMPTY \
-                or not self.rooms.studio.activity.get() == Studio.Activity.EMPTY:
+        if not self.handlers.rooms.living_room.activity.get() == LivingRoom.Activity.EMPTY \
+                or not self.handlers.rooms.kitchen.activity.get() == Kitchen.Activity.EMPTY \
+                or not self.handlers.rooms.studio.activity.get() == Studio.Activity.EMPTY:
             self.log(
                 f'Postponing clean until nobody is around',
                 level="INFO"
@@ -63,4 +63,4 @@ class KitchenCleaner(App):
             return
 
         self.log(f'Cleaning kitchen because it was last cleaned on {last_vacuumed}', level="INFO")
-        self.rooms.kitchen.clean()
+        self.handlers.rooms.kitchen.clean()

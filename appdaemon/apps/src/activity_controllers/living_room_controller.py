@@ -10,7 +10,7 @@ class LivingRoomController(ActivityController):
 
     @property
     def activity(self) -> SelectHandler:
-        return self.rooms.living_room.activity
+        return self.handlers.rooms.living_room.activity
 
     def initialize(self) -> None:
         self.listen_state(
@@ -22,7 +22,7 @@ class LivingRoomController(ActivityController):
                 entities.BINARY_SENSOR_SOFA_PS
             ]
         )
-        self.buttons.on(COFFEE_TABLE_BUTTON_IEEE_ADDRESS,
+        self.handlers.buttons.on(COFFEE_TABLE_BUTTON_IEEE_ADDRESS,
                         double_click=self.set_drumming,
                         long_press=self.clear_activity)
 

@@ -14,7 +14,7 @@ class KitchenController(MotionController):
 
     @property
     def activity(self) -> SelectHandler:
-        return self.rooms.kitchen.activity
+        return self.handlers.rooms.kitchen.activity
 
     def controller_handler(self, entity, attribute, old, new, kwargs) -> None:  # type: ignore
         self.log(

@@ -10,7 +10,7 @@ from select_handler import SelectHandler
 class StudioScene(SceneApp):
     @property
     def activity(self) -> SelectHandler:
-        return self.rooms.studio.activity
+        return self.handlers.rooms.studio.activity
 
     illuminance_sensor = entities.SENSOR_STUDIO_MS_ILLUMINANCE
     room_lights = entities.LIGHT_STUDIO

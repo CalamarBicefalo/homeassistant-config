@@ -9,4 +9,4 @@ class HallwayController(MotionController):
 
     @property
     def activity(self) -> SelectHandler:
-        return self.rooms.hallway.activity
+        return self.handlers.rooms.hallway.activity

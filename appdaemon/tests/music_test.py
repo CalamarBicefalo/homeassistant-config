@@ -26,21 +26,21 @@ def app() -> None:
 
 @pytest.mark.asyncio
 def test_play_sets_volume(assert_that: Any, app: MusicApp) -> None:
-    app.music.play("tune", volume_level=0.2)
+    app.handlers.music.play("tune", volume_level=0.2)
     assert_that(services.MEDIA_PLAYER_VOLUME_SET).was.called_with(
         entity_id=speakers, volume_level=0.2)
 
 
 @pytest.mark.asyncio
 def test_play_sets_shuffling(assert_that: Any, app: MusicApp) -> None:
-    app.music.play("tune", shuffle=True)
+    app.handlers.music.play("tune", shuffle=True)
     assert_that(services.MEDIA_PLAYER_SHUFFLE_SET).was.called_with(
         entity_id=speakers, shuffle=True)
 
 
 @pytest.mark.asyncio
 def test_play_plays_tune(assert_that: Any, app: MusicApp) -> None:
-    app.music.play("tune")
+    app.handlers.music.play("tune")
     assert_that(services.MASS_QUEUE_COMMAND).was.called_with(
         entity_id=speakers,
         command="play_media",
@@ -49,7 +49,7 @@ def test_play_plays_tune(assert_that: Any, app: MusicApp) -> None:
 
 @pytest.mark.asyncio
 def test_pause(assert_that: Any, app: MusicApp) -> None:
-    app.music.pause()
+    app.handlers.music.pause()
     assert_that(services.MEDIA_PLAYER_MEDIA_PAUSE).was.called_with(
         entity_id=speakers,
     )

@@ -107,7 +107,7 @@ def test_after_3_hours_of_inactivity_then_empty(given_that, subject, assert_that
     )
     subject.controller_handler(None, None, None, None, None)
 
-    time_travel.fast_forward(180).minutes()
+    time_travel.fast_forward(10 * 60).minutes()
 
     assert_that(services.INPUT_SELECT_SELECT_OPTION). \
         was.set_to_activity(Bedroom._activity_helper, Bedroom.Activity.EMPTY)

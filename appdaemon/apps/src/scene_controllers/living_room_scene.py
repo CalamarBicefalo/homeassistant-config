@@ -14,16 +14,17 @@ class LivingRoomScene(SceneApp):
 
     def initialize(self) -> None:
         super().initialize()
-        self.buttons.on_click(COFFEE_TABLE_BUTTON_IEEE_ADDRESS, self.music_manual_override_toggle)
-        self.buttons.on_long_press(COFFEE_TABLE_BUTTON_IEEE_ADDRESS, self.disable_music_manual_override)
+        self.handlers.buttons.on_click(COFFEE_TABLE_BUTTON_IEEE_ADDRESS, self.music_manual_override_toggle)
+        self.handlers.buttons.on_long_press(COFFEE_TABLE_BUTTON_IEEE_ADDRESS, self.disable_music_manual_override)
 
     @property
     def activity(self) -> SelectHandler:
-        return self.rooms.living_room.activity
+        return self.handlers.rooms.living_room.activity
 
     illuminance_sensor = entities.SENSOR_STUDIO_MS_ILLUMINANCE
     room_lights = entities.LIGHT_LIVING_ROOM
     speakers = entities.MEDIA_PLAYER_MASS_COOKING_AREA
+    blinds = entities.COVER_BLINDS_CURTAIN
     music_manual_override = False
 
     def get_light_scene(self, activity: LivingRoom.Activity) -> Scene | SceneSelector:
@@ -55,33 +56,33 @@ class LivingRoomScene(SceneApp):
     def on_activity_change(self, activity: LivingRoom.Activity) -> None:
         match activity:
             case LivingRoom.Activity.DINNING:
-                self.music.play(Playlist.COOL_JAZZ)
+                self.handlers.music.play(Playlist.COOL_JAZZ)
 
             case LivingRoom.Activity.READING:
-                if not self.music.is_playing() and not self.rooms.studio.activity.is_value(Studio.Activity.WORKING):
-                    self.music.play(Playlist.random())
+                if not self.handlers.music.is_playing() and not self.handlers.rooms.studio.activity.is_value(Studio.Activity.WORKING):
+                    self.handlers.music.play(Playlist.random())
 
             case LivingRoom.Activity.WATCHING_TV:
-                self.music.pause()
+                self.handlers.music.pause()
 
             case LivingRoom.Activity.DRUMMING:
-                self.music.pause()
+                self.handlers.music.pause()
 
             case LivingRoom.Activity.GAMING:
-                self.music.pause()
+                self.handlers.music.pause()
 
             case LivingRoom.Activity.EMPTY:
                 self.music_manual_override = False
 
-        mode = self.mode.get()
+        mode = self.handlers.mode.get()
         if mode == Mode.NIGHT or mode == Mode.SLEEPING:
-            self.blinds.close(entities.COVER_BLINDS_CURTAIN)
+            self.handlers.blinds.close()
         else:
-            self.blinds.open(entities.COVER_BLINDS_CURTAIN)
+            self.handlers.blinds.open()
 
     def disable_music_manual_override(self) -> None:
         self.music_manual_override = False
 
     def music_manual_override_toggle(self) -> None:
         self.music_manual_override = True
-        self.music.toggle_play_pause()
+        self.handlers.music.toggle_play_pause()

@@ -12,7 +12,7 @@ from select_handler import SelectHandler
 class KitchenScene(SceneApp):
     @property
     def activity(self) -> SelectHandler:
-        return self.rooms.kitchen.activity
+        return self.handlers.rooms.kitchen.activity
 
     illuminance_sensor = entities.SENSOR_KITCHEN_MS_ILLUMINANCE
     room_lights = entities.LIGHT_KITCHEN
@@ -36,5 +36,5 @@ class KitchenScene(SceneApp):
     def on_activity_change(self, activity: StrEnum) -> None:
         match activity:
             case Kitchen.Activity.COOKING:
-                if not self.music.is_playing():
-                    self.music.play(Playlist.random())
+                if not self.handlers.music.is_playing():
+                    self.handlers.music.play(Playlist.random())

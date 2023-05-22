@@ -11,7 +11,7 @@ from select_handler import SelectHandler
 class HallwayScene(SceneApp):
     @property
     def activity(self) -> SelectHandler:
-        return self.rooms.hallway.activity
+        return self.handlers.rooms.hallway.activity
     illuminance_sensor = entities.SENSOR_HALLWAY_MS_ILLUMINANCE
     room_lights = entities.LIGHT_HALLWAY
 

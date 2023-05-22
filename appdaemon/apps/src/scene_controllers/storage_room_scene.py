@@ -10,7 +10,7 @@ from select_handler import SelectHandler
 class StorageRoomScene(SceneApp):
     @property
     def activity(self) -> SelectHandler:
-        return self.rooms.storage_room.activity
+        return self.handlers.rooms.storage_room.activity
     illuminance_sensor = None
     room_lights = entities.LIGHT_STORAGE
 

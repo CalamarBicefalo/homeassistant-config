@@ -14,7 +14,7 @@ class EnsuiteController(ActivityController):
 
     @property
     def activity(self) -> SelectHandler:
-        return self.rooms.ensuite.activity
+        return self.handlers.rooms.ensuite.activity
 
     def initialize(self) -> None:
         self.listen_state(

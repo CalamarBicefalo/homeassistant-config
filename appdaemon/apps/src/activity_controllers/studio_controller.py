@@ -11,7 +11,7 @@ class StudioController(ActivityController):
 
     @property
     def activity(self) -> SelectHandler:
-        return self.rooms.studio.activity
+        return self.handlers.rooms.studio.activity
 
     def initialize(self) -> None:
         self.log(f'Initializing studio activity controller.', level="DEBUG")

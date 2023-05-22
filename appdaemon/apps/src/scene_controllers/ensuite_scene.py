@@ -11,7 +11,7 @@ from select_handler import SelectHandler
 class EnsuiteScene(SceneApp):
     @property
     def activity(self) -> SelectHandler:
-        return self.rooms.ensuite.activity
+        return self.handlers.rooms.ensuite.activity
     illuminance_sensor = None
     room_lights = entities.LIGHT_BATHROOM
 

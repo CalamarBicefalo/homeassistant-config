@@ -18,7 +18,7 @@ class FlatCleaner(App):
     def clean_flat(self, entity: Any, attribute: Any, old: Any, new: Any, kwargs: Any) -> None:
         self.log(f'Triggering flat clean {entity} -> {attribute} old={old} new={new}', level="DEBUG")
 
-        days_since_last_clean = (datetime.now() - self.flick.last_cleaned_flat()).days
+        days_since_last_clean = (datetime.now() - self.handlers.flick.last_cleaned_flat()).days
         if days_since_last_clean < 4:
             self.log(
                 f'Ignoring flat clean because we cleaned {days_since_last_clean} days ago',
@@ -27,4 +27,4 @@ class FlatCleaner(App):
             return
 
         self.log('Cleaning flat', level="DEBUG")
-        self.flick.clean_flat()
+        self.handlers.flick.clean_flat()

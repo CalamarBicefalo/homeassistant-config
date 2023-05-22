@@ -1,7 +1,8 @@
 from __future__ import annotations
 
+import uuid
 from datetime import datetime
-from typing import Optional
+from typing import Optional, Callable, Any, Dict
 
 import appdaemon.plugins.hass.hassapi as hass
 
@@ -21,8 +22,8 @@ from rooms import RoomHandlers
 from select_handler import SelectHandler
 
 
-class App(hass.Hass):
-    mode: SelectHandler[Mode]
+class Handler():
+    handlers: SelectHandler[Mode]
     rooms: RoomHandlers
     music: MusicHandler
     blinds: BlindsHandler
@@ -30,18 +31,30 @@ class App(hass.Hass):
     flick: FlickHandler
     buttons: ButtonHandler
 
+    def __init__(self, app: hass.Hass, speakers: Optional[Entity], blinds: Optional[Entity]) -> None:
+        self.mode = SelectHandler[Mode](app, helpers.HOMEASSISTANT_MODE)
+        self.rooms = RoomHandlers(app)
+        self.music = MusicHandler(app, speakers)
+        self.blinds = BlindsHandler(app, blinds)
+        self.alarmclock = AlarmClock(app)
+        self.flick = FlickHandler(app)
+        self.buttons = ButtonHandler(app)
+
+
+class App(hass.Hass):
+    handlers: Handler
+
     def __init__(self, ad, name, logging, args, config, app_config, global_vars) -> None:  # type: ignore
         super().__init__(ad, name, logging, args, config, app_config, global_vars)
-        self.mode = SelectHandler[Mode](super(), helpers.HOMEASSISTANT_MODE)
-        self.rooms = RoomHandlers(super())
-        self.music = MusicHandler(super(), self.speakers)
-        self.blinds = BlindsHandler(super())
-        self.alarmclock = AlarmClock(super())
-        self.flick = FlickHandler(super())
-        self.buttons = ButtonHandler(super())
+        self.handlers = Handler(super(), speakers=self.speakers, blinds=self.blinds)
+        self.timers: Dict = {}
 
     @property
     def speakers(self) -> Optional[entities.Entity]:
+        return None
+
+    @property
+    def blinds(self) -> Optional[entities.Entity]:
         return None
 
     def helper_to_datetime(self, helper: Helper) -> datetime:
@@ -93,3 +106,35 @@ class App(hass.Hass):
         self.turn_off(entities.SWITCH_DRUMKIT)
         self.turn_off(entities.SWITCH_MONITOR)
         self.turn_off(entities.SWITCH_DYSON)
+
+    def run_for(self, minutes: int, every_minute: Callable[[int], None],
+                afterwards: Optional[Callable[[], None]]) -> None:
+        """
+
+        :param minutes: For how long this callback should run for, with a minutely frequency
+        :param every_minute: Callback to execute every minute, if throws, the timer gets aborted
+        :param afterwards: Callback to execute when the loop is over
+        :return:
+        """
+        timer = uuid.uuid4()
+
+        def every_minute_callback(kwargs: Any) -> None:
+            minutes_left = self.timers[kwargs['timer']] - 1
+
+            self.timers[kwargs['timer']] = minutes_left
+
+            if minutes_left <= 0 and afterwards:
+                afterwards()
+                return
+
+            try:
+                every_minute(minutes_left)
+            except Exception as exc:
+                self.log(f'Aborting run_for loop due to exception: {exc}', level="INFO")
+                return
+
+            self.run_in(every_minute_callback, 60, timer=timer)
+            self.timers[timer] = minutes_left
+
+        self.run_in(every_minute_callback, 60, timer=timer)
+        self.timers[timer] = minutes

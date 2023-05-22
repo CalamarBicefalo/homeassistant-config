@@ -15,7 +15,7 @@ class GenericMotionController(MotionController):
 
     @property
     def activity(self) -> SelectHandler:
-        return self.rooms.kitchen.activity
+        return self.handlers.rooms.kitchen.activity
 
 
 @automation_fixture(GenericMotionController)

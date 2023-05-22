@@ -61,7 +61,7 @@ class SceneApp(App):
 
         scene_resolver: Optional[Scene] | SceneSelector = self.get_light_scene(activity)
         desired_scene: Optional[Scene] = None
-        current_mode = self.mode.get()
+        current_mode = self.handlers.mode.get()
         if type(scene_resolver) == SceneSelector:
             desired_scene = scene_resolver.get_scene(current_mode)
         if isinstance(scene_resolver, Scene):

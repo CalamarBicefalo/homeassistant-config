@@ -36,7 +36,7 @@ def test_reading_plays_music(given_that) -> None:
     with mock.patch.object(MusicHandler, 'play') as music:
         music.is_playing = lambda *_: False
         scene = LivingRoomScene(None, LivingRoomScene.__class__, None, None, None, None, None)
-        scene.music = music
+        scene.handlers.music = music
         scene.on_activity_change(LivingRoom.Activity.READING)
 
         music.play.assert_called_once()
@@ -49,7 +49,7 @@ def test_reading_when_music_playing_does_not_play_music(given_that) -> None:
     with mock.patch.object(MusicHandler, 'play') as music:
         music.is_playing = lambda *_: True
         scene = LivingRoomScene(None, LivingRoomScene.__class__, None, None, None, None, None)
-        scene.music = music
+        scene.handlers.music = music
         scene.on_activity_change(LivingRoom.Activity.READING)
 
         music.play.assert_not_called()
@@ -62,7 +62,7 @@ def test_reading_when_working_does_not_play_music(given_that) -> None:
     with mock.patch.object(MusicHandler, 'play') as music:
         music.is_playing = lambda *_: False
         scene = LivingRoomScene(None, LivingRoomScene.__class__, None, None, None, None, None)
-        scene.music = music
+        scene.handlers.music = music
         scene.on_activity_change(LivingRoom.Activity.READING)
 
         music.play.assert_not_called()
@@ -74,7 +74,7 @@ def test_reading_does_not_replace_if_playing(given_that) -> None:
 
     with mock.patch.object(MusicHandler, 'play') as music:
         scene = LivingRoomScene(None, LivingRoomScene.__class__, None, None, None, None, None)
-        scene.music = music
+        scene.handlers.music = music
         scene.on_activity_change(LivingRoom.Activity.READING)
 
         music.play.assert_not_called()
@@ -95,7 +95,7 @@ def test_watching_tv_pauses_music(given_that) -> None:
 
     with mock.patch.object(MusicHandler, 'pause') as music:
         scene = LivingRoomScene(None, LivingRoomScene.__class__, None, None, None, None, None)
-        scene.music = music
+        scene.handlers.music = music
         scene.on_activity_change(LivingRoom.Activity.WATCHING_TV)
 
         music.pause.assert_called_once()
@@ -116,7 +116,7 @@ def test_drumming_pauses_music(given_that) -> None:
 
     with mock.patch.object(MusicHandler, 'pause') as music:
         scene = LivingRoomScene(None, LivingRoomScene.__class__, None, None, None, None, None)
-        scene.music = music
+        scene.handlers.music = music
         scene.on_activity_change(LivingRoom.Activity.DRUMMING)
 
         music.pause.assert_called_once()
@@ -137,7 +137,7 @@ def test_gaming_pauses_music(given_that) -> None:
 
     with mock.patch.object(MusicHandler, 'pause') as music:
         scene = LivingRoomScene(None, LivingRoomScene.__class__, None, None, None, None, None)
-        scene.music = music
+        scene.handlers.music = music
         scene.on_activity_change(LivingRoom.Activity.GAMING)
 
         music.pause.assert_called_once()

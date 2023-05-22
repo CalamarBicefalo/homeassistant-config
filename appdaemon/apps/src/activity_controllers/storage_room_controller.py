@@ -8,7 +8,7 @@ from select_handler import SelectHandler
 class StorageRoomController(ActivityController):
     @property
     def activity(self) -> SelectHandler:
-        return self.rooms.storage_room.activity
+        return self.handlers.rooms.storage_room.activity
 
     def initialize(self) -> None:
         self.log(f'Initializing storage room controller.', level="DEBUG")

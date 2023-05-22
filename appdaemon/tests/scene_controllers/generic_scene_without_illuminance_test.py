@@ -19,7 +19,7 @@ ROOM_LIGHTS = "room_lights"
 class GenericSceneWithoutIlluminance(SceneApp):
     @property
     def activity(self) -> SelectHandler:
-        return self.rooms.bedroom.activity
+        return self.handlers.rooms.bedroom.activity
     room_lights = entities.Entity(ROOM_LIGHTS)
 
     def get_light_scene(self, activity: LivingRoom.Activity) -> Scene:

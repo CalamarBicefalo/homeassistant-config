@@ -30,7 +30,7 @@ class ModeScene(App):
                 self.turn_off_media()
                 self.turn_off_lights()
                 self.turn_off_plugs()
-                self.rooms.bedroom.activity.set(Bedroom.Activity.PRESENT)
+                self.handlers.rooms.bedroom.activity.set(Bedroom.Activity.PRESENT)
                 self.bedroom_music.play(Tune.RAIN, volume_level=0.2)
 
             case Mode.AWAY:

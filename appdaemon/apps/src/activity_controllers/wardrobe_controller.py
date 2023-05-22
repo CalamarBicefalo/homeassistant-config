@@ -10,7 +10,7 @@ class WardrobeController(ActivityController):
 
     @property
     def activity(self) -> SelectHandler:
-        return self.rooms.wardrobe.activity
+        return self.handlers.rooms.wardrobe.activity
 
     def initialize(self) -> None:
         self.listen_state(

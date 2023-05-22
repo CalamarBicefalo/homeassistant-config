@@ -16,7 +16,7 @@ class BedroomController(MotionController):
 
     @property
     def activity(self) -> SelectHandler:
-        return self.rooms.bedroom.activity
+        return self.handlers.rooms.bedroom.activity
 
     @property
     def max_inactive_activity_seconds(self) -> int:
@@ -28,9 +28,9 @@ class BedroomController(MotionController):
             self.controller_handler,
             self.motion_sensor
         )
-        self.alarmclock.listen(self.on_1_hour_to_wake_up, alarmclock.Event.ONE_HOUR_BEFORE_ALARM)
-        self.alarmclock.listen(self.on_alarm_dismissed, alarmclock.Event.ALARM_DISMISSED)
-        self.buttons.on(BEDSIDE_BUTTON_IEEE_ID,
+        self.handlers.alarmclock.listen(self.on_1_hour_to_wake_up, alarmclock.Event.ONE_HOUR_BEFORE_ALARM)
+        self.handlers.alarmclock.listen(self.on_alarm_dismissed, alarmclock.Event.ALARM_DISMISSED)
+        self.handlers.buttons.on(BEDSIDE_BUTTON_IEEE_ID,
                         click=self.on_click,
                         double_click=self.on_double_click,
                         long_press=self.on_long_press
@@ -55,7 +55,7 @@ class BedroomController(MotionController):
         self.cancel_wakeup_timer()
 
         if self.activity.is_value(Bedroom.Activity.BEDTIME):
-            self.mode.set(modes.Mode.SLEEPING)
+            self.handlers.mode.set(modes.Mode.SLEEPING)
         else:
             self.activity.set(Bedroom.Activity.BEDTIME)
             self.fire_event(mode_controller.EVENT_MODE_RECOMPUTE_NEEDED)
@@ -73,6 +73,7 @@ class BedroomController(MotionController):
         self.cancel_wakeup_timer()
 
         self.handle_presence()
+        self.fire_event(mode_controller.EVENT_MODE_RECOMPUTE_NEEDED)
 
     def controller_handler(self, entity, attribute, old, new, kwargs) -> None:  # type: ignore
         self.log(
