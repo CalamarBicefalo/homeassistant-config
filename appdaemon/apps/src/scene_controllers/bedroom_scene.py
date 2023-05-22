@@ -92,5 +92,5 @@ class BedroomScene(SceneApp):
             self.run_for(self.bedtime_duration_minutes, during_bedtime, after_bedtime)
 
 
-        elif self.handlers.mode.get() == modes.Mode.DAY:
+        elif self.handlers.mode.is_value(modes.Mode.DAY):
             self.handlers.blinds.open()
