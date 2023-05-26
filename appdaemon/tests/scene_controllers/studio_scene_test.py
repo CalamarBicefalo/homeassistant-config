@@ -1,6 +1,9 @@
+from unittest import mock
+
 import pytest
 from appdaemontestframework import automation_fixture, given_that as given
 
+from music import MusicHandler
 from rooms import *
 import entities
 import helpers
@@ -21,10 +24,26 @@ def studio_scene() -> None:
 def test_when_working(given_that, studio_scene, assert_that):
     given_that.studio_scene_is(activity=Studio.Activity.WORKING, illuminance=30)
 
+    with mock.patch.object(MusicHandler, 'play') as music:
+        studio_scene.handlers.music = music
+        studio_scene.handle_scene(Studio._activity_helper, None, None, None, None)
+
+        music.play.assert_called_once()
+        assert_that(scenes.STUDIO_WORKING.get()).was.turned_on()
+        assert_that(entities.SWITCH_MONITOR).was.turned_on()
+
+
+@pytest.mark.asyncio
+def test_when_meeting(given_that, studio_scene, assert_that):
+    given_that.studio_scene_is(activity=Studio.Activity.MEETING, illuminance=30)
+
     studio_scene.handle_scene(Studio._activity_helper, None, None, None, None)
 
-    assert_that(scenes.STUDIO_WORKING.get()).was.turned_on()
-    assert_that(entities.SWITCH_MONITOR).was.turned_on()
+    with mock.patch.object(MusicHandler, 'pause') as music:
+        studio_scene.handlers.music = music
+        studio_scene.handle_scene(Studio._activity_helper, None, None, None, None)
+
+        music.pause.assert_called_once()
 
 
 @pytest.mark.asyncio

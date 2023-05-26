@@ -1,5 +1,6 @@
 import entities
 import scenes
+from music import Playlist
 from rooms import *
 from scene_controllers import scene
 from scene_controllers.scene import Scene
@@ -14,6 +15,7 @@ class StudioScene(SceneApp):
 
     illuminance_sensor = entities.SENSOR_STUDIO_MS_ILLUMINANCE
     room_lights = entities.LIGHT_STUDIO
+    speakers = entities.MEDIA_PLAYER_MASS_COOKING_AREA
 
     def get_light_scene(self, activity: Studio.Activity) -> Scene:
         match activity:
@@ -29,6 +31,9 @@ class StudioScene(SceneApp):
         match activity:
             case Studio.Activity.WORKING:
                 self.turn_on(entities.SWITCH_MONITOR)
+                self.handlers.music.play(Playlist.random(), volume_level=0.3)
+            case Studio.Activity.MEETING:
+                self.handlers.music.pause()
             case Studio.Activity.DRUMMING:
                 self.turn_off_media()
             case _:

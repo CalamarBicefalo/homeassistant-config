@@ -50,6 +50,7 @@ class Studio(Room):
         EMPTY = "Empty"
         PRESENT = "Present"
         WORKING = "Working"
+        MEETING = "Meeting"
         DRUMMING = "Drumming"
 
     activity: SelectHandler[Activity]
