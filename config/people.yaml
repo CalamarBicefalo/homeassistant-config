@@ -3,7 +3,3 @@
   user_id: affe11e198de496e8078cd4951b9949b
   device_trackers:
     - device_tracker.sm_s918b
-- name: Amanda
-  id: ahjones
-  device_trackers:
-    - device_tracker.mandies_iphone
