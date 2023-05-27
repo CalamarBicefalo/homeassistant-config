@@ -18,7 +18,12 @@ class StudioController(ActivityController):
 
         self.listen_state(
             self.controller_handler,
-            [self.motion_sensor, entities.BINARY_SENSOR_DESK_CHAIR_PS, entities.SENSOR_DRUMKIT_ACTIVE_POWER]
+            [
+                self.motion_sensor,
+                entities.BINARY_SENSOR_DESK_CHAIR_PS,
+                entities.SENSOR_DRUMKIT_ACTIVE_POWER,
+                entities.BINARY_SENSOR_SNYK_LAPTOP_AUDIO_INPUT_IN_USE
+            ]
         )
 
     def controller_handler(self, entity: Any, attribute: Any, old: Any, new: Any, kwargs: Any) -> None:
@@ -30,6 +35,10 @@ class StudioController(ActivityController):
             return
 
         self.cancel_empty_timer()
+
+        # Meeting handling
+        if self.is_on(entities.BINARY_SENSOR_SNYK_LAPTOP_AUDIO_INPUT_IN_USE):
+            self.activity.set(Studio.Activity.MEETING)
 
         # Work handling
         if self.is_on(entities.BINARY_SENSOR_DESK_CHAIR_PS):
