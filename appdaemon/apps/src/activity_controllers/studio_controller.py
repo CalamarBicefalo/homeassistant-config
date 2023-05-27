@@ -36,13 +36,12 @@ class StudioController(ActivityController):
 
         self.cancel_empty_timer()
 
-        # Meeting handling
-        if self.is_on(entities.BINARY_SENSOR_SNYK_LAPTOP_AUDIO_INPUT_IN_USE):
-            self.activity.set(Studio.Activity.MEETING)
-
         # Work handling
         if self.is_on(entities.BINARY_SENSOR_DESK_CHAIR_PS):
-            self.activity.set(Studio.Activity.WORKING)
+            if self.is_on(entities.BINARY_SENSOR_SNYK_LAPTOP_AUDIO_INPUT_IN_USE):
+                self.activity.set(Studio.Activity.MEETING)
+            else:
+                self.activity.set(Studio.Activity.WORKING)
 
         # Drum handling
         elif self.is_consuming_at_least(entities.SENSOR_DRUMKIT_ACTIVE_POWER, watts=4):

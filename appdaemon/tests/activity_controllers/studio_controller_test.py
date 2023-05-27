@@ -88,7 +88,8 @@ def test_when_working(given_that, subject, assert_that):
 @pytest.mark.asyncio
 def test_when_meeting(given_that, subject, assert_that):
     given_that.studio_state_is(
-        laptop_audio = states.ON
+        laptop_audio = states.ON,
+        chair = states.ON
     )
 
     subject.controller_handler(None, None, None, None, None)
