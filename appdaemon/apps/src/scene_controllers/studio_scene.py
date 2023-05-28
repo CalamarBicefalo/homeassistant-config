@@ -31,7 +31,8 @@ class StudioScene(SceneApp):
         match activity:
             case Studio.Activity.WORKING:
                 self.turn_on(entities.SWITCH_MONITOR)
-                self.handlers.music.play(Playlist.random(), volume_level=0.3)
+                if not self.handlers.music.is_playing():
+                    self.handlers.music.play(Playlist.random(), volume_level=0.3)
             case Studio.Activity.MEETING:
                 self.handlers.music.pause()
             case Studio.Activity.DRUMMING:

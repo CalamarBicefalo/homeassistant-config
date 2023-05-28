@@ -14,14 +14,14 @@ class ModeController(App):
         self.run_at_sunrise(self.on_schedule)
         self.run_at_sunset(self.on_schedule)
         self.handlers.alarmclock.listen(self._handle_mode, alarmclock.Event.ALARM_DISMISSED)
-        self.listen_event(self.on_bedroom_unlock, EVENT_MODE_RECOMPUTE_NEEDED)
+        self.listen_event(self.on_recompute_mode, EVENT_MODE_RECOMPUTE_NEEDED)
         self.listen_state(self.on_person_event, "person")
 
     def on_schedule(self, kwargs: Any) -> None:
         if self.handlers.mode.get() not in [Mode.AWAY, Mode.SLEEPING]:
             self._handle_mode()
 
-    def on_bedroom_unlock(self, event_name: str, data: Any, kwargs: Any) -> None:
+    def on_recompute_mode(self, event_name: str, data: Any, kwargs: Any) -> None:
         self._handle_mode()
 
     def on_person_event(self, entity, attribute, old, new, kwargs):  # type: ignore
