@@ -5,7 +5,7 @@ import entities
 import modes
 import scenes
 from modes import Mode
-from music import Playlist
+from music import Playlist, Tune
 from rooms import *
 from scene_controllers import scene
 from scene_controllers.scene import SceneSelector, Scene
@@ -66,13 +66,14 @@ class BedroomScene(SceneApp):
             self.turn_off_media()
 
             # Bedroom scene
-            self.turn_on(entities.SCENE_BEDROOM_WARM_EMBRACE)
+            self.turn_on(entities.SCENE_BEDROOM_WARM_EMBRACE, brightness = self.bedtime_initial_brightness)
             self.handlers.blinds.close()
 
             self.handlers.music.play(Playlist.DISCOVER_WEEKLY, volume_level=self.bedtime_initial_volume)
 
             def after_bedtime() -> None:
                 self.handlers.mode.set(Mode.SLEEPING)
+                self.handlers.music.play(Tune.RAIN, volume_level=0.2)
 
             def during_bedtime(minutes_left: int) -> None:
                 self.log(f'Running bedtime loop, {self.minutes_left} minutes left.', level="DEBUG")
@@ -86,8 +87,9 @@ class BedroomScene(SceneApp):
 
                 # Dim music
                 new_volume = round(self.bedtime_initial_volume * minutes_left / self.bedtime_duration_minutes, 2)
-                self.log(f'new volume = {new_brightness}', level="DEBUG")
-                self.handlers.music.volume(new_volume)
+                if new_volume >= 0.1:
+                    self.log(f'new volume = {new_brightness}', level="DEBUG")
+                    self.handlers.music.volume(new_volume)
 
             self.run_for(self.bedtime_duration_minutes, during_bedtime, after_bedtime)
 

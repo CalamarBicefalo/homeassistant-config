@@ -25,6 +25,7 @@ def test_when_working(given_that, studio_scene, assert_that):
     given_that.studio_scene_is(activity=Studio.Activity.WORKING, illuminance=30)
 
     with mock.patch.object(MusicHandler, 'play') as music:
+        music.is_playing = lambda *_: False
         studio_scene.handlers.music = music
         studio_scene.handle_scene(Studio._activity_helper, None, None, None, None)
 
