@@ -7,6 +7,7 @@ HELPER_DATETIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 LAST_COOKED = Helper("input_datetime.last_cooked")
 LAST_CLEANED_FLAT = Helper("input_datetime.last_cleaned_flat")
 LAST_CLEANED_VACUUM_MOP = Helper("input_datetime.last_cleaned_vacuum_mop")
+GUEST_MODE = Helper("input_boolean.guest_mode")
 HOMEASSISTANT_MODE = Helper("input_select.homeassistant_mode")
 
 
