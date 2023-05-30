@@ -2,7 +2,7 @@ default_config:
 cloud:
 
 input_button: !include helpers/input_button.yaml
-input_boolean: !include helpers/input_boolean.yaml
+input_boolean: !include_dir_merge_named helpers/input_boolean/
 input_number: !include helpers/input_number.yaml
 input_datetime: !include_dir_merge_named helpers/input_datetime/
 input_select: !include_dir_merge_named helpers/input_select/
