@@ -1,6 +1,7 @@
 # General
 ON = "on"
 OFF = "off"
+UNAVAILABLE = "unavailable"
 
 # Motion
 DETECTED = "on"

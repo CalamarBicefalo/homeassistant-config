@@ -86,6 +86,24 @@ class App(hass.Hass):
     def is_off(self, device: Entity) -> bool:
         return self.has_state(device, states.OFF)
 
+    def get_state_as_number(
+            self,
+            device: Entity,
+    ) -> Any:
+        state = self.get_state(device)
+        if state == states.UNAVAILABLE:
+            error = f'Unavailable state [number] for {device}'
+            self.log(error, level="ERROR")
+            self.call_service(services.NOTIFY_MOBILE_APP_GALAXY_S23, message=error, title="Automation error")
+            return 0
+        try:
+            return float(state)
+        except ValueError:
+            error = f'Cannot convert value "{state}" to number for {device}'
+            self.log(error, level="ERROR")
+            self.call_service(services.NOTIFY_MOBILE_APP_GALAXY_S23, message=error, title="Automation error")
+            return 0
+
     def has_state(self, device: Entity | Helper, desired_state: str) -> bool:
         state = self.get_state(device)
         b: bool = state == desired_state
