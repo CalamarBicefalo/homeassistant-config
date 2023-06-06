@@ -33,3 +33,4 @@ SERVICE_ACCOUNT.json
 media
 music_assistant.db
 appdaemon/apps/src/playground.py
+music_assistant.db.old
