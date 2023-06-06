@@ -30,11 +30,10 @@ class MusicHandler:
         self._app.call_service(services.MEDIA_PLAYER_SHUFFLE_SET,
                                entity_id=self._speakers, shuffle=shuffle)
         self._app.log(f'{"Shuffling" if shuffle else "Not shuffling"} queue of {self._speakers}.', level="DEBUG")
-        self._app.call_service(services.MASS_QUEUE_COMMAND,
+        self._app.call_service(services.MEDIA_PLAYER_PLAY_MEDIA,
                                entity_id=self._speakers,
-                               command="play_media",
-                               uri=tune,
-                               enqueue_mode="replace",
+                               media_content_id=tune,
+                               enqueue="replace",
                                )
         self._app.log(f'Playing {tune} on {self._speakers} - replacing existing queue.', level="DEBUG")
 

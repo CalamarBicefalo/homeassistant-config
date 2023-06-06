@@ -13,7 +13,7 @@ class ModeScene(App):
 
     def initialize(self) -> None:
         self.log(f'Initializing mode controller.', level="DEBUG")
-        self.bedroom_music = MusicHandler(self, entities.MEDIA_PLAYER_MASS_BEDROOM_SPEAKERS)
+        self.bedroom_music = MusicHandler(self, entities.MEDIA_PLAYER_BEDROOM_SPEAKERS)
 
         self.listen_state(
             self.controller_handler,

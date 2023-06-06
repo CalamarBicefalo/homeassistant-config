@@ -8,7 +8,7 @@ import matchers
 import services
 from app import App
 
-speakers = entities.MEDIA_PLAYER_MASS_COOKING_AREA
+speakers = entities.MEDIA_PLAYER_COOKING_AREA
 
 
 class MusicApp(App):
@@ -41,11 +41,10 @@ def test_play_sets_shuffling(assert_that: Any, app: MusicApp) -> None:
 @pytest.mark.asyncio
 def test_play_plays_tune(assert_that: Any, app: MusicApp) -> None:
     app.handlers.music.play("tune")
-    assert_that(services.MASS_QUEUE_COMMAND).was.called_with(
+    assert_that(services.MEDIA_PLAYER_PLAY_MEDIA).was.called_with(
         entity_id=speakers,
-        command="play_media",
-        uri="tune",
-        enqueue_mode="replace")
+        media_content_id="tune",
+        enqueue="replace")
 
 @pytest.mark.asyncio
 def test_pause(assert_that: Any, app: MusicApp) -> None:
