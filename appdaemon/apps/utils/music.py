@@ -34,6 +34,7 @@ class MusicHandler:
                                entity_id=self._speakers,
                                media_content_id=tune,
                                enqueue="replace",
+                               media_content_type="music"
                                )
         self._app.log(f'Playing {tune} on {self._speakers} - replacing existing queue.', level="DEBUG")
 
