@@ -2,19 +2,21 @@ default_config:
 cloud:
 
 input_button: !include helpers/input_button.yaml
-input_boolean: !include_dir_merge_named helpers/input_boolean/
 input_number: !include helpers/input_number.yaml
+
+input_boolean: !include_dir_merge_named helpers/input_boolean/
 input_datetime: !include_dir_merge_named helpers/input_datetime/
 input_select: !include_dir_merge_named helpers/input_select/
 
 binary_sensor: !include devices/binary_sensor.yaml
 
-automation: !include config/automations.yaml
+automation: !include_dir_merge_named config/automations/
 person: !include config/people.yaml
 tts: !include config/text_to_speech.yaml
 http: !include config/http.yaml
 google_assistant: !include config/google_assistant.yaml
 zha: !include config/zigbee_home_assistant.yaml
 
-
 template: !include devices/templates.yaml
+
+homeassistant: !include_dir_named config/homeassistant/
