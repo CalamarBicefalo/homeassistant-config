@@ -3,6 +3,7 @@ from unittest import mock
 import pytest
 from appdaemontestframework import automation_fixture, given_that as given
 
+from blinds_handler import BlindsHandler
 from rooms import *
 import entities
 import helpers
@@ -100,6 +101,16 @@ def test_watching_tv_pauses_music(given_that) -> None:
 
         music.pause.assert_called_once()
 
+@pytest.mark.asyncio
+def test_watching_tv_closes_blinds_irrespecitively_of_mode(given_that) -> None:
+    given_that.living_room_scene_is(activity=LivingRoom.Activity.PRESENT, mode=modes.Mode.DAY)
+
+    with mock.patch.object(BlindsHandler, 'close') as blinds:
+        scene = LivingRoomScene(None, LivingRoomScene.__class__, None, None, None, None, None)
+        scene.handlers.blinds = blinds
+        scene.on_activity_change(LivingRoom.Activity.WATCHING_TV)
+
+        blinds.close.assert_called_once()
 
 @pytest.mark.asyncio
 def test_drumming_sets_drumming_scene(given_that, living_room_scene, assert_that):
@@ -142,6 +153,17 @@ def test_gaming_pauses_music(given_that) -> None:
 
         music.pause.assert_called_once()
 
+
+@pytest.mark.asyncio
+def test_gaming_closes_blinds(given_that) -> None:
+    given_that.living_room_scene_is(activity=LivingRoom.Activity.PRESENT, mode=modes.Mode.DAY)
+
+    with mock.patch.object(BlindsHandler, 'close') as blinds:
+        scene = LivingRoomScene(None, LivingRoomScene.__class__, None, None, None, None, None)
+        scene.handlers.blinds = blinds
+        scene.on_activity_change(LivingRoom.Activity.GAMING)
+
+        blinds.close.assert_called_once()
 
 def living_room_scene_is(self, activity, illuminance=0, are_lights_on=False, mode=modes.Mode.NIGHT,
                          playing_music=states.OFF, studio_activity=Studio.Activity.EMPTY):

@@ -64,12 +64,14 @@ class LivingRoomScene(SceneApp):
 
             case LivingRoom.Activity.WATCHING_TV:
                 self.handlers.music.pause()
+                self.handlers.blinds.close()
 
             case LivingRoom.Activity.DRUMMING:
                 self.handlers.music.pause()
 
             case LivingRoom.Activity.GAMING:
                 self.handlers.music.pause()
+                self.handlers.blinds.close()
 
             case LivingRoom.Activity.EMPTY:
                 self.music_manual_override = False

@@ -44,7 +44,8 @@ def test_play_plays_tune(assert_that: Any, app: MusicApp) -> None:
     assert_that(services.MEDIA_PLAYER_PLAY_MEDIA).was.called_with(
         entity_id=speakers,
         media_content_id="tune",
-        enqueue="replace")
+        enqueue="replace",
+        media_content_type="music")
 
 @pytest.mark.asyncio
 def test_pause(assert_that: Any, app: MusicApp) -> None:
