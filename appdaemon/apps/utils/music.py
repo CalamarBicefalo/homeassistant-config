@@ -58,7 +58,7 @@ class MusicHandler:
 
 
 class Tune(StrEnum):
-    RAIN = "/config/media/rain.mp3"
+    RAIN = "filesystem_local://track/rain.mp3"
 
 
 class Playlist(StrEnum):
