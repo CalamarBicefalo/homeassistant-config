@@ -20,7 +20,7 @@ def test_triggers_when_motion_or_tv_changes(given_that, subject, assert_that):
         .listens_to.state(
         [
             entities.BINARY_SENSOR_LIVING_ROOM_MOTION,
-            entities.MEDIA_PLAYER_TV,
+            entities.MEDIA_PLAYER_TV_2,
             entities.MEDIA_PLAYER_SONY_KD_49XF8096,
             entities.BINARY_SENSOR_SOFA_PS
         ]
@@ -151,7 +151,7 @@ def test_after_3_hours_of_inactivity(given_that, subject, assert_that, time_trav
 def living_room_state_is(self, motion=states.OFF, tv=states.OFF, sofa=states.OFF, activity=LivingRoom.Activity.EMPTY, tv_attr=None):
     self.state_of(entities.MEDIA_PLAYER_SONY_KD_49XF8096).is_set_to(tv, tv_attr)
     self.state_of(entities.BINARY_SENSOR_LIVING_ROOM_MOTION).is_set_to(motion)
-    self.state_of(entities.MEDIA_PLAYER_TV).is_set_to(tv)
+    self.state_of(entities.MEDIA_PLAYER_TV_2).is_set_to(tv)
     self.state_of(entities.BINARY_SENSOR_SOFA_PS).is_set_to(sofa)
     self.state_of(LivingRoom._activity_helper).is_set_to(activity)
 

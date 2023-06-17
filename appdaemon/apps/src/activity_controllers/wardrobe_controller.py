@@ -6,7 +6,7 @@ from select_handler import SelectHandler
 
 
 class WardrobeController(ActivityController):
-    motion_sensor = entities.BINARY_SENSOR_WARDROBE_MOTION
+    motion_sensor = entities.BINARY_SENSOR_WARDROBE_MS_MOTION
 
     @property
     def activity(self) -> SelectHandler:

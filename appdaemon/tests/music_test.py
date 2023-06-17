@@ -8,7 +8,7 @@ import matchers
 import services
 from app import App
 
-speakers = entities.MEDIA_PLAYER_COOKING_AREA
+speakers = entities.MEDIA_PLAYER_COOKING_AREA_2
 
 
 class MusicApp(App):

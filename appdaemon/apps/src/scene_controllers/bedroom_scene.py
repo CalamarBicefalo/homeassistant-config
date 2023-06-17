@@ -16,7 +16,7 @@ from select_handler import SelectHandler
 class BedroomScene(SceneApp):
     illuminance_sensor = entities.SENSOR_STUDIO_MS_ILLUMINANCE
     room_lights = entities.LIGHT_BEDROOM
-    speakers = entities.MEDIA_PLAYER_BEDROOM_SPEAKERS
+    speakers = entities.MEDIA_PLAYER_BEDROOM_SPEAKERS_2
     blinds = entities.COVER_BEDROOM_CURTAIN_COVER
     bedtime_duration_minutes = 30
     bedtime_initial_brightness = 150
