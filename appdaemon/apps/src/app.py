@@ -76,7 +76,7 @@ class App(hass.Hass):
         return self.get_watt_consumption(device) >= watts
 
     def get_watt_consumption(self, device: Entity) -> int:
-        return int(float(self.get_state(device)))
+        return int(self.get_state_as_number(device))
 
     def is_on(self, device: Entity) -> bool:
         state = self.get_state(device)
