@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import Any, Callable
 
 from appdaemon.plugins.hass import hassapi as hass
-from strenum import StrEnum
+from enum import StrEnum
 
 # MQTT event encapsulating all Sleep as Android events
 SLEEP_AS_ANDROID_EVENT = "SleepAsAndroid_phone"

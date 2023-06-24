@@ -1,6 +1,6 @@
 from room import Room
 from helpers import Helper
-from strenum import StrEnum
+from enum import StrEnum
 from select_handler import SelectHandler
 from appdaemon.plugins.hass import hassapi as hass
 from typing import List

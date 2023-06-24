@@ -4,7 +4,7 @@ import random
 from typing import Optional
 
 from appdaemon.plugins.hass import hassapi as hass
-from strenum import StrEnum
+from enum import StrEnum
 
 import entities
 import services

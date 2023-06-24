@@ -2,7 +2,7 @@
 from typing import TypeVar, Generic
 
 import appdaemon.plugins.hass.hassapi as hass
-from strenum import StrEnum
+from enum import StrEnum
 
 import services
 from helpers import Helper

@@ -9,7 +9,7 @@ def generate_modes(root_dir: str):
         try:
             with open(GENERATED_MODES, 'w') as f:
 
-                f.write("from strenum import StrEnum\n")
+                f.write("from enum import StrEnum\n")
                 f.write('\n')
                 f.write(f'class Mode(StrEnum):\n')
                 for o in homeassistant_mode["options"]:

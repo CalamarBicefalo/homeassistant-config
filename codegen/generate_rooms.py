@@ -10,7 +10,7 @@ def generate_rooms(root_dir: str):
             with open(GENERATED_ROOMS, 'w') as f:
                 f.write("from room import Room\n")
                 f.write("from helpers import Helper\n")
-                f.write("from strenum import StrEnum\n")
+                f.write("from enum import StrEnum\n")
                 f.write("from select_handler import SelectHandler\n")
                 f.write("from appdaemon.plugins.hass import hassapi as hass\n")
                 f.write("from typing import List\n")
@@ -84,7 +84,7 @@ def generate_activities(root_dir: str):
         try:
             with open(GENERATED_ACTIVITIES, 'w') as f:
                 f.write("from helpers import Helper\n")
-                f.write("from strenum import StrEnum\n")
+                f.write("from enum import StrEnum\n")
                 f.write("from select_handler import SelectHandler\n")
                 f.write('\n\n')
                 f.write("class Activity(StrEnum):\n")
