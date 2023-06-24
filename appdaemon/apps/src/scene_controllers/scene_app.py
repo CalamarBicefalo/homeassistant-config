@@ -88,7 +88,7 @@ class SceneApp(App):
 
         illuminance = self.get_state_as_number(self.illuminance_sensor)
         lights_on = self.is_on(self.room_lights)
-        if current_mode == modes.Mode.NIGHT or ((not lights_on) and illuminance < 40) or (
+        if current_mode == modes.Mode.NIGHT or ((not lights_on) and illuminance < 60) or (
                 lights_on and illuminance < 200):
             self.turn_on(desired_scene.get())
         else:
