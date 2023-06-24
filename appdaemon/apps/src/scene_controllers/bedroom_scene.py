@@ -40,6 +40,10 @@ class BedroomScene(SceneApp):
             })
         return scene.off()
 
+    def on_mode_change(self, new: Mode, old: Mode) -> None:
+        if self.activity.is_value(Bedroom.Activity.BEDTIME) and new == Mode.SLEEPING:
+            self.handlers.music.play(Tune.RAIN, volume_level=0.2)
+
     def on_activity_change(self, activity: StrEnum) -> None:
         if activity == Bedroom.Activity.RELAXING:
             self.handlers.music.play(Playlist.NEO_CLASSICAL, volume_level=0.3)
@@ -73,12 +77,13 @@ class BedroomScene(SceneApp):
 
             def after_bedtime() -> None:
                 self.handlers.mode.set(Mode.SLEEPING)
-                self.handlers.music.play(Tune.RAIN, volume_level=0.2)
 
             def during_bedtime(minutes_left: int) -> None:
                 self.log(f'Running bedtime loop, {self.minutes_left} minutes left.', level="DEBUG")
                 if not self.activity.is_value(Bedroom.Activity.BEDTIME):
                     raise Exception("bedtime loop can only run during bedtime activity")
+                if self.handlers.mode.is_value(Mode.SLEEPING):
+                    raise Exception("aborting bedtime loop because mode is sleeping")
 
                 # Dim lights
                 new_brightness = round(self.bedtime_initial_brightness * minutes_left / self.bedtime_duration_minutes)

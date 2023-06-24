@@ -2,6 +2,7 @@ from abc import abstractmethod
 from typing import Optional, Any
 
 import entities
+import helpers
 import modes
 from app import App
 from modes import Mode
@@ -25,6 +26,11 @@ class SceneApp(App):
                 self.handle_scene,
                 self.illuminance_sensor
             )
+
+        self.listen_state(
+            self.mode_controller,
+            helpers.HOMEASSISTANT_MODE
+        )
 
     @property
     @abstractmethod
@@ -87,3 +93,10 @@ class SceneApp(App):
             self.turn_on(desired_scene.get())
         else:
             self.turn_off(self.room_lights)
+
+    def mode_controller(self, entity: Any, attribute: Any, old: Any, new: Any, kwargs: Any) -> None:
+        self.on_mode_change(new, old)
+
+    @abstractmethod
+    def on_mode_change(self, new: Mode, old: Mode) -> None:
+        pass
