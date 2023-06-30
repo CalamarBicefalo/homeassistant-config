@@ -8,9 +8,14 @@ from select_handler import SelectHandler
 class WardrobeController(ActivityController):
     motion_sensor = entities.BINARY_SENSOR_WARDROBE_MS_MOTION
 
+
     @property
     def activity(self) -> SelectHandler:
         return self.handlers.rooms.wardrobe.activity
+
+    @property
+    def max_inactive_activity_seconds(self) -> int:
+        return 10 * 60
 
     def initialize(self) -> None:
         self.listen_state(
@@ -34,7 +39,6 @@ class WardrobeController(ActivityController):
         if self.is_wardrobe_sensor(entity):
             if self.wardrobe_is_open():
                 self.activity.set(Wardrobe.Activity.DRESSING)
-                self.set_as_empty_in(minutes=5)
             else:
                 self.activity.set(Wardrobe.Activity.PRESENT)
 
@@ -43,7 +47,7 @@ class WardrobeController(ActivityController):
             self.activity.set(CommonActivities.PRESENT)
 
         else:
-            self.set_as_empty_in(minutes=1)
+            self.set_as_empty_in(seconds=10)
 
     def is_wardrobe_sensor(self, entity: entities.Entity) -> bool:
         return entity in [
