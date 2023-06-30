@@ -31,8 +31,9 @@ class StudioController(ActivityController):
             f'Triggering studio activity controller {entity} -> {attribute} old={old} new={new}',
             level="DEBUG")
 
-        if entity == entities.SENSOR_DRUMKIT_ACTIVE_POWER and abs(float(old) - float(new)) < 3:
-            return
+        if entity == entities.SENSOR_DRUMKIT_ACTIVE_POWER:
+            if abs(self.to_float(old, entity) - self.to_float(new, entity)) < 3:
+                return
 
         self.cancel_empty_timer()
 

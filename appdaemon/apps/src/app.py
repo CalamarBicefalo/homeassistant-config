@@ -91,15 +91,17 @@ class App(hass.Hass):
             device: Entity,
     ) -> Any:
         state = self.get_state(device)
-        if state == states.UNAVAILABLE:
-            error = f'Unavailable state [number] for {device}'
-            self.log(error, level="ERROR")
-            self.call_service(services.NOTIFY_MOBILE_APP_GALAXY_S23, message=error, title="Automation error")
-            return 0
+        return self.to_float(state, device)
+
+    def to_float(self, value: Any, device: Optional[str] = None) -> float:
+        reading_error = f'Cannot convert value "{value}" to float'
+        if device is None:
+            error = reading_error
+        else:
+            error = f'{device} error: {reading_error}'
         try:
-            return float(state)
+            return float(value)
         except ValueError:
-            error = f'Cannot convert value "{state}" to number for {device}'
             self.log(error, level="ERROR")
             self.call_service(services.NOTIFY_MOBILE_APP_GALAXY_S23, message=error, title="Automation error")
             return 0
