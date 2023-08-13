@@ -125,7 +125,6 @@ class App(hass.Hass):
     def turn_off_plugs(self) -> None:
         self.turn_off(entities.SWITCH_DRUMKIT)
         self.turn_off(entities.SWITCH_MONITOR)
-        self.turn_off(entities.SWITCH_DYSON)
 
     def run_for(self, minutes: int, every_minute: Callable[[int], None],
                 afterwards: Optional[Callable[[], None]]) -> None:
