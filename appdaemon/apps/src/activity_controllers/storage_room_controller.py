@@ -15,7 +15,7 @@ class StorageRoomController(ActivityController):
 
         self.listen_state(
             self.controller_handler,
-            [entities.BINARY_SENSOR_STORAGE_DOOR_CS_IASZONE]
+            [entities.BINARY_SENSOR_STORAGE_DOOR_CS]
         )
 
     def controller_handler(self, entity, attribute, old, new, kwargs):  # type: ignore
