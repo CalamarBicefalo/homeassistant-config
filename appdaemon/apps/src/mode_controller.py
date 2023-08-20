@@ -28,7 +28,7 @@ class ModeController(App):
         self._handle_mode()
 
     def _handle_mode(self) -> None:
-        if self.noone_home():
+        if self.noone_home(person=True):
             self.handlers.mode.set(Mode.AWAY)
         elif self.sunset() < self.sunrise():
             self.handlers.mode.set(Mode.DAY)
