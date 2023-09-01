@@ -24,28 +24,3 @@ class ButtonHandler:
             self.on_double_click(device_ieee, kwargs['double_click'])
         if 'long_press' in kwargs:
             self.on_long_press(device_ieee, kwargs['long_press'])
-
-
-class MediaButtonsHandler:
-
-    def __init__(self, app: hass.Hass):
-        self._app = app
-
-    def on_play(self, device_ieee: str, callback: Callable[..., None]) -> None:
-        self._app.listen_event(lambda *_: callback(), "zha_event", command='toggle', device_ieee=device_ieee)
-
-    def on_forwards(self, device_ieee: str, callback: Callable[..., None]) -> None:
-        self._app.listen_event(lambda *_: callback(), "zha_event", command='step', params=lambda x: x.step_mode == 0,
-                               device_ieee=device_ieee)
-
-    def on_backwards(self, device_ieee: str, callback: Callable[..., None]) -> None:
-        self._app.listen_event(lambda *_: callback(), "zha_event", command='step', params=lambda x: x.step_mode == 0,
-                               device_ieee=device_ieee)
-
-    def on(self, device_ieee: str, **kwargs: Callable[..., None]) -> None:
-        if 'play' in kwargs:
-            self.on_play(device_ieee, kwargs['click'])
-        if 'forwards' in kwargs:
-            self.on_forwards(device_ieee, kwargs['double_click'])
-        if 'backwards' in kwargs:
-            self.on_backwards(device_ieee, kwargs['long_press'])

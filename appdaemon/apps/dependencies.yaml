@@ -2,6 +2,7 @@
 - app
 - blinds_handler
 - button_handler
+- media_button_handler
 - entities
 - flick
 - generic_controller
