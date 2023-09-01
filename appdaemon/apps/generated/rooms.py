@@ -170,6 +170,6 @@ class RoomHandlers:
 
 
 class CommonActivities(StrEnum):
-    PRESENT = "Present"
     EMPTY = "Empty"
+    PRESENT = "Present"
 
