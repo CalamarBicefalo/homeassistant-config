@@ -99,6 +99,8 @@ def test_when_meeting(given_that, subject, assert_that):
 
 
 def studio_state_is(self, motion=states.OFF, chair=states.OFF, drumkit_power=0, laptop_audio=states.OFF):
+    self.state_of(Studio._activity_helper).is_set_to(Studio.Activity.EMPTY)
+    self.state_of(entities.DEVICE_TRACKER_SNYK_LAPTOP).is_set_to('home')
     self.state_of(entities.BINARY_SENSOR_STUDIO_MOTION).is_set_to(motion)
     self.state_of(entities.SENSOR_DRUMKIT_ACTIVE_POWER).is_set_to(drumkit_power)
     self.state_of(entities.BINARY_SENSOR_DESK_CHAIR_PS).is_set_to(chair)

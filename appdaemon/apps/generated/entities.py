@@ -170,6 +170,7 @@ SENSOR_ENSUITE_DOOR_CS_DEVICE_TEMERATURE: Entity = Entity("sensor.ensuite_door_c
 SENSOR_ENSUITE_MS_BATTERY: Entity = Entity("sensor.ensuite_ms_battery")
 SENSOR_FLAT_DOOR_CS_BATTERY: Entity = Entity("sensor.flat_door_cs_battery")
 SENSOR_FLAT_DOOR_CS_DEVICE_TEMPERATURE: Entity = Entity("sensor.flat_door_cs_device_temperature")
+SENSOR_FLICK_BATTERY: Entity = Entity("sensor.flick_battery")
 SENSOR_FLICK_CLEANING_AREA: Entity = Entity("sensor.flick_cleaning_area")
 SENSOR_FLICK_CLEANING_TIME: Entity = Entity("sensor.flick_cleaning_time")
 SENSOR_FLICK_FILTER_TIME_LEFT: Entity = Entity("sensor.flick_filter_time_left")

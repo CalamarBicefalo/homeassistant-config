@@ -19,11 +19,6 @@ Away monitor:
   class: AwayMonitor
   dependencies: !include /config/appdaemon/apps/dependencies.yaml
 
-Media controller:
-  module: media_controller
-  class: MediaController
-  dependencies: !include /config/appdaemon/apps/dependencies.yaml
-
 # Global dependencies
 entities:
   module: entities.py
