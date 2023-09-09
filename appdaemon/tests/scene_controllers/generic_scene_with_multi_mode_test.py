@@ -9,7 +9,7 @@ import scenes
 import states
 from modes import Mode
 from scene_controllers import scene
-from scene_controllers.scene import SceneSelector
+from scene_controllers.scene import SceneByModeSelector
 from scene_controllers.scene_app import SceneApp
 from select_handler import SelectHandler
 
@@ -24,7 +24,7 @@ class GenericSceneWithIlluminance(SceneApp):
     illuminance_sensor = None
     room_lights = entities.Entity(ROOM_LIGHTS)
 
-    def get_light_scene(self, activity: Bedroom.Activity) -> SceneSelector:
+    def get_light_scene(self, activity: Bedroom.Activity) -> SceneByModeSelector:
         return scene.by_mode({
             Mode.DAY: scenes.BEDROOM_BRIGHT,
             Mode.SLEEPING: scene.off(),

@@ -18,10 +18,10 @@ def monitor() -> None:
 def test_when_away_notifies_of_suspicious_activity(given_that, monitor, assert_that):
     given_that.state_of(helpers.HOMEASSISTANT_MODE).is_set_to(modes.Mode.AWAY)
 
-    monitor.on_activity_change("hallway", None, None, "present", None)
+    monitor.on_door_open(None, None, None, None, None)
 
-    assert_that(services.NOTIFY_NOTIFY).was.called_with(
-        message='Activity present detected in hallway while away from home',
+    assert_that(services.NOTIFY_MOBILE_APP_GALAXY_S23).was.called_with(
+        message=f'Front door opened while away',
         title="🚨Activity detected")
 
 
@@ -29,6 +29,6 @@ def test_when_away_notifies_of_suspicious_activity(given_that, monitor, assert_t
 def test_when_present_does_not_notify(given_that, monitor, assert_that):
     given_that.state_of(helpers.HOMEASSISTANT_MODE).is_set_to(modes.Mode.DAY)
 
-    monitor.on_activity_change(None, None, None, None, None)
+    monitor.on_door_open(None, None, None, None, None)
 
-    assert_that(services.NOTIFY_NOTIFY).was_not.called()
+    assert_that(services.NOTIFY_MOBILE_APP_GALAXY_S23).was_not.called()

@@ -8,7 +8,7 @@ from app import App
 from modes import Mode
 from rooms import *
 from scene_controllers import scene
-from scene_controllers.scene import SceneSelector, Scene, OffScene
+from scene_controllers.scene import SceneByModeSelector, Scene, OffScene
 from select_handler import SelectHandler
 
 
@@ -48,10 +48,7 @@ class SceneApp(App):
         pass
 
     @abstractmethod
-    def get_light_scene(self, activity: StrEnum) -> Optional[Scene] | scene.SceneSelector:
-        pass
-
-    def on_activity_change(self, activity: StrEnum) -> None:
+    def get_light_scene(self, activity: StrEnum) -> Optional[Scene] | scene.SceneByModeSelector:
         pass
 
     @property
@@ -62,13 +59,10 @@ class SceneApp(App):
         self.log(f'Changing {self.scene} scene {entity} -> {attribute} old={old} new={new}', level="DEBUG")
         activity = self.activity.get()
 
-        if entity == self.activity._helper:
-            self.on_activity_change(activity)
-
-        scene_resolver: Optional[Scene] | SceneSelector = self.get_light_scene(activity)
+        scene_resolver: Optional[Scene] | SceneByModeSelector = self.get_light_scene(activity)
         desired_scene: Optional[Scene] = None
         current_mode = self.handlers.mode.get()
-        if type(scene_resolver) == SceneSelector:
+        if type(scene_resolver) == SceneByModeSelector:
             desired_scene = scene_resolver.get_scene(current_mode)
         if isinstance(scene_resolver, Scene):
             desired_scene = scene_resolver

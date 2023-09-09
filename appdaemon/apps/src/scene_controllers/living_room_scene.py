@@ -5,7 +5,7 @@ from modes import Mode
 from music import Playlist
 from rooms import *
 from scene_controllers import scene
-from scene_controllers.scene import Scene, SceneSelector
+from scene_controllers.scene import Scene, SceneByModeSelector
 from scene_controllers.scene_app import SceneApp
 from select_handler import SelectHandler
 
@@ -27,60 +27,65 @@ class LivingRoomScene(SceneApp):
     blinds = entities.COVER_BLINDS_CURTAIN
     music_manual_override = False
 
-    def get_light_scene(self, activity: LivingRoom.Activity) -> Scene | SceneSelector:
+    def get_light_scene(self, activity: LivingRoom.Activity) -> Scene | SceneByModeSelector:
         match activity:
             case LivingRoom.Activity.READING:
-                return scene.by_mode({
-                    Mode.DAY: scenes.LIVING_ROOM_READING,
-                    Mode.NIGHT: scenes.LIVING_ROOM_READING,
-                })
+                return scene.with_actions(
+                    scenes.LIVING_ROOM_READING,
+                    lambda: self.play_music_if_appropriate(),
+                    lambda: self.handlers.blinds.best_for_temperature(),
+                )
+
             case LivingRoom.Activity.WATCHING_TV:
-                return scene.by_mode({
-                    Mode.DAY: scenes.LIVING_ROOM_MOVIE,
-                    Mode.NIGHT: scenes.LIVING_ROOM_MOVIE,
-                })
+                return scene.with_actions(
+                    scenes.LIVING_ROOM_MOVIE,
+                    lambda: self.handlers.music.pause(),
+                    lambda: self.handlers.blinds.close(),
+                )
+
             case LivingRoom.Activity.PRESENT:
                 return scene.by_mode({
-                    Mode.DAY: scenes.LIVING_ROOM_WELCOME,
-                    Mode.NIGHT: scenes.LIVING_ROOM_WELCOME,
+                    Mode.DAY: scene.with_actions(
+                        scenes.LIVING_ROOM_WELCOME,
+                        lambda: self.handlers.blinds.best_for_temperature(),
+                    ),
+                    Mode.NIGHT: scene.with_actions(
+                        scenes.LIVING_ROOM_WELCOME,
+                        lambda: self.handlers.blinds.close(),
+                    )
                 })
+
             case LivingRoom.Activity.DINNING:
-                return scenes.DINING_ROOM_DINNER_TIME
-            case LivingRoom.Activity.DRUMMING:
-                return scenes.LIVING_ROOM_DRUMMING
-            case LivingRoom.Activity.GAMING:
-                return scenes.LIVING_ROOM_GAMING
-
-        return scene.off()
-
-    def on_activity_change(self, activity: LivingRoom.Activity) -> None:
-        match activity:
-            case LivingRoom.Activity.DINNING:
-                self.handlers.music.play(Playlist.COOL_JAZZ)
-
-            case LivingRoom.Activity.READING:
-                if not self.handlers.music.is_playing() and not self.handlers.rooms.studio.activity.is_value(Studio.Activity.WORKING):
-                    self.handlers.music.play(Playlist.random())
-
-            case LivingRoom.Activity.WATCHING_TV:
-                self.handlers.music.pause()
-                self.handlers.blinds.close()
+                return scene.with_actions(
+                    scenes.DINING_ROOM_DINNER_TIME,
+                    lambda: self.handlers.music.play(Playlist.COOL_JAZZ),
+                    lambda: self.handlers.blinds.best_for_temperature(),
+                )
 
             case LivingRoom.Activity.DRUMMING:
-                self.handlers.music.pause()
+                return scene.with_actions(
+                    scenes.LIVING_ROOM_DRUMMING,
+                    lambda: self.handlers.music.pause(),
+                    lambda: self.handlers.blinds.close(),
+                )
 
             case LivingRoom.Activity.GAMING:
-                self.handlers.music.pause()
-                self.handlers.blinds.close()
+                return scene.with_actions(
+                    scenes.LIVING_ROOM_GAMING,
+                    lambda: self.handlers.music.pause(),
+                    lambda: self.handlers.blinds.close(),
+                )
 
-            case LivingRoom.Activity.EMPTY:
-                self.music_manual_override = False
+        return scene.with_actions(
+            scene.off(),
+            lambda: self.handlers.blinds.best_for_temperature(),
+            lambda: self.disable_music_manual_override(),
+        )
 
-        mode = self.handlers.mode.get()
-        if mode == Mode.NIGHT or mode == Mode.SLEEPING:
-            self.handlers.blinds.close()
-        else:
-            self.handlers.blinds.open()
+    def play_music_if_appropriate(self) -> None:
+        if not self.handlers.music.is_playing() and not self.handlers.rooms.studio.activity.is_value(
+                Studio.Activity.WORKING):
+            self.handlers.music.play(Playlist.random())
 
     def disable_music_manual_override(self) -> None:
         self.music_manual_override = False

@@ -22,10 +22,6 @@ class ModeScene(App):
 
     def controller_handler(self, entity: Any, attribute: Any, old: Any, new: Any, kwargs: Any) -> None:
         match new:
-            case Mode.NIGHT:
-                self.handlers.blinds.close_all()
-            case Mode.DAY:
-                self.handlers.blinds.open_all()
             case Mode.SLEEPING:
                 self.turn_off_lights()
                 self.turn_off_plugs()

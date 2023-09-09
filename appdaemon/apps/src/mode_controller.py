@@ -23,7 +23,7 @@ class ModeController(App):
         self._handle_day_night_mode()
 
     def on_schedule(self, kwargs: Any) -> None:
-        if self.handlers.mode.get() not in [Mode.AWAY, Mode.SLEEPING]:
+        if not self.handlers.mode.is_value(Mode.SLEEPING):
             self._handle_mode_unless_away()
 
     def on_recompute_mode(self, event_name: str, data: Any, kwargs: Any) -> None:

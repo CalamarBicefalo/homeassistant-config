@@ -3,7 +3,7 @@ import scenes
 from modes import Mode
 from rooms import *
 from scene_controllers import scene
-from scene_controllers.scene import SceneSelector, Scene
+from scene_controllers.scene import SceneByModeSelector, Scene
 from scene_controllers.scene_app import SceneApp
 from select_handler import SelectHandler
 
@@ -15,7 +15,7 @@ class WardrobeScene(SceneApp):
     illuminance_sensor = entities.SENSOR_HALLWAY_MS_ILLUMINANCE
     room_lights = entities.LIGHT_WARDROBE
 
-    def get_light_scene(self, activity: StrEnum) -> Scene | SceneSelector:
+    def get_light_scene(self, activity: StrEnum) -> Scene | SceneByModeSelector:
         match activity:
             case Wardrobe.Activity.PRESENT:
                 return scene.by_mode({

@@ -31,13 +31,13 @@ def test_relaxing_sets_relaxing_scene(given_that, bedroom_scene, assert_that):
 
 @pytest.mark.asyncio
 def test_relaxing_plays_music(given_that) -> None:
-    given_that.bedroom_scene_is(activity=Bedroom.Activity.PRESENT)
+    given_that.bedroom_scene_is(activity=Bedroom.Activity.RELAXING)
 
     with mock.patch.object(MusicHandler, 'play') as music:
         music.is_playing = lambda *_: False
         scene = BedroomScene(None, BedroomScene.__class__, None, None, None, None, None)
         scene.handlers.music = music
-        scene.on_activity_change(Bedroom.Activity.RELAXING)
+        scene.handle_scene(None, None, None, None, None)
 
         music.play.assert_called_once()
 

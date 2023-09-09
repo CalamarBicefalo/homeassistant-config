@@ -4,7 +4,7 @@ from typing import Optional
 
 from appdaemon.plugins.hass import hassapi as hass
 
-import states
+import entities
 from entities import Entity
 
 
@@ -30,6 +30,13 @@ class BlindsHandler:
         if self.is_closed():
             self.app.call_service("cover/open_cover",
                                   entity_id=self._blinds)
+
+    def best_for_temperature(self) -> None:
+        temperature: int = self.app.get_state(entities.SENSOR_AIR_QUALITY_TEMPERATURE)
+        if temperature > 22:
+            self.close()
+        else:
+            self.open()
 
     def set_position(self, open_percentage: int) -> None:
         self.app.call_service("cover/set_cover_position",

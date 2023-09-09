@@ -3,7 +3,7 @@ import scenes
 from modes import Mode
 from rooms import *
 from scene_controllers import scene
-from scene_controllers.scene import Scene, SceneSelector
+from scene_controllers.scene import Scene, SceneByModeSelector
 from scene_controllers.scene_app import SceneApp
 from select_handler import SelectHandler
 
@@ -15,7 +15,7 @@ class HallwayScene(SceneApp):
     illuminance_sensor = entities.SENSOR_HALLWAY_MS_ILLUMINANCE
     room_lights = entities.LIGHT_HALLWAY
 
-    def get_light_scene(self, activity: StrEnum) -> Scene | SceneSelector:
+    def get_light_scene(self, activity: StrEnum) -> Scene | SceneByModeSelector:
         if activity == Hallway.Activity.PRESENT:
             return scene.by_mode({
                 Mode.DAY: scenes.HALLWAY_BRIGHT,

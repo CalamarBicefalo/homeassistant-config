@@ -20,23 +20,34 @@ class StudioScene(SceneApp):
     def get_light_scene(self, activity: Studio.Activity) -> Scene:
         match activity:
             case Studio.Activity.WORKING:
-                return scenes.STUDIO_WORKING
+                return scene.with_actions(
+                    scenes.STUDIO_WORKING,
+                    lambda: self.turn_on(entities.SWITCH_MONITOR),
+                    lambda: self.play_music_if_appropriate(),
+                )
+
+            case Studio.Activity.MEETING:
+                return scene.with_actions(
+                    scenes.STUDIO_WORKING,
+                    lambda: self.turn_on(entities.SWITCH_MONITOR),
+                    lambda: self.handlers.music.pause(),
+                )
+
             case Studio.Activity.DRUMMING:
-                return scenes.STUDIO_DRUMMING
+                return scene.with_actions(
+                    scenes.STUDIO_DRUMMING,
+                    lambda: self.turn_off_media(),
+                )
+
             case Studio.Activity.PRESENT:
                 return scenes.STUDIO_CONCENTRATE
-        return scene.off()
 
-    def on_activity_change(self, activity: Studio.Activity) -> None:
-        match activity:
-            case Studio.Activity.WORKING:
-                self.turn_on(entities.SWITCH_MONITOR)
-                if not self.handlers.music.is_playing():
-                    self.handlers.music.play(Playlist.random(), volume_level=0.3)
-            case Studio.Activity.MEETING:
-                self.turn_on(entities.SWITCH_MONITOR)
-                self.handlers.music.pause()
-            case Studio.Activity.DRUMMING:
-                self.turn_off_media()
-            case _:
-                self.turn_off(entities.SWITCH_MONITOR)
+        return scene.with_actions(
+            scene.off(),
+            lambda: self.turn_off(entities.SWITCH_MONITOR)
+        )
+
+
+    def play_music_if_appropriate(self) -> None:
+        if not self.handlers.music.is_playing():
+            self.handlers.music.play(Playlist.random(), volume_level=0.3)
