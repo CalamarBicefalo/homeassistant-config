@@ -32,7 +32,7 @@ class BlindsHandler:
                                   entity_id=self._blinds)
 
     def best_for_temperature(self) -> None:
-        temperature: int = self.app.get_state(entities.SENSOR_AIR_QUALITY_TEMPERATURE)
+        temperature: float = float(self.app.get_state(entities.SENSOR_AIR_QUALITY_TEMPERATURE))
         if temperature > 22:
             self.close()
         else:
