@@ -9,12 +9,14 @@ import entities
 import helpers
 import services
 from entities import Entity
+from state_handler import StateHandler
 
 
 class FlickHandler:
     def __init__(self, app: hass) -> None:
         self.app = app
         self._opening: Set[Entity] = set()
+        self.state = StateHandler(app)
 
     def clean_flat(self) -> None:
         self.app.call_service(
@@ -41,13 +43,10 @@ class FlickHandler:
         self._set_helper_to_now(helpers.LAST_CLEANED_VACUUM_MOP)
 
     def last_cleaned_flat(self) -> datetime:
-        return self._helper_to_datetime(helpers.LAST_CLEANED_FLAT)
+        return self.state.get_as_datetime(helpers.LAST_CLEANED_FLAT)
 
     def last_maintenance(self) -> datetime:
-        return self._helper_to_datetime(helpers.LAST_CLEANED_VACUUM_MOP)
-
-    def _helper_to_datetime(self, helper: helpers.Helper) -> datetime:
-        return datetime.strptime(str(self.app.get_state(helper)), helpers.HELPER_DATETIME_FORMAT)
+        return self.state.get_as_datetime(helpers.LAST_CLEANED_VACUUM_MOP)
 
     def _set_helper_to_now(self, helper: helpers.Helper) -> None:
         self.app.call_service(

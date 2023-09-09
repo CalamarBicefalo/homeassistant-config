@@ -7,6 +7,7 @@ import appdaemon.plugins.hass.hassapi as hass
 import flick
 import helpers
 import services
+from state_handler import StateHandler
 
 
 class Room:
@@ -14,6 +15,7 @@ class Room:
     def __init__(self, app: hass.Hass) -> None:
         self.app = app
         self.flick = flick.FlickHandler(app)
+        self.state = StateHandler(app)
 
     @property
     @abstractmethod
@@ -39,11 +41,11 @@ class Room:
         return 4
 
     def last_cleaned(self) -> datetime:
-        last_cleaned: str = self.app.get_state(self._last_cleaned_helper)
+        last_cleaned: datetime = self.state.get_as_datetime(self._last_cleaned_helper)
         if not last_cleaned:
             self.app.log(f'Last cleaned not set for {self._last_cleaned_helper}, returning default value', level="WARNING")
             return datetime.fromisoformat('1970-01-01')
-        return helpers.helper_to_datetime(last_cleaned)
+        return last_cleaned
 
     def clean(self) -> None:
         if self._room_cleaner_segment is None:

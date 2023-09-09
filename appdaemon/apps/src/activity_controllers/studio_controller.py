@@ -32,7 +32,7 @@ class StudioController(ActivityController):
             level="DEBUG")
 
         if entity == entities.SENSOR_DRUMKIT_ACTIVE_POWER:
-            if abs(self.to_float(old, entity) - self.to_float(new, entity)) < 3:
+            if abs(self.state.to_float(old, entity) - self.state.to_float(new, entity)) < 3:
                 return
 
         self.cancel_empty_timer()
@@ -42,27 +42,27 @@ class StudioController(ActivityController):
             self.set_working_or_meeting()
 
         # Drum handling
-        elif self.is_consuming_at_least(entities.SENSOR_DRUMKIT_ACTIVE_POWER, watts=4):
+        elif self.state.is_consuming_at_least(entities.SENSOR_DRUMKIT_ACTIVE_POWER, watts=4):
             self.activity.set(Studio.Activity.DRUMMING)
 
         # Presence
-        elif self.is_on(self.motion_sensor):
+        elif self.state.is_on(self.motion_sensor):
             self.activity.set(CommonActivities.PRESENT)
 
         else:
             self.set_as_empty_in(seconds=10)
 
     def standing_at_desk(self) -> bool:
-        return self.is_working_or_meeting() and self.is_on(entities.BINARY_SENSOR_SNYK_LAPTOP_ACTIVE)
+        return self.is_working_or_meeting() and self.state.is_on(entities.BINARY_SENSOR_SNYK_LAPTOP_ACTIVE)
 
     def sitting_at_desk(self) -> bool:
-        return self.is_on(entities.BINARY_SENSOR_DESK_CHAIR_PS)
+        return self.state.is_on(entities.BINARY_SENSOR_DESK_CHAIR_PS)
 
     def laptop_at_home(self) -> bool:
-        return self.has_state(entities.SENSOR_SNYK_LAPTOP_SSID, 'SETE-2SE-5G')
+        return self.state.is_value(entities.SENSOR_SNYK_LAPTOP_SSID, 'SETE-2SE-5G')
 
     def set_working_or_meeting(self) -> None:
-        if self.is_on(entities.BINARY_SENSOR_SNYK_LAPTOP_AUDIO_INPUT_IN_USE):
+        if self.state.is_on(entities.BINARY_SENSOR_SNYK_LAPTOP_AUDIO_INPUT_IN_USE):
             self.activity.set(Studio.Activity.MEETING)
         else:
             self.activity.set(Studio.Activity.WORKING)

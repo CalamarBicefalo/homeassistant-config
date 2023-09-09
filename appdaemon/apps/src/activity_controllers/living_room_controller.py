@@ -23,8 +23,8 @@ class LivingRoomController(ActivityController):
             ]
         )
         self.handlers.buttons.on(COFFEE_TABLE_BUTTON_IEEE_ADDRESS,
-                        double_click=self.set_drumming,
-                        long_press=self.clear_activity)
+                                 double_click=self.set_drumming,
+                                 long_press=self.clear_activity)
 
     def controller_handler(self, entity, attribute, old, new, kwargs) -> None:  # type: ignore
         self.log(
@@ -43,7 +43,7 @@ class LivingRoomController(ActivityController):
             self.activity.set(LivingRoom.Activity.WATCHING_TV)
 
         elif self.activity.is_value(LivingRoom.Activity.DRUMMING):
-            if self.is_on(self.motion_sensor) or self.sitting_on_sofa():
+            if self.state.is_on(self.motion_sensor) or self.sitting_on_sofa():
                 self.set_as_empty_in(minutes=90)
             else:
                 self.set_as_empty_in(minutes=10)
@@ -51,24 +51,28 @@ class LivingRoomController(ActivityController):
         elif self.sitting_on_sofa():
             self.activity.set(LivingRoom.Activity.READING)
 
-        elif self.is_on(self.motion_sensor):
+        elif self.state.is_on(self.motion_sensor):
             self.activity.set(CommonActivities.PRESENT)
 
         else:
             self.activity.set(CommonActivities.EMPTY)
 
     def playing_ps5(self) -> bool:
-        return self.is_on(entities.MEDIA_PLAYER_SONY_KD_49XF8096) and self.has_state_attr(
+        return (
+                self.state.is_on(entities.MEDIA_PLAYER_SONY_KD_49XF8096)
+                and self.state.is_attr_value(
             entities.MEDIA_PLAYER_SONY_KD_49XF8096,
             attr="source",
             desired_state="PlayStation 5"
         )
+        )
 
     def watching_tv(self) -> bool:
-        return self.is_on(entities.MEDIA_PLAYER_TV_2) or self.is_on(entities.MEDIA_PLAYER_SONY_KD_49XF8096)
+        return self.state.is_on(entities.MEDIA_PLAYER_TV_2) or self.state.is_on(
+            entities.MEDIA_PLAYER_SONY_KD_49XF8096)
 
     def sitting_on_sofa(self) -> bool:
-        return self.is_on(entities.BINARY_SENSOR_SOFA_PS)
+        return self.state.is_on(entities.BINARY_SENSOR_SOFA_PS)
 
     def clear_activity(self) -> None:
         self.activity.set(CommonActivities.EMPTY)

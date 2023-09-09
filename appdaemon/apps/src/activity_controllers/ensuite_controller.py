@@ -37,7 +37,7 @@ class EnsuiteController(ActivityController):
             return
 
         if new == states.DETECTED:
-            if self.get_state(self.contact_sensor) == states.CLOSED:
+            if self.state.is_value(self.contact_sensor, states.CLOSED):
                 self.activity.set(Ensuite.Activity.SHOWERING)
                 self.set_as_empty_in(self.shower_cooldown)
             else:

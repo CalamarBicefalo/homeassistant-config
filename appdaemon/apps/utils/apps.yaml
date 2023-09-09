@@ -19,6 +19,10 @@ button_handler:
   module: button_handler.py
   global: true
 
+state_handler:
+  module: state_handler.py
+  global: true
+
 media_button_handler:
   module: media_button_handler.py
   global: true

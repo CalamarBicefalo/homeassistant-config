@@ -27,7 +27,7 @@ class KitchenCleaner(App):
     def clean_kitchen(self, entity: Any, attribute: Any, old: Any, new: Any, kwargs: Any) -> None:
         self.log(f'Triggering kitchen clean {entity} -> {attribute} old={old} new={new}', level="DEBUG")
 
-        last_cooked = helpers.helper_to_datetime(self.get_state(helpers.LAST_COOKED))
+        last_cooked = self.state.get_as_datetime(helpers.LAST_COOKED)
         last_vacuumed = self.handlers.rooms.kitchen.last_cleaned()
 
         if last_vacuumed > last_cooked:

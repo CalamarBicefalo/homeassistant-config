@@ -9,16 +9,18 @@ from enum import StrEnum
 import entities
 import services
 import states
+from state_handler import StateHandler
 
 
 class MusicHandler:
 
     def __init__(self, app: hass.Hass, speakers: Optional[entities.Entity]):
         self._app = app
+        self.state = StateHandler(app)
         self._speakers = speakers
 
     def is_playing(self) -> bool:
-        state = self._app.get_state(self._speakers)
+        state = self.state.get_as_str(self._speakers)
         playing: bool = state == states.ON or state == states.PLAYING
         return playing
 

@@ -24,11 +24,11 @@ class KitchenController(MotionController):
         self.cancel_empty_timer()
 
         # TV Break Handling
-        if self.activity.get() == LivingRoom.Activity.WATCHING_TV and self.is_on(self.motion_sensor):
+        if self.activity.get() == LivingRoom.Activity.WATCHING_TV and self.state.is_on(self.motion_sensor):
             self.activity.set(Kitchen.Activity.TV_BREAK)
 
         # Presence Handling
-        elif self.is_on(self.motion_sensor):
+        elif self.state.is_on(self.motion_sensor):
             self.activity.set(CommonActivities.PRESENT)
             self.set_helper_to_now(helpers.LAST_COOKED)
 

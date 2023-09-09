@@ -13,6 +13,7 @@ import states
 from alarmclock import AlarmClock
 from blinds_handler import BlindsHandler
 from button_handler import ButtonHandler
+from state_handler import StateHandler
 from entities import Entity
 from flick import FlickHandler
 from helpers import Helper
@@ -47,6 +48,7 @@ class App(hass.Hass):
     def __init__(self, ad, name, logging, args, config, app_config, global_vars) -> None:  # type: ignore
         super().__init__(ad, name, logging, args, config, app_config, global_vars)
         self.handlers = Handler(super(), speakers=self.speakers, blinds=self.blinds)
+        self.state = StateHandler(super())
         self.timers: Dict = {}
 
     @property
@@ -57,64 +59,12 @@ class App(hass.Hass):
     def blinds(self) -> Optional[entities.Entity]:
         return None
 
-    def helper_to_datetime(self, helper: Helper) -> datetime:
-        """
-        Given a datetime helper, it returns a ready to use datetime
-        :param helper:
-        :return: a datetime object
-        """
-        return datetime.strptime(str(self.get_state(helper)), helpers.HELPER_DATETIME_FORMAT)
-
     def set_helper_to_now(self, helper: helpers.Helper) -> None:
         self.call_service(
             services.INPUT_DATETIME_SET_DATETIME,
             entity_id=helper,
             datetime=helpers.datetime_to_helper(datetime.now())
         )
-
-    def is_consuming_at_least(self, device: Entity, watts: int) -> bool:
-        return self.get_watt_consumption(device) >= watts
-
-    def get_watt_consumption(self, device: Entity) -> int:
-        return int(self.get_state_as_number(device))
-
-    def is_on(self, device: Entity) -> bool:
-        state = self.get_state(device)
-        on: bool = state == states.ON or state == states.PLAYING
-        return on
-
-    def is_off(self, device: Entity) -> bool:
-        return self.has_state(device, states.OFF)
-
-    def get_state_as_number(
-            self,
-            device: Entity,
-    ) -> Any:
-        state = self.get_state(device)
-        return self.to_float(state, device)
-
-    def to_float(self, value: Any, device: Optional[str] = None) -> float:
-        reading_error = f'Cannot convert value "{value}" to float'
-        if device is None:
-            error = reading_error
-        else:
-            error = f'{device} error: {reading_error}'
-        try:
-            return float(value)
-        except ValueError:
-            self.log(error, level="ERROR")
-            self.call_service(services.NOTIFY_MOBILE_APP_GALAXY_S23, message=error, title="Automation error")
-            return 0
-
-    def has_state(self, device: Entity | Helper, desired_state: str) -> bool:
-        state = self.get_state(device)
-        b: bool = state == desired_state
-        return b
-
-    def has_state_attr(self, device: Entity | Helper, attr: str, desired_state: str) -> bool:
-        state = self.get_state(device, attribute=attr)
-        b: bool = state == desired_state
-        return b
 
     def turn_off_media(self) -> None:
         self.call_service(services.MEDIA_PLAYER_TURN_OFF, entity_id="all")

@@ -86,14 +86,14 @@ class BedroomController(MotionController):
 
         # Relaxing Handling
         if self.activity.get() == Bedroom.Activity.RELAXING:
-            if self.is_off(self.motion_sensor):
+            if self.state.is_off(self.motion_sensor):
                 self.set_as_empty_in(minutes=30)
 
         else:
             self.handle_presence()
 
     def handle_presence(self) -> None:
-        if self.is_on(self.motion_sensor):
+        if self.state.is_on(self.motion_sensor):
             self.activity.set(CommonActivities.PRESENT)
 
         else:

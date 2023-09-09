@@ -6,6 +6,7 @@ from enum import StrEnum
 
 import services
 from helpers import Helper
+from state_handler import StateHandler
 
 T = TypeVar("T", bound=StrEnum)
 
@@ -15,6 +16,7 @@ class SelectHandler(Generic[T]):
     def __init__(self, app: hass.Hass, helper: Helper | str):
         self._helper = helper
         self._app = app
+        self.state = StateHandler(app)
 
     def set(self, value: T | str) -> None:
         self._app.log("Setting select " + value, level="DEBUG")
@@ -25,8 +27,7 @@ class SelectHandler(Generic[T]):
         )
 
     def is_value(self, value: T | str) -> bool:
-        result: bool = self._app.get_state(self._helper) == value
-        return result
+        return self.state.is_value(self._helper, value)
 
     def get(self) -> T:
-        return self._app.get_state(self._helper)  # type: ignore
+        return self.state.get_as_str(self._helper)  # type: ignore

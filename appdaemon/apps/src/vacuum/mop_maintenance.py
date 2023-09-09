@@ -19,7 +19,7 @@ class MopMaintenance(App):
         )
 
     def start_mop_maintenance(self, entity: Any, attribute: Any, old: Any, new: Any, kwargs: Any) -> None:
-        if self.has_state(entities.VACUUM_FLICK, states.CLEANING):
+        if self.state.is_value(entities.VACUUM_FLICK, states.CLEANING):
             return
 
         self.log(f'Triggering mop maintenance routine {entity} -> {attribute} old={old} new={new}', level="DEBUG")
