@@ -8,7 +8,7 @@ from app import App
 from modes import Mode
 from rooms import *
 from scene_controllers import scene
-from scene_controllers.scene import SceneByModeSelector, Scene, OffScene
+from scene_controllers.scene import SceneByModeSelector, Scene, OffScene, SceneProvider, _Off
 from select_handler import SelectHandler
 
 
@@ -60,31 +60,36 @@ class SceneApp(App):
         activity = self.activity.get()
 
         scene_resolver: Optional[Scene] | SceneByModeSelector = self.get_light_scene(activity)
-        desired_scene: Optional[Scene] = None
+        unresolved_scene: Optional[Scene] = None
+        desired_scene: Optional[entities.Entity] | _Off = None
         current_mode = self.handlers.mode.get()
         if type(scene_resolver) == SceneByModeSelector:
-            desired_scene = scene_resolver.get_scene(current_mode)
+            unresolved_scene = scene_resolver.get_scene(current_mode)
+
         if isinstance(scene_resolver, Scene):
-            desired_scene = scene_resolver
+            unresolved_scene = scene_resolver
 
-        if type(desired_scene) == OffScene:
-            self.turn_off(self.room_lights)
-            return
-
-        if not desired_scene:
+        if not unresolved_scene:
             if current_mode is Mode.AWAY:
                 self.turn_off(self.room_lights)
             return
 
+        desired_scene = unresolved_scene.get()
+
+        if type(desired_scene) == _Off:
+            self.turn_off(self.room_lights)
+            return
+
+
         if not self.illuminance_sensor:
-            self.turn_on(desired_scene.get())
+            self.turn_on(desired_scene)
             return
 
         illuminance = self.get_state_as_number(self.illuminance_sensor)
         lights_on = self.is_on(self.room_lights)
         if current_mode == modes.Mode.NIGHT or ((not lights_on) and illuminance < 60) or (
                 lights_on and illuminance < 200):
-            self.turn_on(desired_scene.get())
+            self.turn_on(desired_scene)
         else:
             self.turn_off(self.room_lights)
 

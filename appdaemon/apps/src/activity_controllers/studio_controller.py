@@ -59,7 +59,7 @@ class StudioController(ActivityController):
         return self.is_on(entities.BINARY_SENSOR_DESK_CHAIR_PS)
 
     def laptop_at_home(self) -> bool:
-        return self.has_state(entities.DEVICE_TRACKER_SNYK_LAPTOP, 'home')
+        return self.has_state(entities.SENSOR_SNYK_LAPTOP_SSID, 'SETE-2SE-5G')
 
     def set_working_or_meeting(self) -> None:
         if self.is_on(entities.BINARY_SENSOR_SNYK_LAPTOP_AUDIO_INPUT_IN_USE):
