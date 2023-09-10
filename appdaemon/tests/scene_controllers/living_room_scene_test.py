@@ -38,7 +38,7 @@ def test_reading_plays_music(given_that) -> None:
         music.is_playing = lambda *_: False
         scene = LivingRoomScene(None, LivingRoomScene.__class__, None, None, None, None, None)
         scene.handlers.music = music
-        scene.handle_scene(None, None, None, None, None)
+        scene.handle_scene(LivingRoom._activity_helper, None, None, None, None)
 
         music.play.assert_called_once()
 
@@ -97,7 +97,7 @@ def test_watching_tv_pauses_music(given_that) -> None:
     with mock.patch.object(MusicHandler, 'pause') as music:
         scene = LivingRoomScene(None, LivingRoomScene.__class__, None, None, None, None, None)
         scene.handlers.music = music
-        scene.handle_scene(None, None, None, None, None)
+        scene.handle_scene(LivingRoom._activity_helper, None, None, None, None)
 
         music.pause.assert_called_once()
 
@@ -108,7 +108,7 @@ def test_watching_tv_closes_blinds_irrespecitively_of_mode(given_that) -> None:
     with mock.patch.object(BlindsHandler, 'close') as blinds:
         scene = LivingRoomScene(None, LivingRoomScene.__class__, None, None, None, None, None)
         scene.handlers.blinds = blinds
-        scene.handle_scene(None, None, None, None, None)
+        scene.handle_scene(LivingRoom._activity_helper, None, None, None, None)
 
         blinds.close.assert_called_once()
 
@@ -128,7 +128,7 @@ def test_drumming_pauses_music(given_that) -> None:
     with mock.patch.object(MusicHandler, 'pause') as music:
         scene = LivingRoomScene(None, LivingRoomScene.__class__, None, None, None, None, None)
         scene.handlers.music = music
-        scene.handle_scene(None, None, None, None, None)
+        scene.handle_scene(LivingRoom._activity_helper, None, None, None, None)
 
         music.pause.assert_called_once()
 
@@ -149,7 +149,7 @@ def test_gaming_pauses_music(given_that) -> None:
     with mock.patch.object(MusicHandler, 'pause') as music:
         scene = LivingRoomScene(None, LivingRoomScene.__class__, None, None, None, None, None)
         scene.handlers.music = music
-        scene.handle_scene(None, None, None, None, None)
+        scene.handle_scene(LivingRoom._activity_helper, None, None, None, None)
 
         music.pause.assert_called_once()
 
@@ -161,7 +161,7 @@ def test_gaming_closes_blinds(given_that) -> None:
     with mock.patch.object(BlindsHandler, 'close') as blinds:
         scene = LivingRoomScene(None, LivingRoomScene.__class__, None, None, None, None, None)
         scene.handlers.blinds = blinds
-        scene.handle_scene(None, None, None, None, None)
+        scene.handle_scene(LivingRoom._activity_helper, None, None, None, None)
 
         blinds.close.assert_called_once()
 

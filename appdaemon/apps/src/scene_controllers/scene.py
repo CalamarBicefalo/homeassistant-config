@@ -1,5 +1,5 @@
 from abc import abstractmethod
-from typing import Optional, Dict, Callable, Any
+from typing import Optional, Dict, Callable, Any, Tuple
 
 import entities
 from modes import Mode
@@ -37,15 +37,19 @@ class SingleScene(Scene):
         self.scene = scene
 
 
-class SceneProvider(Scene):
+class SceneWithActions(Scene):
     def get(self) -> Optional[entities.Entity | _Off]:
-        p = self.scene_provider()
-        if p:
-            return p.get()
-        return None
+        if self.scene is None:
+            return None
+        return self.scene.get()
 
-    def __init__(self, scene_provider: Callable[[], Optional[Scene]]):
-        self.scene_provider = scene_provider
+    def execute_actions(self) -> None:
+        for action in self.actions:
+            action()
+
+    def __init__(self, scene: Optional[Scene], actions: Tuple[Callable[[], Optional[Any]]]):
+        self.scene = scene
+        self.actions = actions
 
 
 class OffScene(Scene):
@@ -62,11 +66,7 @@ def from_entity(scene: entities.Entity) -> Scene:
 
 
 def with_actions(scene: Optional[Scene], *args: Callable[[], Optional[Any]]) -> Scene:
-    def execute_actions() -> Optional[Scene]:
-        for action in args:
-            action()
-        return scene
-    return SceneProvider(execute_actions)
+    return SceneWithActions(scene, args)
 
 
 def off() -> OffScene:

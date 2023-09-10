@@ -37,7 +37,7 @@ def test_relaxing_plays_music(given_that) -> None:
         music.is_playing = lambda *_: False
         scene = BedroomScene(None, BedroomScene.__class__, None, None, None, None, None)
         scene.handlers.music = music
-        scene.handle_scene(None, None, None, None, None)
+        scene.handle_scene(Bedroom._activity_helper, None, None, None, None)
 
         music.play.assert_called_once()
 

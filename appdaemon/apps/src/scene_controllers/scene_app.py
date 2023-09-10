@@ -1,5 +1,5 @@
 from abc import abstractmethod
-from typing import Optional, Any
+from typing import Optional, Any, cast
 
 import entities
 import helpers
@@ -8,7 +8,7 @@ from app import App
 from modes import Mode
 from rooms import *
 from scene_controllers import scene
-from scene_controllers.scene import SceneByModeSelector, Scene, OffScene, SceneProvider, _Off
+from scene_controllers.scene import SceneByModeSelector, Scene, OffScene, SceneWithActions, _Off
 from select_handler import SelectHandler
 
 
@@ -60,21 +60,24 @@ class SceneApp(App):
         activity = self.activity.get()
 
         scene_resolver: Optional[Scene] | SceneByModeSelector = self.get_light_scene(activity)
-        unresolved_scene: Optional[Scene] = None
+        unwrapped_scene: Optional[Scene] = None
         desired_scene: Optional[entities.Entity] | _Off = None
         current_mode = self.handlers.mode.get()
         if type(scene_resolver) == SceneByModeSelector:
-            unresolved_scene = scene_resolver.get_scene(current_mode)
+            unwrapped_scene = scene_resolver.get_scene(current_mode)
 
         if isinstance(scene_resolver, Scene):
-            unresolved_scene = scene_resolver
+            unwrapped_scene = scene_resolver
 
-        if not unresolved_scene:
+        if not unwrapped_scene:
             if current_mode is Mode.AWAY:
                 self.turn_off(self.room_lights)
             return
 
-        desired_scene = unresolved_scene.get()
+        if entity == self.activity._helper and type(unwrapped_scene) == SceneWithActions:
+            cast(SceneWithActions, unwrapped_scene).execute_actions()
+
+        desired_scene = unwrapped_scene.get()
 
         if type(desired_scene) == _Off:
             self.turn_off(self.room_lights)
