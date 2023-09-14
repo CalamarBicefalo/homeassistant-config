@@ -9,18 +9,16 @@ import appdaemon.plugins.hass.hassapi as hass
 import entities
 import helpers
 import services
-import states
 from alarmclock import AlarmClock
 from blinds_handler import BlindsHandler
 from button_handler import ButtonHandler
-from state_handler import StateHandler
 from entities import Entity
 from flick import FlickHandler
-from helpers import Helper
 from modes import Mode
 from music import MusicHandler
 from rooms import RoomHandlers
 from select_handler import SelectHandler
+from state_handler import StateHandler
 
 
 class Handler():
@@ -32,11 +30,12 @@ class Handler():
     flick: FlickHandler
     buttons: ButtonHandler
 
-    def __init__(self, app: hass.Hass, speakers: Optional[Entity], blinds: Optional[Entity]) -> None:
+    def __init__(self, app: hass.Hass, speakers: Optional[Entity], blinds: Optional[Entity],
+                 room_has_plants: bool) -> None:
         self.mode = SelectHandler[Mode](app, helpers.HOMEASSISTANT_MODE)
         self.rooms = RoomHandlers(app)
         self.music = MusicHandler(app, speakers)
-        self.blinds = BlindsHandler(app, blinds)
+        self.blinds = BlindsHandler(app, blinds, room_has_plants)
         self.alarmclock = AlarmClock(app)
         self.flick = FlickHandler(app)
         self.buttons = ButtonHandler(app)
@@ -47,13 +46,22 @@ class App(hass.Hass):
 
     def __init__(self, ad, name, logging, args, config, app_config, global_vars) -> None:  # type: ignore
         super().__init__(ad, name, logging, args, config, app_config, global_vars)
-        self.handlers = Handler(super(), speakers=self.speakers, blinds=self.blinds)
+        self.handlers = Handler(
+            super(),
+            speakers=self.speakers,
+            blinds=self.blinds,
+            room_has_plants=self.room_has_plants
+        )
         self.state = StateHandler(super())
         self.timers: Dict = {}
 
     @property
     def speakers(self) -> Optional[entities.Entity]:
         return None
+
+    @property
+    def room_has_plants(self) -> bool:
+        return False
 
     @property
     def blinds(self) -> Optional[entities.Entity]:

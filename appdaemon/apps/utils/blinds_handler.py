@@ -14,11 +14,12 @@ from entities import Entity
 COMFORT_TEMPERATURE = 22
 
 class BlindsHandler:
-    def __init__(self, app: hass.Hass, blinds: Optional[Entity]) -> None:
+    def __init__(self, app: hass.Hass, blinds: Optional[Entity], room_with_plants: bool = False) -> None:
         self.app = app
         self._blinds = blinds
         self.state = StateHandler(app)
         self.mode = SelectHandler[Mode](app, helpers.HOMEASSISTANT_MODE)
+        self.room_with_plants = room_with_plants
 
     def open_all(self) -> None:
         self.app.call_service("cover/open_cover",
@@ -41,7 +42,10 @@ class BlindsHandler:
     def best_for_temperature(self) -> None:
         temperature = self.state.get_as_number(entities.SENSOR_AIR_QUALITY_TEMPERATURE)
         if self.mode.is_value(Mode.DAY) and temperature > COMFORT_TEMPERATURE:
-            self.close()
+            if self.room_with_plants:
+                self.set_position(30)
+            else:
+                self.close()
         elif self.mode.is_value(Mode.DAY) and temperature < COMFORT_TEMPERATURE:
             self.open()
         elif temperature > COMFORT_TEMPERATURE:
