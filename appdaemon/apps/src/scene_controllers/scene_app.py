@@ -1,5 +1,7 @@
+import collections
 from abc import abstractmethod
-from typing import Optional, Any, cast
+from queue import Queue, SimpleQueue
+from typing import Optional, Any, cast, Deque, Callable
 
 import entities
 import helpers
@@ -8,11 +10,12 @@ from app import App
 from modes import Mode
 from rooms import *
 from scene_controllers import scene
-from scene_controllers.scene import SceneByModeSelector, Scene, OffScene, SceneWithActions, _Off
+from scene_controllers.scene import SceneByModeSelector, Scene, SceneWithActions, _Off
 from select_handler import SelectHandler
 
 
 class SceneApp(App):
+    _scheduled_tasks: Deque[str] = collections.deque()
 
     def initialize(self) -> None:
         self.log(f'Initializing {self.scene} scene.', level="DEBUG")
@@ -59,6 +62,8 @@ class SceneApp(App):
         self.log(f'Changing {self.scene} scene {entity} -> {attribute} old={old} new={new}', level="DEBUG")
         activity = self.activity.get()
 
+        self.stop_scheduled_tasks_if_activity(entity)
+
         scene_resolver: Optional[Scene] | SceneByModeSelector = self.get_light_scene(activity)
         unwrapped_scene: Optional[Scene] = None
         desired_scene: Optional[entities.Entity] | _Off = None
@@ -83,7 +88,6 @@ class SceneApp(App):
             self.turn_off(self.room_lights)
             return
 
-
         if not self.illuminance_sensor:
             self.turn_on(desired_scene)
             return
@@ -95,6 +99,17 @@ class SceneApp(App):
             self.turn_on(desired_scene)
         else:
             self.turn_off(self.room_lights)
+
+    def stop_scheduled_tasks_if_activity(self, entity: Helper | str) -> None:
+        if entity == self.activity._helper:
+            while len(self._scheduled_tasks) > 0:
+                task = self._scheduled_tasks.pop()
+                if self.timer_running(task):
+                    self.cancel_timer(task)
+
+    def run_if_activity_stays_in(self, task: Callable[[], Any], seconds: int = 0, minutes: int = 0) -> None:
+        task_id: str = self.run_in(lambda *_: task, seconds + (minutes * 60))
+        self._scheduled_tasks.append(task_id)
 
     def mode_controller(self, entity: Any, attribute: Any, old: Any, new: Any, kwargs: Any) -> None:
         self.on_mode_change(new, old)
