@@ -2,32 +2,32 @@
 Living room scene:
   module: living_room_scene
   class: LivingRoomScene
-  dependencies: !include /config/appdaemon/apps/dependencies.yaml
+  dependencies: !include /homeassistant/appdaemon/apps/dependencies.yaml
 Studio scene:
   module: studio_scene
   class: StudioScene
-  dependencies: !include /config/appdaemon/apps/dependencies.yaml
+  dependencies: !include /homeassistant/appdaemon/apps/dependencies.yaml
 Ensuite scene:
   module: ensuite_scene
   class: EnsuiteScene
-  dependencies: !include /config/appdaemon/apps/dependencies.yaml
+  dependencies: !include /homeassistant/appdaemon/apps/dependencies.yaml
 Wardrobe scene:
   module: wardrobe_scene
   class: WardrobeScene
-  dependencies: !include /config/appdaemon/apps/dependencies.yaml
+  dependencies: !include /homeassistant/appdaemon/apps/dependencies.yaml
 Bedroom scene:
   module: bedroom_scene
   class: BedroomScene
-  dependencies: !include /config/appdaemon/apps/dependencies.yaml
+  dependencies: !include /homeassistant/appdaemon/apps/dependencies.yaml
 Hallway scene:
   module: hallway_scene
   class: HallwayScene
-  dependencies: !include /config/appdaemon/apps/dependencies.yaml
+  dependencies: !include /homeassistant/appdaemon/apps/dependencies.yaml
 Storage room scene:
   module: storage_room_scene
   class: StorageRoomScene
-  dependencies: !include /config/appdaemon/apps/dependencies.yaml
+  dependencies: !include /homeassistant/appdaemon/apps/dependencies.yaml
 Kitchen scene:
   module: kitchen_scene
   class: KitchenScene
-  dependencies: !include /config/appdaemon/apps/dependencies.yaml
+  dependencies: !include /homeassistant/appdaemon/apps/dependencies.yaml

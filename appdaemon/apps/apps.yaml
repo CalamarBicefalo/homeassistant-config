@@ -2,22 +2,22 @@
 Playground:
   module: playground
   class: Playground
-  dependencies: !include /config/appdaemon/apps/dependencies.yaml
+  dependencies: !include /homeassistant/appdaemon/apps/dependencies.yaml
 
 Mode manager:
   module: mode_scene
   class: ModeScene
-  dependencies: !include /config/appdaemon/apps/dependencies.yaml
+  dependencies: !include /homeassistant/appdaemon/apps/dependencies.yaml
 
 Mode controller:
   module: mode_controller
   class: ModeController
-  dependencies: !include /config/appdaemon/apps/dependencies.yaml
+  dependencies: !include /homeassistant/appdaemon/apps/dependencies.yaml
 
 Away monitor:
   module: away_monitor
   class: AwayMonitor
-  dependencies: !include /config/appdaemon/apps/dependencies.yaml
+  dependencies: !include /homeassistant/appdaemon/apps/dependencies.yaml
 
 # Global dependencies
 entities:
@@ -59,4 +59,3 @@ generic_controller:
 modes:
   module: modes.py
   global: true
-
