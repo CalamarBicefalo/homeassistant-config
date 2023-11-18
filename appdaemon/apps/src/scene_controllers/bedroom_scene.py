@@ -76,6 +76,11 @@ class BedroomScene(SceneApp):
             # Open blinds
             current_position = self.handlers.blinds.get_position()
             left_to_open = 100 - current_position
+
+            if minutes_left <= 0 or left_to_open <= 0:
+                self.handlers.blinds.open()
+                raise Exception("blinds should be open by now, aborting countdown")
+
             next_increment = math.floor(left_to_open / minutes_left)
             next_position = current_position + next_increment
             self.log(f'current blind position = {current_position}. next position = {next_position}', level="DEBUG")
