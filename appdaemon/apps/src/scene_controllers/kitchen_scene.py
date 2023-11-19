@@ -27,7 +27,8 @@ class KitchenScene(SceneApp):
                 return scene.by_mode({
                     Mode.DAY: scenes.KITCHEN_CONCENTRATE,
                     Mode.NIGHT: scenes.KITCHEN_COOK,
-                    Mode.SLEEPING: scenes.KITCHEN_NIGHTLIGHT,
+                    # Pet-safe temporary solution
+                    # Mode.SLEEPING: scenes.KITCHEN_NIGHTLIGHT,
                 })
 
             case Kitchen.Activity.COOKING:
