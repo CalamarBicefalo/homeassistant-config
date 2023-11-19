@@ -3,13 +3,15 @@
   name: kitchen_motion
   device_class: motion
   entities:
-    - binary_sensor.kitchen_ms_occupancy
+    - binary_sensor.kitchen_cooking_area_ms
+    - binary_sensor.kitchen_fridge_ms
 - platform: group
   name: living_room_motion
   device_class: motion
   entities:
-    - binary_sensor.living_room_ms_occupancy
-    - binary_sensor.living_room_instant_ms
+    - binary_sensor.living_room_dining_table_ms
+    - binary_sensor.living_room_entrance_ms
+    - binary_sensor.living_room_sofa_ms
 - platform: group
   name: studio_motion
   device_class: motion
