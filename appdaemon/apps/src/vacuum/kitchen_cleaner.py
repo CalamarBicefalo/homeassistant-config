@@ -34,7 +34,7 @@ class KitchenCleaner(App):
             self.log(
                 f'Ignoring kitchen clean because we have not cooked for {(datetime.now() - last_cooked).days} '
                 f'days, and we vacuumed on {last_vacuumed}.',
-                level="INFO"
+                level="DEBUG"
             )
             return
 
@@ -42,14 +42,14 @@ class KitchenCleaner(App):
         if hours_since_last_clean < 20:
             self.log(
                 f'Ignoring kitchen clean because we cleaned {hours_since_last_clean} hours ago',
-                level="INFO"
+                level="DEBUG"
             )
             return
 
         if datetime.now().hour < 21:
             self.log(
                 f'Ignoring kitchen clean because it is too early on the day, we will clean at by 21:00',
-                level="INFO"
+                level="DEBUG"
             )
             return
 

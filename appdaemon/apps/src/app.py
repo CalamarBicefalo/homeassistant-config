@@ -97,7 +97,7 @@ class App(hass.Hass):
 
         def every_minute_callback(*_: Any) -> None:
             minutes_left = self.timers[timer] - 1
-            self.log(f'Running scheduled minutely callback. Remaining time: {minutes_left}', level="INFO")
+            self.log(f'Running scheduled minutely callback. Remaining time: {minutes_left}', level="DEBUG")
 
             self.timers[timer] = minutes_left
 
