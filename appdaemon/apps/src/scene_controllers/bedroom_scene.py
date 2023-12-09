@@ -57,14 +57,15 @@ class BedroomScene(SceneApp):
 
             case Bedroom.Activity.PRESENT:
                 return scene.by_mode({
-                    Mode.DAY: scene.with_actions(scenes.BEDROOM_BRIGHT, lambda: self.run_if_activity_stays_in(self.handlers.blinds.open, minutes=5)),
+                    Mode.DAY: scene.with_actions(scenes.BEDROOM_BRIGHT, lambda: self.handlers.blinds.best_for_temperature()),
                     Mode.NIGHT: scene.with_actions(scenes.BEDROOM_NIGHTLIGHT, lambda: self.handlers.blinds.close()),
                     Mode.SLEEPING: scene.with_actions(scene.off(), lambda: self.handlers.blinds.close()),
                 })
 
-        return scene.with_actions(
-            scene.off(),
-            lambda: self.run_if_activity_stays_in(self.handlers.blinds.best_for_temperature, minutes=10),
+            case Bedroom.Activity.EMPTY:
+                return scene.with_actions(
+                        scene.off(),
+                        lambda: self.handlers.blinds.best_for_temperature(),
         )
 
     def prepare_to_wake_up(self) -> None:
