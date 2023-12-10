@@ -67,6 +67,10 @@ class App(hass.Hass):
     def blinds(self) -> Optional[entities.Entity]:
         return None
 
+    def is_dark(self) -> bool:
+        number: int = self.state.get_as_number(entities.SENSOR_LIVING_ROOM_ILLUMINANCE)
+        return number < 25
+
     def set_helper_to_now(self, helper: helpers.Helper) -> None:
         self.call_service(
             services.INPUT_DATETIME_SET_DATETIME,

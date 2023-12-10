@@ -66,14 +66,17 @@ class BedroomController(MotionController):
             level="INFO")
         self.cancel_empty_timer()
         self._waking_up_schedule = self.run_in(lambda *_: self.activity.set(Bedroom.Activity.WAKING_UP), 1800)
-        self._waking_up_schedule = self.run_in(lambda *_: self.handle_presence(), 3600)
+        self._waking_up_schedule = self.run_in(lambda *_: self.on_alarm_buzzing(), 3600)
 
     def on_alarm_dismissed(self) -> None:
+        pass
+
+    def on_alarm_buzzing(self) -> None:
         self.cancel_empty_timer()
         self.cancel_wakeup_timer()
 
-        self.handle_presence()
         self.fire_event(mode_controller.EVENT_MODE_RECOMPUTE_NEEDED)
+        self.run_in(lambda *_: self.handle_presence(),1)
 
     def controller_handler(self, entity, attribute, old, new, kwargs) -> None:  # type: ignore
         self.log(
