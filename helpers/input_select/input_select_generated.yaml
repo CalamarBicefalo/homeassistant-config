@@ -1,3 +1,15 @@
+office_activity:
+  name: Office activity
+  icon: mdi:desk
+  options:
+    - Empty
+    - Present
+bathroom_activity:
+  name: Bathroom activity
+  icon: mdi:desk
+  options:
+    - Empty
+    - Present
 kitchen_activity:
   name: Kitchen activity
   icon: mdi:stove
@@ -6,6 +18,13 @@ kitchen_activity:
     - Present
     - Cooking
     - TV Break
+dining_room_activity:
+  name: Dining room activity
+  icon: mdi:fork
+  options:
+    - Empty
+    - Present
+    - Dinning
 living_room_activity:
   name: Living room activity
   icon: mdi:sofa

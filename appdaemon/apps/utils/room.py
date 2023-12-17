@@ -1,25 +1,46 @@
 from abc import abstractmethod
-from datetime import datetime, timedelta
-from typing import Optional
-
-import appdaemon.plugins.hass.hassapi as hass
-
-import flick
+from datetime import datetime, timedelta, time
+from typing import Optional, Any
 import helpers
 import services
+from flick import FlickHandler
+from select_handler import SelectHandler
 from state_handler import StateHandler
 
 
-class Room:
+EMPTY = "Empty"
+class Room():
 
-    def __init__(self, app: hass.Hass) -> None:
+    adjacent_rooms: list['Room'] = []
+    open_floor_rooms: list['Room'] = []
+
+
+    def __init__(self, app) -> None:  # type: ignore
         self.app = app
-        self.flick = flick.FlickHandler(app)
+        self.flick = FlickHandler(app)
         self.state = StateHandler(app)
+
+    def initialize(self) -> None:
+        self.app.log(f'Initializing {self.name} clean check hourly.', level="DEBUG")
+        self.app.run_hourly(
+            self.clean_if_needed,
+            time(0, 0, 0)
+        )
+        rooms_ = [self._activity_helper, *map(lambda room: room._activity_helper, self.open_floor_rooms)]
+        self.app.listen_state(
+            self.clean_if_needed,
+            rooms_,
+            new="Empty"
+        )
 
     @property
     @abstractmethod
     def name(self) -> str:
+        pass
+
+    @property
+    @abstractmethod
+    def cleaning_period_days(self) -> int:
         pass
 
     @property
@@ -32,6 +53,10 @@ class Room:
     def _activity_helper(self) -> helpers.Helper:
         pass
 
+    @abstractmethod
+    def get_activity(self) -> SelectHandler:
+        pass
+
     @property
     def _room_cleaner_segment(self) -> Optional[int]:
         return None
@@ -39,6 +64,17 @@ class Room:
     @property
     def _days_between_cleaning(self) -> int:
         return 4
+
+    def clean_if_needed(self, entity: Any, attribute: Any, old: Any, new: Any, kwargs: Any) -> None:
+        if self._needs_cleaning():
+            self.clean()
+
+    def is_empty(self) -> bool:
+        empty: bool = self.get_activity().is_value(EMPTY)
+        return empty
+
+    def are_all_open_floor_rooms_empty(self) -> bool:
+        return all(map(lambda room: room.is_empty(), self.open_floor_rooms))
 
     def last_cleaned(self) -> datetime:
         last_cleaned: datetime = self.state.get_as_datetime(self._last_cleaned_helper)
@@ -54,7 +90,7 @@ class Room:
         self.flick.clean_room(self._room_cleaner_segment)
         self._set_helper_to_now(self._last_cleaned_helper)
 
-    def needs_cleaning(self) -> bool:
+    def _needs_cleaning(self) -> bool:
         return self.last_cleaned() < datetime.now() - timedelta(days=self._days_between_cleaning)
 
     def _set_helper_to_now(self, helper: helpers.Helper) -> None:

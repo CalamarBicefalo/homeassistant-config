@@ -1,72 +1,118 @@
-# dining_room = 17
-# bathroom = 18
-# office = 23
+adjacent:
+  - [Kitchen, Living room]
+  - [Living room, Dining room]
+  - [Studio, Dining room]
+  - [Hallway, Dining room]
+  - [Hallway, Storage room]
+  - [Hallway, Office]
+  - [Hallway, Bathroom]
+  - [Hallway, Wardrobe]
+  - [Bedroom, Wardrobe]
+  - [Ensuite, Wardrobe]
+open_floor:
+  - [Kitchen, Dining room, Living room, Studio]
+  - [Wardrobe, Bedroom]
 
-- name: Kitchen
-  activities:
-    - Empty
-    - Present
-    - Cooking
-    - TV Break
-  icon: mdi:stove
-  room_cleaner_segment: 16
+rooms:
+  - name: Office
+    activities:
+      - Empty
+      - Present
+    cleaning_period_days: 10
+    room_cleaner_segment: 23
+    icon: mdi:desk
 
-- name: Living room
-  activities:
-    - Empty
-    - Present
-    - Watching TV
-    - Gaming
-    - Reading
-    - Dinning
-    - Drumming
-  icon: mdi:sofa
-  room_cleaner_segment: 24
+  - name: Bathroom
+    activities:
+      - Empty
+      - Present
+    cleaning_period_days: 7
+    room_cleaner_segment: 18
+    icon: mdi:desk
 
-- name: Studio
-  activities:
-    - Empty
-    - Present
-    - Working
-    - Meeting
-    - Drumming
-  icon: mdi:android-studio
+  - name: Kitchen
+    activities:
+      - Empty
+      - Present
+      - Cooking
+      - TV Break
+    cleaning_period_days: 1
+    room_cleaner_segment: 16
+    icon: mdi:stove
 
-- name: Ensuite
-  activities:
-    - Empty
-    - Present
-    - Showering
-  icon: mdi:shower-head
-  room_cleaner_segment: 22
+  - name: Dining room
+    activities:
+      - Empty
+      - Present
+      - Dinning
+    cleaning_period_days: 3
+    room_cleaner_segment: 17
+    icon: mdi:fork
 
-- name: Hallway
-  activities:
-    - Empty
-    - Present
-  icon: mdi:coat-rack
-  room_cleaner_segment: 20
+  - name: Living room
+    activities:
+      - Empty
+      - Present
+      - Watching TV
+      - Gaming
+      - Reading
+      - Dinning
+      - Drumming
+    cleaning_period_days: 3
+    room_cleaner_segment: 24
+    icon: mdi:sofa
 
-- name: Wardrobe
-  activities:
-    - Empty
-    - Present
-    - Dressing
-  icon: mdi:wardrobe
+  - name: Studio
+    activities:
+      - Empty
+      - Present
+      - Working
+      - Meeting
+      - Drumming
+    cleaning_period_days: 3
+    icon: mdi:android-studio
 
-- name: Bedroom
-  activities:
-    - Empty
-    - Present
-    - Relaxing
-    - Bedtime
-    - Waking up
-  icon: mdi:bed-king
-  room_cleaner_segment: 21
+  - name: Ensuite
+    activities:
+      - Empty
+      - Present
+      - Showering
+    cleaning_period_days: 3
+    room_cleaner_segment: 22
+    icon: mdi:shower-head
 
-- name: Storage room
-  activities:
-    - Empty
-    - Present
-  icon: mdi:washing-machine
-  room_cleaner_segment: 19
+  - name: Hallway
+    activities:
+      - Empty
+      - Present
+    cleaning_period_days: 5
+    room_cleaner_segment: 20
+    icon: mdi:coat-rack
+
+  - name: Wardrobe
+    activities:
+      - Empty
+      - Present
+      - Dressing
+    cleaning_period_days: 3
+    icon: mdi:wardrobe
+
+  - name: Bedroom
+    activities:
+      - Empty
+      - Present
+      - Relaxing
+      - Bedtime
+      - Waking up
+    cleaning_period_days: 3
+    room_cleaner_segment: 21
+    icon: mdi:bed-king
+
+  - name: Storage room
+    activities:
+      - Empty
+      - Present
+    cleaning_period_days: 7
+    room_cleaner_segment: 19
+    icon: mdi:washing-machine
+

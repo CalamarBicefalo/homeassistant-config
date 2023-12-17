@@ -15,6 +15,7 @@ pytest = "*"
 pytest-asyncio = "*"
 requests-oauthlib = "*"
 freezegun = "*"
+jinja2 = "*"
 
 [dev-packages]
 
