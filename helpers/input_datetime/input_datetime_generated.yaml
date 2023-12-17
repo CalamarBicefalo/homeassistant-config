@@ -1,5 +1,20 @@
+last_cleaned_office:
+    name: Last cleaned Office
+    icon: mdi:broom
+    has_date: true
+    has_time: true
+last_cleaned_bathroom:
+    name: Last cleaned Bathroom
+    icon: mdi:broom
+    has_date: true
+    has_time: true
 last_cleaned_kitchen:
     name: Last cleaned Kitchen
+    icon: mdi:broom
+    has_date: true
+    has_time: true
+last_cleaned_dining_room:
+    name: Last cleaned Dining room
     icon: mdi:broom
     has_date: true
     has_time: true

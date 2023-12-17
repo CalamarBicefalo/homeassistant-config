@@ -1,0 +1,62 @@
+{% import 'macros.jinja2' as macros -%}
+from room import Room
+from helpers import Helper
+from enum import StrEnum
+from select_handler import SelectHandler
+from appdaemon.plugins.hass import hassapi as hass
+from typing import List
+
+{% for room in rooms %}
+class {{ macros.class_name(room) }}(Room):
+    class Activity(StrEnum):
+    {%- for activity in room["activities"] %}
+        {{ activity.replace(" ", "_").upper() }} = "{{ activity }}"
+    {%- endfor %}
+
+    activity: SelectHandler[Activity]
+    _activity_helper : Helper = "input_select.{{ macros.snake_name(room) }}_activity"
+    name = "{{ room["name"] }}"
+    {%- if "room_cleaner_segment" in room %}
+    _room_cleaner_segment = {{ room["room_cleaner_segment"] }}
+    {%- endif %}
+    _last_cleaned_helper = Helper("input_datetime.last_cleaned_{{ macros.snake_name(room) }}")
+    def __init__(self, app: hass.Hass) -> None:
+        super().__init__(app)
+        self.activity = SelectHandler[{{  macros.class_name(room) }}.Activity](app, {{ macros.class_name(room) }}._activity_helper)
+
+    def get_activity() -> Activity:
+        return self.activity
+{% endfor %}
+
+class RoomHandlers:
+    all: List[Room]
+    {%- for room in rooms %}
+    {{ macros.snake_name(room) }}: {{ macros.class_name(room) }}
+    {%- endfor %}
+    def __init__(self, app) -> None:
+        {%- for room in rooms %}
+        self.{{ macros.snake_name(room) }} = {{ macros.class_name(room) }}(app)
+        {%- endfor %}
+        {% for room in rooms %}
+            {%- if "open_floor" in room and room.open_floor|length > 0 %}
+        self.{{ macros.snake_name(room) }}.open_floor_rooms = [
+                {%- for open_floor_room_name in room.open_floor %}
+            self.{{ open_floor_room_name.lower().replace(" ", "_") }},
+                {%- endfor %}
+        ]
+            {%- endif %}
+        {%- endfor %}
+
+        self.all = [
+        {%- for room in rooms %}
+            self.{{ macros.snake_name(room) }},
+        {%- endfor %}
+        ]
+
+
+
+class CommonActivities(StrEnum):
+    {%- for activity in get_common_activities(rooms) %}
+        {{ activity.replace(" ", "_").upper() }} = "{{ activity }}"
+    {%- endfor %}
+

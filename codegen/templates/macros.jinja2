@@ -1,0 +1,11 @@
+{% macro class_name(room_entry) -%}
+    {{ room_entry["name"].title().replace(" ", "") }}
+{%- endmacro %}
+
+{% macro snake_name(room_entry) -%}
+    {{ room_entry["name"].lower().replace(" ", "_") }}
+{%- endmacro %}
+
+{% macro activity_enum_name(activity_yaml_entries) -%}
+    {{ activity_yaml_entries[0].replace("_activity", "").title().replace("_", "") }}
+{%- endmacro %}
