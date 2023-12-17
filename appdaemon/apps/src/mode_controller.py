@@ -33,10 +33,16 @@ class ModeController(App):
         if self.noone_home(person=True):
             self.handlers.mode.set(Mode.AWAY)
         else:
-            self._handle_day_night_mode()
+            self._handle_mode_unless_sleeping()
 
     def _handle_mode_unless_away(self) -> None:
         if self.handlers.mode.is_value(Mode.AWAY):
+            return
+
+        self._handle_day_night_mode()
+
+    def _handle_mode_unless_sleeping(self) -> None:
+        if self.handlers.mode.is_value(Mode.SLEEPING):
             return
 
         self._handle_day_night_mode()
