@@ -40,7 +40,10 @@ class StudioScene(SceneApp):
                 )
 
             case Studio.Activity.PRESENT:
-                return scenes.STUDIO_CONCENTRATE
+                return scene.by_mode({
+                    Mode.DAY: scenes.STUDIO_CONCENTRATE,
+                    Mode.NIGHT: scenes.STUDIO_CONCENTRATE,
+                })
 
         return scene.with_actions(
             scene.off(),
