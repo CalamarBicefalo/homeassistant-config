@@ -24,7 +24,7 @@ class {{ macros.class_name(room) }}(Room):
         super().__init__(app)
         self.activity = SelectHandler[{{  macros.class_name(room) }}.Activity](app, {{ macros.class_name(room) }}._activity_helper)
 
-    def get_activity() -> Activity:
+    def get_activity(self) -> SelectHandler[Activity]:
         return self.activity
 {% endfor %}
 
