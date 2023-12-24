@@ -1,9 +1,10 @@
 import entities
 import scenes
+from modes import Mode
 from music import Playlist
 from rooms import *
 from scene_controllers import scene
-from scene_controllers.scene import Scene
+from scene_controllers.scene import Scene, SceneByModeSelector
 from scene_controllers.scene_app import SceneApp
 from select_handler import SelectHandler
 
@@ -17,7 +18,7 @@ class StudioScene(SceneApp):
     room_lights = entities.LIGHT_STUDIO
     speakers = entities.MEDIA_PLAYER_COOKING_AREA_2
 
-    def get_light_scene(self, activity: Studio.Activity) -> Scene:
+    def get_light_scene(self, activity: Studio.Activity) -> Scene | SceneByModeSelector:
         match activity:
             case Studio.Activity.WORKING:
                 return scene.with_actions(
