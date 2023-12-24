@@ -12,6 +12,8 @@ class Office(Room):
         PRESENT = "Present"
 
     activity: SelectHandler[Activity]
+    days_between_cleaning: int = 0
+
     _activity_helper : Helper = "input_select.office_activity"
     name = "Office"
     _room_cleaner_segment = 23
@@ -29,6 +31,8 @@ class Bathroom(Room):
         PRESENT = "Present"
 
     activity: SelectHandler[Activity]
+    days_between_cleaning: int = 0
+
     _activity_helper : Helper = "input_select.bathroom_activity"
     name = "Bathroom"
     _room_cleaner_segment = 18
@@ -48,6 +52,8 @@ class Kitchen(Room):
         TV_BREAK = "TV Break"
 
     activity: SelectHandler[Activity]
+    days_between_cleaning: int = 0
+
     _activity_helper : Helper = "input_select.kitchen_activity"
     name = "Kitchen"
     _room_cleaner_segment = 16
@@ -66,6 +72,8 @@ class DiningRoom(Room):
         DINNING = "Dinning"
 
     activity: SelectHandler[Activity]
+    days_between_cleaning: int = 0
+
     _activity_helper : Helper = "input_select.dining_room_activity"
     name = "Dining room"
     _room_cleaner_segment = 17
@@ -88,6 +96,8 @@ class LivingRoom(Room):
         DRUMMING = "Drumming"
 
     activity: SelectHandler[Activity]
+    days_between_cleaning: int = 0
+
     _activity_helper : Helper = "input_select.living_room_activity"
     name = "Living room"
     _room_cleaner_segment = 24
@@ -108,6 +118,8 @@ class Studio(Room):
         DRUMMING = "Drumming"
 
     activity: SelectHandler[Activity]
+    days_between_cleaning: int = 2
+
     _activity_helper : Helper = "input_select.studio_activity"
     name = "Studio"
     _last_cleaned_helper = Helper("input_datetime.last_cleaned_studio")
@@ -125,6 +137,8 @@ class Ensuite(Room):
         SHOWERING = "Showering"
 
     activity: SelectHandler[Activity]
+    days_between_cleaning: int = 0
+
     _activity_helper : Helper = "input_select.ensuite_activity"
     name = "Ensuite"
     _room_cleaner_segment = 22
@@ -142,6 +156,8 @@ class Hallway(Room):
         PRESENT = "Present"
 
     activity: SelectHandler[Activity]
+    days_between_cleaning: int = 0
+
     _activity_helper : Helper = "input_select.hallway_activity"
     name = "Hallway"
     _room_cleaner_segment = 20
@@ -160,6 +176,8 @@ class Wardrobe(Room):
         DRESSING = "Dressing"
 
     activity: SelectHandler[Activity]
+    days_between_cleaning: int = 0
+
     _activity_helper : Helper = "input_select.wardrobe_activity"
     name = "Wardrobe"
     _last_cleaned_helper = Helper("input_datetime.last_cleaned_wardrobe")
@@ -179,6 +197,8 @@ class Bedroom(Room):
         WAKING_UP = "Waking up"
 
     activity: SelectHandler[Activity]
+    days_between_cleaning: int = 0
+
     _activity_helper : Helper = "input_select.bedroom_activity"
     name = "Bedroom"
     _room_cleaner_segment = 21
@@ -196,6 +216,8 @@ class StorageRoom(Room):
         PRESENT = "Present"
 
     activity: SelectHandler[Activity]
+    days_between_cleaning: int = 0
+
     _activity_helper : Helper = "input_select.storage_room_activity"
     name = "Storage room"
     _room_cleaner_segment = 19
@@ -278,5 +300,5 @@ class RoomHandlers:
 
 
 class CommonActivities(StrEnum):
-        EMPTY = "Empty"
         PRESENT = "Present"
+        EMPTY = "Empty"

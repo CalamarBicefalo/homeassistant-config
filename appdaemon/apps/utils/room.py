@@ -1,6 +1,5 @@
 from abc import abstractmethod
 from datetime import datetime, timedelta, time
-from enum import StrEnum
 from typing import Optional, Any
 import helpers
 import services
@@ -10,20 +9,10 @@ from state_handler import StateHandler
 
 
 EMPTY = "Empty"
+
 class Room():
-
-    class CleaningFrequency(StrEnum):
-        DISABLED = "Disabled"
-        # Twice a day
-        HIGH = "High"
-        # Once a day
-        MEDIUM = "Medium"
-        # Once every 2 days
-        LOW = "Low"
-
     adjacent_rooms: list['Room'] = []
     open_floor_rooms: list['Room'] = []
-    cleaning_frequency: CleaningFrequency = CleaningFrequency.DISABLED
 
 
     def __init__(self, app) -> None:  # type: ignore
@@ -32,7 +21,7 @@ class Room():
         self.state = StateHandler(app)
 
     def initialize(self) -> None:
-        if self.cleaning_frequency == self.CleaningFrequency.DISABLED:
+        if self.days_between_cleaning <= 0:
             self.app.log(f'Cleaning disabled for {self.name}.', level="INFO")
             return
 
@@ -55,7 +44,7 @@ class Room():
 
     @property
     @abstractmethod
-    def cleaning_period_days(self) -> int:
+    def days_between_cleaning(self) -> int:
         pass
 
     @property
@@ -75,10 +64,6 @@ class Room():
     @property
     def _room_cleaner_segment(self) -> Optional[int]:
         return None
-
-    @property
-    def _days_between_cleaning(self) -> int:
-        return 4
 
     def clean_if_needed(self, entity: Any, attribute: Any, old: Any, new: Any, kwargs: Any) -> None:
         if self._needs_cleaning():
@@ -106,7 +91,7 @@ class Room():
         self._set_helper_to_now(self._last_cleaned_helper)
 
     def _needs_cleaning(self) -> bool:
-        return self.last_cleaned() < datetime.now() - timedelta(days=self._days_between_cleaning)
+        return self.last_cleaned() < datetime.now() - timedelta(days=self.days_between_cleaning)
 
     def _set_helper_to_now(self, helper: helpers.Helper) -> None:
         self.app.call_service(
@@ -114,4 +99,3 @@ class Room():
             entity_id=helper,
             datetime=helpers.datetime_to_helper(datetime.now())
         )
-

@@ -14,6 +14,8 @@ class {{ macros.class_name(room) }}(Room):
     {%- endfor %}
 
     activity: SelectHandler[Activity]
+    days_between_cleaning: int = {{ room["days_between_cleaning"] or 0 }}
+
     _activity_helper : Helper = "input_select.{{ macros.snake_name(room) }}_activity"
     name = "{{ room["name"] }}"
     {%- if "room_cleaner_segment" in room %}
