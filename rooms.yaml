@@ -18,7 +18,7 @@ rooms:
     activities:
       - Empty
       - Present
-    cleaning_period_days: 10
+    cleaning_frequency: Disabled
     room_cleaner_segment: 23
     icon: mdi:desk
 
@@ -26,7 +26,7 @@ rooms:
     activities:
       - Empty
       - Present
-    cleaning_period_days: 7
+    cleaning_frequency: Disabled
     room_cleaner_segment: 18
     icon: mdi:desk
 
@@ -36,7 +36,7 @@ rooms:
       - Present
       - Cooking
       - TV Break
-    cleaning_period_days: 1
+    cleaning_frequency: Disabled
     room_cleaner_segment: 16
     icon: mdi:stove
 
@@ -45,7 +45,7 @@ rooms:
       - Empty
       - Present
       - Dinning
-    cleaning_period_days: 3
+    cleaning_frequency: Disabled
     room_cleaner_segment: 17
     icon: mdi:fork
 
@@ -58,7 +58,7 @@ rooms:
       - Reading
       - Dinning
       - Drumming
-    cleaning_period_days: 3
+    cleaning_frequency: Disabled
     room_cleaner_segment: 24
     icon: mdi:sofa
 
@@ -69,7 +69,7 @@ rooms:
       - Working
       - Meeting
       - Drumming
-    cleaning_period_days: 3
+    cleaning_frequency: Disabled
     icon: mdi:android-studio
 
   - name: Ensuite
@@ -77,7 +77,7 @@ rooms:
       - Empty
       - Present
       - Showering
-    cleaning_period_days: 3
+    cleaning_frequency: Disabled
     room_cleaner_segment: 22
     icon: mdi:shower-head
 
@@ -85,7 +85,7 @@ rooms:
     activities:
       - Empty
       - Present
-    cleaning_period_days: 5
+    cleaning_frequency: Disabled
     room_cleaner_segment: 20
     icon: mdi:coat-rack
 
@@ -94,7 +94,7 @@ rooms:
       - Empty
       - Present
       - Dressing
-    cleaning_period_days: 3
+    cleaning_frequency: Disabled
     icon: mdi:wardrobe
 
   - name: Bedroom
@@ -104,7 +104,7 @@ rooms:
       - Relaxing
       - Bedtime
       - Waking up
-    cleaning_period_days: 3
+    cleaning_frequency: Disabled
     room_cleaner_segment: 21
     icon: mdi:bed-king
 
@@ -112,7 +112,7 @@ rooms:
     activities:
       - Empty
       - Present
-    cleaning_period_days: 7
+    cleaning_frequency: Disabled
     room_cleaner_segment: 19
     icon: mdi:washing-machine
 

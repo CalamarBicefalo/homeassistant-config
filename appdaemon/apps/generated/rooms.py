@@ -20,7 +20,7 @@ class Office(Room):
         super().__init__(app)
         self.activity = SelectHandler[Office.Activity](app, Office._activity_helper)
 
-    def get_activity() -> Activity:
+    def get_activity(self) -> SelectHandler[Activity]:
         return self.activity
 
 class Bathroom(Room):
@@ -37,7 +37,7 @@ class Bathroom(Room):
         super().__init__(app)
         self.activity = SelectHandler[Bathroom.Activity](app, Bathroom._activity_helper)
 
-    def get_activity() -> Activity:
+    def get_activity(self) -> SelectHandler[Activity]:
         return self.activity
 
 class Kitchen(Room):
@@ -56,7 +56,7 @@ class Kitchen(Room):
         super().__init__(app)
         self.activity = SelectHandler[Kitchen.Activity](app, Kitchen._activity_helper)
 
-    def get_activity() -> Activity:
+    def get_activity(self) -> SelectHandler[Activity]:
         return self.activity
 
 class DiningRoom(Room):
@@ -74,7 +74,7 @@ class DiningRoom(Room):
         super().__init__(app)
         self.activity = SelectHandler[DiningRoom.Activity](app, DiningRoom._activity_helper)
 
-    def get_activity() -> Activity:
+    def get_activity(self) -> SelectHandler[Activity]:
         return self.activity
 
 class LivingRoom(Room):
@@ -96,7 +96,7 @@ class LivingRoom(Room):
         super().__init__(app)
         self.activity = SelectHandler[LivingRoom.Activity](app, LivingRoom._activity_helper)
 
-    def get_activity() -> Activity:
+    def get_activity(self) -> SelectHandler[Activity]:
         return self.activity
 
 class Studio(Room):
@@ -115,7 +115,7 @@ class Studio(Room):
         super().__init__(app)
         self.activity = SelectHandler[Studio.Activity](app, Studio._activity_helper)
 
-    def get_activity() -> Activity:
+    def get_activity(self) -> SelectHandler[Activity]:
         return self.activity
 
 class Ensuite(Room):
@@ -133,7 +133,7 @@ class Ensuite(Room):
         super().__init__(app)
         self.activity = SelectHandler[Ensuite.Activity](app, Ensuite._activity_helper)
 
-    def get_activity() -> Activity:
+    def get_activity(self) -> SelectHandler[Activity]:
         return self.activity
 
 class Hallway(Room):
@@ -150,7 +150,7 @@ class Hallway(Room):
         super().__init__(app)
         self.activity = SelectHandler[Hallway.Activity](app, Hallway._activity_helper)
 
-    def get_activity() -> Activity:
+    def get_activity(self) -> SelectHandler[Activity]:
         return self.activity
 
 class Wardrobe(Room):
@@ -167,7 +167,7 @@ class Wardrobe(Room):
         super().__init__(app)
         self.activity = SelectHandler[Wardrobe.Activity](app, Wardrobe._activity_helper)
 
-    def get_activity() -> Activity:
+    def get_activity(self) -> SelectHandler[Activity]:
         return self.activity
 
 class Bedroom(Room):
@@ -187,7 +187,7 @@ class Bedroom(Room):
         super().__init__(app)
         self.activity = SelectHandler[Bedroom.Activity](app, Bedroom._activity_helper)
 
-    def get_activity() -> Activity:
+    def get_activity(self) -> SelectHandler[Activity]:
         return self.activity
 
 class StorageRoom(Room):
@@ -204,7 +204,7 @@ class StorageRoom(Room):
         super().__init__(app)
         self.activity = SelectHandler[StorageRoom.Activity](app, StorageRoom._activity_helper)
 
-    def get_activity() -> Activity:
+    def get_activity(self) -> SelectHandler[Activity]:
         return self.activity
 
 

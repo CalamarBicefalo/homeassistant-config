@@ -12,7 +12,7 @@ def generate_rooms(root_dir: str) -> None:
     env.globals['get_common_activities'] = get_common_activities
     with open("rooms.yaml", "r") as stream:
         rooms_descriptor = yaml.safe_load(stream)
-        template = env.get_template("rooms.jinja2")
+        template = env.get_template("rooms.py.jinja2")
         rooms = load_rooms(rooms_descriptor)
         try:
             with open(GENERATED_ROOMS, 'w') as f:
