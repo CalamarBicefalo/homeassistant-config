@@ -1,19 +1,19 @@
 from abc import abstractmethod
 from datetime import datetime, timedelta, time
 from typing import Optional, Any
+
 import helpers
 import services
 from flick import FlickHandler
 from select_handler import SelectHandler
 from state_handler import StateHandler
 
-
 EMPTY = "Empty"
+
 
 class Room():
     adjacent_rooms: list['Room'] = []
     open_floor_rooms: list['Room'] = []
-
 
     def __init__(self, app) -> None:  # type: ignore
         self.app = app
@@ -79,7 +79,8 @@ class Room():
     def last_cleaned(self) -> datetime:
         last_cleaned: datetime = self.state.get_as_datetime(self._last_cleaned_helper)
         if not last_cleaned:
-            self.app.log(f'Last cleaned not set for {self._last_cleaned_helper}, returning default value', level="WARNING")
+            self.app.log(f'Last cleaned not set for {self._last_cleaned_helper}, returning default value',
+                         level="WARNING")
             return datetime.fromisoformat('1970-01-01')
         return last_cleaned
 
@@ -87,11 +88,17 @@ class Room():
         if self._room_cleaner_segment is None:
             self.app.log(f'Room cleaner segment not set for {self.name}, skipping cleaning', level="WARNING")
             return
+        self.app.log(f'Cleaning {self.name}', level="INFO")
         self.flick.clean_room(self._room_cleaner_segment)
         self._set_helper_to_now(self._last_cleaned_helper)
 
     def _needs_cleaning(self) -> bool:
-        return self.last_cleaned() < datetime.now() - timedelta(days=self.days_between_cleaning)
+        needs_cleaning = self.last_cleaned() < datetime.now() - timedelta(days=self.days_between_cleaning)
+        if not needs_cleaning:
+            self.app.log(
+                f'{self.name} does not need cleaning. last_cleaned={self.last_cleaned()} days_between_cleaning={self.days_between_cleaning}',
+                level="INFO")
+        return needs_cleaning
 
     def _set_helper_to_now(self, helper: helpers.Helper) -> None:
         self.app.call_service(
