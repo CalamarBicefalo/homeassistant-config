@@ -33,10 +33,10 @@ class Room():
 
     def initialize(self) -> None:
         if self.cleaning_frequency == self.CleaningFrequency.DISABLED:
-            self.app.log(f'Cleaning disabled for {self.name}.', level="DEBUG")
+            self.app.log(f'Cleaning disabled for {self.name}.', level="INFO")
             return
 
-        self.app.log(f'Initializing {self.name} clean check hourly.', level="DEBUG")
+        self.app.log(f'Initializing {self.name} clean check hourly.', level="INFO")
         self.app.run_hourly(
             self.clean_if_needed,
             time(0, 0, 0)
