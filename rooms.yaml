@@ -19,7 +19,7 @@ rooms:
       - Empty
       - Present
     days_between_cleaning: 0
-    room_cleaner_segment: 23
+    room_cleaner_segment: 17
     icon: mdi:desk
 
   - name: Bathroom
@@ -46,7 +46,7 @@ rooms:
       - Present
       - Dinning
     days_between_cleaning: 0
-    room_cleaner_segment: 17
+    room_cleaner_segment: 25
     icon: mdi:fork
 
   - name: Living room
@@ -70,6 +70,7 @@ rooms:
       - Meeting
       - Drumming
     days_between_cleaning: 2
+    room_cleaner_segment: 23
     icon: mdi:android-studio
 
   - name: Ensuite

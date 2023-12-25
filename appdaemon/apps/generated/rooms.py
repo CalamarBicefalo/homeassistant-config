@@ -16,7 +16,7 @@ class Office(Room):
 
     _activity_helper : Helper = "input_select.office_activity"
     name = "Office"
-    _room_cleaner_segment = 23
+    _room_cleaner_segment = 17
     _last_cleaned_helper = Helper("input_datetime.last_cleaned_office")
     def __init__(self, app: hass.Hass) -> None:
         super().__init__(app)
@@ -76,7 +76,7 @@ class DiningRoom(Room):
 
     _activity_helper : Helper = "input_select.dining_room_activity"
     name = "Dining room"
-    _room_cleaner_segment = 17
+    _room_cleaner_segment = 25
     _last_cleaned_helper = Helper("input_datetime.last_cleaned_dining_room")
     def __init__(self, app: hass.Hass) -> None:
         super().__init__(app)
@@ -122,6 +122,7 @@ class Studio(Room):
 
     _activity_helper : Helper = "input_select.studio_activity"
     name = "Studio"
+    _room_cleaner_segment = 23
     _last_cleaned_helper = Helper("input_datetime.last_cleaned_studio")
     def __init__(self, app: hass.Hass) -> None:
         super().__init__(app)
@@ -300,5 +301,5 @@ class RoomHandlers:
 
 
 class CommonActivities(StrEnum):
-        PRESENT = "Present"
         EMPTY = "Empty"
+        PRESENT = "Present"
