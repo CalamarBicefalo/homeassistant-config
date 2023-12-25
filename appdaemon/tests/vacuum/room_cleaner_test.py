@@ -8,6 +8,7 @@ import entities
 import helpers
 import matchers
 import services
+from modes import Mode
 from rooms import *
 from test_utils import formatted_yesterday as yesterday, formatted_now as now, formatted_days_ago as days_ago, \
     format_date
@@ -21,7 +22,7 @@ def app():
 
 @pytest.fixture
 def bedroom(app):
-    return Bedroom(app)
+    return RoomHandlers(app).bedroom
 
 
 @pytest.mark.asyncio
@@ -30,7 +31,6 @@ def test_when_vacuumed_updates_last_cleaned(given_that, bedroom, assert_that):
     given_that.bedroom_cleaning_state_is(
         wardrobe_activity=Wardrobe.Activity.EMPTY,
         last_cleaned=yesterday(),
-        last_cooked=now()
     )
 
     bedroom.clean()
@@ -43,36 +43,48 @@ def test_when_vacuumed_updates_last_cleaned(given_that, bedroom, assert_that):
 def test_when_in_the_adjacent_open_room_does_not_clean(given_that, bedroom, assert_that, time_travel):
     given_that.bedroom_cleaning_state_is(
         wardrobe_activity=Wardrobe.Activity.DRESSING,
+        bedroom_activity=Bedroom.Activity.EMPTY,
         last_cleaned=yesterday(),
-        last_cooked=now()
     )
 
-    bedroom.clean_if_needed(None, None, None, None, None)
+    bedroom.clean_if_needed()
 
     assert_that(services.VACUUM_SEND_COMMAND).was_not.sent_to_clean_bedroom()
 
 @pytest.mark.asyncio
 @freeze_time("2012-01-14 23:00:01")
-def test_when_in_the_bedroom_does_not_clean(given_that, bedroom, assert_that, time_travel):
+def test_when_in_the_room_does_not_clean(given_that, bedroom, assert_that, time_travel):
     given_that.bedroom_cleaning_state_is(
         wardrobe_activity=Bedroom.Activity.EMPTY,
         bedroom_activity=Bedroom.Activity.BEDTIME,
         last_cleaned=yesterday(),
-        last_cooked=now()
     )
 
-    bedroom.clean_if_needed(None, None, None, None, None)
+    bedroom.clean_if_needed()
+
+    assert_that(services.VACUUM_SEND_COMMAND).was_not.sent_to_clean_bedroom()
+
+@pytest.mark.asyncio
+@freeze_time("2012-01-14 23:00:01")
+def test_when_sleeping_does_not_clean(given_that, bedroom, assert_that, time_travel):
+    given_that.bedroom_cleaning_state_is(
+        last_cleaned=yesterday(),
+        mode=Mode.SLEEPING,
+    )
+
+    bedroom.clean_if_needed()
 
     assert_that(services.VACUUM_SEND_COMMAND).was_not.sent_to_clean_bedroom()
 
 
-def bedroom_cleaning_state_is(self, last_cleaned, last_cooked, wardrobe_activity=Wardrobe.Activity.EMPTY,
-                              bedroom_activity=Bedroom.Activity.EMPTY, studio_activity=Studio.Activity.EMPTY):
-    self.state_of(helpers.LAST_COOKED).is_set_to(last_cooked)
+def bedroom_cleaning_state_is(self, last_cleaned,
+                              wardrobe_activity=Wardrobe.Activity.EMPTY,
+                              bedroom_activity=Bedroom.Activity.EMPTY,
+                              mode=Mode.NIGHT):
+    self.state_of(helpers.HOMEASSISTANT_MODE).is_set_to(mode)
     self.state_of(Bedroom._last_cleaned_helper).is_set_to(last_cleaned)
     self.state_of(Wardrobe._activity_helper).is_set_to(wardrobe_activity)
     self.state_of(Bedroom._activity_helper).is_set_to(bedroom_activity)
-    self.state_of(Studio._activity_helper).is_set_to(studio_activity)
 
 
 given.GivenThatWrapper.bedroom_cleaning_state_is = bedroom_cleaning_state_is

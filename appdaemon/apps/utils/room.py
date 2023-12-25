@@ -5,6 +5,7 @@ from typing import Optional, Any
 import helpers
 import services
 from flick import FlickHandler
+from modes import Mode
 from select_handler import SelectHandler
 from state_handler import StateHandler
 
@@ -66,7 +67,7 @@ class Room():
         return None
 
     def clean_if_needed(self) -> None:
-        if self._needs_cleaning():
+        if self._needs_cleaning() and self._cleaning_is_allowed():
             self.clean()
 
     def is_empty(self) -> bool:
@@ -77,7 +78,7 @@ class Room():
         return all(map(lambda room: room.is_empty(), self.open_floor_rooms))
 
     def last_cleaned(self) -> datetime:
-        last_cleaned: datetime = self.state.get_as_datetime(self._last_cleaned_helper)
+        last_cleaned: datetime | None = self.state.get_as_datetime(self._last_cleaned_helper)
         if not last_cleaned:
             self.app.log(f'Last cleaned not set for {self._last_cleaned_helper}, returning default value',
                          level="WARNING")
@@ -99,6 +100,9 @@ class Room():
                 f'{self.name} does not need cleaning. last_cleaned={self.last_cleaned()} days_between_cleaning={self.days_between_cleaning}',
                 level="INFO")
         return needs_cleaning
+
+    def _cleaning_is_allowed(self) -> bool:
+        return self.is_empty() and self.are_all_open_floor_rooms_empty() and not self.app.handlers.mode.is_value(Mode.SLEEPING)
 
     def _set_helper_to_now(self, helper: helpers.Helper) -> None:
         self.app.call_service(
