@@ -27,12 +27,12 @@ class Room():
 
         self.app.log(f'Initializing {self.name} clean check hourly.', level="INFO")
         self.app.run_hourly(
-            self.clean_if_needed,
+            lambda *_: self.clean_if_needed(),
             time(0, 0, 0)
         )
         rooms_ = [self._activity_helper, *map(lambda room: room._activity_helper, self.open_floor_rooms)]
         self.app.listen_state(
-            self.clean_if_needed,
+            lambda *_: self.clean_if_needed(),
             rooms_,
             new="Empty"
         )
@@ -65,7 +65,7 @@ class Room():
     def _room_cleaner_segment(self) -> Optional[int]:
         return None
 
-    def clean_if_needed(self, entity: Any, attribute: Any, old: Any, new: Any, kwargs: Any) -> None:
+    def clean_if_needed(self) -> None:
         if self._needs_cleaning():
             self.clean()
 
