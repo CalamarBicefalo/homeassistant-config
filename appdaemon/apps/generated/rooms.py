@@ -1,6 +1,7 @@
 from room import Room
 from helpers import Helper
 from enum import StrEnum
+from activity_handler import ActivityHandler
 from select_handler import SelectHandler
 from appdaemon.plugins.hass import hassapi as hass
 from typing import List
@@ -22,7 +23,7 @@ class Office(Room):
     _last_present_helper = Helper("input_datetime.last_present_office")
     def __init__(self, app: hass.Hass) -> None:
         super().__init__(app)
-        self.activity = SelectHandler[Office.Activity](app, Office._activity_helper)
+        self.activity = ActivityHandler[Office.Activity](app, Office._activity_helper)
 
     def get_activity(self) -> SelectHandler[Activity]:
         return self.activity
@@ -43,7 +44,7 @@ class Bathroom(Room):
     _last_present_helper = Helper("input_datetime.last_present_bathroom")
     def __init__(self, app: hass.Hass) -> None:
         super().__init__(app)
-        self.activity = SelectHandler[Bathroom.Activity](app, Bathroom._activity_helper)
+        self.activity = ActivityHandler[Bathroom.Activity](app, Bathroom._activity_helper)
 
     def get_activity(self) -> SelectHandler[Activity]:
         return self.activity
@@ -66,7 +67,7 @@ class Kitchen(Room):
     _last_present_helper = Helper("input_datetime.last_present_kitchen")
     def __init__(self, app: hass.Hass) -> None:
         super().__init__(app)
-        self.activity = SelectHandler[Kitchen.Activity](app, Kitchen._activity_helper)
+        self.activity = ActivityHandler[Kitchen.Activity](app, Kitchen._activity_helper)
 
     def get_activity(self) -> SelectHandler[Activity]:
         return self.activity
@@ -88,7 +89,7 @@ class DiningRoom(Room):
     _last_present_helper = Helper("input_datetime.last_present_dining_room")
     def __init__(self, app: hass.Hass) -> None:
         super().__init__(app)
-        self.activity = SelectHandler[DiningRoom.Activity](app, DiningRoom._activity_helper)
+        self.activity = ActivityHandler[DiningRoom.Activity](app, DiningRoom._activity_helper)
 
     def get_activity(self) -> SelectHandler[Activity]:
         return self.activity
@@ -114,7 +115,7 @@ class LivingRoom(Room):
     _last_present_helper = Helper("input_datetime.last_present_living_room")
     def __init__(self, app: hass.Hass) -> None:
         super().__init__(app)
-        self.activity = SelectHandler[LivingRoom.Activity](app, LivingRoom._activity_helper)
+        self.activity = ActivityHandler[LivingRoom.Activity](app, LivingRoom._activity_helper)
 
     def get_activity(self) -> SelectHandler[Activity]:
         return self.activity
@@ -138,7 +139,7 @@ class Studio(Room):
     _last_present_helper = Helper("input_datetime.last_present_studio")
     def __init__(self, app: hass.Hass) -> None:
         super().__init__(app)
-        self.activity = SelectHandler[Studio.Activity](app, Studio._activity_helper)
+        self.activity = ActivityHandler[Studio.Activity](app, Studio._activity_helper)
 
     def get_activity(self) -> SelectHandler[Activity]:
         return self.activity
@@ -160,7 +161,7 @@ class Ensuite(Room):
     _last_present_helper = Helper("input_datetime.last_present_ensuite")
     def __init__(self, app: hass.Hass) -> None:
         super().__init__(app)
-        self.activity = SelectHandler[Ensuite.Activity](app, Ensuite._activity_helper)
+        self.activity = ActivityHandler[Ensuite.Activity](app, Ensuite._activity_helper)
 
     def get_activity(self) -> SelectHandler[Activity]:
         return self.activity
@@ -181,7 +182,7 @@ class Hallway(Room):
     _last_present_helper = Helper("input_datetime.last_present_hallway")
     def __init__(self, app: hass.Hass) -> None:
         super().__init__(app)
-        self.activity = SelectHandler[Hallway.Activity](app, Hallway._activity_helper)
+        self.activity = ActivityHandler[Hallway.Activity](app, Hallway._activity_helper)
 
     def get_activity(self) -> SelectHandler[Activity]:
         return self.activity
@@ -202,7 +203,7 @@ class Wardrobe(Room):
     _last_present_helper = Helper("input_datetime.last_present_wardrobe")
     def __init__(self, app: hass.Hass) -> None:
         super().__init__(app)
-        self.activity = SelectHandler[Wardrobe.Activity](app, Wardrobe._activity_helper)
+        self.activity = ActivityHandler[Wardrobe.Activity](app, Wardrobe._activity_helper)
 
     def get_activity(self) -> SelectHandler[Activity]:
         return self.activity
@@ -226,7 +227,7 @@ class Bedroom(Room):
     _last_present_helper = Helper("input_datetime.last_present_bedroom")
     def __init__(self, app: hass.Hass) -> None:
         super().__init__(app)
-        self.activity = SelectHandler[Bedroom.Activity](app, Bedroom._activity_helper)
+        self.activity = ActivityHandler[Bedroom.Activity](app, Bedroom._activity_helper)
 
     def get_activity(self) -> SelectHandler[Activity]:
         return self.activity
@@ -247,7 +248,7 @@ class StorageRoom(Room):
     _last_present_helper = Helper("input_datetime.last_present_storage_room")
     def __init__(self, app: hass.Hass) -> None:
         super().__init__(app)
-        self.activity = SelectHandler[StorageRoom.Activity](app, StorageRoom._activity_helper)
+        self.activity = ActivityHandler[StorageRoom.Activity](app, StorageRoom._activity_helper)
 
     def get_activity(self) -> SelectHandler[Activity]:
         return self.activity
@@ -323,5 +324,5 @@ class RoomHandlers:
 
 
 class CommonActivities(StrEnum):
-        EMPTY = "Empty"
         PRESENT = "Present"
+        EMPTY = "Empty"

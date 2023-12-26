@@ -14,6 +14,7 @@
 - scene_app
 - scenes
 - select_handler
+- activity_handler
 - services
 - states
 - ieee_addresses

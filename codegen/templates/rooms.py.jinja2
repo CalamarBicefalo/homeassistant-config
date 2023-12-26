@@ -2,6 +2,7 @@
 from room import Room
 from helpers import Helper
 from enum import StrEnum
+from activity_handler import ActivityHandler
 from select_handler import SelectHandler
 from appdaemon.plugins.hass import hassapi as hass
 from typing import List
@@ -26,7 +27,7 @@ class {{ macros.class_name(room) }}(Room):
     _last_present_helper = Helper("input_datetime.last_present_{{ macros.snake_name(room) }}")
     def __init__(self, app: hass.Hass) -> None:
         super().__init__(app)
-        self.activity = SelectHandler[{{  macros.class_name(room) }}.Activity](app, {{ macros.class_name(room) }}._activity_helper)
+        self.activity = ActivityHandler[{{  macros.class_name(room) }}.Activity](app, {{ macros.class_name(room) }}._activity_helper)
 
     def get_activity(self) -> SelectHandler[Activity]:
         return self.activity

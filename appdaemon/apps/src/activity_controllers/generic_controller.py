@@ -2,6 +2,7 @@ from abc import abstractmethod
 
 import entities
 import states
+from activity_handler import ActivityHandler
 from app import App
 from rooms import *
 from select_handler import SelectHandler
@@ -37,7 +38,7 @@ class ActivityController(App):
 
     @property
     @abstractmethod
-    def activity(self) -> SelectHandler:
+    def activity(self) -> ActivityHandler:
         pass
 
     @property

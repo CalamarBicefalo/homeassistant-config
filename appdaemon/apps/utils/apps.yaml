@@ -15,6 +15,10 @@ select_handler:
   module: select_handler.py
   global: true
 
+activity_handler:
+  module: activity_handler.py
+  global: true
+
 button_handler:
   module: button_handler.py
   global: true
