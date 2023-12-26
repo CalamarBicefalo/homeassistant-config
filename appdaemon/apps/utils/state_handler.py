@@ -46,6 +46,14 @@ class StateHandler:
             return None
         return helpers.helper_to_datetime(state)
 
+    def get_as_datetime_or_default(self, device: Entity | Helper | str, default: str) -> datetime:
+        d: datetime | None = self.get_as_datetime(device)
+        if not d:
+            self._app.log(f'Date not set for {device}, returning default value',
+                         level="WARNING")
+            return datetime.fromisoformat(default)
+        return d
+
     def get_watt_consumption(self, device: Entity | Helper | str) -> int:
         return int(self.get_as_number(device))
 

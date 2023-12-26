@@ -97,12 +97,10 @@ class Room():
         return all(map(lambda room: room.is_empty(), self.open_floor_rooms))
 
     def last_cleaned(self) -> datetime:
-        last_cleaned: datetime | None = self.state.get_as_datetime(self._last_cleaned_helper)
-        if not last_cleaned:
-            self.app.log(f'Last cleaned not set for {self._last_cleaned_helper}, returning default value',
-                         level="WARNING")
-            return datetime.fromisoformat('1970-01-01')
-        return last_cleaned
+        return self.state.get_as_datetime_or_default(self._last_cleaned_helper, '1970-01-01')
+
+    def last_present(self) -> datetime:
+        return self.state.get_as_datetime_or_default(self._last_present_helper, '1970-01-01')
 
     def clean(self) -> None:
         if self._room_cleaner_segment is None:
@@ -113,12 +111,13 @@ class Room():
         self._set_helper_to_now(self._last_cleaned_helper)
 
     def _needs_cleaning(self) -> bool:
-        needs_cleaning = self.last_cleaned() < datetime.now() - timedelta(days=self.days_between_cleaning)
-        if not needs_cleaning:
+        days_between_clean_elapsed = self.last_cleaned() < datetime.now() - timedelta(days=self.days_between_cleaning)
+        present_after_cleaned = self.last_present() > self.last_cleaned()
+        if not days_between_clean_elapsed:
             self.app.log(
                 f'{self.name} does not need cleaning. last_cleaned={self.last_cleaned()} days_between_cleaning={self.days_between_cleaning}',
                 level="INFO")
-        return needs_cleaning
+        return days_between_clean_elapsed and present_after_cleaned
 
     def _cleaning_is_allowed(self) -> bool:
         return (self.is_empty()

@@ -39,7 +39,7 @@ rooms:
       - Cooking
       - TV Break
     vacuum:
-      period_days: 0
+      period_days: 1
       room_id: 16
       clean_after_hour_of_day: 21
     icon: mdi:stove

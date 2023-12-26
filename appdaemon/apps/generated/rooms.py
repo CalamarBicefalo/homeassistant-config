@@ -56,7 +56,7 @@ class Kitchen(Room):
         TV_BREAK = "TV Break"
 
     activity: SelectHandler[Activity]
-    days_between_cleaning: int = 0
+    days_between_cleaning: int = 1
     clean_after: int = 21
 
     _activity_helper : Helper = "input_select.kitchen_activity"
@@ -323,5 +323,5 @@ class RoomHandlers:
 
 
 class CommonActivities(StrEnum):
-        PRESENT = "Present"
         EMPTY = "Empty"
+        PRESENT = "Present"

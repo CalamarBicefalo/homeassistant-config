@@ -1,8 +1,4 @@
 ---
-Vacuum kitchen cleaner:
-  module: kitchen_cleaner
-  class: KitchenCleaner
-  dependencies: !include /homeassistant/appdaemon/apps/dependencies.yaml
 Vacuum mop maintenance:
   module: mop_maintenance
   class: MopMaintenance

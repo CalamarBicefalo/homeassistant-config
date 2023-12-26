@@ -50,6 +50,21 @@ def test_when_dirty_and_appropriate_cleans(given_that, bedroom, assert_that, tim
     bedroom.clean_if_needed()
 
     assert_that(services.VACUUM_SEND_COMMAND).was.sent_to_clean_bedroom()
+    
+
+@pytest.mark.asyncio
+@freeze_time("2012-01-14 23:00:01")
+def test_when_not_present_does_not_vacum(given_that, bedroom, assert_that, time_travel):
+    given_that.bedroom_cleaning_state_is(
+        wardrobe_activity=Wardrobe.Activity.EMPTY,
+        bedroom_activity=Bedroom.Activity.EMPTY,
+        last_cleaned=yesterday(),
+        last_present=days_ago(2),
+    )
+
+    bedroom.clean_if_needed()
+
+    assert_that(services.VACUUM_SEND_COMMAND).was_not.sent_to_clean_bedroom()
 
 
 @pytest.mark.asyncio
@@ -110,11 +125,13 @@ def test_when_before_allowed_clean_time_does_not_clean(given_that, bedroom, asse
 
 
 def bedroom_cleaning_state_is(self, last_cleaned,
+                              last_present=now(),
                               wardrobe_activity=Wardrobe.Activity.EMPTY,
                               bedroom_activity=Bedroom.Activity.EMPTY,
                               mode=Mode.NIGHT):
     self.state_of(helpers.HOMEASSISTANT_MODE).is_set_to(mode)
     self.state_of(Bedroom._last_cleaned_helper).is_set_to(last_cleaned)
+    self.state_of(Bedroom._last_present_helper).is_set_to(last_present)
     self.state_of(Wardrobe._activity_helper).is_set_to(wardrobe_activity)
     self.state_of(Bedroom._activity_helper).is_set_to(bedroom_activity)
 
