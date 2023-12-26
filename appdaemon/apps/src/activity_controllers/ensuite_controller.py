@@ -13,7 +13,7 @@ class EnsuiteController(ActivityController):
     shower_cooldown = 2000
 
     @property
-    def activity(self) -> SelectHandler:
+    def activity(self) -> ActivityHandler:
         return self.handlers.rooms.ensuite.activity
 
     def initialize(self) -> None:

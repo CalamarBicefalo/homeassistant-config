@@ -1,4 +1,3 @@
-
 from enum import StrEnum
 from typing import TypeVar
 
@@ -18,8 +17,6 @@ class ActivityHandler(SelectHandler[T]):
         self._helper = helper
         self._app = app
 
-    def set(self, value: T | str) -> None:
-        self._app.fire_event(ACTIVITY_CHANGED_EVENT, helper=self._helper, activity=value, manual=False)
+    def set(self, value: T | str, manual: bool = False) -> None:
+        self._app.fire_event(ACTIVITY_CHANGED_EVENT, helper=self._helper, activity=value, manual=manual)
         super().set(value)
-
-

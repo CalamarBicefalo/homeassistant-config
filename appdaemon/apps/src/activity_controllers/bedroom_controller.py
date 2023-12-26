@@ -15,7 +15,7 @@ class BedroomController(MotionController):
     _waking_up_schedule = None
 
     @property
-    def activity(self) -> SelectHandler:
+    def activity(self) -> ActivityHandler:
         return self.handlers.rooms.bedroom.activity
 
     @property

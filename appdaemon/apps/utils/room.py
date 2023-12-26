@@ -18,6 +18,7 @@ class Room():
 
     def __init__(self, app) -> None:  # type: ignore
         self.app = app
+        self.mode = SelectHandler[Mode](app, helpers.HOMEASSISTANT_MODE)
         self.flick = FlickHandler(app)
         self.state = StateHandler(app)
 
@@ -122,7 +123,7 @@ class Room():
     def _cleaning_is_allowed(self) -> bool:
         return (self.is_empty()
                 and self.are_all_open_floor_rooms_empty()
-                and not self.app.handlers.mode.is_value(Mode.SLEEPING)
+                and not self.mode.is_value(Mode.SLEEPING)
                 and datetime.now().hour >= self.clean_after
                 )
 

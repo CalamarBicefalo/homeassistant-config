@@ -9,7 +9,7 @@ class WardrobeController(ActivityController):
     motion_sensor = entities.BINARY_SENSOR_WARDROBE_MS_MOTION
 
     @property
-    def activity(self) -> SelectHandler:
+    def activity(self) -> ActivityHandler:
         return self.handlers.rooms.wardrobe.activity
 
     @property

@@ -13,7 +13,7 @@ class KitchenController(MotionController):
     cooldown_seconds = 30
 
     @property
-    def activity(self) -> SelectHandler:
+    def activity(self) -> ActivityHandler:
         return self.handlers.rooms.kitchen.activity
 
     def controller_handler(self, entity, attribute, old, new, kwargs) -> None:  # type: ignore

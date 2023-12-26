@@ -2,14 +2,13 @@ import entities
 from activity_controllers.generic_controller import ActivityController
 from ieee_addresses import COFFEE_TABLE_BUTTON_IEEE_ADDRESS
 from rooms import *
-from select_handler import SelectHandler
 
 
 class LivingRoomController(ActivityController):
     motion_sensor = entities.BINARY_SENSOR_LIVING_ROOM_MOTION
 
     @property
-    def activity(self) -> SelectHandler:
+    def activity(self) -> ActivityHandler:
         return self.handlers.rooms.living_room.activity
 
     def initialize(self) -> None:
@@ -23,8 +22,8 @@ class LivingRoomController(ActivityController):
             ]
         )
         self.handlers.buttons.on(COFFEE_TABLE_BUTTON_IEEE_ADDRESS,
-                                 double_click=self.set_drumming,
-                                 long_press=self.clear_activity)
+                                 double_click=self.on_double_click,
+                                 long_press=self.on_long_press)
 
     def controller_handler(self, entity, attribute, old, new, kwargs) -> None:  # type: ignore
         self.log(
@@ -74,8 +73,8 @@ class LivingRoomController(ActivityController):
     def sitting_on_sofa(self) -> bool:
         return self.state.is_on(entities.BINARY_SENSOR_SOFA_PS)
 
-    def clear_activity(self) -> None:
-        self.activity.set(CommonActivities.EMPTY)
+    def on_long_press(self) -> None:
+        self.activity.set(CommonActivities.EMPTY, manual=True)
 
-    def set_drumming(self) -> None:
-        self.activity.set(LivingRoom.Activity.DRUMMING)
+    def on_double_click(self) -> None:
+        self.activity.set(LivingRoom.Activity.DRUMMING, manual=True)

@@ -10,7 +10,7 @@ class StudioController(ActivityController):
     motion_sensor = entities.BINARY_SENSOR_STUDIO_MOTION
 
     @property
-    def activity(self) -> SelectHandler:
+    def activity(self) -> ActivityHandler:
         return self.handlers.rooms.studio.activity
 
     def initialize(self) -> None:

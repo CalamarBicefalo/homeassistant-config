@@ -1,6 +1,7 @@
 import entities
 import states
 from activity_controllers.generic_controller import MotionController
+from activity_handler import ActivityHandler
 from rooms import CommonActivities, Hallway
 from select_handler import SelectHandler
 
@@ -11,7 +12,7 @@ class HallwayController(MotionController):
     cooldown_seconds = 30
 
     @property
-    def activity(self) -> SelectHandler:
+    def activity(self) -> ActivityHandler:
         return self.handlers.rooms.hallway.activity
 
     def initialize(self) -> None:
