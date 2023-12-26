@@ -14,12 +14,12 @@ class {{ macros.class_name(room) }}(Room):
     {%- endfor %}
 
     activity: SelectHandler[Activity]
-    days_between_cleaning: int = {{ room["days_between_cleaning"] or 0 }}
+    days_between_cleaning: int = {{ room["vacuum"]["period_days"] or 0 }}
 
     _activity_helper : Helper = "input_select.{{ macros.snake_name(room) }}_activity"
     name = "{{ room["name"] }}"
-    {%- if "room_cleaner_segment" in room %}
-    _room_cleaner_segment = {{ room["room_cleaner_segment"] }}
+    {%- if "vacuum" in room and "room_id" in room["vacuum"] %}
+    _room_cleaner_segment = {{ room["vacuum"]["room_id"] }}
     {%- endif %}
     _last_cleaned_helper = Helper("input_datetime.last_cleaned_{{ macros.snake_name(room) }}")
     def __init__(self, app: hass.Hass) -> None:

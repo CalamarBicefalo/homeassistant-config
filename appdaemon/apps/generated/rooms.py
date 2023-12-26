@@ -301,5 +301,5 @@ class RoomHandlers:
 
 
 class CommonActivities(StrEnum):
-        EMPTY = "Empty"
         PRESENT = "Present"
+        EMPTY = "Empty"
