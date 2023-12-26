@@ -40,6 +40,20 @@ def test_when_vacuumed_updates_last_cleaned(given_that, bedroom, assert_that):
 
 @pytest.mark.asyncio
 @freeze_time("2012-01-14 23:00:01")
+def test_when_dirty_and_appropriate_cleans(given_that, bedroom, assert_that, time_travel):
+    given_that.bedroom_cleaning_state_is(
+        wardrobe_activity=Wardrobe.Activity.EMPTY,
+        bedroom_activity=Bedroom.Activity.EMPTY,
+        last_cleaned=yesterday(),
+    )
+
+    bedroom.clean_if_needed()
+
+    assert_that(services.VACUUM_SEND_COMMAND).was.sent_to_clean_bedroom()
+
+
+@pytest.mark.asyncio
+@freeze_time("2012-01-14 23:00:01")
 def test_when_in_the_adjacent_open_room_does_not_clean(given_that, bedroom, assert_that, time_travel):
     given_that.bedroom_cleaning_state_is(
         wardrobe_activity=Wardrobe.Activity.DRESSING,
@@ -75,6 +89,24 @@ def test_when_sleeping_does_not_clean(given_that, bedroom, assert_that, time_tra
     bedroom.clean_if_needed()
 
     assert_that(services.VACUUM_SEND_COMMAND).was_not.sent_to_clean_bedroom()
+
+
+@pytest.mark.asyncio
+@freeze_time("2012-01-14 15:59:00")
+def test_when_before_allowed_clean_time_does_not_clean(given_that, bedroom, assert_that, time_travel):
+    given_that.bedroom_cleaning_state_is(
+        wardrobe_activity=Wardrobe.Activity.EMPTY,
+        bedroom_activity=Bedroom.Activity.EMPTY,
+        last_cleaned=yesterday(),
+    )
+
+    bedroom.clean_after = 16
+    bedroom.clean_if_needed()
+    assert_that(services.VACUUM_SEND_COMMAND).was_not.sent_to_clean_bedroom()
+
+    bedroom.clean_after = 15
+    bedroom.clean_if_needed()
+    assert_that(services.VACUUM_SEND_COMMAND).was.sent_to_clean_bedroom()
 
 
 def bedroom_cleaning_state_is(self, last_cleaned,

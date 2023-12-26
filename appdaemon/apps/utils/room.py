@@ -22,21 +22,30 @@ class Room():
         self.state = StateHandler(app)
 
     def initialize(self) -> None:
+        self._initialize_presence_journal()
+        self._initialize_cleaning()
+
+    def _initialize_presence_journal(self) -> None:
+        self.app.listen_state(
+            lambda *_: self._update_last_present(),
+            self._activity_helper,
+        )
+
+    def _initialize_cleaning(self) -> None:
         if self.days_between_cleaning <= 0:
             self.app.log(f'Cleaning disabled for {self.name}.', level="INFO")
-            return
-
-        self.app.log(f'Initializing {self.name} clean check hourly.', level="INFO")
-        self.app.run_hourly(
-            lambda *_: self.clean_if_needed(),
-            time(0, 0, 0)
-        )
-        rooms_ = [self._activity_helper, *map(lambda room: room._activity_helper, self.open_floor_rooms)]
-        self.app.listen_state(
-            lambda *_: self.clean_if_needed(),
-            rooms_,
-            new="Empty"
-        )
+        else:
+            self.app.log(f'Initializing {self.name} clean check hourly.', level="INFO")
+            self.app.run_hourly(
+                lambda *_: self.clean_if_needed(),
+                time(0, 0, 0)
+            )
+            rooms_ = [self._activity_helper, *map(lambda room: room._activity_helper, self.open_floor_rooms)]
+            self.app.listen_state(
+                lambda *_: self.clean_if_needed(),
+                rooms_,
+                new="Empty"
+            )
 
     @property
     @abstractmethod
@@ -50,7 +59,17 @@ class Room():
 
     @property
     @abstractmethod
+    def clean_after(self) -> int:
+        pass
+
+    @property
+    @abstractmethod
     def _last_cleaned_helper(self) -> helpers.Helper:
+        pass
+
+    @property
+    @abstractmethod
+    def _last_present_helper(self) -> helpers.Helper:
         pass
 
     @property
@@ -102,7 +121,14 @@ class Room():
         return needs_cleaning
 
     def _cleaning_is_allowed(self) -> bool:
-        return self.is_empty() and self.are_all_open_floor_rooms_empty() and not self.app.handlers.mode.is_value(Mode.SLEEPING)
+        return (self.is_empty()
+                and self.are_all_open_floor_rooms_empty()
+                and not self.app.handlers.mode.is_value(Mode.SLEEPING)
+                and datetime.now().hour >= self.clean_after
+                )
+
+    def _update_last_present(self) -> None:
+        self._set_helper_to_now(self._last_present_helper)
 
     def _set_helper_to_now(self, helper: helpers.Helper) -> None:
         self.app.call_service(

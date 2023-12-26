@@ -41,6 +41,7 @@ rooms:
     vacuum:
       period_days: 0
       room_id: 16
+      clean_after_hour_of_day: 21
     icon: mdi:stove
 
   - name: Dining room

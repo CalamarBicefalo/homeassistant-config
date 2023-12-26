@@ -15,6 +15,7 @@ class {{ macros.class_name(room) }}(Room):
 
     activity: SelectHandler[Activity]
     days_between_cleaning: int = {{ room["vacuum"]["period_days"] or 0 }}
+    clean_after: int = {{ room["vacuum"]["clean_after_hour_of_day"] or -1 }}
 
     _activity_helper : Helper = "input_select.{{ macros.snake_name(room) }}_activity"
     name = "{{ room["name"] }}"
@@ -22,6 +23,7 @@ class {{ macros.class_name(room) }}(Room):
     _room_cleaner_segment = {{ room["vacuum"]["room_id"] }}
     {%- endif %}
     _last_cleaned_helper = Helper("input_datetime.last_cleaned_{{ macros.snake_name(room) }}")
+    _last_present_helper = Helper("input_datetime.last_present_{{ macros.snake_name(room) }}")
     def __init__(self, app: hass.Hass) -> None:
         super().__init__(app)
         self.activity = SelectHandler[{{  macros.class_name(room) }}.Activity](app, {{ macros.class_name(room) }}._activity_helper)

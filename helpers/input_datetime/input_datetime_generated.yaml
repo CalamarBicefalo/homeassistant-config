@@ -3,9 +3,23 @@ last_cleaned_office:
     icon: mdi:broom
     has_date: true
     has_time: true
+
+
+last_present_office:
+    name: Last present Office
+    icon: mdi:account-check
+    has_date: true
+    has_time: true
 last_cleaned_bathroom:
     name: Last cleaned Bathroom
     icon: mdi:broom
+    has_date: true
+    has_time: true
+
+
+last_present_bathroom:
+    name: Last present Bathroom
+    icon: mdi:account-check
     has_date: true
     has_time: true
 last_cleaned_kitchen:
@@ -13,9 +27,23 @@ last_cleaned_kitchen:
     icon: mdi:broom
     has_date: true
     has_time: true
+
+
+last_present_kitchen:
+    name: Last present Kitchen
+    icon: mdi:account-check
+    has_date: true
+    has_time: true
 last_cleaned_dining_room:
     name: Last cleaned Dining room
     icon: mdi:broom
+    has_date: true
+    has_time: true
+
+
+last_present_dining_room:
+    name: Last present Dining room
+    icon: mdi:account-check
     has_date: true
     has_time: true
 last_cleaned_living_room:
@@ -23,9 +51,23 @@ last_cleaned_living_room:
     icon: mdi:broom
     has_date: true
     has_time: true
+
+
+last_present_living_room:
+    name: Last present Living room
+    icon: mdi:account-check
+    has_date: true
+    has_time: true
 last_cleaned_studio:
     name: Last cleaned Studio
     icon: mdi:broom
+    has_date: true
+    has_time: true
+
+
+last_present_studio:
+    name: Last present Studio
+    icon: mdi:account-check
     has_date: true
     has_time: true
 last_cleaned_ensuite:
@@ -33,9 +75,23 @@ last_cleaned_ensuite:
     icon: mdi:broom
     has_date: true
     has_time: true
+
+
+last_present_ensuite:
+    name: Last present Ensuite
+    icon: mdi:account-check
+    has_date: true
+    has_time: true
 last_cleaned_hallway:
     name: Last cleaned Hallway
     icon: mdi:broom
+    has_date: true
+    has_time: true
+
+
+last_present_hallway:
+    name: Last present Hallway
+    icon: mdi:account-check
     has_date: true
     has_time: true
 last_cleaned_wardrobe:
@@ -43,13 +99,34 @@ last_cleaned_wardrobe:
     icon: mdi:broom
     has_date: true
     has_time: true
+
+
+last_present_wardrobe:
+    name: Last present Wardrobe
+    icon: mdi:account-check
+    has_date: true
+    has_time: true
 last_cleaned_bedroom:
     name: Last cleaned Bedroom
     icon: mdi:broom
     has_date: true
     has_time: true
+
+
+last_present_bedroom:
+    name: Last present Bedroom
+    icon: mdi:account-check
+    has_date: true
+    has_time: true
 last_cleaned_storage_room:
     name: Last cleaned Storage room
     icon: mdi:broom
+    has_date: true
+    has_time: true
+
+
+last_present_storage_room:
+    name: Last present Storage room
+    icon: mdi:account-check
     has_date: true
     has_time: true
