@@ -20,3 +20,5 @@ zha: !include config/zigbee_home_assistant.yaml
 template: !include devices/templates.yaml
 
 homeassistant: !include_dir_named config/homeassistant/
+frontend:
+  themes: !include_dir_merge_named themes
