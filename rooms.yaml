@@ -57,12 +57,19 @@ rooms:
   - name: Living room
     activities:
       - name: Empty
+        icon: mdi:account-off-outline
       - name: Present
+        icon: mdi:account-badge
       - name: Watching TV
+        icon: mdi:youtube-tv
       - name: Gaming
+        icon: mdi:gamepad-variant
       - name: Reading
+        icon: mdi:book-open-variant
       - name: Dinning
+        icon: mdi:silverware-fork-knife
       - name: Drumming
+        icon: fas:drum
     vacuum:
       period_days: 0
       room_id: 24

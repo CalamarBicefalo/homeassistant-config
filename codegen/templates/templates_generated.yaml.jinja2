@@ -1,0 +1,15 @@
+{% import 'macros.jinja2' as macros -%}
+
+
+{% for room in rooms %}
+  {%- for activity in room["activities"] %}
+- binary_sensor:
+  - name: "Activity {{room["name"]}} {{ activity["name"]}}"
+    state: {{ "{{ states('input_select."}}{{  macros.snake_name(room) }}{{"_activity') == '"}}{{  activity['name'] }}{{"'}}" }}
+    {%- if activity["icon"] %}
+    icon: {{  activity["icon"] }}
+    {%- endif %}
+    device_class: running
+  {% endfor %}
+{%- endfor %}
+
