@@ -1,198 +1,236 @@
 
 - binary_sensor:
   - name: "Activity Office Empty"
-    state: {{ states('input_select.office_activity') == 'Empty'}}
+    state: >
+      {{ states('input_select.office_activity') == 'Empty'}}
     device_class: running
   
 - binary_sensor:
   - name: "Activity Office Present"
-    state: {{ states('input_select.office_activity') == 'Present'}}
+    state: >
+      {{ states('input_select.office_activity') == 'Present'}}
     device_class: running
   
 - binary_sensor:
   - name: "Activity Bathroom Empty"
-    state: {{ states('input_select.bathroom_activity') == 'Empty'}}
+    state: >
+      {{ states('input_select.bathroom_activity') == 'Empty'}}
     device_class: running
   
 - binary_sensor:
   - name: "Activity Bathroom Present"
-    state: {{ states('input_select.bathroom_activity') == 'Present'}}
+    state: >
+      {{ states('input_select.bathroom_activity') == 'Present'}}
     device_class: running
   
 - binary_sensor:
   - name: "Activity Kitchen Empty"
-    state: {{ states('input_select.kitchen_activity') == 'Empty'}}
+    state: >
+      {{ states('input_select.kitchen_activity') == 'Empty'}}
     device_class: running
   
 - binary_sensor:
   - name: "Activity Kitchen Present"
-    state: {{ states('input_select.kitchen_activity') == 'Present'}}
+    state: >
+      {{ states('input_select.kitchen_activity') == 'Present'}}
     device_class: running
   
 - binary_sensor:
   - name: "Activity Kitchen Cooking"
-    state: {{ states('input_select.kitchen_activity') == 'Cooking'}}
+    state: >
+      {{ states('input_select.kitchen_activity') == 'Cooking'}}
     device_class: running
   
 - binary_sensor:
   - name: "Activity Kitchen TV Break"
-    state: {{ states('input_select.kitchen_activity') == 'TV Break'}}
+    state: >
+      {{ states('input_select.kitchen_activity') == 'TV Break'}}
     device_class: running
   
 - binary_sensor:
   - name: "Activity Dining room Empty"
-    state: {{ states('input_select.dining_room_activity') == 'Empty'}}
+    state: >
+      {{ states('input_select.dining_room_activity') == 'Empty'}}
     device_class: running
   
 - binary_sensor:
   - name: "Activity Dining room Present"
-    state: {{ states('input_select.dining_room_activity') == 'Present'}}
+    state: >
+      {{ states('input_select.dining_room_activity') == 'Present'}}
     device_class: running
   
 - binary_sensor:
   - name: "Activity Dining room Dinning"
-    state: {{ states('input_select.dining_room_activity') == 'Dinning'}}
+    state: >
+      {{ states('input_select.dining_room_activity') == 'Dinning'}}
     device_class: running
   
 - binary_sensor:
   - name: "Activity Living room Empty"
-    state: {{ states('input_select.living_room_activity') == 'Empty'}}
+    state: >
+      {{ states('input_select.living_room_activity') == 'Empty'}}
     icon: mdi:account-off-outline
     device_class: running
   
 - binary_sensor:
   - name: "Activity Living room Present"
-    state: {{ states('input_select.living_room_activity') == 'Present'}}
+    state: >
+      {{ states('input_select.living_room_activity') == 'Present'}}
     icon: mdi:account-badge
     device_class: running
   
 - binary_sensor:
   - name: "Activity Living room Watching TV"
-    state: {{ states('input_select.living_room_activity') == 'Watching TV'}}
+    state: >
+      {{ states('input_select.living_room_activity') == 'Watching TV'}}
     icon: mdi:youtube-tv
     device_class: running
   
 - binary_sensor:
   - name: "Activity Living room Gaming"
-    state: {{ states('input_select.living_room_activity') == 'Gaming'}}
+    state: >
+      {{ states('input_select.living_room_activity') == 'Gaming'}}
     icon: mdi:gamepad-variant
     device_class: running
   
 - binary_sensor:
   - name: "Activity Living room Reading"
-    state: {{ states('input_select.living_room_activity') == 'Reading'}}
+    state: >
+      {{ states('input_select.living_room_activity') == 'Reading'}}
     icon: mdi:book-open-variant
     device_class: running
   
 - binary_sensor:
   - name: "Activity Living room Dinning"
-    state: {{ states('input_select.living_room_activity') == 'Dinning'}}
+    state: >
+      {{ states('input_select.living_room_activity') == 'Dinning'}}
     icon: mdi:silverware-fork-knife
     device_class: running
   
 - binary_sensor:
   - name: "Activity Living room Drumming"
-    state: {{ states('input_select.living_room_activity') == 'Drumming'}}
+    state: >
+      {{ states('input_select.living_room_activity') == 'Drumming'}}
     icon: fas:drum
     device_class: running
   
 - binary_sensor:
   - name: "Activity Studio Empty"
-    state: {{ states('input_select.studio_activity') == 'Empty'}}
+    state: >
+      {{ states('input_select.studio_activity') == 'Empty'}}
     device_class: running
   
 - binary_sensor:
   - name: "Activity Studio Present"
-    state: {{ states('input_select.studio_activity') == 'Present'}}
+    state: >
+      {{ states('input_select.studio_activity') == 'Present'}}
     device_class: running
   
 - binary_sensor:
   - name: "Activity Studio Working"
-    state: {{ states('input_select.studio_activity') == 'Working'}}
+    state: >
+      {{ states('input_select.studio_activity') == 'Working'}}
     device_class: running
   
 - binary_sensor:
   - name: "Activity Studio Meeting"
-    state: {{ states('input_select.studio_activity') == 'Meeting'}}
+    state: >
+      {{ states('input_select.studio_activity') == 'Meeting'}}
     device_class: running
   
 - binary_sensor:
   - name: "Activity Studio Drumming"
-    state: {{ states('input_select.studio_activity') == 'Drumming'}}
+    state: >
+      {{ states('input_select.studio_activity') == 'Drumming'}}
     device_class: running
   
 - binary_sensor:
   - name: "Activity Ensuite Empty"
-    state: {{ states('input_select.ensuite_activity') == 'Empty'}}
+    state: >
+      {{ states('input_select.ensuite_activity') == 'Empty'}}
     device_class: running
   
 - binary_sensor:
   - name: "Activity Ensuite Present"
-    state: {{ states('input_select.ensuite_activity') == 'Present'}}
+    state: >
+      {{ states('input_select.ensuite_activity') == 'Present'}}
     device_class: running
   
 - binary_sensor:
   - name: "Activity Ensuite Showering"
-    state: {{ states('input_select.ensuite_activity') == 'Showering'}}
+    state: >
+      {{ states('input_select.ensuite_activity') == 'Showering'}}
     device_class: running
   
 - binary_sensor:
   - name: "Activity Hallway Empty"
-    state: {{ states('input_select.hallway_activity') == 'Empty'}}
+    state: >
+      {{ states('input_select.hallway_activity') == 'Empty'}}
     device_class: running
   
 - binary_sensor:
   - name: "Activity Hallway Present"
-    state: {{ states('input_select.hallway_activity') == 'Present'}}
+    state: >
+      {{ states('input_select.hallway_activity') == 'Present'}}
     device_class: running
   
 - binary_sensor:
   - name: "Activity Wardrobe Empty"
-    state: {{ states('input_select.wardrobe_activity') == 'Empty'}}
+    state: >
+      {{ states('input_select.wardrobe_activity') == 'Empty'}}
     device_class: running
   
 - binary_sensor:
   - name: "Activity Wardrobe Present"
-    state: {{ states('input_select.wardrobe_activity') == 'Present'}}
+    state: >
+      {{ states('input_select.wardrobe_activity') == 'Present'}}
     device_class: running
   
 - binary_sensor:
   - name: "Activity Wardrobe Dressing"
-    state: {{ states('input_select.wardrobe_activity') == 'Dressing'}}
+    state: >
+      {{ states('input_select.wardrobe_activity') == 'Dressing'}}
     device_class: running
   
 - binary_sensor:
   - name: "Activity Bedroom Empty"
-    state: {{ states('input_select.bedroom_activity') == 'Empty'}}
+    state: >
+      {{ states('input_select.bedroom_activity') == 'Empty'}}
     device_class: running
   
 - binary_sensor:
   - name: "Activity Bedroom Present"
-    state: {{ states('input_select.bedroom_activity') == 'Present'}}
+    state: >
+      {{ states('input_select.bedroom_activity') == 'Present'}}
     device_class: running
   
 - binary_sensor:
   - name: "Activity Bedroom Relaxing"
-    state: {{ states('input_select.bedroom_activity') == 'Relaxing'}}
+    state: >
+      {{ states('input_select.bedroom_activity') == 'Relaxing'}}
     device_class: running
   
 - binary_sensor:
   - name: "Activity Bedroom Bedtime"
-    state: {{ states('input_select.bedroom_activity') == 'Bedtime'}}
+    state: >
+      {{ states('input_select.bedroom_activity') == 'Bedtime'}}
     device_class: running
   
 - binary_sensor:
   - name: "Activity Bedroom Waking up"
-    state: {{ states('input_select.bedroom_activity') == 'Waking up'}}
+    state: >
+      {{ states('input_select.bedroom_activity') == 'Waking up'}}
     device_class: running
   
 - binary_sensor:
   - name: "Activity Storage room Empty"
-    state: {{ states('input_select.storage_room_activity') == 'Empty'}}
+    state: >
+      {{ states('input_select.storage_room_activity') == 'Empty'}}
     device_class: running
   
 - binary_sensor:
   - name: "Activity Storage room Present"
-    state: {{ states('input_select.storage_room_activity') == 'Present'}}
+    state: >
+      {{ states('input_select.storage_room_activity') == 'Present'}}
     device_class: running
   
