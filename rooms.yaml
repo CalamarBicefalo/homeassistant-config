@@ -17,7 +17,9 @@ rooms:
   - name: Office
     activities:
       - name: Empty
+        icon: mdi:account-off-outline
       - name: Present
+        icon: mdi:account-badge
     vacuum:
       period_days: 0
       room_id: 17
@@ -26,7 +28,9 @@ rooms:
   - name: Bathroom
     activities:
       - name: Empty
+        icon: mdi:account-off-outline
       - name: Present
+        icon: mdi:account-badge
     vacuum:
       period_days: 0
       room_id: 18
@@ -35,9 +39,13 @@ rooms:
   - name: Kitchen
     activities:
       - name: Empty
+        icon: mdi:account-off-outline
       - name: Present
+        icon: mdi:account-badge
       - name: Cooking
+        icon: mdi:chef-hat
       - name: TV Break
+        icon: mdi:television-classic
     vacuum:
       period_days: 1
       room_id: 16
@@ -47,7 +55,9 @@ rooms:
   - name: Dining room
     activities:
       - name: Empty
+        icon: mdi:account-off-outline
       - name: Present
+        icon: mdi:account-badge
       - name: Dinning
     vacuum:
       period_days: 0
@@ -78,10 +88,15 @@ rooms:
   - name: Studio
     activities:
       - name: Empty
+        icon: mdi:account-off-outline
       - name: Present
+        icon: mdi:account-badge
       - name: Working
+        icon: mdi:desktop-classic
       - name: Meeting
+        icon: mdi:account-group
       - name: Drumming
+        icon: fas:drum
     vacuum:
       period_days: 2
       room_id: 23
@@ -90,8 +105,11 @@ rooms:
   - name: Ensuite
     activities:
       - name: Empty
+        icon: mdi:account-off-outline
       - name: Present
+        icon: mdi:account-badge
       - name: Showering
+        icon: mdi:shower
     vacuum:
       period_days: 0
       room_id: 22
@@ -100,7 +118,9 @@ rooms:
   - name: Hallway
     activities:
       - name: Empty
+        icon: mdi:account-off-outline
       - name: Present
+        icon: mdi:account-badge
     vacuum:
       period_days: 0
       room_id: 20
@@ -109,8 +129,11 @@ rooms:
   - name: Wardrobe
     activities:
       - name: Empty
+        icon: mdi:account-off-outline
       - name: Present
+        icon: mdi:account-badge
       - name: Dressing
+        icon: mdi:tshirt-crew
     vacuum:
       period_days: 0
     icon: mdi:wardrobe
@@ -118,10 +141,15 @@ rooms:
   - name: Bedroom
     activities:
       - name: Empty
+        icon: mdi:account-off-outline
       - name: Present
+        icon: mdi:account-badge
       - name: Relaxing
+        icon: mdi:home-heart
       - name: Bedtime
+        icon: mdi:bed-clock
       - name: Waking up
+        icon: mdi:sun-clock
     vacuum:
       period_days: 0
       room_id: 21
@@ -130,7 +158,9 @@ rooms:
   - name: Storage room
     activities:
       - name: Empty
+        icon: mdi:account-off-outline
       - name: Present
+        icon: mdi:account-badge
     vacuum:
       period_days: 0
       room_id: 19
