@@ -11,7 +11,7 @@ from typing import List
 class {{ macros.class_name(room) }}(Room):
     class Activity(StrEnum):
     {%- for activity in room["activities"] %}
-        {{ activity.replace(" ", "_").upper() }} = "{{ activity }}"
+        {{ activity["name"].replace(" ", "_").upper() }} = "{{ activity["name"] }}"
     {%- endfor %}
 
     activity: SelectHandler[Activity]

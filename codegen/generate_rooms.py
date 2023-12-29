@@ -41,7 +41,7 @@ def generate_rooms(root_dir: str) -> None:
                     f.write(f'  icon: {room["icon"]}\n')
                     f.write(f'  options:\n')
                     for activity in room["activities"]:
-                        f.write(f'    - {activity}\n')
+                        f.write(f'    - {activity["name"]}\n')
 
         except yaml.YAMLError as exc:
             print(exc)
@@ -59,7 +59,7 @@ def load_rooms(rooms_descriptor) -> list[Any]:
 
 
 def get_common_activities(rooms):
-    all_activities_by_room = [*map(lambda room: set(room["activities"]), rooms)]
+    all_activities_by_room = [*map(lambda room: set(map(lambda activity: activity["name"], room["activities"])), rooms)]
     return set.intersection(*all_activities_by_room)
 
 

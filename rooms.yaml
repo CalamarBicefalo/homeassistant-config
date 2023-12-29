@@ -16,8 +16,8 @@ open_floor:
 rooms:
   - name: Office
     activities:
-      - Empty
-      - Present
+      - name: Empty
+      - name: Present
     vacuum:
       period_days: 0
       room_id: 17
@@ -25,8 +25,8 @@ rooms:
 
   - name: Bathroom
     activities:
-      - Empty
-      - Present
+      - name: Empty
+      - name: Present
     vacuum:
       period_days: 0
       room_id: 18
@@ -34,10 +34,10 @@ rooms:
 
   - name: Kitchen
     activities:
-      - Empty
-      - Present
-      - Cooking
-      - TV Break
+      - name: Empty
+      - name: Present
+      - name: Cooking
+      - name: TV Break
     vacuum:
       period_days: 1
       room_id: 16
@@ -46,9 +46,9 @@ rooms:
 
   - name: Dining room
     activities:
-      - Empty
-      - Present
-      - Dinning
+      - name: Empty
+      - name: Present
+      - name: Dinning
     vacuum:
       period_days: 0
       room_id: 25
@@ -56,13 +56,13 @@ rooms:
 
   - name: Living room
     activities:
-      - Empty
-      - Present
-      - Watching TV
-      - Gaming
-      - Reading
-      - Dinning
-      - Drumming
+      - name: Empty
+      - name: Present
+      - name: Watching TV
+      - name: Gaming
+      - name: Reading
+      - name: Dinning
+      - name: Drumming
     vacuum:
       period_days: 0
       room_id: 24
@@ -70,11 +70,11 @@ rooms:
 
   - name: Studio
     activities:
-      - Empty
-      - Present
-      - Working
-      - Meeting
-      - Drumming
+      - name: Empty
+      - name: Present
+      - name: Working
+      - name: Meeting
+      - name: Drumming
     vacuum:
       period_days: 2
       room_id: 23
@@ -82,9 +82,9 @@ rooms:
 
   - name: Ensuite
     activities:
-      - Empty
-      - Present
-      - Showering
+      - name: Empty
+      - name: Present
+      - name: Showering
     vacuum:
       period_days: 0
       room_id: 22
@@ -92,8 +92,8 @@ rooms:
 
   - name: Hallway
     activities:
-      - Empty
-      - Present
+      - name: Empty
+      - name: Present
     vacuum:
       period_days: 0
       room_id: 20
@@ -101,20 +101,20 @@ rooms:
 
   - name: Wardrobe
     activities:
-      - Empty
-      - Present
-      - Dressing
+      - name: Empty
+      - name: Present
+      - name: Dressing
     vacuum:
       period_days: 0
     icon: mdi:wardrobe
 
   - name: Bedroom
     activities:
-      - Empty
-      - Present
-      - Relaxing
-      - Bedtime
-      - Waking up
+      - name: Empty
+      - name: Present
+      - name: Relaxing
+      - name: Bedtime
+      - name: Waking up
     vacuum:
       period_days: 0
       room_id: 21
@@ -122,8 +122,8 @@ rooms:
 
   - name: Storage room
     activities:
-      - Empty
-      - Present
+      - name: Empty
+      - name: Present
     vacuum:
       period_days: 0
       room_id: 19

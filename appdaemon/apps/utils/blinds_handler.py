@@ -40,7 +40,7 @@ class BlindsHandler:
                                   entity_id=self._blinds)
 
     def best_for_temperature(self) -> None:
-        temperature = self.state.get_as_number(entities.SENSOR_AIR_QUALITY_TEMPERATURE)
+        temperature = self.state.get_as_number(entities.SENSOR_BEDROOM_AIR_QUALITY_TEMPERATURE)
         if self.mode.is_value(Mode.DAY) and temperature > COMFORT_TEMPERATURE:
             if self.room_with_plants:
                 self.set_position(30)
