@@ -1,0 +1,95 @@
+---
+title: "home"
+icon: "mdi:home"
+path: "living_room"
+type: "custom:grid-layout"
+cards:
+  - type: 'custom:button-card'
+    template: card_title
+    name: Living room
+    label: [[[ return states['input_select.living_room_activity'].state) ]]]
+
+  - type: "custom:button-card"
+    template: "card_scenes_welcome"
+    variables:
+      entity_1:
+        entity_id: "binary_sensor.activity_living_room_dinning"
+        color: "blue"
+      entity_2:
+        entity_id: "binary_sensor.activity_living_room_drumming"
+        color: "red"
+      entity_3:
+        entity_id: "binary_sensor.activity_living_room_empty"
+        color: "green"
+      entity_4:
+        entity_id: "binary_sensor.activity_living_room_gaming"
+        color: "purple"
+      entity_5:
+        entity_id: "binary_sensor.activity_living_room_present"
+        color: "yellow"
+      entity_6:
+        entity_id: "binary_sensor.activity_living_room_reading"
+        color: "pink"
+      entity_7:
+        entity_id: "binary_sensor.activity_living_room_watching_tv"
+        color: "yellow"
+
+  - type: 'custom:button-card'
+    template: card_title
+    name: Media
+
+  - type: horizontal-stack
+    cards:
+      - type: "custom:button-card"
+        template: card_media_player
+        entity: media_player.media_player.cooking_area_2
+        variables:
+          ulm_card_media_player_name : Speakers
+          ulm_card_media_player_enable_art: true
+          ulm_card_media_player_enable_controls: true
+          ulm_card_media_player_enable_volume_slider: true
+          ulm_card_media_player_more_info: true
+          ulm_card_media_player_power_button: false
+
+      - type: "custom:button-card"
+        template: card_media_player
+        entity: media_player.media_player.tv_2
+        variables:
+          ulm_card_media_player_name : TV
+          ulm_card_media_player_enable_art: true
+          ulm_card_media_player_enable_controls: true
+          ulm_card_media_player_enable_volume_slider: true
+          ulm_card_media_player_more_info: true
+          ulm_card_media_player_power_button: false
+
+  - type: 'custom:button-card'
+    template: card_title
+    name: Lights & Blinds
+
+  - type: "custom:button-card"
+    template: card_cover
+    entity: cover.blinds_curtain
+    variables:
+      ulm_card_cover_name: Blinds
+      ulm_card_cover_enable_controls: true
+      ulm_card_cover_enable_slider: false
+      ulm_card_cover_enable_horizontal: true
+      ulm_card_cover_enable_popup: true
+
+  - type: "custom:button-card"
+    template: card_light
+    entity: light.living_room
+    variables:
+      ulm_card_light_enable_slider: true
+      ulm_card_light_enable_color: true
+      ulm_card_light_force_background_color: true
+      ulm_card_light_enable_horizontal: true
+      ulm_card_light_enable_horizontal_wide: true
+#  Automatic light scenes from hue
+
+
+  - type: 'custom:button-card'
+    template: card_title
+    name: Sensors
+
+#  Sensors + Battery

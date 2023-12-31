@@ -1,0 +1,56 @@
+---
+---
+title: "home"
+icon: "mdi:home"
+path: "home"
+type: "custom:grid-layout"
+cards:
+  - type: 'custom:button-card'
+    template: card_title
+    name: Home
+    label: Marsh court
+
+  - type: 'custom:button-card'
+    template: card_title
+    name: Rooms
+
+  - type: horizontal-stack
+    cards:
+    - type: 'custom:button-card'
+      template:
+        - card_room
+        - red_no_state
+      name: Bathroom
+      entity: light.living_room
+      icon: mdi:sofa
+      tap_action:
+        action: navigate
+        navigation_path: '/ui-lovelace-minimalist/living_room'
+      variables:
+        label_use_temperature: false
+        label_use_brightness: true
+        entity_1:
+          entity_id: light.living_room
+          templates:
+            - yellow_on
+          tap_action:
+            action: toggle
+        entity_2:
+          entity_id: binary_sensor.badkamer_motion_sensor
+          templates:
+            - blue_on
+          tap_action:
+            action: none
+        entity_3:
+          entity_id: input_boolean.badkamer_motionsensor_enabled
+          templates:
+            - green_on
+            - red_off
+          tap_action:
+            action: toggle
+        entity_4:
+          entity_id: input_boolean.bath_mode
+          templates:
+            - pink_on
+          tap_action:
+            action: toggle

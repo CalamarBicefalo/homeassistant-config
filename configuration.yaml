@@ -26,9 +26,9 @@ frontend:
 lovelace:
   mode: storage
   dashboards:
-    lovelace-minimalist-2:
+    mobile-dashboard:
       mode: yaml
       title: Marsh Court
       icon: mdi:home
       show_in_sidebar: true
-      filename: ui_lovelace_minimalist/dashboard/main/index.yaml
+      filename: ui_lovelace_minimalist/dashboard/mobile/index.yaml
