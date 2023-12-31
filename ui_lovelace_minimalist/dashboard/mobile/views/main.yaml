@@ -19,7 +19,7 @@ cards:
       template:
         - card_room
         - red_no_state
-      name: Bathroom
+      name: Living room
       entity: light.living_room
       icon: mdi:sofa
       tap_action:
