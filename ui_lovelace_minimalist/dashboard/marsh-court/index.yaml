@@ -23,7 +23,7 @@ views:
       - !include "popup/popup.yaml"
 
   - type: "custom:grid-layout"
-    title: "Livingroom"
+    title: "Living Room"
     icon: "mdi:sofa"
     path: "Livingroom"
     layout:

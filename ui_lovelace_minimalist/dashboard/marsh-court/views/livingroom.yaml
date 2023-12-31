@@ -1,0 +1,31 @@
+---
+cards:
+  - type: 'custom:button-card'
+    template: card_title
+    name: Living room
+    label: {{ get_state('input_select.living_room_activity') }}
+
+  - type: "custom:button-card"
+    template: "card_scenes_welcome"
+    variables:
+      entity_1:
+        entity_id: "binary_sensor.activity_living_room_dinning"
+        color: "blue"
+      entity_2:
+        entity_id: "binary_sensor.activity_living_room_drumming"
+        color: "red"
+      entity_3:
+        entity_id: "binary_sensor.activity_living_room_empty"
+        color: "green"
+      entity_4:
+        entity_id: "binary_sensor.activity_living_room_gaming"
+        color: "purple"
+      entity_5:
+        entity_id: "binary_sensor.activity_living_room_present"
+        color: "yellow"
+      entity_6:
+        entity_id: "binary_sensor.activity_living_room_reading"
+        color: "pink"
+      entity_7:
+        entity_id: "binary_sensor.activity_living_room_watching_tv"
+        color: "yellow"
