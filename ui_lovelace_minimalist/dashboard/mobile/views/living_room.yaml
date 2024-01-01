@@ -2,139 +2,169 @@
 title: "Living room"
 icon: "mdi:sofa"
 path: "living_room"
-type: "custom:grid-layout"
+####
+
+type: "custom:layout-card"
+layout_type: "custom:grid-layout"
+layout:
+  # Tablet portrait
+  grid-template-columns: "1fr 1fr"
+  grid-template-areas: |
+    "header header"
+    "title-media title-media"
+    "media media"
+    "title-lights title-lights"
+    "blinds blinds"
+    "lights lights"
+    "title-sensors title-sensors"
+    "sensor sensor"
+    "sensor sensor"
+    "sensor sensor"
+
 cards:
   - type: horizontal-stack
+    view_layout:
+      grid-area: "header"
+    
     cards:
-    - type: "custom:button-card"
-      template: card_title
-      name: Living Room
-      label: |
-        [[[ return states['input_select.living_room_activity'].state ]]]
+      - type: vertical-stack
+        cards:
+        - type: horizontal-stack
+          cards:
+          - type: "custom:button-card"
+            template: card_title
+            name: Living Room
+            label: |
+              [[[ return states['input_select.living_room_activity'].state ]]]
 
-    - type: "custom:button-card"
-      color_type: blank-card
+          - type: "custom:button-card"
+            color_type: blank-card
 
-    - type: "custom:button-card"
-      template: chip_icon_label
-      icon: mdi:broom
-      label: |
-        [[[
-          function time_ago(time) {
-            switch (typeof time) {
-              case 'number':
-                break;
-              case 'string':
-                time = +new Date(time);
-                break;
-              case 'object':
-                if (time.constructor === Date) time = time.getTime();
-                break;
-              default:
-                time = +new Date();
-            }
-            var time_formats = [
-              [60, 'seconds', 1], // 60
-              [120, '1 minute ago', '1 minute from now'], // 60*2
-              [3600, 'minutes', 60], // 60*60, 60
-              [7200, '1 hour ago', '1 hour from now'], // 60*60*2
-              [86400, 'hours', 3600], // 60*60*24, 60*60
-              [172800, 'Yesterday', 'Tomorrow'], // 60*60*24*2
-              [604800, 'days', 86400], // 60*60*24*7, 60*60*24
-              [1209600, 'Last week', 'Next week'], // 60*60*24*7*4*2
-              [2419200, 'weeks', 604800], // 60*60*24*7*4, 60*60*24*7
-              [4838400, 'Last month', 'Next month'], // 60*60*24*7*4*2
-              [29030400, 'months', 2419200], // 60*60*24*7*4*12, 60*60*24*7*4
-              [58060800, 'Last year', 'Next year'], // 60*60*24*7*4*12*2
-              [2903040000, 'years', 29030400], // 60*60*24*7*4*12*100, 60*60*24*7*4*12
-              [5806080000, 'Last century', 'Next century'], // 60*60*24*7*4*12*100*2
-              [58060800000, 'centuries', 2903040000] // 60*60*24*7*4*12*100*20, 60*60*24*7*4*12*100
-            ];
-            var seconds = (+new Date() - time) / 1000,
-              token = 'ago',
-              list_choice = 1;
+          - type: "custom:button-card"
+            template: chip_icon_label
+            icon: mdi:broom
+            label: |
+              [[[
+                function time_ago(time) {
+                  switch (typeof time) {
+                    case 'number':
+                      break;
+                    case 'string':
+                      time = +new Date(time);
+                      break;
+                    case 'object':
+                      if (time.constructor === Date) time = time.getTime();
+                      break;
+                    default:
+                      time = +new Date();
+                  }
+                  var time_formats = [
+                    [60, 'seconds', 1], // 60
+                    [120, '1 minute ago', '1 minute from now'], // 60*2
+                    [3600, 'minutes', 60], // 60*60, 60
+                    [7200, '1 hour ago', '1 hour from now'], // 60*60*2
+                    [86400, 'hours', 3600], // 60*60*24, 60*60
+                    [172800, 'Yesterday', 'Tomorrow'], // 60*60*24*2
+                    [604800, 'days', 86400], // 60*60*24*7, 60*60*24
+                    [1209600, 'Last week', 'Next week'], // 60*60*24*7*4*2
+                    [2419200, 'weeks', 604800], // 60*60*24*7*4, 60*60*24*7
+                    [4838400, 'Last month', 'Next month'], // 60*60*24*7*4*2
+                    [29030400, 'months', 2419200], // 60*60*24*7*4*12, 60*60*24*7*4
+                    [58060800, 'Last year', 'Next year'], // 60*60*24*7*4*12*2
+                    [2903040000, 'years', 29030400], // 60*60*24*7*4*12*100, 60*60*24*7*4*12
+                    [5806080000, 'Last century', 'Next century'], // 60*60*24*7*4*12*100*2
+                    [58060800000, 'centuries', 2903040000] // 60*60*24*7*4*12*100*20, 60*60*24*7*4*12*100
+                  ];
+                  var seconds = (+new Date() - time) / 1000,
+                    token = 'ago',
+                    list_choice = 1;
 
-            if (seconds == 0) {
-              return 'Just now'
-            }
-            if (seconds < 0) {
-              seconds = Math.abs(seconds);
-              token = 'from now';
-              list_choice = 2;
-            }
-            var i = 0,
-              format;
-            while (format = time_formats[i++])
-              if (seconds < format[0]) {
-                if (typeof format[2] == 'string')
-                  return format[list_choice];
-                else
-                  return Math.floor(seconds / format[2]) + ' ' + format[1] + ' ' + token;
-              }
-            return time;
-          }
-          return time_ago(states['input_datetime.last_cleaned_dining_room'].state);
-        ]]]
+                  if (seconds == 0) {
+                    return 'Just now'
+                  }
+                  if (seconds < 0) {
+                    seconds = Math.abs(seconds);
+                    token = 'from now';
+                    list_choice = 2;
+                  }
+                  var i = 0,
+                    format;
+                  while (format = time_formats[i++])
+                    if (seconds < format[0]) {
+                      if (typeof format[2] == 'string')
+                        return format[list_choice];
+                      else
+                        return Math.floor(seconds / format[2]) + ' ' + format[1] + ' ' + token;
+                    }
+                  return time;
+                }
+                return time_ago(states['input_datetime.last_cleaned_dining_room'].state);
+              ]]]
 
-  - type: "custom:button-card"
-    template: "card_scenes_welcome"
-    variables:
-      entity_1:
-        entity_id: "binary_sensor.activity_living_room_present"
-        color: "yellow"
-      entity_2:
-        entity_id: "binary_sensor.activity_living_room_dinning"
-        color: "blue"
-      entity_3:
-        entity_id: "binary_sensor.activity_living_room_drumming"
-        color: "red"
-      entity_4:
-        entity_id: "binary_sensor.activity_living_room_reading"
-        color: "pink"
-      entity_5:
-        entity_id: "binary_sensor.activity_living_room_gaming"
-        color: "purple"
-      entity_6:
-        entity_id: "binary_sensor.activity_living_room_watching_tv"
-        color: "yellow"
-    styles:
-      card:
-        - background-color: "transparent"
-        - box-shadow: "none"
+        - type: "custom:button-card"
+          template: "card_scenes_welcome"
+          variables:
+            entity_1:
+              entity_id: "binary_sensor.activity_living_room_present"
+              color: "yellow"
+            entity_2:
+              entity_id: "binary_sensor.activity_living_room_dinning"
+              color: "blue"
+            entity_3:
+              entity_id: "binary_sensor.activity_living_room_drumming"
+              color: "red"
+            entity_4:
+              entity_id: "binary_sensor.activity_living_room_reading"
+              color: "pink"
+            entity_5:
+              entity_id: "binary_sensor.activity_living_room_gaming"
+              color: "purple"
+            entity_6:
+              entity_id: "binary_sensor.activity_living_room_watching_tv"
+              color: "yellow"
+          styles:
+            card:
+              - background-color: "transparent"
+              - box-shadow: "none"
 
-  - type: "custom:button-card"
+  - view_layout:
+      grid-area: "title-media"
+    type: "custom:button-card"
     template: card_title
     name: Media
 
-  - type: horizontal-stack
-    cards:
-      - type: "custom:button-card"
-        template: card_media_player
-        entity: media_player.cooking_area_2
-        variables:
-          ulm_card_media_player_name: Speakers
-          ulm_card_media_player_enable_art: true
-          ulm_card_media_player_enable_controls: true
-          ulm_card_media_player_enable_volume_slider: true
-          ulm_card_media_player_more_info: true
-          ulm_card_media_player_power_button: false
-
-      - type: "custom:button-card"
-        template: card_media_player
-        entity: media_player.tv_2
-        variables:
-          ulm_card_media_player_name: TV
-          ulm_card_media_player_enable_art: true
-          ulm_card_media_player_enable_controls: true
-          ulm_card_media_player_enable_volume_slider: true
-          ulm_card_media_player_more_info: true
-          ulm_card_media_player_power_button: false
 
   - type: "custom:button-card"
+    template: card_media_player
+    entity: media_player.cooking_area_2
+    variables:
+      ulm_card_media_player_name: Speakers
+      ulm_card_media_player_enable_art: true
+      ulm_card_media_player_enable_controls: true
+      ulm_card_media_player_enable_volume_slider: true
+      ulm_card_media_player_more_info: true
+      ulm_card_media_player_power_button: false
+
+  - type: "custom:button-card"
+    template: card_media_player
+    entity: media_player.tv_2
+    variables:
+      ulm_card_media_player_name: TV
+      ulm_card_media_player_enable_art: true
+      ulm_card_media_player_enable_controls: true
+      ulm_card_media_player_enable_volume_slider: true
+      ulm_card_media_player_more_info: true
+      ulm_card_media_player_power_button: false
+
+  - view_layout:
+      grid-area: "title-lights"
+    type: "custom:button-card"
     template: card_title
     name: Lights & Blinds
 
-  - type: "custom:button-card"
+  - view_layout:
+      grid-area: "blinds"
+    type: "custom:button-card"
     template: card_cover
     entity: cover.blinds_curtain
     variables:
@@ -144,7 +174,9 @@ cards:
       ulm_card_cover_enable_horizontal: true
       ulm_card_cover_enable_popup: true
 
-  - type: "custom:button-card"
+  - view_layout:
+      grid-area: "lights"
+    type: "custom:button-card"
     template: card_light
     entity: light.living_room
     variables:
@@ -155,35 +187,38 @@ cards:
       ulm_card_light_enable_horizontal_wide: true
   #  Automatic light scenes from hue
 
-  - type: "custom:button-card"
+  - view_layout:
+      grid-area: "title-sensors"
+    type: "custom:button-card"
     template: card_title
     name: Sensors
-  #  Sensors + Battery
 
-  - type: horizontal-stack
-    cards:
-      - type: "custom:button-card"
-        template: card_binary_sensor
-        variables:
-          ulm_card_binary_sensor_alert: true
-          ulm_show_last_changed: false
-          ulm_card_binary_sensor_name: MS Dining table
-        entity: binary_sensor.living_room_dining_table_ms
+  - view_layout:
+      grid-column-end: span 2
+    type: "custom:button-card"
+    template: card_binary_sensor
+    variables:
+      ulm_card_binary_sensor_alert: true
+      ulm_show_last_changed: false
+      ulm_card_binary_sensor_name: MS Dining table
+    entity: binary_sensor.living_room_dining_table_ms
 
-      - type: "custom:button-card"
-        template: card_binary_sensor
-        variables:
-          ulm_card_binary_sensor_alert: true
-          ulm_show_last_changed: false
-          ulm_card_binary_sensor_name: MS Sofa table
-        entity: binary_sensor.living_room_sofa_ms
+  - view_layout:
+      grid-column-end: span 2
+    type: "custom:button-card"
+    template: card_binary_sensor
+    variables:
+      ulm_card_binary_sensor_alert: true
+      ulm_show_last_changed: false
+      ulm_card_binary_sensor_name: MS Sofa table
+    entity: binary_sensor.living_room_sofa_ms
 
-  - type: horizontal-stack
-    cards:
-      - type: "custom:button-card"
-        template:
-          - card_binary_sensor
-          - battery_info
-        entity: binary_sensor.sofa_ps
-        variables:
-          ulm_show_last_changed: false
+  - view_layout:
+      grid-column-end: span 2
+    type: "custom:button-card"
+    template:
+      - card_binary_sensor
+      - battery_info
+    entity: binary_sensor.sofa_ps
+    variables:
+      ulm_show_last_changed: false
