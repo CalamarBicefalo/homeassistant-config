@@ -481,7 +481,6 @@ card_cb_room_header_activity_pill:
       - column-gap: "auto"
     card:
       - background: none
-      - border-radius: "50px"
       - place-self: "center"
       - width: "100%"
       - height: "84px"
