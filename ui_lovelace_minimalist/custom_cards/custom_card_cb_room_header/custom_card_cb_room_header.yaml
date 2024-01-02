@@ -1,8 +1,12 @@
 ---
 card_cb_room_header:
   template: "ulm_language_variables"
+  triggers_update: 
+        - "[[[ return `input_select.${variables.room_key}_activity` ]]]"
+        - "[[[ return `input_datetime.last_cleaned_${variables.room_key}` ]]]"
   variables:
     ulm_weather: "[[[ return variables.ulm_weather]]]"
+    room_name: "[[[ return variables.room_key.replaceAll('_', ' ') ]]]"
     entity_1:
       color: >
         [[[
@@ -47,9 +51,20 @@ card_cb_room_header:
       - grid-template-columns: "1fr"
       - grid-template-rows: "min-content min-content"
       - row-gap: "0px"
+      - margin: 0
     card:
+      - position: relative
+      - padding: 0 8px
+      - margin: -4px -4px 0 -4px
+      - width: 100vw
       - border-radius: 0
-      - background-color: transparent
+      - background: |
+          linear-gradient( 
+            to bottom, 
+            rgba(0, 0, 0, 0.4), 
+            rgba(0, 0, 0, 0) ), 
+            url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/skyscrapers.jpg
+          )
       - box-shadow: "none"
       - cursor: "default"
       - "--mdc-ripple-press-opacity": 0   # prevent click animation
@@ -60,33 +75,38 @@ card_cb_room_header:
         type: "custom:layout-card"
         layout_type: "custom:grid-layout"
         layout:
-          margin: "0px -4px 12px -4px"
+          margin: "4px 0px 12px 0px"
           place-content: stretch
           grid-template-columns: "1fr 1fr"
           grid-template-areas: |
             "title clean"
             "scenes scenes"
         cards:
-        # - type: picture
-        #   image: https://demo.home-assistant.io/stub_config/t-shirt-promo.png
         - view_layout:
             grid-area: "title"
           type: "custom:button-card"
           template: card_title
+          entity: "[[[ return 'input_select.'+variables.room_key+'_activity' ]]]"
           name: |
-            [[[ return variables.room_key.replaceAll('_', ' ') ]]]
+            [[[ return variables.room_name ]]]
           label: |
             [[[ return states['input_select.'+variables.room_key+'_activity'].state ]]]
           styles:
             card:
               - margin: 0
-              - margin-top: 0
+              - padding: "0 0 0 4px"
+              - border-radius: 0
             name: 
               - font-size: 1.75rem
               - font-weight: 900
               - text-transform: capitalize
+              - color: white
+              - text-shadow: 0 1px 0 black
             label: 
+              - color: white
+              - opacity: 0.6
               - font-size: 1.25rem
+              - text-shadow: 0 1px 0 black
 
         - view_layout:
             grid-area: "clean"
@@ -94,6 +114,22 @@ card_cb_room_header:
           type: "custom:button-card"
           template: chip_icon_label
           icon: mdi:broom
+          confirmation:
+            text: '[[[ return `Flick will clean the ${variables.room_name} right away.` ]]]'
+          tap_action:
+            action: "call-service"
+            service:  "custom_event.fire"
+            service_data: |
+              [[[
+                return { 
+                  event_type: 'activity_changed',
+                  event_data: {
+                    helper: `input_select.${variables.room_key}_activity`, 
+                    activity: entity && entity.attributes.friendly_name,
+                    manual: false
+                  }
+                };
+              ]]]
           label: |
             [[[
               function time_ago(time) {
@@ -151,23 +187,402 @@ card_cb_room_header:
               }
               return time_ago(states['input_datetime.last_cleaned_'+variables.room_key].state);
             ]]]
-
+          styles:
+            card:
+              - background: rgba(1,1,1, 0.1)
+              - backdrop-filter: blur(6px)
+              - color: white
+              - border: 1px solid
+              - border-color: rgba(255,255,255,0.5)
+              - --mdc-ripple-press-opacity: 0.2
+            icon:
+              - color: white
         - view_layout:
             grid-area: "scenes"
           type: "custom:button-card"
-          template: "card_scenes_welcome"
+          template: "card_cb_room_header_activities"
+          styles:
+            card:
+              - background: |
+                  linear-gradient( 
+                    to bottom, 
+                    rgba(0, 0, 0, 0), 
+                    rgba(0, 0, 0, 0.4) )
+              - backdrop-filter: blur(6px)
+              - color: white
+              - border: 1px solid
+              - border-color: rgba(255,255,255,0.5)
+          
+            item1:
+              card:
+                - background: pink
           variables: |
             [[[
               var output = {}
               var colors = ['yellow', 'blue', 'red', 'purple','green', 'pink']
-              var activities = Object.keys(hass.entities).filter(k => k.startsWith("binary_sensor.activity_"+variables.room_key))
+              var activities = Object
+              .keys(hass.entities)
+              .filter(k => 
+                k.startsWith("binary_sensor.activity_"+variables.room_key) &&
+                !k.endsWith(variables.room_key + "_empty")
+              )
               for(var i = 0; i < activities.length; i++) {
                 output['entity_'+(i+1)] = {
                   entity_id: activities[i],
-                  color: colors[i%colors.length]
+                  color: colors[i%colors.length],
+                  room_key: variables.room_key,
                 }
               }
               return output;
             ]]]
-      
-            
+
+
+card_cb_room_header_activities:
+  show_icon: false
+  show_name: true
+  show_label: false
+  variables:
+    entity_1:
+      entity_id: ""
+      color: >
+        [[[
+          var colors = ['yellow', 'blue', 'red', 'purple','green', 'pink'];
+          var color = colors[Math.floor(Math.random() * colors.length)];
+          return color;
+        ]]]
+    entity_2:
+      entity_id: ""
+      color: >
+        [[[
+          var colors = ['yellow', 'blue', 'red', 'purple','green', 'pink'];
+          var color = colors[Math.floor(Math.random() * colors.length)];
+          return color;
+        ]]]
+    entity_3:
+      entity_id: ""
+      color: >
+        [[[
+          var colors = ['yellow', 'blue', 'red', 'purple','green', 'pink'];
+          var color = colors[Math.floor(Math.random() * colors.length)];
+          return color;
+        ]]]
+    entity_4:
+      entity_id: ""
+      color: >
+        [[[
+          var colors = ['yellow', 'blue', 'red', 'purple','green', 'pink'];
+          var color = colors[Math.floor(Math.random() * colors.length)];
+          return color;
+        ]]]
+    entity_5:
+      entity_id: ""
+      color: >
+        [[[
+          var colors = ['yellow', 'blue', 'red', 'purple','green', 'pink'];
+          var color = colors[Math.floor(Math.random() * colors.length)];
+          return color;
+        ]]]
+    entity_6:
+      entity_id: ""
+      color: >
+        [[[
+          var colors = ['yellow', 'blue', 'red', 'purple','green', 'pink'];
+          var color = colors[Math.floor(Math.random() * colors.length)];
+          return color;
+        ]]]
+    entity_7:
+      entity_id: ""
+      color: >
+        [[[
+          var colors = ['yellow', 'blue', 'red', 'purple','green', 'pink'];
+          var color = colors[Math.floor(Math.random() * colors.length)];
+          return color;
+        ]]]
+  styles:
+    grid:
+      - grid-template-areas: >
+          [[[
+            var pills = []
+            const entities = [variables.entity_1?.entity_id, variables.entity_2?.entity_id, variables.entity_3?.entity_id, variables.entity_4?.entity_id, variables.entity_5?.entity_id, variables.entity_6?.entity_id, variables.entity_7?.entity_id]
+            function entity_check(item) {
+                if (item != "") {
+                    pills.push("item" + (pills.length+1))
+                }
+            }
+            entities.forEach(entity_check)
+            return pills.join(" ")
+          ]]]
+      - display: "flex"
+      - gap: 0px
+      - justify-content: "space-evenly"
+    card:
+      - border-radius: "var(--border-radius)"
+      - box-shadow: "var(--box-shadow)"
+      - padding: "12px 12px 4px 12px"
+      - overflow: "visible"
+    custom_fields:
+      item1:
+        - display: "[[[ return (variables.entity_1.entity_id != '') ? 'block' : 'none' ]]]"
+      item2:
+        - display: "[[[ return (variables.entity_2.entity_id != '') ? 'block' : 'none' ]]]"
+      item3:
+        - display: "[[[ return (variables.entity_3.entity_id != '') ? 'block' : 'none' ]]]"
+      item4:
+        - display: "[[[ return (variables.entity_4.entity_id != '') ? 'block' : 'none' ]]]"
+      item5:
+        - display: "[[[ return (variables.entity_5.entity_id != '') ? 'block' : 'none' ]]]"
+      item6:
+        - display: "[[[ return (variables.entity_6.entity_id != '') ? 'block' : 'none' ]]]"
+      item7:
+        - display: "[[[ return (variables.entity_7.entity_id != '') ? 'block' : 'none' ]]]"
+  custom_fields:
+    item1:
+      card:
+        type: "custom:button-card"
+        template: "card_cb_room_header_activity_pill"
+        variables: "[[[ return variables.entity_1; ]]]"
+        entity: "[[[ return variables.entity_1.entity_id ]]]"
+        custom_fields:
+          item1:
+            card:
+              type: "custom:button-card"
+              entity: "[[[ return variables.entity_1.entity_id ]]]"
+              icon: "[[[ return variables.entity_1.icon ]]]"
+          item2:
+            card:
+              type: "custom:button-card"
+              entity: "[[[ return variables.entity_1.entity_id ]]]"
+              name: "[[[ return variables.entity_1.name ]]]"
+    item2:
+      card:
+        type: "custom:button-card"
+        template: "card_cb_room_header_activity_pill"
+        variables: "[[[ return variables.entity_2; ]]]"
+        entity: "[[[ return variables.entity_2.entity_id ]]]"
+        custom_fields:
+          item1:
+            card:
+              type: "custom:button-card"
+              entity: "[[[ return variables.entity_2.entity_id ]]]"
+              icon: "[[[ return variables.entity_2.icon ]]]"
+          item2:
+            card:
+              type: "custom:button-card"
+              entity: "[[[ return variables.entity_2.entity_id ]]]"
+              name: "[[[ return variables.entity_2.name ]]]"
+    item3:
+      card:
+        type: "custom:button-card"
+        template: "card_cb_room_header_activity_pill"
+        variables: "[[[ return variables.entity_3; ]]]"
+        entity: "[[[ return variables.entity_3.entity_id ]]]"
+        custom_fields:
+          item1:
+            card:
+              type: "custom:button-card"
+              entity: "[[[ return variables.entity_3.entity_id ]]]"
+              icon: "[[[ return variables.entity_3.icon ]]]"
+          item2:
+            card:
+              type: "custom:button-card"
+              entity: "[[[ return variables.entity_3.entity_id ]]]"
+              name: "[[[ return variables.entity_3.name ]]]"
+    item4:
+      card:
+        type: "custom:button-card"
+        template: "card_cb_room_header_activity_pill"
+        variables: "[[[ return variables.entity_4; ]]]"
+        entity: "[[[ return variables.entity_4.entity_id ]]]"
+        custom_fields:
+          item1:
+            card:
+              type: "custom:button-card"
+              entity: "[[[ return variables.entity_4.entity_id ]]]"
+              icon: "[[[ return variables.entity_4.icon ]]]"
+          item2:
+            card:
+              type: "custom:button-card"
+              entity: "[[[ return variables.entity_4.entity_id ]]]"
+              name: "[[[ return variables.entity_4.name ]]]"
+    item5:
+      card:
+        type: "custom:button-card"
+        template: "card_cb_room_header_activity_pill"
+        variables: "[[[ return variables.entity_5; ]]]"
+        entity: "[[[ return variables.entity_5.entity_id ]]]"
+        custom_fields:
+          item1:
+            card:
+              type: "custom:button-card"
+              entity: "[[[ return variables.entity_5.entity_id ]]]"
+              icon: "[[[ return variables.entity_5.icon ]]]"
+          item2:
+            card:
+              type: "custom:button-card"
+              entity: "[[[ return variables.entity_5.entity_id ]]]"
+              name: "[[[ return variables.entity_5.name ]]]"
+    item6:
+      card:
+        type: "custom:button-card"
+        template: "card_cb_room_header_activity_pill"
+        variables: "[[[ return variables.entity_6; ]]]"
+        entity: "[[[ return variables.entity_6.entity_id ]]]"
+        custom_fields:
+          item1:
+            card:
+              type: "custom:button-card"
+              entity: "[[[ return variables.entity_6.entity_id ]]]"
+              icon: "[[[ return variables.entity_6.icon ]]]"
+          item2:
+            card:
+              type: "custom:button-card"
+              entity: "[[[ return variables.entity_6.entity_id ]]]"
+              name: "[[[ return variables.entity_6.name ]]]"
+    item7:
+      card:
+        type: "custom:button-card"
+        template: "card_cb_room_header_activity_pill"
+        variables: "[[[ return variables.entity_7; ]]]"
+        entity: "[[[ return variables.entity_7.entity_id ]]]"
+        custom_fields:
+          item1:
+            card:
+              type: "custom:button-card"
+              entity: "[[[ return variables.entity_7.entity_id ]]]"
+              icon: "[[[ return variables.entity_7.icon ]]]"
+          item2:
+            card:
+              type: "custom:button-card"
+              entity: "[[[ return variables.entity_7.entity_id ]]]"
+              name: "[[[ return variables.entity_7.name ]]]"
+
+# pill
+card_cb_room_header_activity_pill:
+  show_icon: false
+  show_label: false
+  show_name: false
+  state:
+    - operator: "template"
+      value: >
+        [[[
+          return (entity?.state !== 'on' && entity?.state !== 'playing' && entity?.state != variables?.state)
+        ]]]
+      styles:
+        card:
+          - overflow: "visible"
+          - box-shadow: "none"
+  styles:
+    grid:
+      - grid-template-areas: "'item1' 'item2'"
+      - grid-template-columns: "min-content"
+      - grid-template-rows: "1fr 1fr"
+      - row-gap: "12px"
+      - justify-items: "center"
+      - column-gap: "auto"
+    card:
+      - background: none
+      - border-radius: "50px"
+      - place-self: "center"
+      - width: "100%"
+      - height: "84px"
+      - box-shadow: none
+  color: "var(--google-grey)"
+  custom_fields:
+    item1:
+      card:
+        type: "custom:button-card"
+        show_icon: true
+        show_label: false
+        show_name: false
+        tap_action:
+          action: "call-service"
+          service:  "custom_event.fire"
+          service_data: |
+            [[[
+              return { 
+                event_type: 'activity_changed',
+                event_data: {
+                  helper: `input_select.${variables.room_key}_activity`, 
+                  activity: entity && entity.attributes.friendly_name,
+                  manual: false
+                }
+              };
+            ]]]
+        styles:
+          grid:
+            - grid-template-areas: "i"
+          icon:
+            - color: >
+                [[[
+                  var active = !(entity?.state !== 'on' && entity?.state !== 'playing' && entity?.state != variables?.state)
+                  var color = active ? variables?.color : 'grey'
+                  return `rgba(var(--color-${color}), 1)`;
+                ]]]
+            - width: "22px"
+          img_cell:
+            - background-color: >
+                [[[
+                  var active = !(entity?.state !== 'on' && entity?.state !== 'playing' && entity?.state != variables?.state)
+                  var color = variables?.color
+                  var opacity = '0.20'
+                  return `rgba(var(--color-${active?color:'grey'}), ${opacity})`;
+                ]]]
+            - border: >
+                [[[
+                  var active = !(entity?.state !== 'on' && entity?.state !== 'playing' && entity?.state != variables?.state)
+                  var color = variables?.color
+                  return active ? `2px solid rgba(var(--color-${color}), 1)` : 'none';
+                ]]]
+            - border-radius: "50%"
+            - width: >
+                [[[
+                  var active = !(entity?.state !== 'on' && entity?.state !== 'playing' && entity?.state != variables?.state)
+                  var color = variables?.color
+                  return active ? `42px` : '46px';
+                ]]]
+            - height: >
+                [[[
+                  var active = !(entity?.state !== 'on' && entity?.state !== 'playing' && entity?.state != variables?.state)
+                  var color = variables?.color
+                  return active ? `42px` : '46px';
+                ]]]
+          card:
+            - box-shadow: "none"
+            - border-radius: "50px"
+            - padding: "0px"
+        state:
+          - operator: "template"
+            value: >
+              [[[
+                return (entity?.state !== 'on' && entity?.state !== 'playing' && entity?.state != variables?.state)
+              ]]]
+            styles:
+              card:
+                - overflow: "visible"
+                - box-shadow: var(--box-shadow)
+                    
+    item2:
+      card:
+        type: "custom:button-card"
+        show_icon: false
+        show_label: false
+        styles:
+          grid:
+            - grid-template-areas: "n"
+          name:
+            - justify-self: "center"
+            - color: white
+            - text-shadow: 0 1px 0 black
+            - font-weight: "bold"
+            - font-size: "11px"
+            - padding-bottom: "7px"
+            - overflow: "visible"
+            - max-width: 70px
+            - overflow: hidden
+          card:
+            - background: none
+            - box-shadow: "none"
+            - padding: "0px 5px 5px 5px"
+            - margin-top: "-5px"
+            - border-radius: "50px"
+            - overflow: "visible"

@@ -9,6 +9,8 @@ layout_type: "custom:grid-layout"
 layout:
   # Tablet portrait
   grid-template-columns: "1fr 1fr"
+  margin: 0
+  padding: 0
   grid-template-areas: |
     "header header"
     "title-media title-media"
@@ -22,126 +24,18 @@ layout:
 cards:
   - view_layout:
       grid-area: "header"
-    type: "custom:layout-card"
-    layout_type: "custom:grid-layout"
-    layout:
-      margin: "0px -4px 12px -4px"
-      place-content: stretch
-      grid-template-columns: "1fr 1fr"
-      grid-template-areas: |
-        "title clean"
-        "scenes scenes"
-    cards:
-    # - type: picture
-    #   image: https://demo.home-assistant.io/stub_config/t-shirt-promo.png
-    - view_layout:
-        grid-area: "title"
-      type: "custom:button-card"
-      template: card_title
-      name: Living Room
-      label: |
-        [[[ return states['input_select.living_room_activity'].state ]]]
-      styles:
-        card:
-          - margin: 0
-          - margin-top: 0
-        name: 
-          - font-size: 1.75rem
-          - font-weight: 900
-        label: 
-          - font-size: 1.25rem
-
-    - view_layout:
-        grid-area: "clean"
-        place-self: center end
-      type: "custom:button-card"
-      template: chip_icon_label
-      icon: mdi:broom
-      label: |
-        [[[
-          function time_ago(time) {
-            switch (typeof time) {
-              case 'number':
-                break;
-              case 'string':
-                time = +new Date(time);
-                break;
-              case 'object':
-                if (time.constructor === Date) time = time.getTime();
-                break;
-              default:
-                time = +new Date();
-            }
-            var time_formats = [
-              [60, 'seconds', 1], // 60
-              [120, '1 minute ago', '1 minute from now'], // 60*2
-              [3600, 'minutes', 60], // 60*60, 60
-              [7200, '1 hour ago', '1 hour from now'], // 60*60*2
-              [86400, 'hours', 3600], // 60*60*24, 60*60
-              [172800, 'Yesterday', 'Tomorrow'], // 60*60*24*2
-              [604800, 'days', 86400], // 60*60*24*7, 60*60*24
-              [1209600, 'Last week', 'Next week'], // 60*60*24*7*4*2
-              [2419200, 'weeks', 604800], // 60*60*24*7*4, 60*60*24*7
-              [4838400, 'Last month', 'Next month'], // 60*60*24*7*4*2
-              [29030400, 'months', 2419200], // 60*60*24*7*4*12, 60*60*24*7*4
-              [58060800, 'Last year', 'Next year'], // 60*60*24*7*4*12*2
-              [2903040000, 'years', 29030400], // 60*60*24*7*4*12*100, 60*60*24*7*4*12
-              [5806080000, 'Last century', 'Next century'], // 60*60*24*7*4*12*100*2
-              [58060800000, 'centuries', 2903040000] // 60*60*24*7*4*12*100*20, 60*60*24*7*4*12*100
-            ];
-            var seconds = (+new Date() - time) / 1000,
-              token = 'ago',
-              list_choice = 1;
-
-            if (seconds == 0) {
-              return 'Just now'
-            }
-            if (seconds < 0) {
-              seconds = Math.abs(seconds);
-              token = 'from now';
-              list_choice = 2;
-            }
-            var i = 0,
-              format;
-            while (format = time_formats[i++])
-              if (seconds < format[0]) {
-                if (typeof format[2] == 'string')
-                  return format[list_choice];
-                else
-                  return Math.floor(seconds / format[2]) + ' ' + format[1] + ' ' + token;
-              }
-            return time;
-          }
-          return time_ago(states['input_datetime.last_cleaned_dining_room'].state);
-        ]]]
-
-    - view_layout:
-        grid-area: "scenes"
-      type: "custom:button-card"
-      template: "card_scenes_welcome"
-      variables:
-        entity_1:
-          entity_id: "binary_sensor.activity_living_room_present"
-          color: "yellow"
-        entity_2:
-          entity_id: "binary_sensor.activity_living_room_dinning"
-          color: "blue"
-        entity_3:
-          entity_id: "binary_sensor.activity_living_room_drumming"
-          color: "red"
-        entity_4:
-          entity_id: "binary_sensor.activity_living_room_reading"
-          color: "pink"
-        entity_5:
-          entity_id: "binary_sensor.activity_living_room_gaming"
-          color: "purple"
-        entity_6:
-          entity_id: "binary_sensor.activity_living_room_watching_tv"
-          color: "yellow"
-      # styles:
-        # card:
-          # - background-color: "transparent"
-          # - box-shadow: "none"
+    type: "custom:button-card"
+    template: "card_cb_room_header"
+    variables:
+      room_key: 'living_room'
+    card_mod:
+      style: |
+        :host {
+          position: sticky !important;
+          top: 0 !important;
+          z-index: 1 !important;
+          box-shadow: var(--box-shadow) !important;
+        }
 
   - view_layout:
       grid-area: "title-media"

@@ -1,6 +1,7 @@
 default_config:
 cloud:
-
+custom_event:
+  
 input_button: !include helpers/input_button.yaml
 input_number: !include helpers/input_number.yaml
 
