@@ -19,7 +19,6 @@ BINARY_SENSOR_ACTIVITY_KITCHEN_COOKING: Entity = Entity("binary_sensor.activity_
 BINARY_SENSOR_ACTIVITY_KITCHEN_EMPTY: Entity = Entity("binary_sensor.activity_kitchen_empty")
 BINARY_SENSOR_ACTIVITY_KITCHEN_PRESENT: Entity = Entity("binary_sensor.activity_kitchen_present")
 BINARY_SENSOR_ACTIVITY_KITCHEN_TV_BREAK: Entity = Entity("binary_sensor.activity_kitchen_tv_break")
-BINARY_SENSOR_ACTIVITY_LIVING_ROOM_DINNING: Entity = Entity("binary_sensor.activity_living_room_dinning")
 BINARY_SENSOR_ACTIVITY_LIVING_ROOM_DRUMMING: Entity = Entity("binary_sensor.activity_living_room_drumming")
 BINARY_SENSOR_ACTIVITY_LIVING_ROOM_EMPTY: Entity = Entity("binary_sensor.activity_living_room_empty")
 BINARY_SENSOR_ACTIVITY_LIVING_ROOM_GAMING: Entity = Entity("binary_sensor.activity_living_room_gaming")

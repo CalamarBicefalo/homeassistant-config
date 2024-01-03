@@ -62,13 +62,6 @@ class LivingRoomScene(SceneApp):
                     )
                 })
 
-            case LivingRoom.Activity.DINNING:
-                return scene.with_actions(
-                    scenes.DINING_ROOM_DINNER_TIME,
-                    lambda: self.handlers.music.play(Playlist.COOL_JAZZ),
-                    lambda: self.handlers.blinds.best_for_temperature(),
-                )
-
             case LivingRoom.Activity.DRUMMING:
                 return scene.with_actions(
                     scenes.LIVING_ROOM_DRUMMING,
