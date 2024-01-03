@@ -4,9 +4,12 @@ card_cb_room_header:
   triggers_update: 
         - "[[[ return `input_select.${variables.room_key}_activity` ]]]"
         - "[[[ return `input_datetime.last_cleaned_${variables.room_key}` ]]]"
+        - "[[[ return `input_boolean.activity_lock_${variables.room_key}` ]]]"
   variables:
     ulm_weather: "[[[ return variables.ulm_weather]]]"
     room_name: "[[[ return variables.room_key.replaceAll('_', ' ') ]]]"
+    z0_activity_lock_entity: "[[[ return `input_boolean.activity_lock_${variables.room_key}` ]]]"
+    z1_activity_lock: "[[[  return states[variables.z0_activity_lock_entity].state  == 'on' ]]]"
   show_icon: false
   show_label: true
   show_name: false
@@ -50,28 +53,61 @@ card_cb_room_header:
         - view_layout:
             grid-area: "title"
           type: "custom:button-card"
-          template: card_title
           entity: "[[[ return 'input_select.'+variables.room_key+'_activity' ]]]"
+          show_icon: "[[[ return variables.z1_activity_lock ]]]"
+          show_label: true
+          icon: "mdi:lock"
+          tap_action:
+            action: "none"
           name: |
             [[[ return variables.room_name ]]]
           label: |
             [[[ return states['input_select.'+variables.room_key+'_activity'].state ]]]
           styles:
             card:
+              - background-color: "rgba(0,0,0,0)"
+              - box-shadow: "none"
+              - width: "auto"
               - margin: 0
               - padding: "0 0 0 4px"
               - border-radius: 0
+            grid:
+              - grid-template-areas: |
+                  [[[
+                    if (variables.z1_activity_lock) {
+                      return `"n n"
+                              "i l"`
+                    }
+                    return `"n n"
+                            "l l"`
+                  ]]]
+              - grid-template-columns: "18px 1fr"
+              - grid-template-rows: "min-content min-content"
             name: 
+              - justify-self: "start"
               - font-size: 1.75rem
               - font-weight: 900
               - text-transform: capitalize
               - color: white
               - text-shadow: 0 1px 0 black
             label: 
+              - justify-self: "start"
+              - font-weight: "bold"
+              - opacity: "0.4"
               - color: white
               - opacity: 0.6
               - font-size: 1.25rem
               - text-shadow: 0 1px 0 black
+            icon:
+              - justify-self: "start"
+              - margin-top: -2px
+              - margin-left: -2px
+              - font-weight: "bold"
+              - opacity: 0.8
+              - color: white
+              - font-size: 1.25rem
+              - text-shadow: 0 1px 0 black
+              - width: "16px"
 
         - view_layout:
             grid-area: "clean"
@@ -193,7 +229,7 @@ card_cb_room_header:
               for(var i = 0; i < activities.length; i++) {
                 output['entity_'+(i+1)] = {
                   entity_id: activities[i],
-                  color: 'yellow',
+                  color: variables.z1_activity_lock ? 'red' : 'yellow',
                   room_key: variables.room_key,
                 }
               }
