@@ -66,6 +66,7 @@ BINARY_SENSOR_LIVING_ROOM_MS_OCCUPANCY: Entity = Entity("binary_sensor.living_ro
 BINARY_SENSOR_LIVING_ROOM_SOFA_MS: Entity = Entity("binary_sensor.living_room_sofa_ms")
 BINARY_SENSOR_LUMI_LUMI_SENSOR_WLEAK_AQ1_MOISTURE: Entity = Entity("binary_sensor.lumi_lumi_sensor_wleak_aq1_moisture")
 BINARY_SENSOR_PRESENCE_SENSOR_FP2_C423_PRESENCE_SENSOR_4: Entity = Entity("binary_sensor.presence_sensor_fp2_c423_presence_sensor_4")
+BINARY_SENSOR_RELAXING: Entity = Entity("binary_sensor.relaxing")
 BINARY_SENSOR_SNYK_LAPTOP_ACTIVE: Entity = Entity("binary_sensor.snyk_laptop_active")
 BINARY_SENSOR_SNYK_LAPTOP_AUDIO_INPUT_IN_USE: Entity = Entity("binary_sensor.snyk_laptop_audio_input_in_use")
 BINARY_SENSOR_SNYK_LAPTOP_AUDIO_OUTPUT_IN_USE: Entity = Entity("binary_sensor.snyk_laptop_audio_output_in_use")
