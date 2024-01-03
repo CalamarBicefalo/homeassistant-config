@@ -43,6 +43,13 @@ class LivingRoomScene(SceneApp):
                     )
                 })
 
+            case LivingRoom.Activity.RELAXING:
+                return scene.with_actions(
+                    scenes.FULL_LIVING_ROOM_COZY,
+                    lambda: self.play_music_if_appropriate(),
+                    lambda: self.handlers.blinds.close(),
+                )
+
             case LivingRoom.Activity.WATCHING_TV:
                 return scene.with_actions(
                     scenes.LIVING_ROOM_MOVIE,

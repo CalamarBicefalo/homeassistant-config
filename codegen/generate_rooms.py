@@ -72,7 +72,9 @@ def load_rooms(rooms_descriptor) -> list[Any]:
 
 def get_common_activities(rooms):
     all_activities_by_room = [*map(lambda room: set(map(lambda activity: activity["name"], room["activities"])), rooms)]
-    return set.intersection(*all_activities_by_room)
+    ca = list(set.intersection(*all_activities_by_room))
+    ca.sort()
+    return ca
 
 
 def activity_enum_name(activity_yaml_entries):
