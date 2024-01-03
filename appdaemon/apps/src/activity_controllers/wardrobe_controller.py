@@ -12,10 +12,6 @@ class WardrobeController(ActivityController):
     def activity(self) -> ActivityHandler:
         return self.handlers.rooms.wardrobe.activity
 
-    @property
-    def max_inactive_activity_seconds(self) -> int:
-        return 10 * 60
-
     def initialize(self) -> None:
         self.listen_state(
             self.controller_handler,
@@ -46,7 +42,7 @@ class WardrobeController(ActivityController):
             self.activity.set(CommonActivities.PRESENT)
 
         else:
-            self.set_as_empty_in(seconds=10)
+            self.set_as_empty_in(seconds=30)
 
     def is_wardrobe_sensor(self, entity: entities.Entity) -> bool:
         return entity in [

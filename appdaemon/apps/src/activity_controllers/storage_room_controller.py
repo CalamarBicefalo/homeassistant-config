@@ -23,7 +23,6 @@ class StorageRoomController(ActivityController):
 
         if new == states.OPEN:
             self.activity.set(StorageRoom.Activity.PRESENT)
-            self.set_as_empty_in(minutes=10)
         else:
             self.cancel_empty_timer()
             self.activity.set(StorageRoom.Activity.EMPTY)

@@ -19,8 +19,14 @@ class BedroomController(MotionController):
         return self.handlers.rooms.bedroom.activity
 
     @property
-    def max_inactive_activity_seconds(self) -> int:
+    def max_seconds_until_empty(self) -> int:
         return 10 * 60 * 60
+
+    @property
+    def max_seconds_without_presence_until_empty(self) -> int:
+        # TODO check presence sensor history and see if there are no reported periods of no presence while sleeping
+        # If so we can reduce this amount.
+        return 5 * 60 * 60
 
     def initialize(self) -> None:
         self.log(f'Initializing {self.controller} motion based activity controller.', level="DEBUG")

@@ -32,20 +32,11 @@ class LivingRoomController(ActivityController):
 
         self.cancel_empty_timer()
 
-        if self.activity.is_value(LivingRoom.Activity.RELAXING):
-            return
-
-        elif self.playing_ps5():
+        if self.playing_ps5():
             self.activity.set(LivingRoom.Activity.GAMING)
 
         elif self.watching_tv():
             self.activity.set(LivingRoom.Activity.WATCHING_TV)
-
-        elif self.activity.is_value(LivingRoom.Activity.DRUMMING):
-            if self.state.is_on(self.motion_sensor) or self.sitting_on_sofa():
-                self.set_as_empty_in(minutes=90)
-            else:
-                self.set_as_empty_in(minutes=10)
 
         elif self.sitting_on_sofa():
             self.activity.set(LivingRoom.Activity.READING)
