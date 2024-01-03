@@ -3,7 +3,7 @@ from typing import Optional
 
 import entities
 import states
-from activity_handler import ActivityHandler
+from activity_handler import ActivityHandler, ACTIVITY_CHANGED_EVENT
 from app import App
 from rooms import *
 from select_handler import SelectHandler
@@ -25,6 +25,15 @@ class ActivityController(App):
     @abstractmethod
     def motion_sensor(self) -> entities.Entity:
         pass
+
+    def initialize_lock(self) -> None:
+        self.log(f'Initializing {self.controller} activity controller.', level="DEBUG")
+
+        if self.motion_sensor:
+            self.listen_event(
+                self.activity.on_activity_changed_event,
+                ACTIVITY_CHANGED_EVENT
+            )
 
     def set_as_empty_in(self, seconds: int = 0, minutes: int = 0) -> None:
         self._cancel_empty_timer()
@@ -75,6 +84,7 @@ class ActivityController(App):
 class MotionController(ActivityController):
 
     def initialize(self) -> None:
+        super().initialize_lock()
         self.log(f'Initializing {self.controller} motion based activity controller.', level="DEBUG")
 
         if self.motion_sensor:

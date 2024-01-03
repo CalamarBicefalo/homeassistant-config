@@ -11,6 +11,7 @@ class LivingRoomController(ActivityController):
         return self.handlers.rooms.dining_room.activity
 
     def initialize(self) -> None:
+        super().initialize_lock()
         self.listen_state(
             self.controller_handler,
             [

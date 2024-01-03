@@ -16,6 +16,7 @@ class HallwayController(MotionController):
         return self.handlers.rooms.hallway.activity
 
     def initialize(self) -> None:
+        super().initialize_lock()
         self.listen_state(
             self.on_motion,
             self.motion_sensor

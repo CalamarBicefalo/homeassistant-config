@@ -29,6 +29,8 @@ def subject():
 
 @pytest.mark.asyncio
 def test_triggers_when_ignoring_motion_does_nothing(given_that, subject, assert_that):
+    given_that.state_of("motion-sensor").is_set_to(states.ON)
+
     subject.controller_handler("motion-sensor", None, None, states.DETECTED, None)
 
     assert_that(services.INPUT_SELECT_SELECT_OPTION).was_not.set_to_activity(Bedroom._activity_helper,

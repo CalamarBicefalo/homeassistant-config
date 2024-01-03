@@ -14,6 +14,7 @@ class StudioController(ActivityController):
         return self.handlers.rooms.studio.activity
 
     def initialize(self) -> None:
+        super().initialize_lock()
         self.log(f'Initializing studio activity controller.', level="DEBUG")
 
         self.listen_state(

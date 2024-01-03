@@ -99,6 +99,7 @@ def test_when_meeting(given_that, subject, assert_that):
 
 
 def studio_state_is(self, motion=states.OFF, chair=states.OFF, drumkit_power=0, laptop_audio=states.OFF):
+    self.state_of(entities.INPUT_BOOLEAN_ACTIVITY_LOCK_STUDIO).is_set_to(False)
     self.state_of(Studio._activity_helper).is_set_to(Studio.Activity.EMPTY)
     self.state_of(entities.SENSOR_SNYK_LAPTOP_SSID).is_set_to('SETE-2SE-5G')
     self.state_of(entities.BINARY_SENSOR_STUDIO_MOTION).is_set_to(motion)

@@ -12,6 +12,7 @@ class LivingRoomController(ActivityController):
         return self.handlers.rooms.living_room.activity
 
     def initialize(self) -> None:
+        super().initialize_lock()
         self.listen_state(
             self.controller_handler,
             [
@@ -37,6 +38,10 @@ class LivingRoomController(ActivityController):
 
         elif self.watching_tv():
             self.activity.set(LivingRoom.Activity.WATCHING_TV)
+
+        elif (self.activity.is_value(LivingRoom.Activity.RELAXING)
+              or self.activity.is_value(LivingRoom.Activity.DRUMMING)):
+            return
 
         elif self.sitting_on_sofa():
             self.activity.set(LivingRoom.Activity.READING)

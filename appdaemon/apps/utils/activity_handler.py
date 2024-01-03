@@ -1,5 +1,5 @@
 from enum import StrEnum
-from typing import TypeVar
+from typing import TypeVar, Any
 
 import appdaemon.plugins.hass.hassapi as hass
 
@@ -21,11 +21,30 @@ class ActivityHandler(SelectHandler[T]):
         self._state = StateHandler(app)
 
     def set(self, value: T | str, manual: bool = False) -> None:
-        self._app.fire_event(ACTIVITY_CHANGED_EVENT, helper=self._helper, activity=value, manual=manual)
-        super().set(value)
+        if not self.is_locked() or manual:
+            super().set(value)
 
     def is_locked(self):
         return self.state.is_on(self._lock)
 
     def lock(self):
         return self._app.turn_on(self._lock)
+
+    def on_activity_changed_event(self, event_name: str, data: Any, kwargs: Any) -> None:
+        if event_name != ACTIVITY_CHANGED_EVENT:
+            self._app.log(f'Got event of type {event_name} when expecting {ACTIVITY_CHANGED_EVENT}', level="ERROR")
+            return
+        if not data or not data['helper']:
+            self._app.log(f'Got event of type {event_name} missing mandatory attribute "helper" with the activity helper name', level="ERROR")
+            return
+        if not data['activity']:
+            self._app.log(f'Got event of type {event_name} missing mandatory attribute "activity" with the activity value', level="ERROR")
+            return
+        if not data['manual']:
+            self._app.log(f'Got event of type {event_name} missing mandatory attribute "manual" indicating if it is a user generated action', level="ERROR")
+            return
+
+        if data['manual']:
+            self.lock()
+        if data['helper'] == self._helper:
+            self.set(data['activity'], manual=data['manual'])

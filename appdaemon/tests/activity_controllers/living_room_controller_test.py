@@ -149,6 +149,7 @@ def test_after_3_hours_of_inactivity(given_that, subject, assert_that, time_trav
 
 
 def living_room_state_is(self, motion=states.OFF, tv=states.OFF, sofa=states.OFF, activity=LivingRoom.Activity.EMPTY, tv_attr=None):
+    self.state_of(entities.INPUT_BOOLEAN_ACTIVITY_LOCK_LIVING_ROOM).is_set_to(False)
     self.state_of(entities.MEDIA_PLAYER_SONY_KD_49XF8096).is_set_to(tv, tv_attr)
     self.state_of(entities.BINARY_SENSOR_LIVING_ROOM_MOTION).is_set_to(motion)
     self.state_of(entities.MEDIA_PLAYER_TV_2).is_set_to(tv)

@@ -11,6 +11,7 @@ class StorageRoomController(ActivityController):
         return self.handlers.rooms.storage_room.activity
 
     def initialize(self) -> None:
+        super().initialize_lock()
         self.log(f'Initializing storage room controller.', level="DEBUG")
 
         self.listen_state(

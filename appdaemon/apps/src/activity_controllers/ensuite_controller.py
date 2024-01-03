@@ -17,6 +17,7 @@ class EnsuiteController(ActivityController):
         return self.handlers.rooms.ensuite.activity
 
     def initialize(self) -> None:
+        super().initialize_lock()
         self.listen_state(
             self.on_motion,
             self.motion_sensor

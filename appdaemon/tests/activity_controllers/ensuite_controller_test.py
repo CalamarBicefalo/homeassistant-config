@@ -1,6 +1,7 @@
 import pytest
 from appdaemontestframework import automation_fixture, given_that as given
 
+import entities
 from rooms import *
 import matchers
 import services
@@ -137,6 +138,7 @@ def enable_showering(ensuite_controller, given_that):
 
 
 def ensuite_has(self, activity, door=door.OPEN):
+    self.state_of(entities.INPUT_BOOLEAN_ACTIVITY_LOCK_ENSUITE).is_set_to(False)
     self.state_of(Ensuite._activity_helper).is_set_to(activity)
     self.state_of(EnsuiteController.contact_sensor).is_set_to(door)
 

@@ -76,7 +76,7 @@ def test_given_dressing_when_all_wardrobe_sensors_off(given_that, subject, asser
 
 @pytest.mark.asyncio
 def test_given_dressing_timesout_after_10_minutes(given_that, subject, assert_that, time_travel):
-    given_that.wardrobe_state_is(motion=states.ON, wardrobe_right_door=states.OPEN)
+    given_that.wardrobe_state_is(motion=states.OFF, wardrobe_right_door=states.OPEN)
 
     subject.controller_handler(entities.BINARY_SENSOR_WARDROBE_DOOR_RIGHT_CS_IASZONE, None, None, None, None)
     time_travel.fast_forward(11).minutes()
@@ -104,6 +104,7 @@ def wardrobe_state_is(self,
                       wardrobe_motion=states.OFF,
                       wardrobe_right_door=states.CLOSED,
                       wardrobe_left_door=states.CLOSED):
+    self.state_of(entities.INPUT_BOOLEAN_ACTIVITY_LOCK_WARDROBE).is_set_to(False)
     self.state_of(entities.BINARY_SENSOR_WARDROBE_MS_MOTION).is_set_to(motion)
     self.state_of(entities.BINARY_SENSOR_WARDROBE_MIDDLE_DOOR).is_set_to(wardrobe_motion)
     self.state_of(entities.BINARY_SENSOR_WARDROBE_DOOR_RIGHT_CS_IASZONE).is_set_to(wardrobe_right_door)

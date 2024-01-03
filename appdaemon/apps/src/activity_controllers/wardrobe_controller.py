@@ -13,6 +13,7 @@ class WardrobeController(ActivityController):
         return self.handlers.rooms.wardrobe.activity
 
     def initialize(self) -> None:
+        super().initialize_lock()
         self.listen_state(
             self.controller_handler,
             [

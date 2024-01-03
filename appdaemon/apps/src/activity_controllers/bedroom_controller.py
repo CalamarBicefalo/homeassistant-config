@@ -29,6 +29,7 @@ class BedroomController(MotionController):
         return 5 * 60 * 60
 
     def initialize(self) -> None:
+        super().initialize_lock()
         self.log(f'Initializing {self.controller} motion based activity controller.', level="DEBUG")
         self.listen_state(
             self.controller_handler,

@@ -114,6 +114,7 @@ def test_after_3_hours_of_inactivity_then_empty(given_that, subject, assert_that
 
 
 def bedroom_state_is(self, motion=states.OFF, activity=Bedroom.Activity.EMPTY):
+    self.state_of(entities.INPUT_BOOLEAN_ACTIVITY_LOCK_BEDROOM).is_set_to(False)
     self.state_of(entities.BINARY_SENSOR_BEDROOM_MOTION).is_set_to(motion)
     self.state_of(Bedroom._activity_helper).is_set_to(activity)
 
