@@ -80,10 +80,10 @@
     device_class: running
   
 - binary_sensor:
-  - name: "Dinning"
-    unique_id: "activity_dining_room_dinning"
+  - name: "Dining"
+    unique_id: "activity_dining_room_dining"
     state: >
-      {{ states('input_select.dining_room_activity') == 'Dinning'}}
+      {{ states('input_select.dining_room_activity') == 'Dining'}}
     icon: mdi:silverware-fork-knife
     device_class: running
   

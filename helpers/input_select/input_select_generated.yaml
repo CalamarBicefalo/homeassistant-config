@@ -24,7 +24,7 @@ dining_room_activity:
   options:
     - Empty
     - Present
-    - Dinning
+    - Dining
 living_room_activity:
   name: Living room activity
   icon: mdi:sofa

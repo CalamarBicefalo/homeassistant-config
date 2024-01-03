@@ -76,7 +76,7 @@ class DiningRoom(Room):
     class Activity(StrEnum):
         EMPTY = "Empty"
         PRESENT = "Present"
-        DINNING = "Dinning"
+        DINING = "Dining"
 
     activity: SelectHandler[Activity]
     days_between_cleaning: int = 0

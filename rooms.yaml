@@ -58,7 +58,7 @@ rooms:
         icon: mdi:account-off-outline
       - name: Present
         icon: mdi:account-badge
-      - name: Dinning
+      - name: Dining
         icon: mdi:silverware-fork-knife
     vacuum:
       period_days: 0
