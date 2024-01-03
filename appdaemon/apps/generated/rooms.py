@@ -101,7 +101,7 @@ class LivingRoom(Room):
         WATCHING_TV = "Watching TV"
         GAMING = "Gaming"
         READING = "Reading"
-        DINNING = "Dinning"
+        RELAXING = "Relaxing"
         DRUMMING = "Drumming"
 
     activity: SelectHandler[Activity]
@@ -324,5 +324,5 @@ class RoomHandlers:
 
 
 class CommonActivities(StrEnum):
-        PRESENT = "Present"
         EMPTY = "Empty"
+        PRESENT = "Present"

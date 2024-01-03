@@ -59,6 +59,7 @@ rooms:
       - name: Present
         icon: mdi:account-badge
       - name: Dinning
+        icon: mdi:silverware-fork-knife
     vacuum:
       period_days: 0
       room_id: 25
@@ -76,8 +77,8 @@ rooms:
         icon: mdi:gamepad-variant
       - name: Reading
         icon: mdi:book-open-variant
-      - name: Dinning
-        icon: mdi:silverware-fork-knife
+      - name: Relaxing
+        icon: mdi:palm-tree
       - name: Drumming
         icon: fas:drum
     vacuum:

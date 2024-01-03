@@ -84,6 +84,7 @@
     unique_id: "activity_dining_room_dinning"
     state: >
       {{ states('input_select.dining_room_activity') == 'Dinning'}}
+    icon: mdi:silverware-fork-knife
     device_class: running
   
 - binary_sensor:
@@ -127,11 +128,11 @@
     device_class: running
   
 - binary_sensor:
-  - name: "Dinning"
-    unique_id: "activity_living_room_dinning"
+  - name: "Relaxing"
+    unique_id: "activity_living_room_relaxing"
     state: >
-      {{ states('input_select.living_room_activity') == 'Dinning'}}
-    icon: mdi:silverware-fork-knife
+      {{ states('input_select.living_room_activity') == 'Relaxing'}}
+    icon: mdi:palm-tree
     device_class: running
   
 - binary_sensor:

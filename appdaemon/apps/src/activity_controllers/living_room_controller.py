@@ -32,7 +32,7 @@ class LivingRoomController(ActivityController):
 
         self.cancel_empty_timer()
 
-        if self.activity.is_value(LivingRoom.Activity.DINNING):
+        if self.activity.is_value(LivingRoom.Activity.RELAXING):
             return
 
         elif self.playing_ps5():
