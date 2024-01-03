@@ -1,0 +1,55 @@
+activity_lock_office:
+    name: Activity lock Office
+    icon: mdi:lock
+
+
+activity_lock_bathroom:
+    name: Activity lock Bathroom
+    icon: mdi:lock
+
+
+activity_lock_kitchen:
+    name: Activity lock Kitchen
+    icon: mdi:lock
+
+
+activity_lock_dining_room:
+    name: Activity lock Dining room
+    icon: mdi:lock
+
+
+activity_lock_living_room:
+    name: Activity lock Living room
+    icon: mdi:lock
+
+
+activity_lock_studio:
+    name: Activity lock Studio
+    icon: mdi:lock
+
+
+activity_lock_ensuite:
+    name: Activity lock Ensuite
+    icon: mdi:lock
+
+
+activity_lock_hallway:
+    name: Activity lock Hallway
+    icon: mdi:lock
+
+
+activity_lock_wardrobe:
+    name: Activity lock Wardrobe
+    icon: mdi:lock
+
+
+activity_lock_bedroom:
+    name: Activity lock Bedroom
+    icon: mdi:lock
+
+
+activity_lock_storage_room:
+    name: Activity lock Storage room
+    icon: mdi:lock
+
+

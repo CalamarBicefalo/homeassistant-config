@@ -22,6 +22,14 @@ def generate_rooms(root_dir: str) -> None:
                 template = env.get_template("templates_generated.yaml.jinja2")
                 f.write(template.render(rooms=rooms))
 
+            with open("helpers/input_boolean/input_boolean_generated.yaml", 'w') as f:
+                for room in rooms:
+                    f.write(f'activity_lock_{snake_name(room)}:\n')
+                    f.write(f'    name: Activity lock {room["name"]}\n')
+                    f.write("    icon: mdi:lock\n")
+
+                    f.write("\n\n")
+
             with open("helpers/input_datetime/input_datetime_generated.yaml", 'w') as f:
                 for room in rooms:
                     f.write(f'last_cleaned_{snake_name(room)}:\n')
