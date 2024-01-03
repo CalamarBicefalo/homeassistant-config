@@ -19,6 +19,8 @@ class {{ macros.class_name(room) }}(Room):
     clean_after: int = {{ room["vacuum"]["clean_after_hour_of_day"] or -1 }}
 
     _activity_helper : Helper = "input_select.{{ macros.snake_name(room) }}_activity"
+    _activity_lock : Helper = "input_boolean.activity_lock_{{ macros.snake_name(room) }}"
+    
     name = "{{ room["name"] }}"
     {%- if "vacuum" in room and "room_id" in room["vacuum"] %}
     _room_cleaner_segment = {{ room["vacuum"]["room_id"] }}
@@ -27,7 +29,7 @@ class {{ macros.class_name(room) }}(Room):
     _last_present_helper = Helper("input_datetime.last_present_{{ macros.snake_name(room) }}")
     def __init__(self, app: hass.Hass) -> None:
         super().__init__(app)
-        self.activity = ActivityHandler[{{  macros.class_name(room) }}.Activity](app, {{ macros.class_name(room) }}._activity_helper)
+        self.activity = ActivityHandler[{{  macros.class_name(room) }}.Activity](app, {{ macros.class_name(room) }}._activity_helper, {{ macros.class_name(room) }}._activity_lock)
 
     def get_activity(self) -> SelectHandler[Activity]:
         return self.activity

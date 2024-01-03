@@ -17,13 +17,15 @@ class Office(Room):
     clean_after: int = -1
 
     _activity_helper : Helper = "input_select.office_activity"
+    _activity_lock : Helper = "input_boolean.activity_lock_office"
+    
     name = "Office"
     _room_cleaner_segment = 17
     _last_cleaned_helper = Helper("input_datetime.last_cleaned_office")
     _last_present_helper = Helper("input_datetime.last_present_office")
     def __init__(self, app: hass.Hass) -> None:
         super().__init__(app)
-        self.activity = ActivityHandler[Office.Activity](app, Office._activity_helper)
+        self.activity = ActivityHandler[Office.Activity](app, Office._activity_helper, Office._activity_lock)
 
     def get_activity(self) -> SelectHandler[Activity]:
         return self.activity
@@ -38,13 +40,15 @@ class Bathroom(Room):
     clean_after: int = -1
 
     _activity_helper : Helper = "input_select.bathroom_activity"
+    _activity_lock : Helper = "input_boolean.activity_lock_bathroom"
+    
     name = "Bathroom"
     _room_cleaner_segment = 18
     _last_cleaned_helper = Helper("input_datetime.last_cleaned_bathroom")
     _last_present_helper = Helper("input_datetime.last_present_bathroom")
     def __init__(self, app: hass.Hass) -> None:
         super().__init__(app)
-        self.activity = ActivityHandler[Bathroom.Activity](app, Bathroom._activity_helper)
+        self.activity = ActivityHandler[Bathroom.Activity](app, Bathroom._activity_helper, Bathroom._activity_lock)
 
     def get_activity(self) -> SelectHandler[Activity]:
         return self.activity
@@ -61,13 +65,15 @@ class Kitchen(Room):
     clean_after: int = 21
 
     _activity_helper : Helper = "input_select.kitchen_activity"
+    _activity_lock : Helper = "input_boolean.activity_lock_kitchen"
+    
     name = "Kitchen"
     _room_cleaner_segment = 16
     _last_cleaned_helper = Helper("input_datetime.last_cleaned_kitchen")
     _last_present_helper = Helper("input_datetime.last_present_kitchen")
     def __init__(self, app: hass.Hass) -> None:
         super().__init__(app)
-        self.activity = ActivityHandler[Kitchen.Activity](app, Kitchen._activity_helper)
+        self.activity = ActivityHandler[Kitchen.Activity](app, Kitchen._activity_helper, Kitchen._activity_lock)
 
     def get_activity(self) -> SelectHandler[Activity]:
         return self.activity
@@ -83,13 +89,15 @@ class DiningRoom(Room):
     clean_after: int = -1
 
     _activity_helper : Helper = "input_select.dining_room_activity"
+    _activity_lock : Helper = "input_boolean.activity_lock_dining_room"
+    
     name = "Dining room"
     _room_cleaner_segment = 25
     _last_cleaned_helper = Helper("input_datetime.last_cleaned_dining_room")
     _last_present_helper = Helper("input_datetime.last_present_dining_room")
     def __init__(self, app: hass.Hass) -> None:
         super().__init__(app)
-        self.activity = ActivityHandler[DiningRoom.Activity](app, DiningRoom._activity_helper)
+        self.activity = ActivityHandler[DiningRoom.Activity](app, DiningRoom._activity_helper, DiningRoom._activity_lock)
 
     def get_activity(self) -> SelectHandler[Activity]:
         return self.activity
@@ -109,13 +117,15 @@ class LivingRoom(Room):
     clean_after: int = -1
 
     _activity_helper : Helper = "input_select.living_room_activity"
+    _activity_lock : Helper = "input_boolean.activity_lock_living_room"
+    
     name = "Living room"
     _room_cleaner_segment = 24
     _last_cleaned_helper = Helper("input_datetime.last_cleaned_living_room")
     _last_present_helper = Helper("input_datetime.last_present_living_room")
     def __init__(self, app: hass.Hass) -> None:
         super().__init__(app)
-        self.activity = ActivityHandler[LivingRoom.Activity](app, LivingRoom._activity_helper)
+        self.activity = ActivityHandler[LivingRoom.Activity](app, LivingRoom._activity_helper, LivingRoom._activity_lock)
 
     def get_activity(self) -> SelectHandler[Activity]:
         return self.activity
@@ -133,13 +143,15 @@ class Studio(Room):
     clean_after: int = -1
 
     _activity_helper : Helper = "input_select.studio_activity"
+    _activity_lock : Helper = "input_boolean.activity_lock_studio"
+    
     name = "Studio"
     _room_cleaner_segment = 23
     _last_cleaned_helper = Helper("input_datetime.last_cleaned_studio")
     _last_present_helper = Helper("input_datetime.last_present_studio")
     def __init__(self, app: hass.Hass) -> None:
         super().__init__(app)
-        self.activity = ActivityHandler[Studio.Activity](app, Studio._activity_helper)
+        self.activity = ActivityHandler[Studio.Activity](app, Studio._activity_helper, Studio._activity_lock)
 
     def get_activity(self) -> SelectHandler[Activity]:
         return self.activity
@@ -155,13 +167,15 @@ class Ensuite(Room):
     clean_after: int = -1
 
     _activity_helper : Helper = "input_select.ensuite_activity"
+    _activity_lock : Helper = "input_boolean.activity_lock_ensuite"
+    
     name = "Ensuite"
     _room_cleaner_segment = 22
     _last_cleaned_helper = Helper("input_datetime.last_cleaned_ensuite")
     _last_present_helper = Helper("input_datetime.last_present_ensuite")
     def __init__(self, app: hass.Hass) -> None:
         super().__init__(app)
-        self.activity = ActivityHandler[Ensuite.Activity](app, Ensuite._activity_helper)
+        self.activity = ActivityHandler[Ensuite.Activity](app, Ensuite._activity_helper, Ensuite._activity_lock)
 
     def get_activity(self) -> SelectHandler[Activity]:
         return self.activity
@@ -176,13 +190,15 @@ class Hallway(Room):
     clean_after: int = -1
 
     _activity_helper : Helper = "input_select.hallway_activity"
+    _activity_lock : Helper = "input_boolean.activity_lock_hallway"
+    
     name = "Hallway"
     _room_cleaner_segment = 20
     _last_cleaned_helper = Helper("input_datetime.last_cleaned_hallway")
     _last_present_helper = Helper("input_datetime.last_present_hallway")
     def __init__(self, app: hass.Hass) -> None:
         super().__init__(app)
-        self.activity = ActivityHandler[Hallway.Activity](app, Hallway._activity_helper)
+        self.activity = ActivityHandler[Hallway.Activity](app, Hallway._activity_helper, Hallway._activity_lock)
 
     def get_activity(self) -> SelectHandler[Activity]:
         return self.activity
@@ -198,12 +214,14 @@ class Wardrobe(Room):
     clean_after: int = -1
 
     _activity_helper : Helper = "input_select.wardrobe_activity"
+    _activity_lock : Helper = "input_boolean.activity_lock_wardrobe"
+    
     name = "Wardrobe"
     _last_cleaned_helper = Helper("input_datetime.last_cleaned_wardrobe")
     _last_present_helper = Helper("input_datetime.last_present_wardrobe")
     def __init__(self, app: hass.Hass) -> None:
         super().__init__(app)
-        self.activity = ActivityHandler[Wardrobe.Activity](app, Wardrobe._activity_helper)
+        self.activity = ActivityHandler[Wardrobe.Activity](app, Wardrobe._activity_helper, Wardrobe._activity_lock)
 
     def get_activity(self) -> SelectHandler[Activity]:
         return self.activity
@@ -221,13 +239,15 @@ class Bedroom(Room):
     clean_after: int = -1
 
     _activity_helper : Helper = "input_select.bedroom_activity"
+    _activity_lock : Helper = "input_boolean.activity_lock_bedroom"
+    
     name = "Bedroom"
     _room_cleaner_segment = 21
     _last_cleaned_helper = Helper("input_datetime.last_cleaned_bedroom")
     _last_present_helper = Helper("input_datetime.last_present_bedroom")
     def __init__(self, app: hass.Hass) -> None:
         super().__init__(app)
-        self.activity = ActivityHandler[Bedroom.Activity](app, Bedroom._activity_helper)
+        self.activity = ActivityHandler[Bedroom.Activity](app, Bedroom._activity_helper, Bedroom._activity_lock)
 
     def get_activity(self) -> SelectHandler[Activity]:
         return self.activity
@@ -242,13 +262,15 @@ class StorageRoom(Room):
     clean_after: int = -1
 
     _activity_helper : Helper = "input_select.storage_room_activity"
+    _activity_lock : Helper = "input_boolean.activity_lock_storage_room"
+    
     name = "Storage room"
     _room_cleaner_segment = 19
     _last_cleaned_helper = Helper("input_datetime.last_cleaned_storage_room")
     _last_present_helper = Helper("input_datetime.last_present_storage_room")
     def __init__(self, app: hass.Hass) -> None:
         super().__init__(app)
-        self.activity = ActivityHandler[StorageRoom.Activity](app, StorageRoom._activity_helper)
+        self.activity = ActivityHandler[StorageRoom.Activity](app, StorageRoom._activity_helper, StorageRoom._activity_lock)
 
     def get_activity(self) -> SelectHandler[Activity]:
         return self.activity
