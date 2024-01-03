@@ -4,7 +4,7 @@
 {% for room in rooms %}
   {%- for activity in room["activities"] %}
 - binary_sensor:
-  - name: "{{ activity["name"]}}"
+  - name: "Activity {{ room["name"] }} {{ activity["name"]}}"
     unique_id: "activity_{{  macros.snake_name(room) }}_{{  macros.snake_name(activity) }}"
     state: >
       {{ "{{ states('input_select."}}{{  macros.snake_name(room) }}{{"_activity') == '"}}{{  activity['name'] }}{{"'}}" }}
@@ -12,6 +12,8 @@
     icon: {{  activity["icon"] }}
     {%- endif %}
     device_class: running
+    attributes:
+      option: {{ activity["name"]}}
   {% endfor %}
 {%- endfor %}
 

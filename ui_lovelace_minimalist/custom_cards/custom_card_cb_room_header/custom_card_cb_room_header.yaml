@@ -126,7 +126,7 @@ card_cb_room_header:
                     event_type: 'activity_changed',
                     event_data: {
                       helper: `input_select.${variables.room_key}_activity`, 
-                      activity: entity && entity.attributes.friendly_name,
+                      activity: entity && entity.attributes.option,
                       manual: false
                     }
                   };
@@ -461,7 +461,7 @@ card_cb_room_header_activity_pill:
                 event_type: 'activity_changed',
                 event_data: {
                   helper: `input_select.${variables.room_key}_activity`, 
-                  activity: entity && entity.attributes.friendly_name,
+                  activity: entity && entity.attributes.option,
                   lock: variables.z0_activity_lock_entity,
                   manual: true
                 }
@@ -534,6 +534,7 @@ card_cb_room_header_activity_pill:
         type: "custom:button-card"
         show_icon: false
         show_label: false
+        name: "[[[ entity && entity.attributes.option ]]]"
         tap_action:
           action: "none"
         styles:

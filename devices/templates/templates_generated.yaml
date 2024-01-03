@@ -1,305 +1,381 @@
 
 - binary_sensor:
-  - name: "Empty"
+  - name: "Activity Office Empty"
     unique_id: "activity_office_empty"
     state: >
       {{ states('input_select.office_activity') == 'Empty'}}
     icon: mdi:account-off-outline
     device_class: running
+    attributes:
+      option: Empty
   
 - binary_sensor:
-  - name: "Present"
+  - name: "Activity Office Present"
     unique_id: "activity_office_present"
     state: >
       {{ states('input_select.office_activity') == 'Present'}}
     icon: mdi:account-badge
     device_class: running
+    attributes:
+      option: Present
   
 - binary_sensor:
-  - name: "Empty"
+  - name: "Activity Bathroom Empty"
     unique_id: "activity_bathroom_empty"
     state: >
       {{ states('input_select.bathroom_activity') == 'Empty'}}
     icon: mdi:account-off-outline
     device_class: running
+    attributes:
+      option: Empty
   
 - binary_sensor:
-  - name: "Present"
+  - name: "Activity Bathroom Present"
     unique_id: "activity_bathroom_present"
     state: >
       {{ states('input_select.bathroom_activity') == 'Present'}}
     icon: mdi:account-badge
     device_class: running
+    attributes:
+      option: Present
   
 - binary_sensor:
-  - name: "Empty"
+  - name: "Activity Kitchen Empty"
     unique_id: "activity_kitchen_empty"
     state: >
       {{ states('input_select.kitchen_activity') == 'Empty'}}
     icon: mdi:account-off-outline
     device_class: running
+    attributes:
+      option: Empty
   
 - binary_sensor:
-  - name: "Present"
+  - name: "Activity Kitchen Present"
     unique_id: "activity_kitchen_present"
     state: >
       {{ states('input_select.kitchen_activity') == 'Present'}}
     icon: mdi:account-badge
     device_class: running
+    attributes:
+      option: Present
   
 - binary_sensor:
-  - name: "Cooking"
+  - name: "Activity Kitchen Cooking"
     unique_id: "activity_kitchen_cooking"
     state: >
       {{ states('input_select.kitchen_activity') == 'Cooking'}}
     icon: mdi:chef-hat
     device_class: running
+    attributes:
+      option: Cooking
   
 - binary_sensor:
-  - name: "TV Break"
+  - name: "Activity Kitchen TV Break"
     unique_id: "activity_kitchen_tv_break"
     state: >
       {{ states('input_select.kitchen_activity') == 'TV Break'}}
     icon: mdi:television-classic
     device_class: running
+    attributes:
+      option: TV Break
   
 - binary_sensor:
-  - name: "Empty"
+  - name: "Activity Dining room Empty"
     unique_id: "activity_dining_room_empty"
     state: >
       {{ states('input_select.dining_room_activity') == 'Empty'}}
     icon: mdi:account-off-outline
     device_class: running
+    attributes:
+      option: Empty
   
 - binary_sensor:
-  - name: "Present"
+  - name: "Activity Dining room Present"
     unique_id: "activity_dining_room_present"
     state: >
       {{ states('input_select.dining_room_activity') == 'Present'}}
     icon: mdi:account-badge
     device_class: running
+    attributes:
+      option: Present
   
 - binary_sensor:
-  - name: "Dining"
+  - name: "Activity Dining room Dining"
     unique_id: "activity_dining_room_dining"
     state: >
       {{ states('input_select.dining_room_activity') == 'Dining'}}
     icon: mdi:silverware-fork-knife
     device_class: running
+    attributes:
+      option: Dining
   
 - binary_sensor:
-  - name: "Empty"
+  - name: "Activity Living room Empty"
     unique_id: "activity_living_room_empty"
     state: >
       {{ states('input_select.living_room_activity') == 'Empty'}}
     icon: mdi:account-off-outline
     device_class: running
+    attributes:
+      option: Empty
   
 - binary_sensor:
-  - name: "Present"
+  - name: "Activity Living room Present"
     unique_id: "activity_living_room_present"
     state: >
       {{ states('input_select.living_room_activity') == 'Present'}}
     icon: mdi:account-badge
     device_class: running
+    attributes:
+      option: Present
   
 - binary_sensor:
-  - name: "Watching TV"
+  - name: "Activity Living room Watching TV"
     unique_id: "activity_living_room_watching_tv"
     state: >
       {{ states('input_select.living_room_activity') == 'Watching TV'}}
     icon: mdi:youtube-tv
     device_class: running
+    attributes:
+      option: Watching TV
   
 - binary_sensor:
-  - name: "Gaming"
+  - name: "Activity Living room Gaming"
     unique_id: "activity_living_room_gaming"
     state: >
       {{ states('input_select.living_room_activity') == 'Gaming'}}
     icon: mdi:gamepad-variant
     device_class: running
+    attributes:
+      option: Gaming
   
 - binary_sensor:
-  - name: "Reading"
+  - name: "Activity Living room Reading"
     unique_id: "activity_living_room_reading"
     state: >
       {{ states('input_select.living_room_activity') == 'Reading'}}
     icon: mdi:book-open-variant
     device_class: running
+    attributes:
+      option: Reading
   
 - binary_sensor:
-  - name: "Relaxing"
+  - name: "Activity Living room Relaxing"
     unique_id: "activity_living_room_relaxing"
     state: >
       {{ states('input_select.living_room_activity') == 'Relaxing'}}
     icon: mdi:palm-tree
     device_class: running
+    attributes:
+      option: Relaxing
   
 - binary_sensor:
-  - name: "Drumming"
+  - name: "Activity Living room Drumming"
     unique_id: "activity_living_room_drumming"
     state: >
       {{ states('input_select.living_room_activity') == 'Drumming'}}
     icon: fas:drum
     device_class: running
+    attributes:
+      option: Drumming
   
 - binary_sensor:
-  - name: "Empty"
+  - name: "Activity Studio Empty"
     unique_id: "activity_studio_empty"
     state: >
       {{ states('input_select.studio_activity') == 'Empty'}}
     icon: mdi:account-off-outline
     device_class: running
+    attributes:
+      option: Empty
   
 - binary_sensor:
-  - name: "Present"
+  - name: "Activity Studio Present"
     unique_id: "activity_studio_present"
     state: >
       {{ states('input_select.studio_activity') == 'Present'}}
     icon: mdi:account-badge
     device_class: running
+    attributes:
+      option: Present
   
 - binary_sensor:
-  - name: "Working"
+  - name: "Activity Studio Working"
     unique_id: "activity_studio_working"
     state: >
       {{ states('input_select.studio_activity') == 'Working'}}
     icon: mdi:desktop-classic
     device_class: running
+    attributes:
+      option: Working
   
 - binary_sensor:
-  - name: "Meeting"
+  - name: "Activity Studio Meeting"
     unique_id: "activity_studio_meeting"
     state: >
       {{ states('input_select.studio_activity') == 'Meeting'}}
     icon: mdi:account-group
     device_class: running
+    attributes:
+      option: Meeting
   
 - binary_sensor:
-  - name: "Drumming"
+  - name: "Activity Studio Drumming"
     unique_id: "activity_studio_drumming"
     state: >
       {{ states('input_select.studio_activity') == 'Drumming'}}
     icon: fas:drum
     device_class: running
+    attributes:
+      option: Drumming
   
 - binary_sensor:
-  - name: "Empty"
+  - name: "Activity Ensuite Empty"
     unique_id: "activity_ensuite_empty"
     state: >
       {{ states('input_select.ensuite_activity') == 'Empty'}}
     icon: mdi:account-off-outline
     device_class: running
+    attributes:
+      option: Empty
   
 - binary_sensor:
-  - name: "Present"
+  - name: "Activity Ensuite Present"
     unique_id: "activity_ensuite_present"
     state: >
       {{ states('input_select.ensuite_activity') == 'Present'}}
     icon: mdi:account-badge
     device_class: running
+    attributes:
+      option: Present
   
 - binary_sensor:
-  - name: "Showering"
+  - name: "Activity Ensuite Showering"
     unique_id: "activity_ensuite_showering"
     state: >
       {{ states('input_select.ensuite_activity') == 'Showering'}}
     icon: mdi:shower
     device_class: running
+    attributes:
+      option: Showering
   
 - binary_sensor:
-  - name: "Empty"
+  - name: "Activity Hallway Empty"
     unique_id: "activity_hallway_empty"
     state: >
       {{ states('input_select.hallway_activity') == 'Empty'}}
     icon: mdi:account-off-outline
     device_class: running
+    attributes:
+      option: Empty
   
 - binary_sensor:
-  - name: "Present"
+  - name: "Activity Hallway Present"
     unique_id: "activity_hallway_present"
     state: >
       {{ states('input_select.hallway_activity') == 'Present'}}
     icon: mdi:account-badge
     device_class: running
+    attributes:
+      option: Present
   
 - binary_sensor:
-  - name: "Empty"
+  - name: "Activity Wardrobe Empty"
     unique_id: "activity_wardrobe_empty"
     state: >
       {{ states('input_select.wardrobe_activity') == 'Empty'}}
     icon: mdi:account-off-outline
     device_class: running
+    attributes:
+      option: Empty
   
 - binary_sensor:
-  - name: "Present"
+  - name: "Activity Wardrobe Present"
     unique_id: "activity_wardrobe_present"
     state: >
       {{ states('input_select.wardrobe_activity') == 'Present'}}
     icon: mdi:account-badge
     device_class: running
+    attributes:
+      option: Present
   
 - binary_sensor:
-  - name: "Dressing"
+  - name: "Activity Wardrobe Dressing"
     unique_id: "activity_wardrobe_dressing"
     state: >
       {{ states('input_select.wardrobe_activity') == 'Dressing'}}
     icon: mdi:tshirt-crew
     device_class: running
+    attributes:
+      option: Dressing
   
 - binary_sensor:
-  - name: "Empty"
+  - name: "Activity Bedroom Empty"
     unique_id: "activity_bedroom_empty"
     state: >
       {{ states('input_select.bedroom_activity') == 'Empty'}}
     icon: mdi:account-off-outline
     device_class: running
+    attributes:
+      option: Empty
   
 - binary_sensor:
-  - name: "Present"
+  - name: "Activity Bedroom Present"
     unique_id: "activity_bedroom_present"
     state: >
       {{ states('input_select.bedroom_activity') == 'Present'}}
     icon: mdi:account-badge
     device_class: running
+    attributes:
+      option: Present
   
 - binary_sensor:
-  - name: "Relaxing"
+  - name: "Activity Bedroom Relaxing"
     unique_id: "activity_bedroom_relaxing"
     state: >
       {{ states('input_select.bedroom_activity') == 'Relaxing'}}
     icon: mdi:home-heart
     device_class: running
+    attributes:
+      option: Relaxing
   
 - binary_sensor:
-  - name: "Bedtime"
+  - name: "Activity Bedroom Bedtime"
     unique_id: "activity_bedroom_bedtime"
     state: >
       {{ states('input_select.bedroom_activity') == 'Bedtime'}}
     icon: mdi:bed-clock
     device_class: running
+    attributes:
+      option: Bedtime
   
 - binary_sensor:
-  - name: "Waking up"
+  - name: "Activity Bedroom Waking up"
     unique_id: "activity_bedroom_waking_up"
     state: >
       {{ states('input_select.bedroom_activity') == 'Waking up'}}
     icon: mdi:sun-clock
     device_class: running
+    attributes:
+      option: Waking up
   
 - binary_sensor:
-  - name: "Empty"
+  - name: "Activity Storage room Empty"
     unique_id: "activity_storage_room_empty"
     state: >
       {{ states('input_select.storage_room_activity') == 'Empty'}}
     icon: mdi:account-off-outline
     device_class: running
+    attributes:
+      option: Empty
   
 - binary_sensor:
-  - name: "Present"
+  - name: "Activity Storage room Present"
     unique_id: "activity_storage_room_present"
     state: >
       {{ states('input_select.storage_room_activity') == 'Present'}}
     icon: mdi:account-badge
     device_class: running
+    attributes:
+      option: Present
   
