@@ -3,7 +3,7 @@ from activity_controllers.generic_controller import ActivityController
 from rooms import *
 
 
-class LivingRoomController(ActivityController):
+class DiningRoomController(ActivityController):
     motion_sensor = entities.BINARY_SENSOR_LIVING_ROOM_DINING_TABLE_MS
 
     @property
