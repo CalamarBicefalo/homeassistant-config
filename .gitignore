@@ -12,7 +12,7 @@ out
 secrets
 
 custom_components
-www
+www/community
 
 *.log
 *.log.1
