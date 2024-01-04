@@ -27,12 +27,12 @@ card_cb_room_header:
       - width: 100vw
       - border-radius: 0
       - background: |
-          linear-gradient( 
+          [[[ return `linear-gradient( 
             to bottom, 
             rgba(0, 0, 0, 0.4), 
             rgba(0, 0, 0, 0) ), 
-            url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/skyscrapers.jpg
-          )
+            url(/local/img/${variables.room_key}.jpg ) no-repeat center center` ]]]
+      - background-size: cover
       - box-shadow: "none"
       - cursor: "default"
       - "--mdc-ripple-press-opacity": 0   # prevent click animation
