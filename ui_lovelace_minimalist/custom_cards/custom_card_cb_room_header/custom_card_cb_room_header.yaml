@@ -58,7 +58,14 @@ card_cb_room_header:
             show_label: true
             icon: "mdi:lock"
             tap_action:
-              action: "none"
+              action: "call-service"
+              service:  "input_boolean.turn_off"
+              service_data: |
+                [[[
+                  return { 
+                    entity_id: `input_boolean.activity_lock_${variables.room_key}`,
+                  };
+                ]]]
             name: |
               [[[ return variables.room_name ]]]
             label: |
@@ -94,7 +101,7 @@ card_cb_room_header:
                 - justify-self: "start"
                 - font-weight: "bold"
                 - opacity: "0.4"
-                - color: white
+                - color: "white"
                 - opacity: 0.6
                 - font-size: 1.25rem
                 - text-shadow: 0 1px 0 black
@@ -103,8 +110,8 @@ card_cb_room_header:
                 - margin-top: -2px
                 - margin-left: -2px
                 - font-weight: "bold"
-                - opacity: 0.8
-                - color: white
+                - opacity: 1
+                - color: "[[[ return variables.z1_activity_lock ? 'rgba(var(--color-red), 1)' : 'white' ]]]"
                 - font-size: 1.25rem
                 - text-shadow: 0 1px 0 black
                 - width: "16px"
