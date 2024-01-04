@@ -420,16 +420,6 @@ card_cb_room_header_activity_pill:
   show_icon: false
   show_label: false
   show_name: false
-  state:
-    - operator: "template"
-      value: >
-        [[[
-          return (entity?.state !== 'on' && entity?.state !== 'playing' && entity?.state != variables?.state)
-        ]]]
-      styles:
-        card:
-          - overflow: "visible"
-          - box-shadow: "none"
   styles:
     grid:
       - grid-template-areas: "'item1' 'item2'"
@@ -518,29 +508,21 @@ card_cb_room_header_activity_pill:
             - box-shadow: "none"
             - border-radius: "50px"
             - padding: "0px"
-        state:
-          - operator: "template"
-            value: >
-              [[[
-                return (entity?.state !== 'on' && entity?.state !== 'playing' && entity?.state != variables?.state)
-              ]]]
-            styles:
-              card:
-                - overflow: "visible"
-                - box-shadow: var(--box-shadow)
+
 
     item2:
       card:
         type: "custom:button-card"
         show_icon: false
-        show_label: false
-        name: "[[[ entity && entity.attributes.option ]]]"
+        show_name: false
+        show_label: true
+        label: "[[[ return entity.attributes.option ]]]"
         tap_action:
           action: "none"
         styles:
           grid:
             - grid-template-areas: "n"
-          name:
+          label:
             - justify-self: "center"
             - color: white
             - text-shadow: 0 1px 0 black
@@ -548,8 +530,8 @@ card_cb_room_header_activity_pill:
             - font-size: "11px"
             - padding-bottom: "7px"
             - overflow: "visible"
-            - max-width: 70px
-            - overflow: hidden
+            - max-width: 90px
+            - width: 200%
           card:
             - background: none
             - box-shadow: "none"
