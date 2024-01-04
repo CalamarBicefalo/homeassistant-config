@@ -44,7 +44,7 @@ class ActivityHandler(SelectHandler[T]):
             self._app.log(f'Got event of type {event_name} missing mandatory attribute "manual" indicating if it is a user generated action', level="ERROR")
             return
 
-        if data['manual']:
-            self.lock()
         if data['helper'] == self._helper:
+            if data['manual']:
+                self.lock()
             self.set(data['activity'], manual=data['manual'])
