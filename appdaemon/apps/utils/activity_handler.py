@@ -21,6 +21,7 @@ class ActivityHandler(SelectHandler[T]):
         self._state = StateHandler(app)
 
     def set(self, value: T | str, manual: bool = False) -> None:
+        self._app.log(f'changing {self._helper} to {value}. locked={self.is_locked()}. manual={manual}', level="DEBUG")
         if not self.is_locked() or manual:
             super().set(value)
 

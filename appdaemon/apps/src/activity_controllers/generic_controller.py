@@ -85,7 +85,7 @@ class MotionController(ActivityController):
 
     def initialize(self) -> None:
         super().initialize_lock()
-        self.log(f'Initializing {self.controller} motion based activity controller.', level="DEBUG")
+        self.log(f'Initializing {self.controller} motion based activity controller for {self.motion_sensor}.', level="INFO")
 
         if self.motion_sensor:
             self.listen_state(
