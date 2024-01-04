@@ -61,7 +61,7 @@ class ActivityController(App):
     def _run_empty_timer_in(self, seconds: int, warn_log: Optional[str] = None) -> None:
         def callback() -> None:
             if warn_log:
-                self.log(warn_log, level="WARN")
+                self.log(warn_log, level="WARNING")
             self.activity.set(CommonActivities.EMPTY)
             self._empty_timer = None
 
