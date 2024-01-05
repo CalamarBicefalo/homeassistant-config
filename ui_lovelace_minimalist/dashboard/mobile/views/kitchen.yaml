@@ -1,0 +1,83 @@
+---
+title: "Kitchen"
+icon: "mdi:countertop"
+path: "kitchen"
+
+type: "custom:layout-card"
+layout_type: "custom:grid-layout"
+layout:
+  grid-template-columns: "1fr 1fr"
+  margin: 0
+  padding: 0 4px
+  grid-template-areas: |
+    "header header"
+    "title-media title-media"
+    "media media"
+    "title-lights title-lights"
+    "lights lights"
+    "title-sensors title-sensors"
+    "sensor1 sensor2"
+
+cards:
+  - view_layout:
+      grid-area: "header"
+    type: "custom:button-card"
+    template: "card_cb_room_header"
+    variables:
+      room_key: 'kitchen'
+
+  - view_layout:
+      grid-area: "title-media"
+    type: "custom:button-card"
+    template: cb_card_title
+    name: Media
+
+  - view_layout:
+      grid-area: "media"
+    type: "custom:button-card"
+    template: card_media_player
+    entity: media_player.cooking_area_2
+    variables:
+      ulm_card_media_player_name: Speakers
+      ulm_card_media_player_enable_art: true
+      ulm_card_media_player_enable_controls: true
+      ulm_card_media_player_enable_volume_slider: true
+      ulm_card_media_player_more_info: true
+      ulm_card_media_player_power_button: false
+
+  - view_layout:
+      grid-area: "title-lights"
+    type: "custom:button-card"
+    template: cb_card_title
+    name: Lights
+
+  - view_layout:
+      grid-area: "lights"
+    type: "custom:button-card"
+    template: card_light
+    entity: light.kitchen
+    variables:
+      ulm_card_light_name: Lights
+      ulm_card_light_enable_slider: true
+      ulm_card_light_enable_color: true
+      ulm_card_light_force_background_color: true
+      ulm_card_light_enable_horizontal: true
+      ulm_card_light_enable_horizontal_wide: true
+
+  - view_layout:
+      grid-area: "title-sensors"
+    type: "custom:button-card"
+    template: cb_card_title
+    name: Sensors
+
+  - view_layout:
+      grid-column-end: span 2
+    type: "custom:button-card"
+    template: card_generic
+    name: Motion
+    variables:
+      ulm_show_last_changed: false
+      ulm_card_generic_name: Motion
+    entity: binary_sensor.kitchen_motion
+
+  

@@ -53,11 +53,26 @@ card_cb_room_header:
         layout:
           margin: "4px 0px 12px 0px"
           place-content: stretch
-          grid-template-columns: "1fr 1fr"
+          grid-template-columns: "50px 1fr 1fr"
           grid-template-areas: |
-            "title clean"
-            "scenes scenes"
+            "back title clean"
+            "scenes scenes scenes"
         cards:
+          - view_layout:
+              grid-area: "back"
+              place-self: center end
+            type: "custom:button-card"
+            template: chip_back
+            styles:
+              card:
+                - background: rgba(1,1,1, 0.1)
+                - backdrop-filter: blur(6px)
+                - color: white
+                - border: 1px solid
+                - border-color: rgba(255,255,255,0.5)
+                - --mdc-ripple-press-opacity: 0.2
+              icon:
+                - color: white
           - view_layout:
               grid-area: "title"
             type: "custom:button-card"
