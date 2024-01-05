@@ -1,7 +1,7 @@
 ---
-title: "Dining room"
-icon: "mdi:silverware-fork-knife"
-path: "dining_room"
+title: "Studio"
+icon: "fas:drum"
+path: "studio"
 
 type: "custom:layout-card"
 layout_type: "custom:grid-layout"
@@ -24,7 +24,7 @@ cards:
     type: "custom:button-card"
     template: "card_cb_room_header"
     variables:
-      room_key: 'dining_room'
+      room_key: 'studio'
 
   - view_layout:
       grid-area: "title-media"
@@ -55,7 +55,7 @@ cards:
       grid-area: "lights"
     type: "custom:button-card"
     template: card_light
-    entity: light.dining_room
+    entity: light.studio
     variables:
       ulm_card_light_name: Lights
       ulm_card_light_enable_slider: true
@@ -73,11 +73,32 @@ cards:
   - view_layout:
       grid-column-end: span 2
     type: "custom:button-card"
-    template: card_generic
+    template: 
+      - card_generic
+      - battery_info
     name: Motion
     variables:
       ulm_show_last_changed: false
       ulm_card_generic_name: Motion
-    entity: binary_sensor.living_room_dining_table_ms
+      ulm_battery_entity: sensor.studio_ms_battery
+    entity: binary_sensor.studio_motion
+
+  - view_layout:
+    type: "custom:button-card"
+    template: card_generic
+    name: Drums
+    variables:
+      ulm_show_last_changed: false
+      ulm_card_generic_name: Drumkit
+    entity: switch.drumkit
+
+  - view_layout:
+    type: "custom:button-card"
+    template: card_generic
+    name: Display
+    variables:
+      ulm_show_last_changed: false
+      ulm_card_generic_name: Display
+    entity: switch.monitor
 
   

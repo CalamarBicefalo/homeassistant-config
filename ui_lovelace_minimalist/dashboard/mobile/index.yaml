@@ -10,3 +10,4 @@ views:
   - !include "views/bedroom.yaml"
   - !include "views/kitchen.yaml"
   - !include "views/dining_room.yaml"
+  - !include "views/studio.yaml"

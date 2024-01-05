@@ -239,7 +239,7 @@ card_cb_room_header:
                       to bottom, 
                       rgba(0, 0, 0, 0), 
                       rgba(0, 0, 0, 0.4) )
-                - backdrop-filter: blur(6px)
+                - backdrop-filter: blur(2px)
                 - color: white
                 - border: 1px solid
                 - border-color: rgba(255,255,255,0.5)
