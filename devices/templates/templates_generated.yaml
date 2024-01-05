@@ -360,20 +360,20 @@
       option: Waking up
   
 - binary_sensor:
-  - name: "Activity Storage room Empty"
-    unique_id: "activity_storage_room_empty"
+  - name: "Activity Storage Empty"
+    unique_id: "activity_storage_empty"
     state: >
-      {{ states('input_select.storage_room_activity') == 'Empty'}}
+      {{ states('input_select.storage_activity') == 'Empty'}}
     icon: mdi:account-off-outline
     device_class: running
     attributes:
       option: Empty
   
 - binary_sensor:
-  - name: "Activity Storage room Present"
-    unique_id: "activity_storage_room_present"
+  - name: "Activity Storage Present"
+    unique_id: "activity_storage_present"
     state: >
-      {{ states('input_select.storage_room_activity') == 'Present'}}
+      {{ states('input_select.storage_activity') == 'Present'}}
     icon: mdi:account-badge
     device_class: running
     attributes:

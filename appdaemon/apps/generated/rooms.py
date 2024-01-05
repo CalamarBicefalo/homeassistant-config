@@ -252,7 +252,7 @@ class Bedroom(Room):
     def get_activity(self) -> SelectHandler[Activity]:
         return self.activity
 
-class StorageRoom(Room):
+class Storage(Room):
     class Activity(StrEnum):
         EMPTY = "Empty"
         PRESENT = "Present"
@@ -261,16 +261,16 @@ class StorageRoom(Room):
     days_between_cleaning: int = 0
     clean_after: int = -1
 
-    _activity_helper : Helper = "input_select.storage_room_activity"
-    _activity_lock : Helper = "input_boolean.activity_lock_storage_room"
+    _activity_helper : Helper = "input_select.storage_activity"
+    _activity_lock : Helper = "input_boolean.activity_lock_storage"
     
-    name = "Storage room"
+    name = "Storage"
     _room_cleaner_segment = 19
-    _last_cleaned_helper = Helper("input_datetime.last_cleaned_storage_room")
-    _last_present_helper = Helper("input_datetime.last_present_storage_room")
+    _last_cleaned_helper = Helper("input_datetime.last_cleaned_storage")
+    _last_present_helper = Helper("input_datetime.last_present_storage")
     def __init__(self, app: hass.Hass) -> None:
         super().__init__(app)
-        self.activity = ActivityHandler[StorageRoom.Activity](app, StorageRoom._activity_helper, StorageRoom._activity_lock)
+        self.activity = ActivityHandler[Storage.Activity](app, Storage._activity_helper, Storage._activity_lock)
 
     def get_activity(self) -> SelectHandler[Activity]:
         return self.activity
@@ -288,7 +288,7 @@ class RoomHandlers:
     hallway: Hallway
     wardrobe: Wardrobe
     bedroom: Bedroom
-    storage_room: StorageRoom
+    storage: Storage
     def __init__(self, app) -> None:
         self.office = Office(app)
         self.bathroom = Bathroom(app)
@@ -300,7 +300,7 @@ class RoomHandlers:
         self.hallway = Hallway(app)
         self.wardrobe = Wardrobe(app)
         self.bedroom = Bedroom(app)
-        self.storage_room = StorageRoom(app)
+        self.storage = Storage(app)
         
         self.kitchen.open_floor_rooms = [
             self.dining_room,
@@ -340,7 +340,7 @@ class RoomHandlers:
             self.hallway,
             self.wardrobe,
             self.bedroom,
-            self.storage_room,
+            self.storage,
         ]
 
 

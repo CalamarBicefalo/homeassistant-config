@@ -74,8 +74,8 @@ bedroom_activity:
     - Relaxing
     - Bedtime
     - Waking up
-storage_room_activity:
-  name: Storage room activity
+storage_activity:
+  name: Storage activity
   icon: mdi:washing-machine
   options:
     - Empty

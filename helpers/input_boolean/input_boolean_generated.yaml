@@ -48,8 +48,8 @@ activity_lock_bedroom:
     icon: mdi:lock
 
 
-activity_lock_storage_room:
-    name: Activity lock Storage room
+activity_lock_storage:
+    name: Activity lock Storage
     icon: mdi:lock
 
 

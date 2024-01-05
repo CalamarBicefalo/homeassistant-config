@@ -3,7 +3,7 @@ adjacent:
   - [Living room, Dining room]
   - [Studio, Dining room]
   - [Hallway, Dining room]
-  - [Hallway, Storage room]
+  - [Hallway, Storage]
   - [Hallway, Office]
   - [Hallway, Bathroom]
   - [Hallway, Wardrobe]
@@ -156,7 +156,7 @@ rooms:
       room_id: 21
     icon: mdi:bed-king
 
-  - name: Storage room
+  - name: Storage
     activities:
       - name: Empty
         icon: mdi:account-off-outline

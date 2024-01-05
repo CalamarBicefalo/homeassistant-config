@@ -118,15 +118,15 @@ last_present_bedroom:
     icon: mdi:account-check
     has_date: true
     has_time: true
-last_cleaned_storage_room:
-    name: Last cleaned Storage room
+last_cleaned_storage:
+    name: Last cleaned Storage
     icon: mdi:broom
     has_date: true
     has_time: true
 
 
-last_present_storage_room:
-    name: Last present Storage room
+last_present_storage:
+    name: Last present Storage
     icon: mdi:account-check
     has_date: true
     has_time: true
