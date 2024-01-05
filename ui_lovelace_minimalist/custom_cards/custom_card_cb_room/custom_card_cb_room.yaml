@@ -1,0 +1,24 @@
+---
+card_cb_room:
+  template:
+      - card_room
+
+  variables:
+    a0_room_key: "[[[ return variables.a0_room_key ]]]"
+    room_name: "[[[ return variables.a0_room_key.replaceAll('_', ' ') ]]]"
+    label_use_temperature: false
+    label_use_brightness: true
+    entity_1:
+      entity_id: "[[[ return `light.${variables.a0_room_key}` ]]]"
+      templates:
+        - yellow_on
+      tap_action:
+        action: toggle
+
+
+  name: "[[[ return variables.room_name ]]]"
+  entity: "[[[ return `input_select.${variables.a0_room_key}_activity` ]]]"
+  tap_action:
+    action: navigate
+    navigation_path: "[[[ return `/mobile-dashboard/${variables.a0_room_key}` ]]]"
+

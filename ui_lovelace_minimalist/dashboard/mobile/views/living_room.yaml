@@ -2,12 +2,10 @@
 title: "Living room"
 icon: "mdi:sofa"
 path: "living_room"
-####
 
 type: "custom:layout-card"
 layout_type: "custom:grid-layout"
 layout:
-  # Tablet portrait
   grid-template-columns: "1fr 1fr"
   margin: 0
   padding: 0
@@ -67,6 +65,7 @@ cards:
       ulm_card_media_player_enable_volume_slider: true
       ulm_card_media_player_more_info: true
       ulm_card_media_player_power_button: false
+      ulm_card_media_player_collapsible: true
 
   - view_layout:
       grid-area: "title-lights"
