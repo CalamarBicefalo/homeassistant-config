@@ -1,2 +1,4 @@
 person.jose_carlos:
-  entity_picture: "/local/img/josecarlos.jpeg"
+  entity_picture: "/local/img/josecarlos.jpg"
+person.amanda:
+  entity_picture: "/local/img/amanda.jpg"
