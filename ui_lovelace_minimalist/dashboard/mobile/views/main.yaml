@@ -8,80 +8,121 @@ layout_type: "custom:grid-layout"
 layout:
   grid-template-columns: "1fr 1fr"
   margin: 0
-  padding: 0
+  padding: 0 4px
   grid-template-areas: |
     "header header"
+
     "title-rooms title-rooms"
-    "room1 room2"
-    "room3 room4"
-    "room5 room6"
-    "room7 room8"
+    "living_room kitchen"
+    "dining_room studio"
+
+    "title-bedroom title-bedroom"
+    "bedroom wardrobe"
+
+    "title-bathroom title-bathroom"
+    "ensuite bathroom"
+
+    "title-utility title-utility"
+    "hallway storage"
 cards:
   - view_layout:
       grid-area: "header"
-    type: 'custom:button-card'
-    template: card_title
+    type: "custom:button-card"
+    template: cb_card_title
     name: Home
     label: Marsh court
 
   - view_layout:
       grid-area: "title-rooms"
-    type: 'custom:button-card'
-    template: card_title
+    type: "custom:button-card"
+    template: cb_card_title
     name: Rooms
+    label: Living room
 
   - view_layout:
-      grid-area: "room1"
-    type: 'custom:button-card'
+      grid-area: "living_room"
+    type: "custom:button-card"
     template: card_cb_room
     variables:
       a0_room_key: living_room
 
   - view_layout:
-      grid-area: "room2"
-    type: 'custom:button-card'
-    template: card_cb_room
-    variables:
-      a0_room_key: bedroom
-
-  - view_layout:
-      grid-area: "room3"
-    type: 'custom:button-card'
+      grid-area: "kitchen"
+    type: "custom:button-card"
     template: card_cb_room
     variables:
       a0_room_key: kitchen
 
   - view_layout:
-      grid-area: "room4"
-    type: 'custom:button-card'
+      grid-area: "dining_room"
+    type: "custom:button-card"
+    template: card_cb_room
+    variables:
+      a0_room_key: dining_room
+
+  - view_layout:
+      grid-area: "studio"
+    type: "custom:button-card"
     template: card_cb_room
     variables:
       a0_room_key: studio
 
   - view_layout:
-      grid-area: "room5"
-    type: 'custom:button-card'
+      grid-area: "title-bedroom"
+    type: "custom:button-card"
+    template: cb_card_title
+    label: Bedroom
+
+  - view_layout:
+      grid-area: "title-bathroom"
+    type: "custom:button-card"
+    template: cb_card_title
+    label: Bathrooms
+
+  - view_layout:
+      grid-area: "title-utility"
+    type: "custom:button-card"
+    template: cb_card_title
+    label: Utility rooms
+
+  - view_layout:
+      grid-area: "bedroom"
+    type: "custom:button-card"
+    template: card_cb_room
+    variables:
+      a0_room_key: bedroom
+    name: Rooms
+  - view_layout:
+      grid-area: "wardrobe"
+    type: "custom:button-card"
     template: card_cb_room
     variables:
       a0_room_key: wardrobe
 
   - view_layout:
-      grid-area: "room6"
-    type: 'custom:button-card'
+      grid-area: "hallway"
+    type: "custom:button-card"
     template: card_cb_room
     variables:
       a0_room_key: hallway
 
   - view_layout:
-      grid-area: "room7"
-    type: 'custom:button-card'
+      grid-area: "storage"
+    type: "custom:button-card"
     template: card_cb_room
     variables:
-      a0_room_key: storage_room
+      a0_room_key: storage
 
   - view_layout:
-      grid-area: "room8"
-    type: 'custom:button-card'
+      grid-area: "ensuite"
+    type: "custom:button-card"
     template: card_cb_room
     variables:
       a0_room_key: ensuite
+
+  - view_layout:
+      grid-area: "bathroom"
+    type: "custom:button-card"
+    template: card_cb_room
+    variables:
+      a0_room_key: bathroom

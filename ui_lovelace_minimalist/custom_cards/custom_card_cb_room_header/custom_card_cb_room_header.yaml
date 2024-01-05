@@ -1,5 +1,13 @@
 ---
 card_cb_room_header:
+  card_mod:
+    style: |
+      :host {
+        position: sticky !important;
+        top: 0 !important;
+        z-index: 1 !important;
+        box-shadow: var(--box-shadow) !important;
+      }
   template: "ulm_language_variables"
   triggers_update:
     - "[[[ return `input_select.${variables.room_key}_activity` ]]]"
@@ -23,7 +31,7 @@ card_cb_room_header:
     card:
       - position: relative
       - padding: 0 8px
-      - margin: -4px -4px 0 -4px
+      - margin: -4px -8px 0
       - width: 100vw
       - border-radius: 0
       - background: |

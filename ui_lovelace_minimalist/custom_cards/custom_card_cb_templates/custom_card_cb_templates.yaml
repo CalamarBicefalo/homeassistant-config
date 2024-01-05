@@ -1,0 +1,8 @@
+---
+cb_card_title:
+  type: "custom:button-card"
+  template: card_title
+  styles:
+      card:
+        - margin-left: 4px
+

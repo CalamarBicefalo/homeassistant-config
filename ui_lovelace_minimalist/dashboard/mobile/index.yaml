@@ -7,3 +7,4 @@ background: "var(--background-image)"
 views:
   - !include "views/main.yaml"
   - !include "views/living_room.yaml"
+  - !include "views/bedroom.yaml"

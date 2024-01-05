@@ -14,11 +14,37 @@ card_cb_room:
         - yellow_on
       tap_action:
         action: toggle
-
-
+        
+  show_icon: false
   name: "[[[ return variables.room_name ]]]"
   entity: "[[[ return `input_select.${variables.a0_room_key}_activity` ]]]"
   tap_action:
     action: navigate
     navigation_path: "[[[ return `/mobile-dashboard/${variables.a0_room_key}` ]]]"
-
+  styles:
+    card:
+      - background: |
+          [[[ return `linear-gradient( 
+            to bottom, 
+            rgba(0, 0, 0, 0.8), 
+            rgba(0, 0, 0, 0.7), 
+            rgba(0, 0, 0, 0.3), 
+            rgba(0, 0, 0, 0), 
+            rgba(0, 0, 0, 0) ), 
+            url(/local/img/${variables.a0_room_key}.jpg ) no-repeat center center` ]]]
+      - background-size: cover
+    name:
+      - justify-self: "start"
+      - font-size: 1.25rem
+      - font-weight: 900
+      - text-transform: capitalize
+      - color: white
+      - opacity: 0.9
+      - text-shadow: 0 1px 0 black
+    label:
+      - justify-self: "start"
+      - font-weight: "bold"
+      - color: white
+      - opacity: 1
+      - font-size: 1rem
+      - text-shadow: 0 1px 0 black
