@@ -13,7 +13,7 @@ class EnsuiteScene(SceneApp):
     def activity(self) -> SelectHandler:
         return self.handlers.rooms.ensuite.activity
     illuminance_sensor = None
-    room_lights = entities.LIGHT_BATHROOM
+    room_lights = entities.LIGHT_ENSUITE
 
     def get_light_scene(self, activity: StrEnum) -> Scene | SceneByModeSelector:
         if activity in [Ensuite.Activity.PRESENT, Ensuite.Activity.SHOWERING]:
