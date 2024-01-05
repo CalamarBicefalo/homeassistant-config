@@ -1,0 +1,78 @@
+---
+title: "ensuite"
+icon: "mdi:shower-head"
+path: "ensuite"
+
+type: "custom:layout-card"
+layout_type: "custom:grid-layout"
+layout:
+  grid-template-columns: "1fr 1fr"
+  margin: 0
+  padding: 0 4px
+  grid-template-areas: |
+    "header header"
+    "title-lights title-lights"
+    "lights lights"
+    "title-sensors title-sensors"
+    "sensor1 sensor2"
+
+cards:
+  - view_layout:
+      grid-area: "header"
+    type: "custom:button-card"
+    template: "card_cb_room_header"
+    variables:
+      room_key: 'ensuite'
+
+  - view_layout:
+      grid-area: "title-lights"
+    type: "custom:button-card"
+    template: cb_card_title
+    name: Lights & Blinds
+
+  - view_layout:
+      grid-area: "lights"
+    type: "custom:button-card"
+    template: card_light
+    entity: light.ensuite
+    variables:
+      ulm_card_light_name: Lights
+      ulm_card_light_enable_slider: true
+      ulm_card_light_enable_color: true
+      ulm_card_light_force_background_color: true
+      ulm_card_light_enable_horizontal: true
+      ulm_card_light_enable_horizontal_wide: true
+
+  - view_layout:
+      grid-area: "title-sensors"
+    type: "custom:button-card"
+    template: cb_card_title
+    name: Sensors
+
+  - view_layout:
+      grid-area: "sensor1"
+    type: "custom:button-card"
+    template: 
+      - card_generic
+      - battery_info
+    name: Motion
+    variables:
+      ulm_show_last_changed: false
+      ulm_card_generic_name: Motion
+      ulm_battery_entity: sensor.ensuite_ms_battery
+    entity: binary_sensor.ensuite_motion
+
+  - view_layout:
+      grid-area: "sensor2"
+    type: "custom:button-card"
+    template: 
+      - card_generic
+      - battery_info
+    name: Door
+    variables:
+      ulm_show_last_changed: false
+      ulm_card_generic_name: Door
+      ulm_battery_entity: sensor.ensuite_door_cs_battery
+    entity: binary_sensor.ensuite_door_cs
+
+  

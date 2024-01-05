@@ -12,3 +12,4 @@ views:
   - !include "views/dining_room.yaml"
   - !include "views/studio.yaml"
   - !include "views/wardrobe.yaml"
+  - !include "views/ensuite.yaml"
