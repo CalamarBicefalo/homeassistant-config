@@ -8,7 +8,7 @@ from select_handler import SelectHandler
 class StorageRoomController(ActivityController):
     @property
     def activity(self) -> ActivityHandler:
-        return self.handlers.rooms.storage_room.activity
+        return self.handlers.rooms.storage.activity
 
     def initialize(self) -> None:
         super().initialize_lock()
@@ -23,7 +23,7 @@ class StorageRoomController(ActivityController):
         self.cancel_empty_timer()
 
         if new == states.OPEN:
-            self.activity.set(StorageRoom.Activity.PRESENT)
+            self.activity.set(Storage.Activity.PRESENT)
         else:
             self.cancel_empty_timer()
-            self.activity.set(StorageRoom.Activity.EMPTY)
+            self.activity.set(Storage.Activity.EMPTY)
