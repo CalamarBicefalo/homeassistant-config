@@ -79,11 +79,21 @@ cb_card_welcome_scenes:
       - grid-template-rows: "min-content min-content"
       - row-gap: "0px"
     card:
-      - box-shadow: "var(--box-shadow)"
       - padding: 8px
       - margin: -4px -8px 0
       - width: 100vw
       - border-radius: 0
+      - background: |
+          [[[ return `linear-gradient( 
+            to bottom, 
+            rgba(29,29,29, 0.4), 
+            rgba(29,29,29, 0.2), 
+           ), 
+            url(/local/img/luna.jpg ) no-repeat center center` ]]]
+      - background-size: cover
+      - box-shadow: "none"
+      - cursor: "default"
+      - "--mdc-ripple-press-opacity": 0   # prevent click animation
     custom_fields:
       item3:
         - display: >
@@ -412,14 +422,12 @@ cb_card_topbar_welcome:
     item1:
       card:
         type: "custom:button-card"
-        template: "chip_weather_date"
-        entity: "[[[ return variables.ulm_weather]]]"
+        template: "chip_temperature"
         variables:
-          ulm_weather: "[[[ return variables.ulm_weather ]]]"
-          ulm_language: "[[[ return variables.ulm_language ]]]"
-        styles:
-          card:
-            - width: "100px"
+          ulm_chip_temperature_inside: sensor.bedroom_air_quality_temperature
+          ulm_chip_temperature_outside: sensor.outside_temperature
+          ulm_chip_temperature_weather: "[[[ return variables.ulm_weather]]]"
+
     item2:
       card:
         type: "custom:button-card"
