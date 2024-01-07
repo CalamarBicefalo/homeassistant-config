@@ -70,7 +70,9 @@ class LivingRoomController(ActivityController):
         return self.state.is_on(entities.BINARY_SENSOR_SOFA_PS)
 
     def on_long_press(self) -> None:
-        self.activity.set(CommonActivities.EMPTY, manual=True)
+        self.activity.unlock()
+        self.activity.set(CommonActivities.EMPTY)
 
     def on_double_click(self) -> None:
-        self.activity.set(LivingRoom.Activity.DRUMMING, manual=True)
+        self.activity.set(LivingRoom.Activity.DRUMMING)
+        self.activity.lock()

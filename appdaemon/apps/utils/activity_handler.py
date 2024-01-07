@@ -41,17 +41,15 @@ class ActivityHandler(SelectHandler[T]):
         if not data or not data['helper']:
             self._app.log(f'Got event of type {event_name} missing mandatory attribute "helper" with the activity helper name', level="ERROR")
             return
-        if not data['activity']:
-            self._app.log(f'Got event of type {event_name} missing mandatory attribute "activity" with the activity value', level="ERROR")
-            return
-        if not data['lock']:
-            self._app.log(f'Got event of type {event_name} missing mandatory attribute "lock" indicating if it is a user generated action', level="ERROR")
-            return
 
         if data['helper'] == self._helper:
+            if not data['activity']:
+                self._app.log(f'Got event of type {event_name} missing mandatory attribute "activity" with the activity value', level="ERROR")
+                return
+
             if 'lock' in data and data['lock'] is not None:
                 if data['lock']:
                     self.lock()
                 else:
                     self.unlock()
-            self.set(data['activity'], lock=data['lock'])
+            self.set(data['activity'])
