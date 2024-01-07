@@ -30,21 +30,6 @@ def generate_rooms(root_dir: str) -> None:
 
                     f.write("\n\n")
 
-            with open("helpers/input_number/input_number_generated.yaml", 'w') as f:
-                for room in rooms:
-                    if "vacuum" not in room or "room_id" not in room["vacuum"]:
-                        continue
-
-                    f.write(f'roborock_segment_{snake_name(room)}:\n')
-                    f.write(f'    name: Roborock segment {room["name"]}\n')
-                    f.write("    icon: mdi:robot\n")
-                    f.write(f'    initial: {room["vacuum"]["room_id"]}\n')
-                    f.write("    min: -1\n")
-                    f.write("    max: 9999\n")
-                    f.write("    step: 1\n")
-                    f.write("    mode: box\n")
-                    f.write("\n\n")
-
             with open("helpers/input_datetime/input_datetime_generated.yaml", 'w') as f:
                 for room in rooms:
                     f.write(f'last_cleaned_{snake_name(room)}:\n')

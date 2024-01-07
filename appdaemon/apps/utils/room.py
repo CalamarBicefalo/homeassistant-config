@@ -10,6 +10,7 @@ from select_handler import SelectHandler
 from state_handler import StateHandler
 
 EMPTY = "Empty"
+CLEAN_ROOM_EVENT = "clean_room_requested"
 
 
 class Room():
@@ -33,6 +34,11 @@ class Room():
         )
 
     def _initialize_cleaning(self) -> None:
+        self.app.listen_event(
+            self.on_room_clean_requested,
+            CLEAN_ROOM_EVENT
+        )
+
         if self.days_between_cleaning <= 0:
             self.app.log(f'Cleaning disabled for {self.name}.', level="INFO")
         else:
@@ -136,3 +142,16 @@ class Room():
             entity_id=helper,
             datetime=helpers.datetime_to_helper(datetime.now())
         )
+
+    def on_room_clean_requested(self, event_name: str, data: Any, kwargs: Any) -> None:
+        self.app.log(f'Got event {event_name} with data {data}', level="DEBUG")
+        if event_name != CLEAN_ROOM_EVENT:
+            self.app.log(f'Got event of type {event_name} when expecting {CLEAN_ROOM_EVENT}', level="ERROR")
+            return
+        if not data or not data['helper']:
+            self.app.log(f'Got event of type {event_name} missing mandatory attribute "helper" with the activity helper name', level="ERROR")
+            return
+
+        if data['helper'] == self._activity_helper:
+            self.app.log(f'Cleaning {self.name} because of {event_name} event', level="INFO")
+            self.clean()

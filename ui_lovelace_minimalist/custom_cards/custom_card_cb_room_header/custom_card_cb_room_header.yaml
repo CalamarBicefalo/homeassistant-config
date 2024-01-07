@@ -16,9 +16,9 @@ card_cb_room_header:
   variables:
     ulm_weather: "[[[ return variables.ulm_weather]]]"
     room_name: "[[[ return variables.room_key.replaceAll('_', ' ') ]]]"
+    z0_activity_helper_entity: "[[[ return `input_select.${variables.room_key}_activity` ]]]"
     z0_activity_lock_entity: "[[[ return `input_boolean.activity_lock_${variables.room_key}` ]]]"
     z1_activity_lock: "[[[  return states[variables.z0_activity_lock_entity].state  == 'on' ]]]"
-    z2_cleaning_zone: "[[[  return states[`input_number.roborock_segment_${variables.room_key}`].state  * 1 ]]]"
   show_icon: false
   show_label: true
   show_name: false
@@ -150,13 +150,14 @@ card_cb_room_header:
               text: '[[[ return `Flick will clean the ${variables.room_name} right away.` ]]]'
             tap_action:
               action: "call-service"
-              service:  "vacuum.send_command"
+              service: "custom_event.fire"
               service_data: |
                 [[[
                   return { 
-                    entity_id: 'vacuum.flick',
-                    command: 'app_segment_clean',
-                    params: variables.z2_cleaning_zone,
+                    event_type: 'clean_room_requested',
+                    event_data: {
+                      helper: variables.z0_activity_helper_entity, 
+                    }
                   };
                 ]]]
             label: |
@@ -478,7 +479,7 @@ card_cb_room_header_activity_pill:
               return { 
                 event_type: 'activity_changed',
                 event_data: {
-                  helper: `input_select.${variables.room_key}_activity`, 
+                  helper: variables.z0_activity_helper_entity, 
                   activity: entity && entity.attributes.option,
                   lock: false
                 }
@@ -492,7 +493,7 @@ card_cb_room_header_activity_pill:
               return { 
                 event_type: 'activity_changed',
                 event_data: {
-                  helper: `input_select.${variables.room_key}_activity`, 
+                  helper: variables.z0_activity_helper_entity, 
                   activity: entity && entity.attributes.option,
                   lock: true
                 }
@@ -506,7 +507,7 @@ card_cb_room_header_activity_pill:
               return { 
                 event_type: 'activity_changed',
                 event_data: {
-                  helper: `input_select.${variables.room_key}_activity`, 
+                  helper: variables.z0_activity_helper_entity, 
                   activity: 'Empty',
                   lock: false
                 }
