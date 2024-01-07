@@ -6,10 +6,10 @@ from rooms import *
 import matchers
 import services
 import states as door
-from activity_controllers.storage_room_controller import StorageRoomController
+from activity_controllers.storage_controller import StorageController
 
 
-@automation_fixture(StorageRoomController)
+@automation_fixture(StorageController)
 def subject():
     matchers.init()
     pass

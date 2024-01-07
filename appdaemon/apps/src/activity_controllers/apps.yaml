@@ -32,6 +32,6 @@ Hallway activity:
   class: HallwayController
   dependencies: !include /homeassistant/appdaemon/apps/dependencies.yaml
 Storage room activity:
-  module: storage_room_controller
-  class: StorageRoomController
+  module: storage_controller
+  class: StorageController
   dependencies: !include /homeassistant/appdaemon/apps/dependencies.yaml

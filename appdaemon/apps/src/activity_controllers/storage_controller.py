@@ -5,7 +5,7 @@ from rooms import *
 from select_handler import SelectHandler
 
 
-class StorageRoomController(ActivityController):
+class StorageController(ActivityController):
     @property
     def activity(self) -> ActivityHandler:
         return self.handlers.rooms.storage.activity

@@ -28,8 +28,8 @@ Hallway scene:
   class: HallwayScene
   dependencies: !include /homeassistant/appdaemon/apps/dependencies.yaml
 Storage room scene:
-  module: storage_room_scene
-  class: StorageRoomScene
+  module: storage_scene
+  class: StorageScene
   dependencies: !include /homeassistant/appdaemon/apps/dependencies.yaml
 Kitchen scene:
   module: kitchen_scene
