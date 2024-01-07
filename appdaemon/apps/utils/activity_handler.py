@@ -46,7 +46,7 @@ class ActivityHandler(SelectHandler[T]):
         if event_name != ACTIVITY_CHANGED_EVENT:
             self._app.log(f'Got event of type {event_name} when expecting {ACTIVITY_CHANGED_EVENT}', level="ERROR")
             return
-        if not data or not data['helper']:
+        if not data or not 'helper' in data:
             self._app.log(f'Got event of type {event_name} missing mandatory attribute "helper" with the activity helper name', level="ERROR")
             return
 

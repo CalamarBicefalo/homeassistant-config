@@ -555,7 +555,7 @@ cb_card_scenes_welcome:
     card:
       - border-radius: "var(--border-radius)"
       - box-shadow: "var(--box-shadow)"
-      - padding: "12px"
+      - padding: "12px 12px 0 12px"
       - overflow: "visible"
     custom_fields:
       item1:
