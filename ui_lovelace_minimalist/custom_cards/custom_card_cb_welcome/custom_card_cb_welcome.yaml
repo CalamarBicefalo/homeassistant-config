@@ -157,6 +157,7 @@ cb_card_welcome_scenes:
             - font-size: "24px"
             - margin-left: "16px"
             - text-shadow: 0 1px 0 black
+            - color: white
           grid:
             - grid-template-areas: "'i n' 'i l'"
             - grid-template-columns: "min-content auto"
@@ -403,6 +404,7 @@ cb_card_scenes_pill_welcome:
           grid:
             - grid-template-areas: "n"
           name:
+            - color: white
             - justify-self: "center"
             - font-weight: "bold"
             - font-size: "9.5px"
