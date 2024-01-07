@@ -35,6 +35,7 @@ class ActivityHandler(SelectHandler[T]):
         return self._app.turn_off(self._lock)
 
     def on_activity_changed_event(self, event_name: str, data: Any, kwargs: Any) -> None:
+        self._app.log(f'Got event {event_name} with data {data}', level="DEBUG")
         if event_name != ACTIVITY_CHANGED_EVENT:
             self._app.log(f'Got event of type {event_name} when expecting {ACTIVITY_CHANGED_EVENT}', level="ERROR")
             return

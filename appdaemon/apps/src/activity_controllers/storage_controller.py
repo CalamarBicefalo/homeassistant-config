@@ -13,7 +13,7 @@ class StorageController(ActivityController):
     def initialize(self) -> None:
         super().initialize_lock()
         self.log(f'Initializing storage room controller.', level="DEBUG")
-
+    
         self.listen_state(
             self.controller_handler,
             [entities.BINARY_SENSOR_STORAGE_DOOR_CS]

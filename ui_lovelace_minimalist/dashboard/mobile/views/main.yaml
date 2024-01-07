@@ -12,6 +12,8 @@ layout:
   grid-template-areas: |
     "header header"
 
+    "title-people title-people"
+    "jc amanda"
     "title-rooms title-rooms"
     "living_room kitchen"
     "dining_room studio"
@@ -57,6 +59,33 @@ cards:
         color: grey
 
     
+
+  - view_layout:
+      grid-area: "title-people"
+    type: "custom:button-card"
+    template: cb_card_title
+    name: Who's home?
+    label: Apart from Luna
+    
+  - view_layout:
+      grid-area: "jc"
+    type: 'custom:button-card'
+    template: card_person
+    entity: person.jose_carlos
+    variables:
+      ulm_card_person_use_entity_picture: true
+      ulm_card_person_icon: mdi:face-man
+      ulm_card_person_battery: sensor.sm_s918b_battery_level
+    
+  - view_layout:
+      grid-area: "amanda"
+    type: 'custom:button-card'
+    template: card_person
+    entity: person.amanda
+    variables:
+      ulm_card_person_use_entity_picture: true
+      ulm_card_person_icon: mdi:face-woman
+      ulm_card_person_battery: sensor.mandies_iphone_battery_level
 
   - view_layout:
       grid-area: "title-rooms"

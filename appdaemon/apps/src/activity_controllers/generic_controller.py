@@ -29,11 +29,10 @@ class ActivityController(App):
     def initialize_lock(self) -> None:
         self.log(f'Initializing {self.controller} activity controller.', level="DEBUG")
 
-        if self.motion_sensor:
-            self.listen_event(
-                self.activity.on_activity_changed_event,
-                ACTIVITY_CHANGED_EVENT
-            )
+        self.listen_event(
+            self.activity.on_activity_changed_event,
+            ACTIVITY_CHANGED_EVENT
+        )
 
     def set_as_empty_in(self, seconds: int = 0, minutes: int = 0) -> None:
         self._cancel_empty_timer()
