@@ -18,6 +18,7 @@ card_cb_room_header:
     room_name: "[[[ return variables.room_key.replaceAll('_', ' ') ]]]"
     z0_activity_lock_entity: "[[[ return `input_boolean.activity_lock_${variables.room_key}` ]]]"
     z1_activity_lock: "[[[  return states[variables.z0_activity_lock_entity].state  == 'on' ]]]"
+    z2_cleaning_zone: "[[[  return states[`input_number.roborock_segment_${variables.room_key}`].state  * 1 ]]]"
   show_icon: false
   show_label: true
   show_name: false
@@ -149,16 +150,13 @@ card_cb_room_header:
               text: '[[[ return `Flick will clean the ${variables.room_name} right away.` ]]]'
             tap_action:
               action: "call-service"
-              service:  "custom_event.fire"
+              service:  "vacuum.send_command"
               service_data: |
                 [[[
                   return { 
-                    event_type: 'activity_changed',
-                    event_data: {
-                      helper: `input_select.${variables.room_key}_activity`, 
-                      activity: entity && entity.attributes.option,
-                      manual: false
-                    }
+                    entity_id: 'vacuum.flick',
+                    command: 'app_segment_clean',
+                    params: variables.z2_cleaning_zone,
                   };
                 ]]]
             label: |
