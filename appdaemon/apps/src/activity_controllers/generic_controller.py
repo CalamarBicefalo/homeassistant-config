@@ -1,5 +1,5 @@
 from abc import abstractmethod
-from typing import Optional
+from typing import Optional, Any
 
 import entities
 import states
@@ -33,6 +33,10 @@ class ActivityController(App):
             self.activity.on_activity_changed_event,
             ACTIVITY_CHANGED_EVENT
         )
+
+    def on_activity_changed_event(self, event_name: str, data: Any, kwargs: Any) -> None:
+        self.cancel_empty_timer()
+        self.activity.on_activity_changed_event(event_name, data, kwargs)
 
     def set_as_empty_in(self, seconds: int = 0, minutes: int = 0) -> None:
         self._cancel_empty_timer()

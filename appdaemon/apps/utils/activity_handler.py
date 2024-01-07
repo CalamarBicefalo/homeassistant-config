@@ -1,5 +1,5 @@
 from enum import StrEnum
-from typing import TypeVar, Any
+from typing import TypeVar, Any, Optional
 
 import appdaemon.plugins.hass.hassapi as hass
 
@@ -20,18 +20,25 @@ class ActivityHandler(SelectHandler[T]):
         self._app = app
         self._state = StateHandler(app)
 
-    def set(self, value: T | str, lock: bool = False) -> None:
+    def set(self, value: T | str, lock: Optional[bool] = None) -> None:
         self._app.log(f'changing {self._helper} to {value}. locked={self.is_locked()}. lock={lock}', level="DEBUG")
-        if not self.is_locked() or lock:
+        if lock is None:
+            if not self.is_locked():
+                super().set(value)
+        else:
+            if lock:
+                self._do_lock()
+            else:
+                self._do_unlock()
             super().set(value)
 
     def is_locked(self):
         return self.state.is_on(self._lock)
 
-    def lock(self):
+    def _do_lock(self):
         return self._app.turn_on(self._lock)
 
-    def unlock(self):
+    def _do_unlock(self):
         return self._app.turn_off(self._lock)
 
     def on_activity_changed_event(self, event_name: str, data: Any, kwargs: Any) -> None:
@@ -48,9 +55,8 @@ class ActivityHandler(SelectHandler[T]):
                 self._app.log(f'Got event of type {event_name} missing mandatory attribute "activity" with the activity value', level="ERROR")
                 return
 
+            lock = None
             if 'lock' in data and data['lock'] is not None:
-                if data['lock']:
-                    self.lock()
-                else:
-                    self.unlock()
-            self.set(data['activity'])
+                lock = data['lock']
+
+            self.set(data['activity'], lock=lock)
