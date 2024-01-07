@@ -88,7 +88,7 @@ cb_card_welcome_scenes:
             to bottom, 
             rgba(0, 0, 0, 0.4), 
             rgba(0, 0, 0, 0) ), 
-            url(/local/img/luna.jpg ) no-repeat center center` ]]]
+            url(/local/img/simple_bg.jpg ) no-repeat center center` ]]]
       - background-size: cover
       - box-shadow: "none"
       - cursor: "default"
