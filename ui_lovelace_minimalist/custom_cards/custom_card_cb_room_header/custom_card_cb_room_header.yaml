@@ -482,18 +482,36 @@ card_cb_room_header_activity_pill:
                 event_data: {
                   helper: `input_select.${variables.room_key}_activity`, 
                   activity: entity && entity.attributes.option,
-                  lock: variables.z0_activity_lock_entity,
-                  manual: true
+                  lock: false
+                }
+              };
+            ]]]
+        double_tap_action:
+          action: "call-service"
+          service:  "custom_event.fire"
+          service_data: |
+            [[[
+              return { 
+                event_type: 'activity_changed',
+                event_data: {
+                  helper: `input_select.${variables.room_key}_activity`, 
+                  activity: entity && entity.attributes.option,
+                  lock: true
                 }
               };
             ]]]
         hold_action:
           action: "call-service"
-          service:  "input_boolean.turn_off"
+          service: "custom_event.fire"
           service_data: |
             [[[
               return { 
-                entity_id: `input_boolean.activity_lock_${variables.room_key}`,
+                event_type: 'activity_changed',
+                event_data: {
+                  helper: `input_select.${variables.room_key}_activity`, 
+                  activity: 'Empty',
+                  lock: false
+                }
               };
             ]]]
         styles:

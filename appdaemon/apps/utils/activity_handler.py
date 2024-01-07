@@ -20,9 +20,9 @@ class ActivityHandler(SelectHandler[T]):
         self._app = app
         self._state = StateHandler(app)
 
-    def set(self, value: T | str, manual: bool = False) -> None:
-        self._app.log(f'changing {self._helper} to {value}. locked={self.is_locked()}. manual={manual}', level="DEBUG")
-        if not self.is_locked() or manual:
+    def set(self, value: T | str, lock: bool = False) -> None:
+        self._app.log(f'changing {self._helper} to {value}. locked={self.is_locked()}. lock={lock}', level="DEBUG")
+        if not self.is_locked() or lock:
             super().set(value)
 
     def is_locked(self):
@@ -30,6 +30,9 @@ class ActivityHandler(SelectHandler[T]):
 
     def lock(self):
         return self._app.turn_on(self._lock)
+
+    def unlock(self):
+        return self._app.turn_off(self._lock)
 
     def on_activity_changed_event(self, event_name: str, data: Any, kwargs: Any) -> None:
         if event_name != ACTIVITY_CHANGED_EVENT:
@@ -41,11 +44,14 @@ class ActivityHandler(SelectHandler[T]):
         if not data['activity']:
             self._app.log(f'Got event of type {event_name} missing mandatory attribute "activity" with the activity value', level="ERROR")
             return
-        if not data['manual']:
-            self._app.log(f'Got event of type {event_name} missing mandatory attribute "manual" indicating if it is a user generated action', level="ERROR")
+        if not data['lock']:
+            self._app.log(f'Got event of type {event_name} missing mandatory attribute "lock" indicating if it is a user generated action', level="ERROR")
             return
 
         if data['helper'] == self._helper:
-            if data['manual']:
-                self.lock()
-            self.set(data['activity'], manual=data['manual'])
+            if 'lock' in data and data['lock'] is not None:
+                if data['lock']:
+                    self.lock()
+                else:
+                    self.unlock()
+            self.set(data['activity'], lock=data['lock'])
