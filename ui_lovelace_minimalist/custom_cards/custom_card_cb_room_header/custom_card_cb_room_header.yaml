@@ -16,7 +16,6 @@ card_cb_room_header:
   variables:
     ulm_weather: "[[[ return variables.ulm_weather]]]"
     room_name: "[[[ return variables.room_key.replaceAll('_', ' ') ]]]"
-    z0_activity_helper_entity: "[[[ return `input_select.${variables.room_key}_activity` ]]]"
     z0_activity_lock_entity: "[[[ return `input_boolean.activity_lock_${variables.room_key}` ]]]"
     z1_activity_lock: "[[[  return states[variables.z0_activity_lock_entity].state  == 'on' ]]]"
   show_icon: false
@@ -156,7 +155,7 @@ card_cb_room_header:
                   return { 
                     event_type: 'clean_room_requested',
                     event_data: {
-                      helper: variables.z0_activity_helper_entity, 
+                      helper: `input_select.${variables.room_key}_activity`, 
                     }
                   };
                 ]]]
@@ -479,7 +478,7 @@ card_cb_room_header_activity_pill:
               return { 
                 event_type: 'activity_changed',
                 event_data: {
-                  helper: variables.z0_activity_helper_entity, 
+                  helper: `input_select.${variables.room_key}_activity`, 
                   activity: entity && entity.attributes.option,
                   lock: false
                 }
@@ -493,7 +492,7 @@ card_cb_room_header_activity_pill:
               return { 
                 event_type: 'activity_changed',
                 event_data: {
-                  helper: variables.z0_activity_helper_entity, 
+                  helper: `input_select.${variables.room_key}_activity`, 
                   activity: entity && entity.attributes.option,
                   lock: true
                 }
@@ -507,7 +506,7 @@ card_cb_room_header_activity_pill:
               return { 
                 event_type: 'activity_changed',
                 event_data: {
-                  helper: variables.z0_activity_helper_entity, 
+                  helper: `input_select.${variables.room_key}_activity`, 
                   activity: 'Empty',
                   lock: false
                 }
