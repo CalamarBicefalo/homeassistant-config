@@ -48,17 +48,18 @@ cards:
     type: "custom:button-card"
     template: cb_card_title
     name: Sensors
+    label: Presence
 
   - view_layout:
       grid-column-end: span 2
     type: "custom:button-card"
     template: 
-      - card_generic
+      - card_binary_sensor
       - battery_info
     name: Door
     variables:
       ulm_show_last_changed: false
-      ulm_card_generic_name: Door
+      ulm_card_binary_sensor_name: Door
       ulm_battery_entity: sensor.storage_door_cs_battery
     entity: binary_sensor.storage_door_cs
 

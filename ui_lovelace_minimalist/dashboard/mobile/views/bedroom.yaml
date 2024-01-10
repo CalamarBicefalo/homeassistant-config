@@ -82,16 +82,32 @@ cards:
     type: "custom:button-card"
     template: cb_card_title
     name: Sensors
+    label: Presence
+
+  - view_layout:
+    type: "custom:button-card"
+    template: card_binary_sensor
+    variables:
+      ulm_show_last_changed: false
+      ulm_card_binary_sensor_name: Motion Bed
+    entity: binary_sensor.bedroom_motion
+
+  - view_layout:
+    type: "custom:button-card"
+    template: 
+      - card_binary_sensor
+      - battery_info
+    variables:
+      ulm_show_last_changed: false
+      ulm_card_binary_sensor_name: Motion Door
+      ulm_battery_entity: sensor.wardrobe_ms_battery
+    entity: binary_sensor.wardrobe_ms_motion
 
   - view_layout:
       grid-column-end: span 2
     type: "custom:button-card"
-    template: card_generic
-    name: Motion
-    variables:
-      ulm_show_last_changed: false
-      ulm_card_generic_name: Motion
-    entity: binary_sensor.bedroom_motion
+    template: cb_card_title
+    label: Environment
 
   - type: 'custom:button-card'
     template: card_graph

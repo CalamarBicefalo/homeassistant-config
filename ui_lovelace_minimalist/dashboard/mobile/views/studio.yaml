@@ -74,22 +74,22 @@ cards:
   - view_layout:
     type: "custom:button-card"
     template: 
-      - card_generic
+      - card_binary_sensor
       - battery_info
     variables:
       ulm_show_last_changed: false
-      ulm_card_generic_name: Motion
+      ulm_card_binary_sensor_name: Motion
       ulm_battery_entity: sensor.studio_ms_battery
     entity: binary_sensor.studio_motion
 
   - view_layout:
     type: "custom:button-card"
     template: 
-      - card_generic
+      - card_binary_sensor
       - battery_info
     variables:
       ulm_show_last_changed: false
-      ulm_card_generic_name: Chair
+      ulm_card_binary_sensor_name: Chair
       ulm_battery_entity: sensor.desk_chair_ps_battery
     entity: binary_sensor.desk_chair_ps
 
@@ -103,30 +103,30 @@ cards:
       grid-column-end: span 2
     type: "custom:button-card"
     template: 
-      - card_generic
+      - card_binary_sensor
       - battery_info
     variables:
       ulm_card_generic_icon: mdi:laptop
       ulm_show_last_changed: false
-      ulm_card_generic_name: Laptop
+      ulm_card_binary_sensor_name: Laptop
       ulm_battery_entity: sensor.snyk_laptop_internal_battery_level
     entity: binary_sensor.snyk_laptop_active
 
 
   - view_layout:
     type: "custom:button-card"
-    template: card_generic
+    template: card_binary_sensor
     variables:
       ulm_show_last_changed: false
-      ulm_card_generic_name: Drumkit
+      ulm_card_binary_sensor_name: Drumkit
     entity: switch.drumkit
 
   - view_layout:
     type: "custom:button-card"
-    template: card_generic
+    template: card_binary_sensor
     variables:
       ulm_show_last_changed: false
-      ulm_card_generic_name: Display
+      ulm_card_binary_sensor_name: Display
     entity: switch.monitor
 
   

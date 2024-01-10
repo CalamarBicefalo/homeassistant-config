@@ -61,41 +61,49 @@ cards:
     type: "custom:button-card"
     template: cb_card_title
     name: Sensors
+    label: Presence
 
   - view_layout:
       grid-column-end: span 2
     type: "custom:button-card"
     template: 
-      - card_generic
+      - card_binary_sensor
       - battery_info
     name: Motion
     variables:
       ulm_show_last_changed: false
-      ulm_card_generic_name: Motion
+      ulm_card_binary_sensor_name: Motion
       ulm_battery_entity: sensor.wardrobe_ms_battery
     entity: binary_sensor.wardrobe_ms_motion
+
+
+  - view_layout:
+      grid-column-end: span 2
+    type: "custom:button-card"
+    template: cb_card_title
+    label: Wardrobe Door
 
   - view_layout:
     type: "custom:button-card"
     template: 
-      - card_generic
+      - card_binary_sensor
       - battery_info
     name: Left door
     variables:
       ulm_show_last_changed: false
-      ulm_card_generic_name: Left door
+      ulm_card_binary_sensor_name: Left door
       ulm_battery_entity: sensor.wardrobe_door_left_cs_battery
     entity: binary_sensor.wardrobe_door_left_cs_iaszone
 
   - view_layout:
     type: "custom:button-card"
     template: 
-      - card_generic
+      - card_binary_sensor
       - battery_info
     name: Right door
     variables:
       ulm_show_last_changed: false
-      ulm_card_generic_name: Right door
+      ulm_card_binary_sensor_name: Right door
       ulm_battery_entity: sensor.cs_wardrobe_right_battery
     entity: binary_sensor.wardrobe_door_right_cs_iaszone
 
@@ -103,11 +111,11 @@ cards:
       grid-column-end: span 2
     type: "custom:button-card"
     template: 
-      - card_generic
+      - card_binary_sensor
       - battery_info
     name: Middle door
     variables:
       ulm_show_last_changed: false
-      ulm_card_generic_name: Middle door
+      ulm_card_binary_sensor_name: Middle door
       ulm_battery_entity: sensor.wardrobe_middle_door_battery
     entity: binary_sensor.wardrobe_middle_door

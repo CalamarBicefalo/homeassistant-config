@@ -48,17 +48,18 @@ cards:
     type: "custom:button-card"
     template: cb_card_title
     name: Sensors
+    label: Presence
 
   - view_layout:
       grid-area: "sensor1"
     type: "custom:button-card"
     template: 
-      - card_generic
+      - card_binary_sensor
       - battery_info
     name: Motion
     variables:
       ulm_show_last_changed: false
-      ulm_card_generic_name: Motion
+      ulm_card_binary_sensor_name: Motion
       ulm_battery_entity: sensor.hallway_ms_battery
     entity: binary_sensor.hallway_ms_occupancy
 
@@ -66,12 +67,12 @@ cards:
       grid-area: "sensor2"
     type: "custom:button-card"
     template: 
-      - card_generic
+      - card_binary_sensor
       - battery_info
     name: Flat door
     variables:
       ulm_show_last_changed: false
-      ulm_card_generic_name: Flat door
+      ulm_card_binary_sensor_name: Flat door
       ulm_battery_entity: sensor.flat_door_cs_battery
     entity: binary_sensor.flat_door_cs
 
