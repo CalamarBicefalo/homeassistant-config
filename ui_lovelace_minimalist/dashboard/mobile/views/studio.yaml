@@ -106,6 +106,7 @@ cards:
       - card_generic
       - battery_info
     variables:
+      ulm_card_generic_icon: mdi:laptop
       ulm_show_last_changed: false
       ulm_card_generic_name: Laptop
       ulm_battery_entity: sensor.snyk_laptop_internal_battery_level

@@ -101,25 +101,24 @@ cards:
     type: "custom:button-card"
     template: cb_card_title
     name: Sensors
+    label: Presence
 
   - view_layout:
-      grid-column-end: span 2
     type: "custom:button-card"
     template: card_binary_sensor
     variables:
       ulm_card_binary_sensor_alert: true
       ulm_show_last_changed: false
-      ulm_card_binary_sensor_name: MS Dining table
+      ulm_card_binary_sensor_name: Motion Dining Table
     entity: binary_sensor.living_room_dining_table_ms
 
   - view_layout:
-      grid-column-end: span 2
     type: "custom:button-card"
     template: card_binary_sensor
     variables:
       ulm_card_binary_sensor_alert: true
       ulm_show_last_changed: false
-      ulm_card_binary_sensor_name: MS Sofa table
+      ulm_card_binary_sensor_name: Motion Sofa
     entity: binary_sensor.living_room_sofa_ms
 
   - view_layout:
@@ -132,3 +131,4 @@ cards:
     variables:
       ulm_show_last_changed: false
       ulm_battery_entity: sensor.sofa_ps_battery
+      ulm_card_binary_sensor_name: Sitting Sofa
