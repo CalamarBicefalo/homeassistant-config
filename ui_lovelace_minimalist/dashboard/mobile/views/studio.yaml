@@ -69,14 +69,13 @@ cards:
     type: "custom:button-card"
     template: cb_card_title
     name: Sensors
+    label: Presence
 
   - view_layout:
-      grid-column-end: span 2
     type: "custom:button-card"
     template: 
       - card_generic
       - battery_info
-    name: Motion
     variables:
       ulm_show_last_changed: false
       ulm_card_generic_name: Motion
@@ -85,8 +84,37 @@ cards:
 
   - view_layout:
     type: "custom:button-card"
+    template: 
+      - card_generic
+      - battery_info
+    variables:
+      ulm_show_last_changed: false
+      ulm_card_generic_name: Chair
+      ulm_battery_entity: sensor.desk_chair_ps_battery
+    entity: binary_sensor.desk_chair_ps
+
+
+  - view_layout:
+    type: "custom:button-card"
+    template: cb_card_title
+    label: Hardware
+
+  - view_layout:
+      grid-column-end: span 2
+    type: "custom:button-card"
+    template: 
+      - card_generic
+      - battery_info
+    variables:
+      ulm_show_last_changed: false
+      ulm_card_generic_name: Laptop
+      ulm_battery_entity: sensor.snyk_laptop_internal_battery_level
+    entity: binary_sensor.snyk_laptop_active
+
+
+  - view_layout:
+    type: "custom:button-card"
     template: card_generic
-    name: Drums
     variables:
       ulm_show_last_changed: false
       ulm_card_generic_name: Drumkit
@@ -95,7 +123,6 @@ cards:
   - view_layout:
     type: "custom:button-card"
     template: card_generic
-    name: Display
     variables:
       ulm_show_last_changed: false
       ulm_card_generic_name: Display
