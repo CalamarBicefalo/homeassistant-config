@@ -63,7 +63,8 @@ class StudioController(ActivityController):
         return self.state.is_value(entities.SENSOR_SNYK_LAPTOP_SSID, 'SETE-2SE-5G')
 
     def set_working_or_meeting(self) -> None:
-        if self.state.is_on(entities.BINARY_SENSOR_SNYK_LAPTOP_AUDIO_INPUT_IN_USE):
+        if (self.state.is_on(entities.BINARY_SENSOR_SNYK_LAPTOP_AUDIO_INPUT_IN_USE) 
+            or self.state.is_on(entities.BINARY_SENSOR_SNYK_LAPTOP_AUDIO_OUTPUT_IN_USE)):
             self.activity.set(Studio.Activity.MEETING)
         else:
             self.activity.set(Studio.Activity.WORKING)
