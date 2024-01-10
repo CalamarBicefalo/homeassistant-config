@@ -551,7 +551,16 @@ card_cb_room_header_activity_pill:
                   return active ? `42px` : '46px';
                 ]]]
           card:
-            - box-shadow: "none"
+            - box-shadow: >
+                    [[[
+                      var active = !(entity?.state !== 'on' && entity?.state !== 'playing' && entity?.state != variables?.state)
+                      if (active) return "none";
+                      if (hass.themes.darkMode){
+                        return "0px 2px 4px 0px rgba(0,0,0,0.80)";
+                      } else {
+                        return "var(--box-shadow)";
+                      }
+                    ]]]
             - border-radius: "50px"
             - padding: "0px"
 
