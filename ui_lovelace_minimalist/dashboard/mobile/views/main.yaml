@@ -56,7 +56,7 @@ cards:
         state: Away
         name: Away
         icon: mdi:home-export-outline
-        color: grey
+        color: red
 
     
 

@@ -437,6 +437,9 @@ cb_card_topbar_welcome:
       card:
         type: "custom:button-card"
         template: "chip_temperature"
+        entity: "[[[ return variables.ulm_weather]]]"
+        tap_action:
+          action: "more-info"
         variables:
           ulm_chip_temperature_inside: sensor.bedroom_air_quality_temperature
           ulm_chip_temperature_outside: sensor.outside_temperature

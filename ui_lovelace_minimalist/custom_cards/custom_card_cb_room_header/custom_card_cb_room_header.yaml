@@ -144,9 +144,12 @@ card_cb_room_header:
               place-self: center end
             type: "custom:button-card"
             template: chip_icon_label
+            entity: vacuum.flick
             icon: mdi:broom
             confirmation:
               text: '[[[ return `Flick will clean the ${variables.room_name} right away.` ]]]'
+            hold_action: 
+              action: "more-info"
             tap_action:
               action: "call-service"
               service: "custom_event.fire"
