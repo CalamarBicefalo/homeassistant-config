@@ -37,7 +37,7 @@ cards:
       grid-area: "media"
     type: "custom:button-card"
     template: card_media_player
-    entity: media_player.bedroom_speakers_2
+    entity: media_player.bedroom_speakers
     variables:
       ulm_card_media_player_name: Speakers
       ulm_card_media_player_enable_art: true

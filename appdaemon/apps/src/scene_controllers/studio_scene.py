@@ -16,7 +16,7 @@ class StudioScene(SceneApp):
 
     illuminance_sensor = entities.SENSOR_STUDIO_MS_ILLUMINANCE
     room_lights = entities.LIGHT_STUDIO
-    speakers = entities.MEDIA_PLAYER_COOKING_AREA_2
+    speakers = entities.MEDIA_PLAYER_LIVING_ROOM_STEREO
 
     def get_light_scene(self, activity: Studio.Activity) -> Scene | SceneByModeSelector:
         match activity:
