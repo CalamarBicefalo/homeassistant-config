@@ -36,7 +36,7 @@ cards:
       grid-area: "media"
     type: "custom:button-card"
     template: card_media_player
-    entity: media_player.cooking_area_2
+    entity: media_player.living_area_2
     variables:
       ulm_card_media_player_name: Speakers
       ulm_card_media_player_enable_art: true
@@ -81,4 +81,3 @@ cards:
       ulm_card_binary_sensor_name: Motion
     entity: binary_sensor.kitchen_motion
 
-  

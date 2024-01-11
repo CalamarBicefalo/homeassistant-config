@@ -16,7 +16,7 @@ class KitchenScene(SceneApp):
 
     illuminance_sensor = entities.SENSOR_KITCHEN_MS_ILLUMINANCE
     room_lights = entities.LIGHT_KITCHEN
-    speakers = entities.MEDIA_PLAYER_COOKING_AREA_2
+    speakers = entities.MEDIA_PLAYER_LIVING_AREA_2
 
     def get_light_scene(self, activity: StrEnum) -> Scene | SceneByModeSelector:
         match activity:

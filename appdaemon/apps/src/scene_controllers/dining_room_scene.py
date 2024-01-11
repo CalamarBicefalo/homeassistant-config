@@ -20,7 +20,7 @@ class DiningRoomScene(SceneApp):
 
     illuminance_sensor = entities.SENSOR_STUDIO_MS_ILLUMINANCE
     room_lights = entities.LIGHT_DINING_ROOM
-    speakers = entities.MEDIA_PLAYER_COOKING_AREA_2
+    speakers = entities.MEDIA_PLAYER_LIVING_AREA_2
     blinds = entities.COVER_BLINDS_CURTAIN
 
     def get_light_scene(self, activity: DiningRoom.Activity) -> Scene | SceneByModeSelector:
