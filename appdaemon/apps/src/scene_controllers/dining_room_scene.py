@@ -50,6 +50,7 @@ class DiningRoomScene(SceneApp):
         )
 
     def play_music_if_appropriate(self) -> None:
-        if not self.handlers.music.is_playing() and not self.handlers.rooms.studio.activity.is_value(
-                Studio.Activity.WORKING):
+        if not self.handlers.music.is_playing() and not (
+                self.handlers.rooms.studio.activity.is_value(Studio.Activity.WORKING)
+                or self.handlers.rooms.studio.activity.is_value(Studio.Activity.MEETING)):
             self.handlers.music.play(Playlist.random())
