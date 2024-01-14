@@ -80,36 +80,6 @@
       option: TV Break
   
 - binary_sensor:
-  - name: "Activity Dining room Empty"
-    unique_id: "activity_dining_room_empty"
-    state: >
-      {{ states('input_select.dining_room_activity') == 'Empty'}}
-    icon: mdi:account-off-outline
-    device_class: running
-    attributes:
-      option: Empty
-  
-- binary_sensor:
-  - name: "Activity Dining room Present"
-    unique_id: "activity_dining_room_present"
-    state: >
-      {{ states('input_select.dining_room_activity') == 'Present'}}
-    icon: mdi:account-badge
-    device_class: running
-    attributes:
-      option: Present
-  
-- binary_sensor:
-  - name: "Activity Dining room Dining"
-    unique_id: "activity_dining_room_dining"
-    state: >
-      {{ states('input_select.dining_room_activity') == 'Dining'}}
-    icon: mdi:silverware-fork-knife
-    device_class: running
-    attributes:
-      option: Dining
-  
-- binary_sensor:
   - name: "Activity Living room Empty"
     unique_id: "activity_living_room_empty"
     state: >
@@ -150,16 +120,6 @@
       option: Gaming
   
 - binary_sensor:
-  - name: "Activity Living room Reading"
-    unique_id: "activity_living_room_reading"
-    state: >
-      {{ states('input_select.living_room_activity') == 'Reading'}}
-    icon: mdi:book-open-variant
-    device_class: running
-    attributes:
-      option: Reading
-  
-- binary_sensor:
   - name: "Activity Living room Relaxing"
     unique_id: "activity_living_room_relaxing"
     state: >
@@ -178,6 +138,16 @@
     device_class: running
     attributes:
       option: Drumming
+  
+- binary_sensor:
+  - name: "Activity Living room Dining"
+    unique_id: "activity_living_room_dining"
+    state: >
+      {{ states('input_select.living_room_activity') == 'Dining'}}
+    icon: mdi:silverware-fork-knife
+    device_class: running
+    attributes:
+      option: Dining
   
 - binary_sensor:
   - name: "Activity Studio Empty"

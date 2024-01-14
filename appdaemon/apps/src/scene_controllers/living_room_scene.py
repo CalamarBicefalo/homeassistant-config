@@ -29,23 +29,9 @@ class LivingRoomScene(SceneApp):
 
     def get_light_scene(self, activity: LivingRoom.Activity) -> Scene | SceneByModeSelector:
         match activity:
-            case LivingRoom.Activity.READING:
-                return scene.by_mode({
-                    Mode.DAY: scene.with_actions(
-                        scenes.LIVING_ROOM_READING,
-                        lambda: self.play_music_if_appropriate(),
-                        lambda: self.handlers.blinds.best_for_temperature(),
-                    ),
-                    Mode.NIGHT: scene.with_actions(
-                        scenes.LIVING_ROOM_READING,
-                        lambda: self.play_music_if_appropriate(),
-                        lambda: self.handlers.blinds.close(),
-                    )
-                })
-
             case LivingRoom.Activity.RELAXING:
                 return scene.with_actions(
-                    scenes.FULL_LIVING_ROOM_COZY,
+                    scenes.LIVING_ROOM_COZY,
                     lambda: self.play_music_if_appropriate(),
                     lambda: self.handlers.blinds.close(),
                 )
@@ -81,6 +67,13 @@ class LivingRoomScene(SceneApp):
                     scenes.LIVING_ROOM_GAMING,
                     lambda: self.handlers.music.pause(),
                     lambda: self.handlers.blinds.close(),
+                )
+
+            case LivingRoom.Activity.DINING:
+                return scene.with_actions(
+                    scenes.LIVING_ROOM_DINING,
+                    lambda: self.handlers.music.play(Playlist.COOL_JAZZ),
+                    lambda: self.handlers.blinds.best_for_temperature(),
                 )
 
         return scene.with_actions(

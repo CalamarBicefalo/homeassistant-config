@@ -1,8 +1,7 @@
 adjacent:
   - [Kitchen, Living room]
-  - [Living room, Dining room]
-  - [Studio, Dining room]
-  - [Hallway, Dining room]
+  - [Studio, Living room]
+  - [Hallway, Living room]
   - [Hallway, Storage]
   - [Hallway, Office]
   - [Hallway, Bathroom]
@@ -10,7 +9,7 @@ adjacent:
   - [Bedroom, Wardrobe]
   - [Ensuite, Wardrobe]
 open_floor:
-  - [Kitchen, Dining room, Living room, Studio]
+  - [Kitchen, Living room, Studio]
   - [Wardrobe, Bedroom]
 
 rooms:
@@ -52,18 +51,18 @@ rooms:
       clean_after_hour_of_day: 21
     icon: mdi:stove
 
-  - name: Dining room
-    activities:
-      - name: Empty
-        icon: mdi:account-off-outline
-      - name: Present
-        icon: mdi:account-badge
-      - name: Dining
-        icon: mdi:silverware-fork-knife
-    vacuum:
-      period_days: 0
-      room_id: 25
-    icon: mdi:fork
+#  - name: Dining room
+#    activities:
+#      - name: Empty
+#        icon: mdi:account-off-outline
+#      - name: Present
+#        icon: mdi:account-badge
+#      - name: Dining
+#        icon: mdi:silverware-fork-knife
+#    vacuum:
+#      period_days: 0
+#      room_id: 25
+#    icon: mdi:fork
 
   - name: Living room
     activities:
@@ -75,12 +74,12 @@ rooms:
         icon: mdi:youtube-tv
       - name: Gaming
         icon: mdi:gamepad-variant
-      - name: Reading
-        icon: mdi:book-open-variant
       - name: Relaxing
         icon: mdi:palm-tree
       - name: Drumming
         icon: fas:drum
+      - name: Dining
+        icon: mdi:silverware-fork-knife
     vacuum:
       period_days: 0
       room_id: 24

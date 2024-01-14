@@ -3,10 +3,6 @@ Living room scene:
   module: living_room_scene
   class: LivingRoomScene
   dependencies: !include /homeassistant/appdaemon/apps/dependencies.yaml
-Dining room scene:
-  module: dining_room_scene
-  class: DiningRoomScene
-  dependencies: !include /homeassistant/appdaemon/apps/dependencies.yaml
 Studio scene:
   module: studio_scene
   class: StudioScene

@@ -3,10 +3,6 @@ Living room activity:
   module: living_room_controller
   class: LivingRoomController
   dependencies: !include /homeassistant/appdaemon/apps/dependencies.yaml
-# Dining room activity:
-#   module: dining_room_controller
-#   class: DiningRoomController
-#   dependencies: !include /homeassistant/appdaemon/apps/dependencies.yaml
 Kitchen activity:
   module: kitchen_controller
   class: KitchenController

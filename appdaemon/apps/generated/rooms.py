@@ -78,39 +78,15 @@ class Kitchen(Room):
     def get_activity(self) -> SelectHandler[Activity]:
         return self.activity
 
-class DiningRoom(Room):
-    class Activity(StrEnum):
-        EMPTY = "Empty"
-        PRESENT = "Present"
-        DINING = "Dining"
-
-    activity: SelectHandler[Activity]
-    days_between_cleaning: int = 0
-    clean_after: int = -1
-
-    _activity_helper : Helper = "input_select.dining_room_activity"
-    _activity_lock : Helper = "input_boolean.activity_lock_dining_room"
-    
-    name = "Dining room"
-    _room_cleaner_segment = 25
-    _last_cleaned_helper = Helper("input_datetime.last_cleaned_dining_room")
-    _last_present_helper = Helper("input_datetime.last_present_dining_room")
-    def __init__(self, app: hass.Hass) -> None:
-        super().__init__(app)
-        self.activity = ActivityHandler[DiningRoom.Activity](app, DiningRoom._activity_helper, DiningRoom._activity_lock)
-
-    def get_activity(self) -> SelectHandler[Activity]:
-        return self.activity
-
 class LivingRoom(Room):
     class Activity(StrEnum):
         EMPTY = "Empty"
         PRESENT = "Present"
         WATCHING_TV = "Watching TV"
         GAMING = "Gaming"
-        READING = "Reading"
         RELAXING = "Relaxing"
         DRUMMING = "Drumming"
+        DINING = "Dining"
 
     activity: SelectHandler[Activity]
     days_between_cleaning: int = 0
@@ -281,7 +257,6 @@ class RoomHandlers:
     office: Office
     bathroom: Bathroom
     kitchen: Kitchen
-    dining_room: DiningRoom
     living_room: LivingRoom
     studio: Studio
     ensuite: Ensuite
@@ -293,7 +268,6 @@ class RoomHandlers:
         self.office = Office(app)
         self.bathroom = Bathroom(app)
         self.kitchen = Kitchen(app)
-        self.dining_room = DiningRoom(app)
         self.living_room = LivingRoom(app)
         self.studio = Studio(app)
         self.ensuite = Ensuite(app)
@@ -303,23 +277,15 @@ class RoomHandlers:
         self.storage = Storage(app)
         
         self.kitchen.open_floor_rooms = [
-            self.dining_room,
-            self.living_room,
-            self.studio,
-        ]
-        self.dining_room.open_floor_rooms = [
-            self.kitchen,
             self.living_room,
             self.studio,
         ]
         self.living_room.open_floor_rooms = [
             self.kitchen,
-            self.dining_room,
             self.studio,
         ]
         self.studio.open_floor_rooms = [
             self.kitchen,
-            self.dining_room,
             self.living_room,
         ]
         self.wardrobe.open_floor_rooms = [
@@ -333,7 +299,6 @@ class RoomHandlers:
             self.office,
             self.bathroom,
             self.kitchen,
-            self.dining_room,
             self.living_room,
             self.studio,
             self.ensuite,

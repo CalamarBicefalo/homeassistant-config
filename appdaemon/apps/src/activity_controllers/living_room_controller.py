@@ -1,6 +1,8 @@
+from typing import Callable
+
 import entities
 from activity_controllers.generic_controller import ActivityController
-from ieee_addresses import COFFEE_TABLE_BUTTON_IEEE_ADDRESS
+from ieee_addresses import COFFEE_TABLE_BUTTON_IEEE_ADDRESS, DINING_TABLE_BUTTON_IEEE_ADDRESS
 from rooms import *
 
 
@@ -19,12 +21,16 @@ class LivingRoomController(ActivityController):
                 self.motion_sensor,
                 entities.MEDIA_PLAYER_TV_2,
                 entities.MEDIA_PLAYER_SONY_KD_49XF8096,
-                entities.BINARY_SENSOR_SOFA_PS
+                # entities.BINARY_SENSOR_SOFA_PS
             ]
         )
         self.handlers.buttons.on(COFFEE_TABLE_BUTTON_IEEE_ADDRESS,
-                                 double_click=self.on_double_click,
-                                 long_press=self.on_long_press)
+                                 double_click=self.lock_scene(LivingRoom.Activity.DRUMMING),
+                                 long_press=self.set_present_scene)
+
+        self.handlers.buttons.on(DINING_TABLE_BUTTON_IEEE_ADDRESS,
+                                 double_click=self.lock_scene(LivingRoom.Activity.DINING),
+                                 long_press=self.set_present_scene)
 
     def controller_handler(self, entity, attribute, old, new, kwargs) -> None:  # type: ignore
         self.log(
@@ -44,7 +50,7 @@ class LivingRoomController(ActivityController):
             return
 
         elif self.sitting_on_sofa():
-            self.activity.set(LivingRoom.Activity.READING)
+            self.activity.set(LivingRoom.Activity.RELAXING)
 
         elif self.state.is_on(self.motion_sensor):
             self.activity.set(CommonActivities.PRESENT)
@@ -69,8 +75,8 @@ class LivingRoomController(ActivityController):
     def sitting_on_sofa(self) -> bool:
         return self.state.is_on(entities.BINARY_SENSOR_SOFA_PS)
 
-    def on_long_press(self) -> None:
+    def set_present_scene(self) -> None:
         self.activity.set(CommonActivities.PRESENT, lock=False)
 
-    def on_double_click(self) -> None:
-        self.activity.set(LivingRoom.Activity.DRUMMING, lock=True)
+    def lock_scene(self, scene) -> Callable[[], None]:
+        return lambda: self.activity.set(scene, lock=True)

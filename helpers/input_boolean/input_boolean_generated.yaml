@@ -13,11 +13,6 @@ activity_lock_kitchen:
     icon: mdi:lock
 
 
-activity_lock_dining_room:
-    name: Activity lock Dining room
-    icon: mdi:lock
-
-
 activity_lock_living_room:
     name: Activity lock Living room
     icon: mdi:lock

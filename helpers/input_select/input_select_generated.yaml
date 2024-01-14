@@ -18,13 +18,6 @@ kitchen_activity:
     - Present
     - Cooking
     - TV Break
-dining_room_activity:
-  name: Dining room activity
-  icon: mdi:fork
-  options:
-    - Empty
-    - Present
-    - Dining
 living_room_activity:
   name: Living room activity
   icon: mdi:sofa
@@ -33,9 +26,9 @@ living_room_activity:
     - Present
     - Watching TV
     - Gaming
-    - Reading
     - Relaxing
     - Drumming
+    - Dining
 studio_activity:
   name: Studio activity
   icon: mdi:android-studio

@@ -106,6 +106,7 @@ def studio_state_is(self, motion=states.OFF, chair=states.OFF, drumkit_power=0, 
     self.state_of(entities.SENSOR_DRUMKIT_ACTIVE_POWER).is_set_to(drumkit_power)
     self.state_of(entities.BINARY_SENSOR_DESK_CHAIR_PS).is_set_to(chair)
     self.state_of(entities.BINARY_SENSOR_SNYK_LAPTOP_AUDIO_INPUT_IN_USE).is_set_to(laptop_audio)
+    self.state_of(entities.BINARY_SENSOR_SNYK_LAPTOP_AUDIO_OUTPUT_IN_USE).is_set_to(laptop_audio)
 
 
 given.GivenThatWrapper.studio_state_is = studio_state_is

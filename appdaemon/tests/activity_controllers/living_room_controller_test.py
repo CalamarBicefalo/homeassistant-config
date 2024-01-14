@@ -22,7 +22,7 @@ def test_triggers_when_motion_or_tv_changes(given_that, subject, assert_that):
             entities.BINARY_SENSOR_LIVING_ROOM_MOTION,
             entities.MEDIA_PLAYER_TV_2,
             entities.MEDIA_PLAYER_SONY_KD_49XF8096,
-            entities.BINARY_SENSOR_SOFA_PS
+            # entities.BINARY_SENSOR_SOFA_PS
         ]
     )\
         .with_callback(subject.controller_handler)
@@ -125,13 +125,13 @@ def test_turn_on_tv_when_drumming_enables_watching_tv_activity(given_that, subje
 
 
 @pytest.mark.asyncio
-def test_sets_reading(given_that, subject, assert_that):
+def test_sets_relaxing(given_that, subject, assert_that):
     given_that.living_room_state_is(sofa=states.ON)
 
     subject.controller_handler(None, None, None, None, None)
 
     assert_that(services.INPUT_SELECT_SELECT_OPTION). \
-        was.set_to_activity(LivingRoom._activity_helper, LivingRoom.Activity.READING)
+        was.set_to_activity(LivingRoom._activity_helper, LivingRoom.Activity.RELAXING)
 
 
 @pytest.mark.asyncio

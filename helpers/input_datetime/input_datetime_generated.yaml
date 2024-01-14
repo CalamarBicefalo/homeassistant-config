@@ -34,18 +34,6 @@ last_present_kitchen:
     icon: mdi:account-check
     has_date: true
     has_time: true
-last_cleaned_dining_room:
-    name: Last cleaned Dining room
-    icon: mdi:broom
-    has_date: true
-    has_time: true
-
-
-last_present_dining_room:
-    name: Last present Dining room
-    icon: mdi:account-check
-    has_date: true
-    has_time: true
 last_cleaned_living_room:
     name: Last cleaned Living room
     icon: mdi:broom

@@ -22,17 +22,17 @@ def living_room_scene():
 
 
 @pytest.mark.asyncio
-def test_reading_sets_reading_scene(given_that, living_room_scene, assert_that):
-    given_that.living_room_scene_is(activity=LivingRoom.Activity.READING, illuminance=30, are_lights_on=False)
+def test_relaxing_sets_cozy_scene(given_that, living_room_scene, assert_that):
+    given_that.living_room_scene_is(activity=LivingRoom.Activity.RELAXING, illuminance=30, are_lights_on=False)
 
     living_room_scene.handle_scene(None, None, None, None, None)
 
-    assert_that(scenes.LIVING_ROOM_READING.get()).was.turned_on()
+    assert_that(scenes.LIVING_ROOM_COZY.get()).was.turned_on()
 
 
 @pytest.mark.asyncio
-def test_reading_plays_music(given_that) -> None:
-    given_that.living_room_scene_is(activity=LivingRoom.Activity.READING)
+def test_relaxing_plays_music(given_that) -> None:
+    given_that.living_room_scene_is(activity=LivingRoom.Activity.RELAXING)
 
     with mock.patch.object(MusicHandler, 'play') as music:
         music.is_playing = lambda *_: False
@@ -44,8 +44,8 @@ def test_reading_plays_music(given_that) -> None:
 
 
 @pytest.mark.asyncio
-def test_reading_when_music_playing_does_not_play_music(given_that) -> None:
-    given_that.living_room_scene_is(activity=LivingRoom.Activity.READING)
+def test_relaxing_when_music_playing_does_not_play_music(given_that) -> None:
+    given_that.living_room_scene_is(activity=LivingRoom.Activity.RELAXING)
 
     with mock.patch.object(MusicHandler, 'play') as music:
         music.is_playing = lambda *_: True
@@ -57,8 +57,8 @@ def test_reading_when_music_playing_does_not_play_music(given_that) -> None:
 
 
 @pytest.mark.asyncio
-def test_reading_when_working_does_not_play_music(given_that) -> None:
-    given_that.living_room_scene_is(activity=LivingRoom.Activity.READING, studio_activity=Studio.Activity.WORKING)
+def test_relaxing_when_working_does_not_play_music(given_that) -> None:
+    given_that.living_room_scene_is(activity=LivingRoom.Activity.RELAXING, studio_activity=Studio.Activity.WORKING)
 
     with mock.patch.object(MusicHandler, 'play') as music:
         music.is_playing = lambda *_: False
@@ -70,8 +70,8 @@ def test_reading_when_working_does_not_play_music(given_that) -> None:
 
 
 @pytest.mark.asyncio
-def test_reading_does_not_replace_if_playing(given_that) -> None:
-    given_that.living_room_scene_is(activity=LivingRoom.Activity.READING, playing_music=states.ON)
+def test_relaxing_does_not_replace_if_playing(given_that) -> None:
+    given_that.living_room_scene_is(activity=LivingRoom.Activity.RELAXING, playing_music=states.ON)
 
     with mock.patch.object(MusicHandler, 'play') as music:
         scene = LivingRoomScene(None, LivingRoomScene.__class__, None, None, None, None, None)

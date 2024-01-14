@@ -16,7 +16,7 @@ layout:
     "jc amanda"
     "title-rooms title-rooms"
     "living_room kitchen"
-    "dining_room studio"
+    "studio ."
 
     "title-bedroom title-bedroom"
     "bedroom wardrobe"
@@ -107,13 +107,6 @@ cards:
     template: card_cb_room
     variables:
       a0_room_key: kitchen
-
-  - view_layout:
-      grid-area: "dining_room"
-    type: "custom:button-card"
-    template: card_cb_room
-    variables:
-      a0_room_key: dining_room
 
   - view_layout:
       grid-area: "studio"
