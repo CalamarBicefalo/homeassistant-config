@@ -41,7 +41,7 @@ class BedroomScene(SceneApp):
                 return scene.with_actions(
                     None,
                     lambda: self.turn_off_media(),
-                    lambda: self.turn_on(entities.SCENE_BEDROOM_WARM_EMBRACE,
+                    lambda: self.turn_on(entities.SCENE_BEDROOM_BEDTIME,
                                          brightness=self.bedtime_initial_brightness),
                     lambda: self.handlers.blinds.close(),
                     lambda: self.handlers.music.play(Playlist.DISCOVER_WEEKLY,
@@ -101,6 +101,7 @@ class BedroomScene(SceneApp):
     def prepare_to_sleep(self) -> None:
         def after_bedtime() -> None:
             self.handlers.mode.set(Mode.SLEEPING)
+            self.turn_off(self.room_lights)
             self.run_in(lambda *_: self.handlers.music.play(Tune.RAIN, volume_level=0.2), 2)
 
         def during_bedtime(minutes_left: int) -> None:

@@ -168,7 +168,7 @@ def test_gaming_closes_blinds(given_that) -> None:
 def living_room_scene_is(self, activity, illuminance=0, are_lights_on=False, mode=modes.Mode.NIGHT,
                          playing_music=states.OFF, studio_activity=Studio.Activity.EMPTY):
     self.state_of(entities.COVER_BLINDS_CURTAIN).is_set_to(states.OPEN)
-    self.state_of(entities.MEDIA_PLAYER_LIVING_AREA_2).is_set_to(playing_music)
+    self.state_of(entities.MEDIA_PLAYER_LIVING_ROOM_STEREO).is_set_to(playing_music)
     self.state_of(helpers.HOMEASSISTANT_MODE).is_set_to(mode)
     self.state_of(entities.SENSOR_BEDROOM_AIR_QUALITY_TEMPERATURE).is_set_to(20)
     self.state_of(entities.SENSOR_STUDIO_MS_ILLUMINANCE).is_set_to(illuminance)
