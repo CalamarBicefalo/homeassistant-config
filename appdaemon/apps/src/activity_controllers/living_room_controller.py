@@ -21,7 +21,7 @@ class LivingRoomController(ActivityController):
                 self.motion_sensor,
                 entities.MEDIA_PLAYER_TV_2,
                 entities.MEDIA_PLAYER_SONY_KD_49XF8096,
-                # entities.BINARY_SENSOR_SOFA_PS
+                entities.BINARY_SENSOR_SOFA_PS
             ]
         )
         self.handlers.buttons.on(COFFEE_TABLE_BUTTON_IEEE_ADDRESS,
@@ -49,8 +49,9 @@ class LivingRoomController(ActivityController):
               or self.activity.is_value(LivingRoom.Activity.DRUMMING)):
             return
 
-        elif self.sitting_on_sofa():
-            self.activity.set(LivingRoom.Activity.RELAXING)
+        # unreliable PS commenting for now
+        # elif self.sitting_on_sofa():
+            # self.activity.set(LivingRoom.Activity.RELAXING)
 
         elif self.state.is_on(self.motion_sensor):
             self.activity.set(CommonActivities.PRESENT)
