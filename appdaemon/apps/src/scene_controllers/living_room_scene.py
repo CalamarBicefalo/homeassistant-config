@@ -52,7 +52,9 @@ class LivingRoomScene(SceneApp):
                     Mode.NIGHT: scene.with_actions(
                         scenes.LIVING_ROOM_WELCOME,
                         lambda: self.handlers.blinds.close(),
-                    )
+                    ),
+                    # Pet-safe temporary solution
+                    Mode.SLEEPING: scene.off(),
                 })
 
             case LivingRoom.Activity.DRUMMING:

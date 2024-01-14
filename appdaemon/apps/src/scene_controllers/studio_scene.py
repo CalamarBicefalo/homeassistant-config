@@ -42,8 +42,10 @@ class StudioScene(SceneApp):
 
             case Studio.Activity.PRESENT:
                 return scene.by_mode({
-                    Mode.DAY: scenes.STUDIO_CONCENTRATE,
-                    Mode.NIGHT: scenes.STUDIO_CONCENTRATE,
+                    Mode.DAY: scenes.STUDIO_NATURAL_LIGHT,
+                    Mode.NIGHT: scenes.STUDIO_NATURAL_LIGHT,
+                    # Pet-safe temporary solution
+                    Mode.SLEEPING: scene.off(),
                 })
 
         return scene.with_actions(
