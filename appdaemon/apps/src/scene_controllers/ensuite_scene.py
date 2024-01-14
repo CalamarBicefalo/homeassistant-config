@@ -18,8 +18,8 @@ class EnsuiteScene(SceneApp):
     def get_light_scene(self, activity: StrEnum) -> Scene | SceneByModeSelector:
         if activity in [Ensuite.Activity.PRESENT, Ensuite.Activity.SHOWERING]:
             return scene.by_mode({
-                Mode.DAY: scenes.BATHROOM_CONCENTRATE,
-                Mode.NIGHT: scenes.BATHROOM_CONCENTRATE,
-                Mode.SLEEPING: scenes.BATHROOM_NIGHTLIGHT,
+                Mode.DAY: scenes.ENSUITE_CONCENTRATE,
+                Mode.NIGHT: scenes.ENSUITE_CONCENTRATE,
+                Mode.SLEEPING: scenes.ENSUITE_NIGHTLIGHT,
             })
         return scene.off()
