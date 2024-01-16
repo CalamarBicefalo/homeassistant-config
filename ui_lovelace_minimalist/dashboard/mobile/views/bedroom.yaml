@@ -126,7 +126,7 @@ cards:
     entity: sensor.bedroom_air_quality_humidity
     variables:
       ulm_card_graph_color: "var(--google-blue)"
-      ulm_card_graph_name: humidity
+      ulm_card_graph_name: Humidity
       ulm_card_graph_entity: sensor.bedroom_air_quality_humidity
       ulm_card_graph_type: fill
       ulm_card_graph_hours: 24
@@ -140,7 +140,7 @@ cards:
     entity: sensor.bedroom_air_quality_particulate_matter
     variables:
       ulm_card_graph_color: "var(--google-green)"
-      ulm_card_graph_name: humidity
+      ulm_card_graph_name: Air Pollution
       ulm_card_graph_entity: sensor.bedroom_air_quality_particulate_matter
       ulm_card_graph_type: bar
       ulm_card_graph_hours: 48
