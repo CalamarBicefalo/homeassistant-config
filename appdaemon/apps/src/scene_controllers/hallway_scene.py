@@ -19,8 +19,8 @@ class HallwayScene(SceneApp):
         if activity == Hallway.Activity.PRESENT:
             return scene.by_mode({
                 Mode.DAY: scenes.HALLWAY_BRIGHT,
-                Mode.NIGHT: scenes.HALLWAY_TYRELL,
+                Mode.NIGHT: scenes.HALLWAY_NATURAL_LIGHT,
                 # Pet-safe temporary hack
-                # Mode.SLEEPING: scenes.HALLWAY_NIGHTLIGHT,
+                Mode.SLEEPING: scene.off(),
             })
         return scene.off()

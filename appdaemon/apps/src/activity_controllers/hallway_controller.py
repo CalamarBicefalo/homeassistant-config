@@ -7,7 +7,7 @@ from select_handler import SelectHandler
 
 
 class HallwayController(MotionController):
-    motion_sensor = entities.BINARY_SENSOR_HALLWAY_MS_OCCUPANCY
+    motion_sensor = entities.BINARY_SENSOR_HALLWAY_MS_MOTION
     contact_sensor = entities.BINARY_SENSOR_FLAT_DOOR_CS
     cooldown_seconds = 30
 
