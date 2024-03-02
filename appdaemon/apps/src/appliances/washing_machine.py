@@ -11,7 +11,7 @@ from select_handler import SelectHandler
 
 class WashingMachine(App):
     THRESHOLD = 3
-    WAIT_S = 500
+    WAIT_S = 200
     HOURS_TO_DRY = 12
     POWER_SENSOR = entities.SENSOR_WASHING_MACHINE_SWITCH_INSTANTANEOUS_DEMAND
     DOOR_SENSOR = entities.BINARY_SENSOR_WASHING_MACHINE_CS
@@ -48,7 +48,7 @@ class WashingMachine(App):
         elif self.has_dried():
             self.washing_machine_state.set(selects.WashingMachine.OFF)
 
-        else:
+        elif not self.washing_machine_state.is_value(selects.WashingMachine.WET_CLOTHES_INSIDE):
             self.washing_machine_state.set(selects.WashingMachine.MOLD_ALERT)
 
 
