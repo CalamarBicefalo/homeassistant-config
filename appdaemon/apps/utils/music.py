@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import random
-from typing import Optional
+from typing import Optional, Any
 
 from appdaemon.plugins.hass import hassapi as hass
 from enum import StrEnum
@@ -54,6 +54,24 @@ class MusicHandler:
                                entity_id=self._speakers, volume_level=volume_level),
         self._app.log(f'Configured volume of {self._speakers} to {volume_level}.', level="DEBUG")
 
+    def mute(self) -> None:
+        self._validate()
+        self._app.call_service(services.MEDIA_PLAYER_VOLUME_MUTE, entity_id=self._speakers, is_volume_muted=True)
+
+    def announce(self, message: str) -> None:
+        self.mute()
+        self.play(Tune.ONE_SECOND_OF_SILENCE)
+
+        def after_one_second(*_: Any) -> None:
+            self.volume(0.5)
+            self._app.call_service(
+                services.TTS_SPEAK,
+                entity_id=entities.TTS_PIPER,
+                media_player_entity_id= self._speakers,
+                message=message)
+
+        self._app.run_in(after_one_second, 1)
+
     def _validate(self) -> None:
         if not self._speakers:
             raise Exception("cannot play music without speakers defined")
@@ -61,6 +79,7 @@ class MusicHandler:
 
 class Tune(StrEnum):
     RAIN = "filesystem_local://track/rain.mp3"
+    ONE_SECOND_OF_SILENCE = "filesystem_local://track/one_second_of_silence.mp3"
 
 
 class Playlist(StrEnum):
