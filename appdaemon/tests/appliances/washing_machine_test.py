@@ -60,7 +60,7 @@ def test_eventually_marks_washing_as_finished(given_that, washing_machine, asser
     washing_machine.update_state(None, None, None, None, None)
     assert_that(services.INPUT_SELECT_SELECT_OPTION).was_not.called()
 
-    time_travel.fast_forward(300).seconds()
+    time_travel.fast_forward(600).seconds()
     assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_option(entities.INPUT_SELECT_WASHING_MACHINE,
                                                                        selects.WashingMachine.WET_CLOTHES_INSIDE)
 
@@ -80,6 +80,7 @@ def test_when_door_closed_after_washing(given_that, washing_machine, assert_that
 
 
 def washing_machine_state_is(self, last_washed=days_ago(1), door=states.CLOSED, power=0, previous_state=selects.WashingMachine.OFF):
+    self.state_of(helpers.MODE).is_set_to(selects.Mode.DAY)
     self.state_of(helpers.LAST_WASHED_CLOTHES).is_set_to(last_washed)
     self.state_of(entities.BINARY_SENSOR_WASHING_MACHINE_CS).is_set_to(door)
     self.state_of(entities.SENSOR_WASHING_MACHINE_SWITCH_INSTANTANEOUS_DEMAND).is_set_to(power)
