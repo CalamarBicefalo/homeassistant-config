@@ -80,8 +80,6 @@ cb_card_welcome_scenes:
       - row-gap: "0px"
     card:
       - padding: 8px
-      - margin: -4px -8px 0
-      - width: 100vw
       - border-radius: 0
       - background: |
           [[[ return `linear-gradient( 

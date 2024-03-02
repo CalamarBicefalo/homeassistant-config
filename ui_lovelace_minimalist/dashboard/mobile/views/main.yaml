@@ -6,26 +6,12 @@ path: "home"
 type: "custom:layout-card"
 layout_type: "custom:grid-layout"
 layout:
-  grid-template-columns: "1fr 1fr"
+  grid-template-columns: "1fr"
   margin: 0
-  padding: 0 4px
+  padding: 0
   grid-template-areas: |
-    "header header"
-
-    "title-people title-people"
-    "jc amanda"
-    "title-rooms title-rooms"
-    "living_room kitchen"
-    "studio ."
-
-    "title-bedroom title-bedroom"
-    "bedroom wardrobe"
-
-    "title-bathroom title-bathroom"
-    "ensuite bathroom"
-
-    "title-utility title-utility"
-    "hallway storage"
+    "header"
+    "content"
 cards:
   - view_layout:
       grid-area: "header"
@@ -58,120 +44,142 @@ cards:
         icon: mdi:home-export-outline
         color: red
 
-    
+  - view_layout:
+      grid-area: "content"
+    type: "custom:layout-card"
+    layout_type: "custom:grid-layout"
+    layout:
+      grid-template-columns: "1fr 1fr"
+      margin: 0
+      padding: 4px
+      grid-template-areas: |
+        "title-people title-people"
+        "jc amanda"
+        "title-rooms title-rooms"
+        "living_room kitchen"
+        "studio ."
 
-  - view_layout:
-      grid-area: "title-people"
-    type: "custom:button-card"
-    template: cb_card_title
-    name: Who's home?
-    label: Apart from Luna
-    
-  - view_layout:
-      grid-area: "jc"
-    type: 'custom:button-card'
-    template: card_person
-    entity: person.jose_carlos
-    variables:
-      ulm_card_person_use_entity_picture: true
-      ulm_card_person_icon: mdi:face-man
-      ulm_card_person_battery: sensor.sm_s918b_battery_level
-    
-  - view_layout:
-      grid-area: "amanda"
-    type: 'custom:button-card'
-    template: card_person
-    entity: person.amanda
-    variables:
-      ulm_card_person_use_entity_picture: true
-      ulm_card_person_icon: mdi:face-woman
-      ulm_card_person_battery: sensor.mandies_iphone_battery_level
+        "title-bedroom title-bedroom"
+        "bedroom wardrobe"
 
-  - view_layout:
-      grid-area: "title-rooms"
-    type: "custom:button-card"
-    template: cb_card_title
-    name: Rooms
-    label: Living room
+        "title-bathroom title-bathroom"
+        "ensuite bathroom"
 
-  - view_layout:
-      grid-area: "living_room"
-    type: "custom:button-card"
-    template: card_cb_room
-    variables:
-      a0_room_key: living_room
+        "title-utility title-utility"
+        "hallway storage"
+    cards:
+      - view_layout:
+          grid-area: "title-people"
+        type: "custom:button-card"
+        template: cb_card_title
+        name: Who's home?
+        label: Apart from Luna
+        
+      - view_layout:
+          grid-area: "jc"
+        type: 'custom:button-card'
+        template: card_person
+        entity: person.jose_carlos
+        variables:
+          ulm_card_person_use_entity_picture: true
+          ulm_card_person_icon: mdi:face-man
+          ulm_card_person_battery: sensor.sm_s918b_battery_level
+        
+      - view_layout:
+          grid-area: "amanda"
+        type: 'custom:button-card'
+        template: card_person
+        entity: person.amanda
+        variables:
+          ulm_card_person_use_entity_picture: true
+          ulm_card_person_icon: mdi:face-woman
+          ulm_card_person_battery: sensor.mandies_iphone_battery_level
 
-  - view_layout:
-      grid-area: "kitchen"
-    type: "custom:button-card"
-    template: card_cb_room
-    variables:
-      a0_room_key: kitchen
+      - view_layout:
+          grid-area: "title-rooms"
+        type: "custom:button-card"
+        template: cb_card_title
+        name: Rooms
+        label: Living room
 
-  - view_layout:
-      grid-area: "studio"
-    type: "custom:button-card"
-    template: card_cb_room
-    variables:
-      a0_room_key: studio
+      - view_layout:
+          grid-area: "living_room"
+        type: "custom:button-card"
+        template: card_cb_room
+        variables:
+          a0_room_key: living_room
 
-  - view_layout:
-      grid-area: "title-bedroom"
-    type: "custom:button-card"
-    template: cb_card_title
-    label: Bedroom
+      - view_layout:
+          grid-area: "kitchen"
+        type: "custom:button-card"
+        template: card_cb_room
+        variables:
+          a0_room_key: kitchen
 
-  - view_layout:
-      grid-area: "title-bathroom"
-    type: "custom:button-card"
-    template: cb_card_title
-    label: Bathrooms
+      - view_layout:
+          grid-area: "studio"
+        type: "custom:button-card"
+        template: card_cb_room
+        variables:
+          a0_room_key: studio
 
-  - view_layout:
-      grid-area: "title-utility"
-    type: "custom:button-card"
-    template: cb_card_title
-    label: Utility rooms
+      - view_layout:
+          grid-area: "title-bedroom"
+        type: "custom:button-card"
+        template: cb_card_title
+        label: Bedroom
 
-  - view_layout:
-      grid-area: "bedroom"
-    type: "custom:button-card"
-    template: card_cb_room
-    variables:
-      a0_room_key: bedroom
-    name: Bedroom
+      - view_layout:
+          grid-area: "title-bathroom"
+        type: "custom:button-card"
+        template: cb_card_title
+        label: Bathrooms
 
-  - view_layout:
-      grid-area: "wardrobe"
-    type: "custom:button-card"
-    template: card_cb_room
-    variables:
-      a0_room_key: wardrobe
+      - view_layout:
+          grid-area: "title-utility"
+        type: "custom:button-card"
+        template: cb_card_title
+        label: Utility rooms
 
-  - view_layout:
-      grid-area: "hallway"
-    type: "custom:button-card"
-    template: card_cb_room
-    variables:
-      a0_room_key: hallway
+      - view_layout:
+          grid-area: "bedroom"
+        type: "custom:button-card"
+        template: card_cb_room
+        variables:
+          a0_room_key: bedroom
+        name: Bedroom
 
-  - view_layout:
-      grid-area: "storage"
-    type: "custom:button-card"
-    template: card_cb_room
-    variables:
-      a0_room_key: storage
+      - view_layout:
+          grid-area: "wardrobe"
+        type: "custom:button-card"
+        template: card_cb_room
+        variables:
+          a0_room_key: wardrobe
 
-  - view_layout:
-      grid-area: "ensuite"
-    type: "custom:button-card"
-    template: card_cb_room
-    variables:
-      a0_room_key: ensuite
+      - view_layout:
+          grid-area: "hallway"
+        type: "custom:button-card"
+        template: card_cb_room
+        variables:
+          a0_room_key: hallway
 
-  - view_layout:
-      grid-area: "bathroom"
-    type: "custom:button-card"
-    template: card_cb_room
-    variables:
-      a0_room_key: bathroom
+      - view_layout:
+          grid-area: "storage"
+        type: "custom:button-card"
+        template: card_cb_room
+        variables:
+          a0_room_key: storage
+
+      - view_layout:
+          grid-area: "ensuite"
+        type: "custom:button-card"
+        template: card_cb_room
+        variables:
+          a0_room_key: ensuite
+
+      - view_layout:
+          grid-area: "bathroom"
+        type: "custom:button-card"
+        template: card_cb_room
+        variables:
+          a0_room_key: bathroom

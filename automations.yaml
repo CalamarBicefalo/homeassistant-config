@@ -1,0 +1,42 @@
+- id: '1706912001435'
+  alias: Bedtime word
+  description: ''
+  trigger:
+  - platform: conversation
+    command: Bedtime
+  condition: []
+  action:
+  - if:
+    - condition: state
+      entity_id: input_select.bedroom_activity
+      state: Bedtime
+    then:
+    - service: input_select.select_option
+      metadata: {}
+      data:
+        option: Sleeping
+      target:
+        entity_id: input_select.homeassistant_mode
+    else:
+    - service: input_select.select_option
+      metadata: {}
+      data:
+        option: Bedtime
+      target:
+        entity_id: input_select.bedroom_activity
+  mode: single
+- id: '1686089832830'
+  alias: Battery checker
+  description: ''
+  use_blueprint:
+    path: sbyx/low-battery-level-detection-notification-for-all-battery-sensors.yaml
+    input:
+      exclude:
+        entity_id:
+        - sensor.snyk_laptop_internal_battery_level
+        - sensor.sm_s918b_battery_level
+        - sensor.mandies_iphone_battery_level
+      actions:
+      - service: notify.mobile_app_galaxy_s23
+        data:
+          message: Battery of sensor {{sensors}} is low

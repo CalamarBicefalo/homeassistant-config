@@ -11,7 +11,8 @@ input_select: !include_dir_merge_named helpers/input_select/
 
 binary_sensor: !include devices/binary_sensor.yaml
 
-automation: !include_dir_merge_list config/automations/
+automation manual: !include_dir_merge_list config/automations/
+automation ui: !include automations.yaml
 person: !include config/people.yaml
 tts: !include config/text_to_speech.yaml
 http: !include config/http.yaml
