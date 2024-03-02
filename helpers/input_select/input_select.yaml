@@ -1,4 +1,4 @@
-homeassistant_mode:
+mode:
   name: Home Assistant Mode
   options:
     - Day
