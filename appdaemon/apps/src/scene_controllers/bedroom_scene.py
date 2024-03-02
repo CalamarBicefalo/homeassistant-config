@@ -44,7 +44,7 @@ class BedroomScene(SceneApp):
                     lambda: self.turn_on(entities.SCENE_BEDROOM_BEDTIME,
                                          brightness=self.bedtime_initial_brightness),
                     lambda: self.handlers.blinds.close(),
-                    lambda: self.handlers.music.play(Playlist.DISCOVER_WEEKLY,
+                    lambda: self.handlers.music.play(Playlist.NEO_CLASSICAL_LOUNGE,
                                                      volume_level=self.bedtime_initial_volume),
                     lambda: self.prepare_to_sleep()
                 )
@@ -99,10 +99,13 @@ class BedroomScene(SceneApp):
         self.run_for(self.wakeup_duration_minutes, during_waking_up, None)
 
     def prepare_to_sleep(self) -> None:
+        if self.handlers.mode.is_value(Mode.SLEEPING):
+            self.log(f'aborting bedtime loop because mode is sleeping.')
+            return
+
         def after_bedtime() -> None:
             self.handlers.mode.set(Mode.SLEEPING)
-            self.turn_off(self.room_lights)
-            self.run_in(lambda *_: self.handlers.music.play(Tune.RAIN, volume_level=0.2), 2)
+            self.go_to_sleep()
 
         def during_bedtime(minutes_left: int) -> None:
             self.log(f'Running bedtime loop, {self.minutes_left} minutes left.', level="DEBUG")
@@ -121,3 +124,11 @@ class BedroomScene(SceneApp):
                 self.handlers.music.volume(new_volume)
 
         self.run_for(self.bedtime_duration_minutes, during_bedtime, after_bedtime)
+
+    def go_to_sleep(self) -> None:
+        self.turn_off(self.room_lights)
+        self.run_in(lambda *_: self.handlers.music.play(Tune.RAIN, volume_level=0.2), 2)
+
+    def on_mode_change(self, new: Mode, old: Mode) -> None:
+        if new == Mode.SLEEPING:
+            self.go_to_sleep()

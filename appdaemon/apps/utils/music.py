@@ -88,3 +88,4 @@ class Playlist(StrEnum):
     DISCOVER_WEEKLY = "https://open.spotify.com/playlist/37i9dQZEVXcVC84EBt43Lx?si=fbea7a1fd9e04fb5"
     RELAXING = "https://open.spotify.com/playlist/4KfULjAkF7qPXlXFq170AR?si=f5103bd49709471f"
     NEO_CLASSICAL = "https://open.spotify.com/playlist/37i9dQZF1EIgEh8GW3jo4P?si=7bd5a57889964f8c"
+    NEO_CLASSICAL_LOUNGE = "https://open.spotify.com/playlist/28ZBooqbLfQecygMcEFi53?si=63967904e63746cb"
