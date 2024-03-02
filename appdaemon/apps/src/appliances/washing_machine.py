@@ -27,9 +27,9 @@ class WashingMachine(App):
     def notify(self, entity: Any, attribute: Any, old: Any, new: Any, kwargs: Any) -> None:
         match new:
             case selects.WashingMachine.MOLD_ALERT:
-                self.handlers.notifications.chore("Washing machine door closed", "Please open the door to let it dry and prevent mold")
+                self.handlers.notifications.chore("Washing machine door closed", "Please open the washing machine door to let it dry")
             case selects.WashingMachine.WET_CLOTHES_INSIDE:
-                self.handlers.notifications.chore("Washing machine is done", "Please hang up the laundry 🙏🏿🧦")
+                self.handlers.notifications.chore("Washing machine is done 🙏🏿🧦", "Please hang up the laundry")
 
     def update_state(self, entity: Any, attribute: Any, old: Any, new: Any, kwargs: Any) -> None:
         if self.is_open():
