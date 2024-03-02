@@ -10,8 +10,7 @@ from select_handler import SelectHandler
 
 
 class WashingMachine(App):
-    THRESHOLD_HIGH = 10
-    THRESHOLD_LOW = 2
+    THRESHOLD = 5
     WAIT_S = 240
     HOURS_TO_DRY = 12
     POWER_SENSOR = entities.SENSOR_WASHING_MACHINE_SWITCH_INSTANTANEOUS_DEMAND
@@ -36,15 +35,14 @@ class WashingMachine(App):
         if self.is_open():
             self.washing_machine_state.set(selects.WashingMachine.DRYING)
 
-        elif self.is_using_power():
+        elif self.is_running():
             self.washing_machine_state.set(selects.WashingMachine.WASHING)
             if self._wait_timer:
                 self.cancel_timer(self._wait_timer, silent=True)
             self._wait_timer = None
 
         elif self.is_off_but_was_washing_just_before():
-            if self._wait_timer is None:
-                self._wait_timer = self.run_in(self._on_current_stays_low, self.WAIT_S)
+            self._wait_timer = self.run_in(self._on_current_stays_low, self.WAIT_S)
 
         elif self.has_dried():
             self.washing_machine_state.set(selects.WashingMachine.OFF)
@@ -66,13 +64,13 @@ class WashingMachine(App):
         return self.last_washed() < datetime.now() - timedelta(hours=self.HOURS_TO_DRY)
 
     def is_off(self) -> bool:
-        return self.state.get_as_number(self.POWER_SENSOR) < self.THRESHOLD_LOW
+        return self.state.get_as_number(self.POWER_SENSOR) < self.THRESHOLD
 
     def is_open(self) -> bool:
         return self.state.is_value(self.DOOR_SENSOR, states.OPEN)
 
-    def is_using_power(self) -> bool:
-        return self.state.get_as_number(self.POWER_SENSOR) > self.THRESHOLD_HIGH
+    def is_running(self) -> bool:
+        return self.state.get_as_number(self.POWER_SENSOR) >= self.THRESHOLD
 
     def is_off_but_was_washing_just_before(self) -> bool:
         return self.is_off() and self.washing_machine_state.is_value(selects.WashingMachine.WASHING)
