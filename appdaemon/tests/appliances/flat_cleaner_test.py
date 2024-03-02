@@ -4,10 +4,10 @@ from appdaemontestframework import automation_fixture, given_that as given, asse
 import entities
 import helpers
 import matchers
-import modes
+import selects
 import services
 from test_utils import formatted_days_ago as days_ago
-from vacuum.flat_cleaner import FlatCleaner
+from appliances.flat_cleaner import FlatCleaner
 
 
 @automation_fixture(FlatCleaner)
@@ -18,7 +18,7 @@ def vacuum_controller():
 
 def test_triggers_when_away(given_that, vacuum_controller, assert_that):
     assert_that(vacuum_controller) \
-        .listens_to.state(helpers.HOMEASSISTANT_MODE, new=modes.Mode.AWAY) \
+        .listens_to.state(helpers.MODE, new=selects.Mode.AWAY) \
         .with_callback(vacuum_controller.clean_flat)
 
 

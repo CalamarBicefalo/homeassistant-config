@@ -7,7 +7,7 @@ import helpers
 import matchers
 import scenes
 import states
-from modes import Mode
+from selects import Mode
 from scene_controllers.scene import Scene
 from scene_controllers.scene_app import SceneApp
 from select_handler import SelectHandler
@@ -44,7 +44,7 @@ def test_when_present(given_that, generic_room_scene, assert_that):
 
 def scene_is(self, room_scene, activity, are_lights_on=False, mode=Mode.NIGHT):
     self.state_of(room_scene.activity._helper).is_set_to(activity)
-    self.state_of(helpers.HOMEASSISTANT_MODE).is_set_to(mode)
+    self.state_of(helpers.MODE).is_set_to(mode)
     if are_lights_on:
         self.state_of(ROOM_LIGHTS).is_set_to(states.ON)
     else:

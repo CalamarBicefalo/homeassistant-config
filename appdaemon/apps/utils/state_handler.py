@@ -39,7 +39,7 @@ class StateHandler:
     def get_as_number(
             self,
             device: Entity | Helper | str,
-    ) -> Any:
+    ) -> float | None:
         state = self.get_as_str(device)
         return self.to_float(state, device)
 

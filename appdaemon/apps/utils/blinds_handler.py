@@ -6,7 +6,7 @@ from appdaemon.plugins.hass import hassapi as hass
 
 import entities
 import helpers
-from modes import Mode
+from selects import Mode
 from select_handler import SelectHandler
 from state_handler import StateHandler
 from entities import Entity
@@ -18,7 +18,7 @@ class BlindsHandler:
         self.app = app
         self._blinds = blinds
         self.state = StateHandler(app)
-        self.mode = SelectHandler[Mode](app, helpers.HOMEASSISTANT_MODE)
+        self.mode = SelectHandler[Mode](app, helpers.MODE)
         self.room_with_plants = room_with_plants
 
     def open_all(self) -> None:

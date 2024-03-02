@@ -7,7 +7,7 @@ import helpers
 import matchers
 import scene_controllers.scene
 import states
-from modes import Mode
+from selects import Mode
 from scene_controllers.scene import Scene
 from scene_controllers.scene_app import SceneApp
 from select_handler import SelectHandler
@@ -61,7 +61,7 @@ def test_when_bright_because_of_light_then_lights_on(given_that, generic_room_sc
 
 
 def initial_state(self, activity, illuminance=0, are_lights_on=False, mode=Mode.DAY):
-    self.state_of(helpers.HOMEASSISTANT_MODE).is_set_to(mode)
+    self.state_of(helpers.MODE).is_set_to(mode)
     self.state_of(ILLUMINANCE_SENSOR).is_set_to(illuminance)
     self.state_of(LivingRoom._activity_helper).is_set_to(activity)
     if are_lights_on:

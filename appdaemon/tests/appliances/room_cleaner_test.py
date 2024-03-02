@@ -8,11 +8,11 @@ import entities
 import helpers
 import matchers
 import services
-from modes import Mode
+from selects import Mode
 from rooms import *
 from test_utils import formatted_yesterday as yesterday, formatted_now as now, formatted_days_ago as days_ago, \
     format_date
-from vacuum.room_cleaner import RoomCleaner
+from appliances.room_cleaner import RoomCleaner
 
 
 @automation_fixture(RoomCleaner)
@@ -129,7 +129,7 @@ def bedroom_cleaning_state_is(self, last_cleaned,
                               wardrobe_activity=Wardrobe.Activity.EMPTY,
                               bedroom_activity=Bedroom.Activity.EMPTY,
                               mode=Mode.NIGHT):
-    self.state_of(helpers.HOMEASSISTANT_MODE).is_set_to(mode)
+    self.state_of(helpers.MODE).is_set_to(mode)
     self.state_of(Bedroom._last_cleaned_helper).is_set_to(last_cleaned)
     self.state_of(Bedroom._last_present_helper).is_set_to(last_present)
     self.state_of(Wardrobe._activity_helper).is_set_to(wardrobe_activity)

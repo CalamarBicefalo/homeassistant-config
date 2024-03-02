@@ -3,7 +3,7 @@ from typing import Any
 import alarmclock
 import entities
 from app import App
-from modes import Mode
+from selects import Mode
 
 EVENT_MODE_RECOMPUTE_NEEDED = "mode.recompute_needed"
 

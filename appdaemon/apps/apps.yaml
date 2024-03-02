@@ -56,6 +56,6 @@ generic_controller:
   module: generic_controller.py
   global: true
 
-modes:
-  module: modes.py
+selects:
+  module: selects.py
   global: true

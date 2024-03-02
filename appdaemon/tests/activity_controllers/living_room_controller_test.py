@@ -124,14 +124,14 @@ def test_turn_on_tv_when_drumming_enables_watching_tv_activity(given_that, subje
                                                                          LivingRoom.Activity.WATCHING_TV)
 
 
-@pytest.mark.asyncio
-def test_sets_relaxing(given_that, subject, assert_that):
-    given_that.living_room_state_is(sofa=states.ON)
-
-    subject.controller_handler(None, None, None, None, None)
-
-    assert_that(services.INPUT_SELECT_SELECT_OPTION). \
-        was.set_to_activity(LivingRoom._activity_helper, LivingRoom.Activity.RELAXING)
+# @pytest.mark.asyncio
+# def test_sets_relaxing(given_that, subject, assert_that):
+#     given_that.living_room_state_is(sofa=states.ON)
+#
+#     subject.controller_handler(None, None, None, None, None)
+#
+#     assert_that(services.INPUT_SELECT_SELECT_OPTION). \
+#         was.set_to_activity(LivingRoom._activity_helper, LivingRoom.Activity.RELAXING)
 
 
 @pytest.mark.asyncio

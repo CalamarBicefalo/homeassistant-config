@@ -1,7 +1,7 @@
 import entities
 import scenes
 from activity_controllers.living_room_controller import COFFEE_TABLE_BUTTON_IEEE_ADDRESS
-from modes import Mode
+from selects import Mode
 from music import Playlist
 from rooms import *
 from scene_controllers import scene

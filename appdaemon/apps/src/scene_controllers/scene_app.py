@@ -5,9 +5,9 @@ from typing import Optional, Any, cast, Deque, Callable
 
 import entities
 import helpers
-import modes
+import selects
 from app import App
-from modes import Mode
+from selects import Mode
 from rooms import *
 from scene_controllers import scene
 from scene_controllers.scene import SceneByModeSelector, Scene, SceneWithActions, _Off
@@ -32,7 +32,7 @@ class SceneApp(App):
 
         self.listen_state(
             self.mode_controller,
-            helpers.HOMEASSISTANT_MODE
+            helpers.MODE
         )
 
     @property
@@ -94,7 +94,7 @@ class SceneApp(App):
 
         illuminance = self.state.get_as_number(self.illuminance_sensor)
         lights_on = self.state.is_on(self.room_lights)
-        if current_mode == modes.Mode.NIGHT or ((not lights_on) and illuminance < 60) or (
+        if current_mode == selects.Mode.NIGHT or ((not lights_on) and illuminance < 60) or (
                 lights_on and illuminance < 200):
             self.turn_on(desired_scene)
         else:

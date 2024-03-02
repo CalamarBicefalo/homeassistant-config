@@ -8,7 +8,7 @@ from rooms import *
 import entities
 import helpers
 import matchers
-import modes
+import selects
 import scenes
 import states
 from music import MusicHandler
@@ -103,7 +103,7 @@ def test_watching_tv_pauses_music(given_that) -> None:
 
 @pytest.mark.asyncio
 def test_watching_tv_closes_blinds_irrespecitively_of_mode(given_that) -> None:
-    given_that.living_room_scene_is(activity=LivingRoom.Activity.WATCHING_TV, mode=modes.Mode.DAY)
+    given_that.living_room_scene_is(activity=LivingRoom.Activity.WATCHING_TV, mode=selects.Mode.DAY)
 
     with mock.patch.object(BlindsHandler, 'close') as blinds:
         scene = LivingRoomScene(None, LivingRoomScene.__class__, None, None, None, None, None)
@@ -156,7 +156,7 @@ def test_gaming_pauses_music(given_that) -> None:
 
 @pytest.mark.asyncio
 def test_gaming_closes_blinds(given_that) -> None:
-    given_that.living_room_scene_is(activity=LivingRoom.Activity.GAMING, mode=modes.Mode.DAY)
+    given_that.living_room_scene_is(activity=LivingRoom.Activity.GAMING, mode=selects.Mode.DAY)
 
     with mock.patch.object(BlindsHandler, 'close') as blinds:
         scene = LivingRoomScene(None, LivingRoomScene.__class__, None, None, None, None, None)
@@ -165,11 +165,11 @@ def test_gaming_closes_blinds(given_that) -> None:
 
         blinds.close.assert_called_once()
 
-def living_room_scene_is(self, activity, illuminance=0, are_lights_on=False, mode=modes.Mode.NIGHT,
+def living_room_scene_is(self, activity, illuminance=0, are_lights_on=False, mode=selects.Mode.NIGHT,
                          playing_music=states.OFF, studio_activity=Studio.Activity.EMPTY):
     self.state_of(entities.COVER_BLINDS_CURTAIN).is_set_to(states.OPEN)
     self.state_of(entities.MEDIA_PLAYER_LIVING_ROOM_STEREO).is_set_to(playing_music)
-    self.state_of(helpers.HOMEASSISTANT_MODE).is_set_to(mode)
+    self.state_of(helpers.MODE).is_set_to(mode)
     self.state_of(entities.SENSOR_BEDROOM_AIR_QUALITY_TEMPERATURE).is_set_to(20)
     self.state_of(entities.SENSOR_STUDIO_MS_ILLUMINANCE).is_set_to(illuminance)
     self.state_of(LivingRoom._activity_helper).is_set_to(activity)

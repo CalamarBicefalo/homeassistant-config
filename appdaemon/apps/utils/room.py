@@ -5,7 +5,7 @@ from typing import Optional, Any
 import helpers
 import services
 from flick import FlickHandler
-from modes import Mode
+from selects import Mode
 from select_handler import SelectHandler
 from state_handler import StateHandler
 
@@ -19,7 +19,7 @@ class Room():
 
     def __init__(self, app) -> None:  # type: ignore
         self.app = app
-        self.mode = SelectHandler[Mode](app, helpers.HOMEASSISTANT_MODE)
+        self.mode = SelectHandler[Mode](app, helpers.MODE)
         self.flick = FlickHandler(app)
         self.state = StateHandler(app)
 

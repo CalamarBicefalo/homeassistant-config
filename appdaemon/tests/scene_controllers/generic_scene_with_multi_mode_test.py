@@ -7,7 +7,7 @@ import helpers
 import matchers
 import scenes
 import states
-from modes import Mode
+from selects import Mode
 from scene_controllers import scene
 from scene_controllers.scene import SceneByModeSelector
 from scene_controllers.scene_app import SceneApp
@@ -76,7 +76,7 @@ def test_when_undefined_away_turns_lights_off(given_that, generic_room_scene, as
 
 
 def initial_state(self, generic_room_scene, mode=Mode.NIGHT):
-    self.state_of(helpers.HOMEASSISTANT_MODE).is_set_to(mode)
+    self.state_of(helpers.MODE).is_set_to(mode)
     self.state_of(ILLUMINANCE_SENSOR).is_set_to(0)
     self.state_of(generic_room_scene.activity._helper).is_set_to(CommonActivities.PRESENT)
     self.state_of(ROOM_LIGHTS).is_set_to(states.OFF)

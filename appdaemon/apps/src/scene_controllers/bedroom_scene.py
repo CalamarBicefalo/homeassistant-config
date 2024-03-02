@@ -3,7 +3,7 @@ from typing import Optional
 
 import entities
 import scenes
-from modes import Mode
+from selects import Mode
 from music import Playlist, Tune
 from rooms import *
 from scene_controllers import scene

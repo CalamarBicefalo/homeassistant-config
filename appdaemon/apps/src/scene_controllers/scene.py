@@ -2,7 +2,7 @@ from abc import abstractmethod
 from typing import Optional, Dict, Callable, Any, Tuple
 
 import entities
-from modes import Mode
+from selects import Mode
 
 
 class _Off:

@@ -11,3 +11,7 @@ Vacuum room cleaner:
   module: room_cleaner
   class: RoomCleaner
   dependencies: !include /homeassistant/appdaemon/apps/dependencies.yaml
+Washing machine:
+  module: washing_machine
+  class: WashingMachine
+  dependencies: !include /homeassistant/appdaemon/apps/dependencies.yaml

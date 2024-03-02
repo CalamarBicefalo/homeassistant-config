@@ -3,7 +3,7 @@ from typing import Any
 import alarmclock
 import entities
 import mode_controller
-import modes
+import selects
 from activity_controllers.generic_controller import MotionController
 from ieee_addresses import BEDSIDE_BUTTON_IEEE_ID
 from rooms import *
@@ -62,7 +62,7 @@ class BedroomController(MotionController):
         self.cancel_wakeup_timer()
 
         if self.activity.is_value(Bedroom.Activity.BEDTIME):
-            self.handlers.mode.set(modes.Mode.SLEEPING)
+            self.handlers.mode.set(selects.Mode.SLEEPING)
         else:
             self.activity.set(Bedroom.Activity.BEDTIME)
             self.fire_event(mode_controller.EVENT_MODE_RECOMPUTE_NEEDED)

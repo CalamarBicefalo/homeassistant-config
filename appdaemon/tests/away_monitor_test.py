@@ -3,7 +3,7 @@ from appdaemontestframework import automation_fixture
 
 import helpers
 import matchers
-import modes
+import selects
 import services
 from away_monitor import AwayMonitor
 
@@ -16,7 +16,7 @@ def monitor() -> None:
 
 @pytest.mark.asyncio
 def test_when_away_notifies_of_suspicious_activity(given_that, monitor, assert_that):
-    given_that.state_of(helpers.HOMEASSISTANT_MODE).is_set_to(modes.Mode.AWAY)
+    given_that.state_of(helpers.MODE).is_set_to(selects.Mode.AWAY)
 
     monitor.on_door_open(None, None, None, None, None)
 
@@ -27,7 +27,7 @@ def test_when_away_notifies_of_suspicious_activity(given_that, monitor, assert_t
 
 @pytest.mark.asyncio
 def test_when_present_does_not_notify(given_that, monitor, assert_that):
-    given_that.state_of(helpers.HOMEASSISTANT_MODE).is_set_to(modes.Mode.DAY)
+    given_that.state_of(helpers.MODE).is_set_to(selects.Mode.DAY)
 
     monitor.on_door_open(None, None, None, None, None)
 

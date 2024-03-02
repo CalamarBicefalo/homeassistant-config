@@ -9,7 +9,7 @@ import services
 import states
 import test_utils
 from rooms import *
-from vacuum.mop_maintenance import MopMaintenance
+from appliances.mop_maintenance import MopMaintenance
 
 
 @automation_fixture(MopMaintenance)

@@ -14,7 +14,7 @@ from blinds_handler import BlindsHandler
 from button_handler import ButtonHandler
 from entities import Entity
 from flick import FlickHandler
-from modes import Mode
+from selects import Mode
 from music import MusicHandler
 from notification_handler import NotificationHandler
 from rooms import RoomHandlers
@@ -34,7 +34,7 @@ class Handler():
 
     def __init__(self, app: hass.Hass, speakers: Optional[Entity], blinds: Optional[Entity],
                  room_has_plants: bool) -> None:
-        self.mode = SelectHandler[Mode](app, helpers.HOMEASSISTANT_MODE)
+        self.mode = SelectHandler[Mode](app, helpers.MODE)
         self.rooms = RoomHandlers(app)
         self.music = MusicHandler(app, speakers)
         self.blinds = BlindsHandler(app, blinds, room_has_plants)

@@ -6,6 +6,12 @@ import app
 import helpers
 
 
+def set_to_option(self, helper, activity):
+    self.called_with(
+        entity_id=helper,
+        option=activity,
+    )
+
 def set_to_activity(self, helper, activity):
     self.called_with(
         entity_id=helper,
@@ -22,9 +28,11 @@ def set_to_now(self, helper):
 
 assert_that.Was.set_to_now = set_to_now
 assert_that.Was.set_to_activity = set_to_activity
+assert_that.Was.set_to_option = set_to_option
 
 del set_to_now  # clean up namespace
 del set_to_activity  # clean up namespace
+del set_to_option  # clean up namespace
 
 
 def init():

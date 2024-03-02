@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import Any
 
 import helpers
-import modes
+import selects
 from app import App
 
 
@@ -11,8 +11,8 @@ class FlatCleaner(App):
     def initialize(self) -> None:
         self.listen_state(
             self.clean_flat,
-            helpers.HOMEASSISTANT_MODE,
-            new=modes.Mode.AWAY,
+            helpers.MODE,
+            new=selects.Mode.AWAY,
         )
 
     def clean_flat(self, entity: Any, attribute: Any, old: Any, new: Any, kwargs: Any) -> None:

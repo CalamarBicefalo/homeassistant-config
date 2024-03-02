@@ -3,7 +3,7 @@ from typing import Any
 import entities
 import helpers
 from app import App
-from modes import Mode
+from selects import Mode
 from music import Tune, MusicHandler
 from rooms import *
 
@@ -15,7 +15,7 @@ class ModeScene(App):
 
         self.listen_state(
             self.controller_handler,
-            helpers.HOMEASSISTANT_MODE
+            helpers.MODE
         )
 
     def controller_handler(self, entity: Any, attribute: Any, old: Any, new: Any, kwargs: Any) -> None:

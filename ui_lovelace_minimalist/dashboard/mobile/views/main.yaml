@@ -20,25 +20,25 @@ cards:
     variables:
       ulm_weather: "weather.forecast_marsh_court"
       entity_1:
-        entity_id: input_select.homeassistant_mode
+        entity_id: input_select.mode
         icon: mdi:white-balance-sunny
         state: Day
         name: Day
         color: yellow
       entity_2:
-        entity_id: input_select.homeassistant_mode
+        entity_id: input_select.mode
         icon: mdi:weather-night
         state: Night
         name: Night
         color: blue
       entity_3:
-        entity_id: input_select.homeassistant_mode
+        entity_id: input_select.mode
         icon: mdi:sleep
         state: Sleeping
         name: Sleeping
         color: purple
       entity_4:
-        entity_id: input_select.homeassistant_mode
+        entity_id: input_select.mode
         state: Away
         name: Away
         icon: mdi:home-export-outline

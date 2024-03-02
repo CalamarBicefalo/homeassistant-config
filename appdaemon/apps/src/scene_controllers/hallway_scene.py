@@ -1,6 +1,6 @@
 import entities
 import scenes
-from modes import Mode
+from selects import Mode
 from rooms import *
 from scene_controllers import scene
 from scene_controllers.scene import Scene, SceneByModeSelector
