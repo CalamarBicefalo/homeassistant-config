@@ -26,7 +26,7 @@ class BedroomController(MotionController):
     def max_seconds_without_presence_until_empty(self) -> int:
         # TODO check presence sensor history and see if there are no reported periods of no presence while sleeping
         # If so we can reduce this amount.
-        return 5 * 60 * 60
+        return 2 * 60 * 60
 
     def initialize(self) -> None:
         super().initialize_lock()

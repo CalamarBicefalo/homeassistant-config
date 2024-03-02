@@ -16,6 +16,7 @@ from entities import Entity
 from flick import FlickHandler
 from modes import Mode
 from music import MusicHandler
+from notification_handler import NotificationHandler
 from rooms import RoomHandlers
 from select_handler import SelectHandler
 from state_handler import StateHandler
@@ -29,6 +30,7 @@ class Handler():
     alarmclock: AlarmClock
     flick: FlickHandler
     buttons: ButtonHandler
+    notifications: NotificationHandler
 
     def __init__(self, app: hass.Hass, speakers: Optional[Entity], blinds: Optional[Entity],
                  room_has_plants: bool) -> None:
@@ -39,6 +41,7 @@ class Handler():
         self.alarmclock = AlarmClock(app)
         self.flick = FlickHandler(app)
         self.buttons = ButtonHandler(app)
+        self.notifications = NotificationHandler(app)
 
 
 class App(hass.Hass):

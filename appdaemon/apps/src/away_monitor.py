@@ -16,6 +16,4 @@ class AwayMonitor(App):
 
     def on_door_open(self, entity: Any, attribute: Any, old: Any, new: Any, kwargs: Any) -> None:
         if self.handlers.mode.get() == modes.Mode.AWAY:
-            self.call_service(services.NOTIFY_MOBILE_APP_GALAXY_S23,
-                              message=f'Front door opened while away',
-                              title="🚨Activity detected")
+            self.handlers.notifications.notify(title="🚨Activity detected", message=f'Front door opened while away')

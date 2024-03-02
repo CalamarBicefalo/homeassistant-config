@@ -8,10 +8,13 @@ import services
 import states
 from entities import Entity
 from helpers import Helper
+from notification_handler import NotificationHandler
+
 
 class StateHandler:
     def __init__(self, app: hass.Hass):
         self._app = app
+        self.notifications = NotificationHandler(app)
 
     def is_consuming_at_least(self, device: Entity | Helper | str, watts: int) -> bool:
         return self.get_watt_consumption(device) >= watts
@@ -67,7 +70,7 @@ class StateHandler:
             return float(value)
         except (ValueError, TypeError):
             self._app.log(error, level="ERROR")
-            self._app.call_service(services.NOTIFY_MOBILE_APP_GALAXY_S23, message=error, title="Automation error")
+            self.notifications.debug(message=error)
             return 0
 
     def is_attr_value(self, device: Entity | Helper | str, attr: str, desired_state: str) -> bool:

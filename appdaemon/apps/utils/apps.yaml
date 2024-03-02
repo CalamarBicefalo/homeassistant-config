@@ -23,6 +23,10 @@ button_handler:
   module: button_handler.py
   global: true
 
+notification_handler:
+  module: notification_handler.py
+  global: true
+
 state_handler:
   module: state_handler.py
   global: true

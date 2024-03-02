@@ -22,7 +22,7 @@ def test_triggers_when_motion_or_tv_changes(given_that, subject, assert_that):
             entities.BINARY_SENSOR_LIVING_ROOM_MOTION,
             entities.MEDIA_PLAYER_TV_2,
             entities.MEDIA_PLAYER_SONY_KD_49XF8096,
-            # entities.BINARY_SENSOR_SOFA_PS
+            entities.BINARY_SENSOR_SOFA_PS
         ]
     )\
         .with_callback(subject.controller_handler)
