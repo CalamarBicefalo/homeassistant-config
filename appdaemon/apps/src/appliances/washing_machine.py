@@ -10,8 +10,8 @@ from select_handler import SelectHandler
 
 
 class WashingMachine(App):
-    THRESHOLD = 5
-    WAIT_S = 240
+    THRESHOLD = 3
+    WAIT_S = 500
     HOURS_TO_DRY = 12
     POWER_SENSOR = entities.SENSOR_WASHING_MACHINE_SWITCH_INSTANTANEOUS_DEMAND
     DOOR_SENSOR = entities.BINARY_SENSOR_WASHING_MACHINE_CS
@@ -52,6 +52,8 @@ class WashingMachine(App):
 
 
     def _on_current_stays_low(self, kwargs: Any) -> None:
+        if self.is_running():
+            return
         self.washing_machine_state.set(selects.WashingMachine.WET_CLOTHES_INSIDE)
         self.set_helper_to_now(helpers.LAST_WASHED_CLOTHES)
         self._wait_timer = None
