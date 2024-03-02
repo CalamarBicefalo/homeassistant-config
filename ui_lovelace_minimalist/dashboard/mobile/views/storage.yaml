@@ -22,13 +22,13 @@ cards:
     type: "custom:button-card"
     template: "card_cb_room_header"
     variables:
-      room_key: 'storage'
+      room_key: "storage"
 
   - view_layout:
       grid-area: "title-lights"
     type: "custom:button-card"
     template: cb_card_title
-    name: Lights & Blinds
+    name: Lights
 
   - view_layout:
       grid-area: "lights"
@@ -47,13 +47,29 @@ cards:
       grid-area: "title-sensors"
     type: "custom:button-card"
     template: cb_card_title
-    name: Sensors
-    label: Presence
+    name: Appliances & Sensors
 
   - view_layout:
-      grid-column-end: span 2
     type: "custom:button-card"
-    template: 
+    template:
+      - card_binary_sensor
+    variables:
+      ulm_show_last_changed: false
+      ulm_card_binary_sensor_name: Washing Machine
+      ulm_card_binary_sensor_color: |
+        [[[
+          var state = states['input_select.washing_machine'].state;
+          if (state === 'Wet Clothes Inside' || state === 'Mold Alert') {
+            return 'red';
+          } else if (state === 'Washing') {
+            return 'yellow';
+          }
+          return 'grey';
+        ]]]
+    entity: input_select.washing_machine
+  - view_layout:
+    type: "custom:button-card"
+    template:
       - card_binary_sensor
       - battery_info
     name: Door
@@ -63,4 +79,4 @@ cards:
       ulm_battery_entity: sensor.storage_door_cs_battery
     entity: binary_sensor.storage_door_cs
 
-  
+
