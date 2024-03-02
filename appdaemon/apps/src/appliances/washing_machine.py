@@ -39,9 +39,11 @@ class WashingMachine(App):
             self.washing_machine_state.set(selects.WashingMachine.WASHING)
             if self._wait_timer:
                 self.cancel_timer(self._wait_timer, silent=True)
-            self._wait_timer = None
+                self._wait_timer = None
 
         elif self.is_off_but_was_washing_just_before():
+            if self._wait_timer:
+                return
             self._wait_timer = self.run_in(self._on_current_stays_low, self.WAIT_S)
 
         elif self.has_dried():
