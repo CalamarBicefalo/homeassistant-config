@@ -6,3 +6,12 @@ homeassistant_mode:
     - Away
     - Sleeping
   icon: mdi:house
+washing_machine:
+  name: Washing Machine Status
+  options:
+    - "Off"
+    - "Washing"
+    - "Drying"
+    - "Wet Clothes Inside"
+    - "Mold Alert"
+  icon: mdi:washing-machine
