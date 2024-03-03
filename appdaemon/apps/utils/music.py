@@ -60,10 +60,15 @@ class MusicHandler:
 
     def announce(self, message: str) -> None:
         self.mute()
-        self.play(Tune.ONE_SECOND_OF_SILENCE)
+        self._app.call_service(services.MEDIA_PLAYER_PLAY_MEDIA,
+                               entity_id=self._speakers,
+                               media_content_id=Tune.ONE_SECOND_OF_SILENCE,
+                               enqueue="replace",
+                               media_content_type="music"
+                               )
 
         def after_one_second(*_: Any) -> None:
-            self.volume(0.5)
+            self.volume(0.4)
             self._app.call_service(
                 services.TTS_SPEAK,
                 entity_id=entities.TTS_PIPER,
