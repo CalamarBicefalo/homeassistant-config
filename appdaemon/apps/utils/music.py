@@ -73,6 +73,7 @@ class MusicHandler:
                 services.TTS_SPEAK,
                 entity_id=entities.TTS_PIPER,
                 media_player_entity_id= self._speakers,
+                cache=True,
                 message=message)
 
         self._app.run_in(after_one_second, 1)
