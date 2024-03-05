@@ -31,6 +31,7 @@ class NotificationHandler:
             self.speaker.announce(message)
 
     def debug(self, message: str) -> None:
+        self._app.log(f'App Debug: {message}', level="WARNING")
         self._app.call_service(services.NOTIFY_MOBILE_APP_GALAXY_S23,
                                message=message,
                                title="Debug")

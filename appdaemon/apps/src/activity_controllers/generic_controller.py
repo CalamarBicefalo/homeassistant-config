@@ -63,11 +63,14 @@ class ActivityController(App):
 
     def _run_empty_timer_in(self, seconds: int, warn_log: Optional[str] = None) -> None:
         def callback() -> None:
+            self._empty_timer = None
+            if self.activity.is_value(CommonActivities.EMPTY):
+                return
+
+            self.activity.set(CommonActivities.EMPTY)
             if warn_log:
                 self.handlers.notifications.debug(warn_log)
                 self.log(warn_log, level="WARNING")
-            self.activity.set(CommonActivities.EMPTY)
-            self._empty_timer = None
 
         self._empty_timer = self.run_in(lambda *_: callback(), seconds)
 
