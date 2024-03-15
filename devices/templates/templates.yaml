@@ -3,11 +3,22 @@
       event_type: zha_event
       event_data:
         device_ieee: 54:ef:44:10:00:58:1b:fa
-        command:
-          - Leave
-          - Enter
-          - Away
-          - Approach
+        command: Leave
+    - platform: event
+      event_type: zha_event
+      event_data:
+        device_ieee: 54:ef:44:10:00:58:1b:fa
+        command: Enter
+    - platform: event
+      event_type: zha_event
+      event_data:
+        device_ieee: 54:ef:44:10:00:58:1b:fa
+        command: Away
+    - platform: event
+      event_type: zha_event
+      event_data:
+        device_ieee: 54:ef:44:10:00:58:1b:fa
+        command: Approach
   binary_sensor:
     - name: "Bedroom Instant MS"
       state: >
@@ -24,11 +35,22 @@
       event_type: zha_event
       event_data:
         device_ieee: 54:ef:44:10:00:58:4e:83
-        command:
-          - Leave
-          - Enter
-          - Away
-          - Approach
+        command: Leave
+    - platform: event
+      event_type: zha_event
+      event_data:
+        device_ieee: 54:ef:44:10:00:58:4e:83
+        command: Enter
+    - platform: event
+      event_type: zha_event
+      event_data:
+        device_ieee: 54:ef:44:10:00:58:4e:83
+        command: Away
+    - platform: event
+      event_type: zha_event
+      event_data:
+        device_ieee: 54:ef:44:10:00:58:4e:83
+        command: Approach
   binary_sensor:
     - name: "Living room Instant MS"
       state: >
