@@ -113,7 +113,7 @@ def test_after_34_minutes_showering_mode_is_disabled(given_that, ensuite_control
 
 
 def test_after_25_minutes_sets_to_empty(given_that, ensuite_controller, assert_that, time_travel):
-    given_that.ensuite_has(activity=Ensuite.Activity.EMPTY, door=door.OPEN)
+    given_that.ensuite_has(activity=Ensuite.Activity.PRESENT, door=door.OPEN)
     ensuite_controller.on_motion(None, None, None, motion.DETECTED, None)
 
     time_travel.fast_forward(26).minutes()
@@ -133,7 +133,7 @@ def test_after_1_minute_of_inactivity_sets_to_empty(given_that, ensuite_controll
 
 
 def enable_showering(ensuite_controller, given_that):
-    given_that.ensuite_has(activity=Ensuite.Activity.EMPTY, door=door.CLOSED)
+    given_that.ensuite_has(activity=Ensuite.Activity.PRESENT, door=door.CLOSED)
     ensuite_controller.on_motion(None, None, None, motion.DETECTED, None)
 
 

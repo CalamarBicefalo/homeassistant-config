@@ -66,6 +66,7 @@ def test_when_retriggering(given_that, subject, assert_that, time_travel):
                                                                          Kitchen.Activity.EMPTY)
 
 def generic_motion_controller_state_is(self, motion=states.OFF):
+    self.state_of(entities.INPUT_SELECT_KITCHEN_ACTIVITY).is_set_to(Kitchen.Activity.PRESENT)
     self.state_of(entities.INPUT_BOOLEAN_ACTIVITY_LOCK_KITCHEN).is_set_to(False)
     self.state_of("motion-sensor").is_set_to(motion)
 

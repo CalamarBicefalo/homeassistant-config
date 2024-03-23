@@ -30,6 +30,7 @@ def test_triggers_when_motion_or_doors_changes(given_that, subject, assert_that)
 def test_when_away(given_that, subject, assert_that, time_travel):
     given_that.wardrobe_state_is(
         motion=states.OFF,
+        activity=Wardrobe.Activity.PRESENT,
     )
 
     subject.controller_handler(None, None, None, None, None)
@@ -76,7 +77,11 @@ def test_given_dressing_when_all_wardrobe_sensors_off(given_that, subject, asser
 
 @pytest.mark.asyncio
 def test_given_dressing_timesout_after_10_minutes(given_that, subject, assert_that, time_travel):
-    given_that.wardrobe_state_is(motion=states.OFF, wardrobe_right_door=states.OPEN)
+    given_that.wardrobe_state_is(
+        motion=states.OFF,
+        wardrobe_right_door=states.OPEN,
+        activity=Wardrobe.Activity.DRESSING,
+    )
 
     subject.controller_handler(entities.BINARY_SENSOR_WARDROBE_DOOR_RIGHT_CS_IASZONE, None, None, None, None)
     time_travel.fast_forward(11).minutes()
@@ -89,6 +94,7 @@ def test_given_dressing_timesout_after_10_minutes(given_that, subject, assert_th
 def test_after_3_hours_of_inactivity(given_that, subject, assert_that, time_travel):
     given_that.wardrobe_state_is(
         motion=states.ON,
+        activity=Wardrobe.Activity.PRESENT,
     )
     subject.controller_handler(None, None, None, None, None)
 

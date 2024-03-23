@@ -26,6 +26,7 @@ def test_triggers_when_motion(given_that, subject, assert_that):
 def test_when_no_motion_then_empty(given_that, subject, assert_that, time_travel):
     given_that.bedroom_state_is(
         motion=states.OFF,
+        activity=Bedroom.Activity.PRESENT,
     )
 
     subject.controller_handler(None, None, None, None, None)
@@ -104,6 +105,7 @@ def test_given_relaxing_when_no_motion_then_sets_empty_afger_30_minutes(given_th
 def test_after_3_hours_of_inactivity_then_empty(given_that, subject, assert_that, time_travel):
     given_that.bedroom_state_is(
         motion=states.ON,
+        activity=Bedroom.Activity.PRESENT,
     )
     subject.controller_handler(None, None, None, None, None)
 

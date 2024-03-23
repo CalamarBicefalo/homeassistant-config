@@ -139,6 +139,7 @@ def test_after_3_hours_of_inactivity(given_that, subject, assert_that, time_trav
     given_that.living_room_state_is(
         motion=states.ON,
         sofa=states.ON,
+        activity=LivingRoom.Activity.PRESENT
     )
     subject.controller_handler(None, None, None, None, None)
 
