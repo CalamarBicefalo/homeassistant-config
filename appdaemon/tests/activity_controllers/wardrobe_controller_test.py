@@ -66,6 +66,19 @@ def test_when_dressing(given_that, subject, assert_that):
 
     assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(Wardrobe._activity_helper,
                                                                          Wardrobe.Activity.DRESSING)
+
+@pytest.mark.asyncio
+def test_when_dressing_and_close_doors_waits_for_a_bit(given_that, subject, assert_that, time_travel):
+    given_that.wardrobe_state_is(activity=Wardrobe.Activity.DRESSING)
+
+    subject.controller_handler(entities.BINARY_SENSOR_WARDROBE_DOOR_RIGHT_CS_IASZONE, None, None, None, None)
+
+    assert_that(services.INPUT_SELECT_SELECT_OPTION).was_not.set_to_activity(Wardrobe._activity_helper,
+                                                                         Wardrobe.Activity.EMPTY)
+    time_travel.fast_forward(1).minutes()
+    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(Wardrobe._activity_helper,
+                                                                             Wardrobe.Activity.EMPTY)
+
 @pytest.mark.asyncio
 def test_given_dressing_when_all_wardrobe_sensors_off(given_that, subject, assert_that):
     given_that.wardrobe_state_is(motion=states.OFF)
