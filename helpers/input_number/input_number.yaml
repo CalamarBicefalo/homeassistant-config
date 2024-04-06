@@ -1,4 +1,18 @@
 ---
+min_temperature_today:
+  name: Min temperature today
+  icon: mdi:thermometer
+  min: -30
+  max: 50
+  step: 0.1
+  unit_of_measurement: °C
+max_temperature_today:
+  name: Max temperature today
+  icon: mdi:thermometer
+  min: -30
+  max: 50
+  step: 0.1
+  unit_of_measurement: °C
 min_temperature_tomorrow:
   name: Min temperature tomorrow
   icon: mdi:thermometer
