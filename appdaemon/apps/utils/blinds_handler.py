@@ -41,14 +41,14 @@ class BlindsHandler:
 
     def best_for_temperature(self) -> None:
         temperature = self.state.get_as_number(entities.SENSOR_BEDROOM_AIR_QUALITY_TEMPERATURE)
-        if self.mode.is_value(Mode.DAY) and temperature > COMFORT_TEMPERATURE:
+        if self.mode.is_value(Mode.DAY) and temperature and temperature > COMFORT_TEMPERATURE:
             if self.room_with_plants:
                 self.set_position(30)
             else:
                 self.close()
-        elif self.mode.is_value(Mode.DAY) and temperature < COMFORT_TEMPERATURE:
+        elif self.mode.is_value(Mode.DAY) and temperature and temperature < COMFORT_TEMPERATURE:
             self.open()
-        elif temperature > COMFORT_TEMPERATURE:
+        elif temperature and temperature > COMFORT_TEMPERATURE:
             self.open()
         else:
             self.close()
