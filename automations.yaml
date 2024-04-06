@@ -40,3 +40,52 @@
       - service: notify.mobile_app_galaxy_s23
         data:
           message: Battery of sensor {{sensors}} is low
+- id: '1712425858556'
+  alias: Fetch min-max temperature
+  description: Simple automation to get min and max temperature
+  trigger:
+  - platform: time_pattern
+    hours: '00'
+  condition: []
+  action:
+  - service: weather.get_forecasts
+    metadata: {}
+    data:
+      type: daily
+    target:
+      entity_id: weather.forecast_marsh_court
+    response_variable: forecast
+  - service: input_number.set_value
+    metadata: {}
+    data_template:
+      value: '{{ states(''input_number.min_temperature_tomorrow'') | float() }}
+
+        '
+    target:
+      entity_id: input_number.min_temperature_today
+  - service: input_number.set_value
+    metadata: {}
+    data_template:
+      value: '{{ states(''input_number.max_temperature_tomorrow'') | float() }}
+
+        '
+    target:
+      entity_id: input_number.max_temperature_today
+  - service: input_number.set_value
+    metadata: {}
+    data_template:
+      value: '{{ forecast[''weather.forecast_marsh_court''].forecast[0].temperature
+        }}
+
+        '
+    target:
+      entity_id: input_number.max_temperature_tomorrow
+  - service: input_number.set_value
+    metadata: {}
+    data_template:
+      value: '{{ forecast[''weather.forecast_marsh_court''].forecast[0].templow }}
+
+        '
+    target:
+      entity_id: input_number.min_temperature_tomorrow
+  mode: single
