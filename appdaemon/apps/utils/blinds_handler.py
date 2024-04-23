@@ -10,6 +10,7 @@ from selects import Mode
 from select_handler import SelectHandler
 from state_handler import StateHandler
 from entities import Entity
+from temperature_handler import TemperatureHandler
 
 COMFORT_TEMPERATURE = 22
 
@@ -18,6 +19,7 @@ class BlindsHandler:
         self.app = app
         self._blinds = blinds
         self.state = StateHandler(app)
+        self.temperature = TemperatureHandler(app)
         self.mode = SelectHandler[Mode](app, helpers.MODE)
         self.room_with_plants = room_with_plants
 
@@ -40,16 +42,14 @@ class BlindsHandler:
                                   entity_id=self._blinds)
 
     def best_for_temperature(self) -> None:
-        temperature = self.state.get_as_number(entities.SENSOR_BEDROOM_AIR_QUALITY_TEMPERATURE)
-        if self.mode.is_value(Mode.DAY) and temperature and temperature > COMFORT_TEMPERATURE:
-            if self.room_with_plants:
-                self.set_position(30)
+        if self.mode.is_value(Mode.DAY):
+            if self.temperature.should_cooldown():
+                if self.room_with_plants:
+                    self.set_position(30)
+                else:
+                    self.close()
             else:
-                self.close()
-        elif self.mode.is_value(Mode.DAY) and temperature and temperature < COMFORT_TEMPERATURE:
-            self.open()
-        elif temperature and temperature > COMFORT_TEMPERATURE:
-            self.open()
+                self.open()
         else:
             self.close()
 

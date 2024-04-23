@@ -11,6 +11,10 @@ blinds_handler:
   module: blinds_handler.py
   global: true
 
+temperature_handler:
+  module: temperature_handler.py
+  global: true
+
 select_handler:
   module: select_handler.py
   global: true

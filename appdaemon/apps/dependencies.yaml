@@ -1,6 +1,7 @@
 - alarmclock
 - app
 - blinds_handler
+- temperature_handler
 - button_handler
 - state_handler
 - media_button_handler
