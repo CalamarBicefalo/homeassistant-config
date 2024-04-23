@@ -80,3 +80,24 @@
     target:
       entity_id: input_number.min_temperature_tomorrow
   mode: single
+- id: '1713623938907'
+  alias: Unavailable device watchdog
+  description: Notifies of unavailable entities
+  use_blueprint:
+    path: gmlupatelli/unavailable_entities_notification.yaml
+    input:
+      exclude:
+        label_id: gadgets
+      sunday_enabled: false
+      friday_enabled: false
+      thursday_enabled: false
+      wednesday_enabled: false
+      tuesday_enabled: false
+      monday_enabled: false
+      time: '16:00:00'
+      actions:
+      - service: notify.mobile_app_galaxy_s23
+        metadata: {}
+        data:
+          message: Unavailable entities {{entities}}
+          title: Cleanup needed

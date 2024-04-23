@@ -9,6 +9,7 @@
 .pytest_cache
 __pycache__
 out
+tts
 secrets
 
 custom_components
