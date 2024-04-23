@@ -65,4 +65,4 @@ class BlindsHandler:
         return self.get_position() <= 0
 
     def is_open(self) -> bool:
-        return self.get_position() >= 100
+        return self.get_position() >= 1
