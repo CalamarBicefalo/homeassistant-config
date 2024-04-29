@@ -12,16 +12,15 @@ from state_handler import StateHandler
 from entities import Entity
 from temperature_handler import TemperatureHandler
 
-COMFORT_TEMPERATURE = 22
 
 class BlindsHandler:
-    def __init__(self, app: hass.Hass, blinds: Optional[Entity], room_with_plants: bool = False) -> None:
+    def __init__(self, app: hass.Hass, blinds: Optional[Entity], main_source_of_light: bool = False) -> None:
         self.app = app
         self._blinds = blinds
         self.state = StateHandler(app)
         self.temperature = TemperatureHandler(app)
         self.mode = SelectHandler[Mode](app, helpers.MODE)
-        self.room_with_plants = room_with_plants
+        self.main_source_of_light = main_source_of_light
 
     def open_all(self) -> None:
         self.app.call_service("cover/open_cover",
@@ -44,7 +43,7 @@ class BlindsHandler:
     def best_for_temperature(self) -> None:
         if self.mode.is_value(Mode.DAY):
             if self.temperature.should_cooldown():
-                if self.room_with_plants:
+                if self.main_source_of_light:
                     self.set_position(30)
                 else:
                     self.close()
