@@ -53,7 +53,6 @@ class LivingRoomScene(SceneApp):
                         scenes.LIVING_ROOM_WELCOME,
                         lambda: self.handlers.blinds.close(),
                     ),
-                    # Pet-safe temporary solution
                     Mode.SLEEPING: scene.off(),
                 })
 
