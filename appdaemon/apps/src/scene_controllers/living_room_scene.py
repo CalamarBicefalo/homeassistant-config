@@ -53,7 +53,7 @@ class LivingRoomScene(SceneApp):
                         scenes.LIVING_ROOM_WELCOME,
                         lambda: self.handlers.blinds.close(),
                     ),
-                    Mode.SLEEPING: scene.off(),
+                    Mode.SLEEPING: scenes.LIVING_ROOM_COZY,
                 })
 
             case LivingRoom.Activity.DRUMMING:
