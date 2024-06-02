@@ -1,0 +1,78 @@
+---
+title: "office"
+icon: "mdi:office"
+path: "office"
+
+type: "custom:layout-card"
+layout_type: "custom:grid-layout"
+layout:
+  grid-template-columns: "1fr 1fr"
+  margin: 0
+  padding: 0 4px
+  grid-template-areas: |
+    "header header"
+    "title-lights title-lights"
+    "blinds blinds"
+    "lights lights"
+    "title-sensors title-sensors"
+    "sensor1 sensor2"
+
+cards:
+  - view_layout:
+      grid-area: "header"
+    type: "custom:button-card"
+    template: "card_cb_room_header"
+    variables:
+      room_key: 'office'
+
+  - view_layout:
+      grid-area: "title-lights"
+    type: "custom:button-card"
+    template: cb_card_title
+    name: Lights & Blinds
+
+  - view_layout:
+      grid-area: "blinds"
+    type: "custom:button-card"
+    template: card_cover
+    entity: cover.office_blinds
+    variables:
+      ulm_card_cover_name: Blinds
+      ulm_card_cover_enable_controls: true
+      ulm_card_cover_enable_slider: false
+      ulm_card_cover_enable_horizontal: true
+      ulm_card_cover_enable_popup: true
+
+  - view_layout:
+      grid-area: "lights"
+    type: "custom:button-card"
+    template: card_light
+    entity: light.office
+    variables:
+      ulm_card_light_name: Lights
+      ulm_card_light_enable_slider: true
+      ulm_card_light_enable_color: true
+      ulm_card_light_force_background_color: true
+      ulm_card_light_enable_horizontal: true
+      ulm_card_light_enable_horizontal_wide: true
+
+  - view_layout:
+      grid-area: "title-sensors"
+    type: "custom:button-card"
+    template: cb_card_title
+    name: Sensors
+    label: Presence
+
+  - view_layout:
+      grid-column-end: span 2
+    type: "custom:button-card"
+    template: 
+      - card_binary_sensor
+    name: Motion
+    variables:
+      ulm_show_last_changed: false
+      ulm_card_binary_sensor_name: Motion
+    entity: binary_sensor.office_motion
+
+
+  

@@ -52,13 +52,13 @@
         device_ieee: 54:ef:44:10:00:58:4e:83
         command: Approach
   binary_sensor:
-    - name: "Living room Instant MS"
+    - name: "Office Instant MS"
       state: >
         {{trigger.event.data.command!="Away" and trigger.event.data.command!="Leave"}}
       icon: mdi:motion-sensor
       device_class: motion
   sensor:
-    - name: "Living room MS command"
+    - name: "Office MS command"
       state: "{{ trigger.event.data.command }}"
       device_class: enum
 

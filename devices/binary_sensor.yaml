@@ -28,3 +28,9 @@
   entities:
     - binary_sensor.bedroom_ms_occupancy
     - binary_sensor.bedroom_instant_ms
+- platform: group
+  name: office_motion
+  device_class: motion
+  entities:
+    - binary_sensor.office_ms_occupancy
+    - binary_sensor.office_instant_ms
