@@ -11,6 +11,8 @@ layout:
   padding: 0 4px
   grid-template-areas: |
     "header header"
+    "title-media title-media"
+    "media media"
     "title-lights title-lights"
     "blinds blinds"
     "lights lights"
@@ -24,6 +26,23 @@ cards:
     template: "card_cb_room_header"
     variables:
       room_key: 'office'
+
+  - view_layout:
+      grid-area: "title-media"
+    type: "custom:button-card"
+    template: cb_card_title
+    name: Media
+
+  - type: "custom:button-card"
+    template: card_media_player
+    entity: media_player.hallway_speaker
+    variables:
+      ulm_card_media_player_name: Speakers
+      ulm_card_media_player_enable_art: true
+      ulm_card_media_player_enable_controls: true
+      ulm_card_media_player_enable_volume_slider: true
+      ulm_card_media_player_more_info: true
+      ulm_card_media_player_power_button: false
 
   - view_layout:
       grid-area: "title-lights"
