@@ -1,30 +1,3 @@
-- id: '1706912001435'
-  alias: Bedtime word
-  description: ''
-  trigger:
-  - platform: conversation
-    command: Bedtime
-  condition: []
-  action:
-  - if:
-    - condition: state
-      entity_id: input_select.bedroom_activity
-      state: Bedtime
-    then:
-    - service: input_select.select_option
-      metadata: {}
-      data:
-        option: Sleeping
-      target:
-        entity_id: input_select.mode
-    else:
-    - service: input_select.select_option
-      metadata: {}
-      data:
-        option: Bedtime
-      target:
-        entity_id: input_select.bedroom_activity
-  mode: single
 - id: '1686089832830'
   alias: Battery checker
   description: ''
@@ -64,13 +37,15 @@
   - service: input_number.set_value
     metadata: {}
     data_template:
-      value: '{{ forecast[''weather.forecast_marsh_court''].forecast[0].temperature }}'
+      value: '{{ forecast[''weather.forecast_marsh_court''].forecast[0].temperature
+        }}'
     target:
       entity_id: input_number.max_temperature_today
   - service: input_number.set_value
     metadata: {}
     data_template:
-      value: '{{ forecast[''weather.forecast_marsh_court''].forecast[1].temperature }}'
+      value: '{{ forecast[''weather.forecast_marsh_court''].forecast[1].temperature
+        }}'
     target:
       entity_id: input_number.max_temperature_tomorrow
   - service: input_number.set_value
