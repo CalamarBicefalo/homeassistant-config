@@ -57,7 +57,7 @@ class LivingRoomController(ActivityController):
             self.activity.set(CommonActivities.PRESENT)
 
         else:
-            self.activity.set(CommonActivities.EMPTY)
+            self.set_as_empty_in(seconds=30)
 
     def playing_ps5(self) -> bool:
         return (

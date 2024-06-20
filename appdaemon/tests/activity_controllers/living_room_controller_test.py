@@ -29,14 +29,31 @@ def test_triggers_when_motion_or_tv_changes(given_that, subject, assert_that):
 
 
 @pytest.mark.asyncio
-def test_sets_away(given_that, subject, assert_that):
+def test_waits_for_away_before_cooldown(given_that, subject, assert_that, time_travel):
     given_that.living_room_state_is(
         motion=states.OFF,
         tv=states.OFF,
         sofa=states.OFF,
+        activity=LivingRoom.Activity.PRESENT
     )
 
     subject.controller_handler(None, None, None, None, None)
+    time_travel.fast_forward(10).seconds()
+
+    assert_that(services.INPUT_SELECT_SELECT_OPTION).was_not.set_to_activity(LivingRoom._activity_helper,
+                                                                         LivingRoom.Activity.EMPTY)
+
+@pytest.mark.asyncio
+def test_sets_away_after_cooldown(given_that, subject, assert_that, time_travel):
+    given_that.living_room_state_is(
+        motion=states.OFF,
+        tv=states.OFF,
+        sofa=states.OFF,
+        activity=LivingRoom.Activity.PRESENT
+    )
+
+    subject.controller_handler(None, None, None, None, None)
+    time_travel.fast_forward(30).seconds()
 
     assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(LivingRoom._activity_helper,
                                                                          LivingRoom.Activity.EMPTY)
