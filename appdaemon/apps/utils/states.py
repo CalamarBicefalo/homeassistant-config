@@ -19,3 +19,7 @@ CLEANING = "cleaning"
 IDLE = "idle"
 PAUSED = "paused"
 DOCKED = "docked"
+
+# Bed
+OCCUPIED = "on"
+EMPTY = "off"

@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Any
 
 import alarmclock
@@ -13,6 +14,7 @@ from select_handler import SelectHandler
 class BedroomController(MotionController):
     motion_sensor = entities.BINARY_SENSOR_BEDROOM_MOTION
     _waking_up_schedule = None
+    _enable_bedtime_timer = None
 
     @property
     def activity(self) -> ActivityHandler:
@@ -98,9 +100,19 @@ class BedroomController(MotionController):
         if self.activity.get() == Bedroom.Activity.RELAXING:
             if self.state.is_off(self.motion_sensor):
                 self.set_as_empty_in(minutes=30)
+            return
 
-        else:
-            self.handle_presence()
+        if self.should_enable_bedtime():
+            if not self._enable_bedtime_timer or not self.timer_running(self._enable_bedtime_timer):
+                self._enable_bedtime_timer = self.run_in(lambda *_: self.enable_bedtime_if_in_bed(),30)
+        elif self._enable_bedtime_timer:
+            self.cancel_timer(self._enable_bedtime_timer, True)
+
+        self.handle_presence()
+
+    def should_enable_bedtime(self) -> bool:
+        return self.state.is_on(entities.BINARY_SENSOR_BED_OCCUPANCY) and (
+                    datetime.now().time().hour >= 22 or datetime.now().time().hour <= 2)
 
     def handle_presence(self) -> None:
         if self.state.is_on(self.motion_sensor):
@@ -108,6 +120,11 @@ class BedroomController(MotionController):
 
         else:
             self.set_as_empty_in(minutes=1)
+
+    def enable_bedtime_if_in_bed(self) -> None:
+        if self.should_enable_bedtime():
+            self.activity.set(Bedroom.Activity.BEDTIME)
+
 
     def cancel_wakeup_timer(self) -> None:
         if self._waking_up_schedule and self.timer_running(self._waking_up_schedule):
