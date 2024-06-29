@@ -24,7 +24,7 @@ class ModeScene(App):
                 self.turn_off_lights()
                 self.turn_off_plugs()
             case Mode.AWAY:
-                self.handlers.blinds.open_all()
+                self.handlers.blinds.best_for_temperature()
                 self.turn_off_media()
                 self.turn_off_lights()
                 self.turn_off_plugs()

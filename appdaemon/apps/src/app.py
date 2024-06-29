@@ -82,6 +82,7 @@ class App(hass.Hass):
         )
 
     def turn_off_media(self) -> None:
+        self.call_service(services.MEDIA_PLAYER_MEDIA_STOP, entity_id="all")
         self.call_service(services.MEDIA_PLAYER_TURN_OFF, entity_id="all")
 
     def turn_off_lights(self) -> None:
