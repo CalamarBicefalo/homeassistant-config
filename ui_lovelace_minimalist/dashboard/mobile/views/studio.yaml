@@ -129,3 +129,46 @@ cards:
       ulm_card_binary_sensor_name: Display
     entity: switch.monitor
 
+  - view_layout:
+      grid-column-end: span 2
+    type: "custom:button-card"
+    template: cb_card_title
+    label: Environment
+
+  - type: 'custom:button-card'
+    template: card_graph
+    entity: sensor.fan_temperature
+    variables:
+      ulm_card_graph_color: "var(--google-red)"
+      ulm_card_graph_name: Temperature
+      ulm_card_graph_entity: sensor.fan_temperature
+      ulm_card_graph_type: fill
+      ulm_card_graph_hours: 24
+      ulm_card_graph_group_by: interval
+      ulm_card_graph_line_width: 5
+
+  - type: 'custom:button-card'
+    template: card_graph
+    entity: sensor.fan_humidity
+    variables:
+      ulm_card_graph_color: "var(--google-blue)"
+      ulm_card_graph_name: Humidity
+      ulm_card_graph_entity: sensor.fan_humidity
+      ulm_card_graph_type: fill
+      ulm_card_graph_hours: 24
+      ulm_card_graph_group_by: interval
+      ulm_card_graph_line_width: 5
+
+  - view_layout:
+      grid-column-end: span 2
+    type: 'custom:button-card'
+    template: card_graph
+    entity: sensor.fan_pm_2_5
+    variables:
+      ulm_card_graph_color: "var(--google-green)"
+      ulm_card_graph_name: PM 2.5
+      ulm_card_graph_entity: sensor.fan_pm_2_5
+      ulm_card_graph_type: bar
+      ulm_card_graph_hours: 48
+      ulm_card_graph_group_by: interval
+      ulm_card_graph_line_width: 5
