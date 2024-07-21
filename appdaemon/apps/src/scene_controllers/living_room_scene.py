@@ -1,6 +1,9 @@
+from datetime import datetime
+
 import entities
 import scenes
 from activity_controllers.living_room_controller import COFFEE_TABLE_BUTTON_IEEE_ADDRESS
+from blinds_handler import BlindsHandler
 from selects import Mode
 from music import Playlist
 from rooms import *
@@ -11,6 +14,10 @@ from select_handler import SelectHandler
 
 
 class LivingRoomScene(SceneApp):
+
+    def __init__(self, ad, name, logging, args, config, app_config, global_vars):
+        super().__init__(ad, name, logging, args, config, app_config, global_vars)
+        self.balcony_blinds = BlindsHandler(self, entities.COVER_BALCONY_BLINDS_LG_CURTAIN)
 
     def initialize(self) -> None:
         super().initialize()
@@ -48,10 +55,12 @@ class LivingRoomScene(SceneApp):
                     Mode.DAY: scene.with_actions(
                         scenes.LIVING_ROOM_WELCOME,
                         lambda: self.handlers.blinds.best_for_temperature(),
+                        lambda: self.set_balcony_blinds_for_views(),
                     ),
                     Mode.NIGHT: scene.with_actions(
                         scenes.LIVING_ROOM_WELCOME,
                         lambda: self.handlers.blinds.close(),
+                        lambda: self.set_balcony_blinds_for_views(),
                     ),
                     Mode.SLEEPING: scenes.LIVING_ROOM_COZY,
                 })
@@ -80,8 +89,18 @@ class LivingRoomScene(SceneApp):
         return scene.with_actions(
             scene.off(),
             lambda: self.run_if_activity_stays_in(self.handlers.blinds.best_for_temperature, minutes=10),
+            lambda: self.run_if_activity_stays_in(self.balcony_blinds.best_for_temperature, minutes=10),
             lambda: self.disable_music_manual_override(),
         )
+
+    def set_balcony_blinds_for_views(self):
+        hour = datetime.now().hour
+        if hour > 12:
+            self.balcony_blinds.open()
+        elif hour > 10 and self.handlers.temperature.should_cooldown():
+            self.balcony_blinds.set_position(50)
+        else:
+            self.balcony_blinds.best_for_temperature()
 
     def play_music_if_appropriate(self) -> None:
         if not self.handlers.music.is_playing() and not (

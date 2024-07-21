@@ -20,6 +20,7 @@ from notification_handler import NotificationHandler
 from rooms import RoomHandlers
 from select_handler import SelectHandler
 from state_handler import StateHandler
+from temperature_handler import TemperatureHandler
 
 
 class Handler():
@@ -31,6 +32,7 @@ class Handler():
     flick: FlickHandler
     buttons: ButtonHandler
     notifications: NotificationHandler
+    temperature: TemperatureHandler
 
     def __init__(self, app: hass.Hass, speakers: Optional[Entity], blinds: Optional[Entity],
                  room_has_plants: bool) -> None:
@@ -42,6 +44,7 @@ class Handler():
         self.flick = FlickHandler(app)
         self.buttons = ButtonHandler(app)
         self.notifications = NotificationHandler(app)
+        self.temperature = TemperatureHandler(app)
 
 
 class App(hass.Hass):
