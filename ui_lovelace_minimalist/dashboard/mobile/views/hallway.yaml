@@ -61,7 +61,7 @@ cards:
       ulm_show_last_changed: false
       ulm_card_binary_sensor_name: Motion
       ulm_battery_entity: sensor.hallway_ms_battery
-    entity: binary_sensor.hallway_ms_motion
+    entity: binary_sensor.hallway_motion
 
   - view_layout:
       grid-area: "sensor2"

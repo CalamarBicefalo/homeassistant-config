@@ -6,7 +6,7 @@ from rooms import Hallway
 
 
 class HallwayController(MotionController):
-    motion_sensor = entities.BINARY_SENSOR_HALLWAY_MS_MOTION
+    motion_sensor = entities.BINARY_SENSOR_HALLWAY_MOTION
     contact_sensor = entities.BINARY_SENSOR_FLAT_DOOR_CS
     max_seconds_without_presence_until_empty = 10
     max_seconds_until_empty = 60 * 10

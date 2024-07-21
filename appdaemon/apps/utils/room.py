@@ -123,7 +123,7 @@ class Room():
         if not days_between_clean_elapsed:
             self.app.log(
                 f'{self.name} does not need cleaning. last_cleaned={self.last_cleaned()} days_between_cleaning={self.days_between_cleaning}',
-                level="INFO")
+                level="DEBUG")
         return days_between_clean_elapsed and present_after_cleaned
 
     def _cleaning_is_allowed(self) -> bool:
