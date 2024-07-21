@@ -60,7 +60,7 @@ class LivingRoomScene(SceneApp):
                     Mode.NIGHT: scene.with_actions(
                         scenes.LIVING_ROOM_WELCOME,
                         lambda: self.handlers.blinds.close(),
-                        lambda: self.set_balcony_blinds_for_views(),
+                        lambda: self.balcony_blinds.close(),
                     ),
                     Mode.SLEEPING: scenes.LIVING_ROOM_COZY,
                 })
