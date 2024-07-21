@@ -12,9 +12,10 @@ layout:
   grid-template-areas: |
     "header header"
     "title-media title-media"
-    "media media"
+    "speakers tv"
     "title-lights title-lights"
-    "blinds blinds"
+    "balcony-blinds window-blinds"
+    "subtitle-lights subtitle-lights"
     "lights lights"
     "title-sensors title-sensors"
     "sensor1 sensor2"
@@ -25,7 +26,7 @@ cards:
     type: "custom:button-card"
     template: "card_cb_room_header"
     variables:
-      room_key: 'living_room'
+      room_key: "living_room"
     card_mod:
       style: |
         :host {
@@ -41,7 +42,9 @@ cards:
     template: cb_card_title
     name: Media
 
-  - type: "custom:button-card"
+  - view_layout:
+      grid-area: "speakers"
+    type: "custom:button-card"
     template: card_media_player
     entity: media_player.living_room_stereo
     variables:
@@ -52,7 +55,9 @@ cards:
       ulm_card_media_player_more_info: true
       ulm_card_media_player_power_button: false
 
-  - type: "custom:button-card"
+  - view_layout:
+      grid-area: "tv"
+    type: "custom:button-card"
     template: card_media_player
     entity: media_player.tv_2
     variables:
@@ -69,18 +74,35 @@ cards:
     type: "custom:button-card"
     template: cb_card_title
     name: Lights & Blinds
+    label: Blinds
 
   - view_layout:
-      grid-area: "blinds"
+      grid-area: "window-blinds"
     type: "custom:button-card"
     template: card_cover
     entity: cover.blinds_curtain
     variables:
-      ulm_card_cover_name: Blinds
+      ulm_card_cover_name: Window
       ulm_card_cover_enable_controls: true
       ulm_card_cover_enable_slider: false
-      ulm_card_cover_enable_horizontal: true
       ulm_card_cover_enable_popup: true
+
+  - view_layout:
+      grid-area: "balcony-blinds"
+    type: "custom:button-card"
+    template: card_cover
+    entity: cover.balcony_blinds_lg_curtain
+    variables:
+      ulm_card_cover_name: Balcony
+      ulm_card_cover_enable_controls: true
+      ulm_card_cover_enable_slider: false
+      ulm_card_cover_enable_popup: true
+
+  - view_layout:
+      grid-area: "subtitle-lights"
+    type: "custom:button-card"
+    template: cb_card_title
+    label: Lights
 
   - view_layout:
       grid-area: "lights"
