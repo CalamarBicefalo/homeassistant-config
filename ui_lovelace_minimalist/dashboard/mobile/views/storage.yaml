@@ -80,8 +80,8 @@ cards:
     variables:
       ulm_show_last_changed: false
       ulm_card_binary_sensor_name: Motion
-      ulm_battery_entity: sensor.hallway_ms_battery
-    entity: binary_sensor.hallway_motion
+      ulm_battery_entity: sensor.storage_ms_battery
+    entity: binary_sensor.storage_ms_motion
 
   - view_layout:
       grid-area: "door"
