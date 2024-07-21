@@ -34,3 +34,9 @@
   entities:
     - binary_sensor.office_ms_occupancy
     - binary_sensor.office_instant_ms
+- platform: group
+  name: hallway_motion
+  device_class: motion
+  entities:
+    - binary_sensor.hallway_ms_motion
+    - binary_sensor.ms_hallway_ep1_occupancy
