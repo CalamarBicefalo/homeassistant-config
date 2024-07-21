@@ -14,7 +14,8 @@ layout:
     "title-lights title-lights"
     "lights lights"
     "title-sensors title-sensors"
-    "sensor1 sensor2"
+    "washing-machine washing-machine"
+    "motion door"
 
 cards:
   - view_layout:
@@ -50,6 +51,7 @@ cards:
     name: Appliances & Sensors
 
   - view_layout:
+      grid-area: "washing-machine"
     type: "custom:button-card"
     template:
       - card_binary_sensor
@@ -67,7 +69,22 @@ cards:
           return 'grey';
         ]]]
     entity: input_select.washing_machine
+
   - view_layout:
+      grid-area: "motion"
+    type: "custom:button-card"
+    template:
+      - card_binary_sensor
+      - battery_info
+    name: Motion
+    variables:
+      ulm_show_last_changed: false
+      ulm_card_binary_sensor_name: Motion
+      ulm_battery_entity: sensor.hallway_ms_battery
+    entity: binary_sensor.hallway_motion
+
+  - view_layout:
+      grid-area: "door"
     type: "custom:button-card"
     template:
       - card_binary_sensor

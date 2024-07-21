@@ -2,28 +2,44 @@ import entities
 import states
 from activity_controllers.generic_controller import ActivityController
 from rooms import *
-from select_handler import SelectHandler
 
 
 class StorageController(ActivityController):
+    motion_sensor = entities.BINARY_SENSOR_STORAGE_MS_MOTION
+    contact_sensor = entities.BINARY_SENSOR_STORAGE_DOOR_CS
+    max_seconds_without_presence_until_empty = 30
+    max_seconds_until_empty = 60 * 10
+
     @property
     def activity(self) -> ActivityHandler:
         return self.handlers.rooms.storage.activity
 
     def initialize(self) -> None:
         super().initialize_lock()
-        self.log(f'Initializing storage room controller.', level="DEBUG")
-    
         self.listen_state(
-            self.controller_handler,
-            [entities.BINARY_SENSOR_STORAGE_DOOR_CS]
+            self.on_motion,
+            self.motion_sensor
         )
 
-    def controller_handler(self, entity, attribute, old, new, kwargs):  # type: ignore
+        self.listen_state(
+            self.on_door,
+            self.contact_sensor
+        )
+
+    def on_motion(self, entity, attribute, old, new, kwargs) -> None:  # type: ignore
+        self.log(
+            f'Triggering storage motion activity controller {entity} -> {attribute} old={old} new={new}',
+            level="DEBUG")
         self.cancel_empty_timer()
 
-        if new == states.OPEN:
+        if new == states.DETECTED:
             self.activity.set(Storage.Activity.PRESENT)
-        else:
-            self.cancel_empty_timer()
-            self.activity.set(Storage.Activity.EMPTY)
+
+    def on_door(self, entity, attribute, old, new, kwargs) -> None:  # type: ignore
+        self.log(
+            f'Triggering storage door controller {entity} -> {attribute} old={old} new={new}',
+            level="DEBUG")
+        self.cancel_empty_timer()
+
+        if self.activity.is_value(Storage.Activity.EMPTY) and new == states.OPEN:
+            self.activity.set(CommonActivities.PRESENT)
