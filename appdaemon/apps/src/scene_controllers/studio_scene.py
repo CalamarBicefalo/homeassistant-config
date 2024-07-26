@@ -50,7 +50,8 @@ class StudioScene(SceneApp):
 
         return scene.with_actions(
             scene.off(),
-            lambda: self.turn_off(entities.SWITCH_MONITOR)
+            lambda: self.turn_off(entities.SWITCH_MONITOR),
+            lambda: self.turn_off(entities.FAN_FAN)
         )
 
 
