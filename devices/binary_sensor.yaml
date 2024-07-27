@@ -22,6 +22,7 @@
   device_class: motion
   entities:
     - binary_sensor.ensuite_ms
+    - binary_sensor.ensuite_ceiling_ms_motion
 - platform: group
   name: bedroom_motion
   device_class: motion
