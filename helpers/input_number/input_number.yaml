@@ -1,4 +1,10 @@
 ---
+rooms_cleaned_since_last_maintenance:
+  name: Rooms cleaned since last maintenance
+  icon: mdi:broom
+  min: 0
+  max: 9999
+  step: 1
 min_temperature_today:
   name: Min temperature today
   icon: mdi:thermometer
