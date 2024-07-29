@@ -14,13 +14,11 @@ from select_handler import SelectHandler
 
 
 class LivingRoomScene(SceneApp):
-
-    def __init__(self, ad, name, logging, args, config, app_config, global_vars):
-        super().__init__(ad, name, logging, args, config, app_config, global_vars)
-        self.balcony_blinds = BlindsHandler(self, entities.COVER_BALCONY_BLINDS_LG_CURTAIN)
+    balcony_blinds = None
 
     def initialize(self) -> None:
         super().initialize()
+        self.balcony_blinds = BlindsHandler(self, entities.COVER_BALCONY_BLINDS_LG_CURTAIN)
         self.handlers.buttons.on_click(COFFEE_TABLE_BUTTON_IEEE_ADDRESS, self.music_manual_override_toggle)
         self.handlers.buttons.on_long_press(COFFEE_TABLE_BUTTON_IEEE_ADDRESS, self.disable_music_manual_override)
 
