@@ -23,7 +23,7 @@ class MopMaintenance(App):
             return
 
         self.log(f'Triggering mop maintenance routine {entity} -> {attribute} old={old} new={new}', level="DEBUG")
-        needs_maintenance = self.handlers.flick.last_maintenance() < self.handlers.flick.last_cleaned_flat()
         is_not_cleaning = datetime.now() - timedelta(minutes=60) > self.handlers.flick.last_cleaned_flat()
-        if needs_maintenance and is_not_cleaning:
+        if self.handlers.flick.needs_maintenance() and is_not_cleaning:
             self.handlers.flick.go_to_maintenance_spot()
+            self.handlers.notifications.chore("Flick needs you 🐜🧹", "Greetings fellow human, my name is flick and I need your help! Empty my dustbin, replace my mop, and give me some fresh water")

@@ -174,6 +174,7 @@ INPUT_DATETIME_LAST_WASHED_CLOTHES: Entity = Entity("input_datetime.last_washed_
 INPUT_NUMBER_MAX_TEMPERATURE_TODAY: Entity = Entity("input_number.max_temperature_today")
 INPUT_NUMBER_MAX_TEMPERATURE_TOMORROW: Entity = Entity("input_number.max_temperature_tomorrow")
 INPUT_NUMBER_MIN_TEMPERATURE_TODAY: Entity = Entity("input_number.min_temperature_today")
+INPUT_NUMBER_ROOMS_CLEANED_SINCE_LAST_MAINTENANCE: Entity = Entity("input_number.rooms_cleaned_since_last_maintenance")
 INPUT_NUMBER_MIN_TEMPERATURE_TOMORROW: Entity = Entity("input_number.min_temperature_tomorrow")
 INPUT_SELECT_BATHROOM_ACTIVITY: Entity = Entity("input_select.bathroom_activity")
 INPUT_SELECT_BEDROOM_ACTIVITY: Entity = Entity("input_select.bedroom_activity")

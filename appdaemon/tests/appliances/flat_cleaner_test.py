@@ -56,8 +56,9 @@ def test_when_vacuumed_updates_last_cleaned(given_that, vacuum_controller, asser
 
 
 
-def flat_cleaning_state_is(self, last_cleaned):
+def flat_cleaning_state_is(self, last_cleaned, rooms_cleaned_since_maintenance=0):
     self.state_of(helpers.LAST_CLEANED_FLAT).is_set_to(last_cleaned)
+    self.state_of(entities.INPUT_NUMBER_ROOMS_CLEANED_SINCE_LAST_MAINTENANCE).is_set_to(rooms_cleaned_since_maintenance)
 
 
 given.GivenThatWrapper.flat_cleaning_state_is = flat_cleaning_state_is
