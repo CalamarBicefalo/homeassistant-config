@@ -56,6 +56,15 @@ def test_when_drumming(given_that, studio_scene, assert_that):
     assert_that(scenes.STUDIO_DRUMMING.get()).was.turned_on()
 
 
+@pytest.mark.asyncio
+def test_when_away(given_that, studio_scene, assert_that):
+    given_that.studio_scene_is(activity=Studio.Activity.EMPTY, illuminance=30)
+
+    studio_scene.handle_scene(Studio._activity_helper, None, None, None, None)
+
+    assert_that(entities.FAN_FAN).was.turned_off()
+
+
 def studio_scene_is(self, activity, illuminance, mode=selects.Mode.DAY):
     self.state_of(helpers.MODE).is_set_to(mode)
     self.state_of(entities.LIGHT_STUDIO).is_set_to(states.OFF)
