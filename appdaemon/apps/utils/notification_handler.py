@@ -25,6 +25,9 @@ class NotificationHandler:
         self._app.call_service(services.NOTIFY_MOBILE_APP_GALAXY_S23,
                           message=message,
                           title=title)
+        self._app.call_service(services.NOTIFY_MOBILE_APP_MANDIES_IPHONE,
+                          message=message,
+                          title=title)
         if not self.mode.is_value(Mode.SLEEPING):
             self.speaker.announce(message)
 

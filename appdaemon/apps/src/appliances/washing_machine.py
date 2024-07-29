@@ -58,7 +58,6 @@ class WashingMachine(App):
         self.washing_machine_state.set(selects.WashingMachine.WET_CLOTHES_INSIDE)
         self.set_helper_to_now(helpers.LAST_WASHED_CLOTHES)
         self._wait_timer = None
-        self.handlers.notifications.chore("Washing machine is done", "Please hang up the laundry.")
 
     def last_washed(self) -> datetime:
         return self.state.get_as_datetime_or_default(helpers.LAST_WASHED_CLOTHES, '1970-01-01')
