@@ -1,17 +1,16 @@
 import collections
 from abc import abstractmethod
-from queue import Queue, SimpleQueue
 from typing import Optional, Any, cast, Deque, Callable
 
 import entities
 import helpers
 import selects
 from app import App
-from selects import Mode
 from rooms import *
 from scene_controllers import scene
 from scene_controllers.scene import SceneByModeSelector, Scene, SceneWithActions, _Off
 from select_handler import SelectHandler
+from selects import Mode
 
 
 class SceneApp(App):

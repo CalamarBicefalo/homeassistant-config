@@ -6,8 +6,8 @@ from appdaemon.plugins.hass import hassapi as hass
 
 import entities
 import helpers
-from selects import Mode
 from select_handler import SelectHandler
+from selects import Mode
 from state_handler import StateHandler
 
 COMFORT_INDOOR_MAX_TEMPERATURE = 22

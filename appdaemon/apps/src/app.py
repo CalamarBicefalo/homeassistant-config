@@ -14,11 +14,11 @@ from blinds_handler import BlindsHandler
 from button_handler import ButtonHandler
 from entities import Entity
 from flick import FlickHandler
-from selects import Mode
 from music import MusicHandler
 from notification_handler import NotificationHandler
 from rooms import RoomHandlers
 from select_handler import SelectHandler
+from selects import Mode
 from state_handler import StateHandler
 from temperature_handler import TemperatureHandler
 

@@ -3,7 +3,6 @@ from typing import Any
 import entities
 from activity_controllers.generic_controller import ActivityController
 from rooms import *
-from select_handler import SelectHandler
 
 
 class StudioController(ActivityController):

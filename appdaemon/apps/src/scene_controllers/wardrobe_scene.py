@@ -1,11 +1,11 @@
 import entities
 import scenes
-from selects import Mode
 from rooms import *
 from scene_controllers import scene
 from scene_controllers.scene import SceneByModeSelector, Scene
 from scene_controllers.scene_app import SceneApp
 from select_handler import SelectHandler
+from selects import Mode
 
 
 class WardrobeScene(SceneApp):

@@ -1,5 +1,4 @@
 from datetime import datetime
-from typing import Any
 
 import alarmclock
 import entities
@@ -8,7 +7,6 @@ import selects
 from activity_controllers.generic_controller import MotionController
 from ieee_addresses import BEDSIDE_BUTTON_IEEE_ID
 from rooms import *
-from select_handler import SelectHandler
 
 
 class BedroomController(MotionController):

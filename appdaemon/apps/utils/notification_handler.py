@@ -1,11 +1,9 @@
-from typing import Any
-
 import appdaemon.plugins.hass.hassapi as hass
 
 import entities
 import helpers
 import services
-from music import MusicHandler, Tune
+from music import MusicHandler
 from select_handler import SelectHandler
 from selects import Mode
 

@@ -3,7 +3,7 @@ from typing import Optional, Any
 
 import entities
 import states
-from activity_handler import ActivityHandler, ACTIVITY_CHANGED_EVENT
+from activity_handler import ACTIVITY_CHANGED_EVENT
 from app import App
 from rooms import *
 from select_handler import SelectHandler

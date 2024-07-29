@@ -5,8 +5,8 @@ from typing import Optional, Any
 import helpers
 import services
 from flick import FlickHandler
-from selects import Mode
 from select_handler import SelectHandler
+from selects import Mode
 from state_handler import StateHandler
 
 EMPTY = "Empty"

@@ -1,10 +1,10 @@
 from __future__ import annotations
 
 import random
+from enum import StrEnum
 from typing import Optional, Any
 
 from appdaemon.plugins.hass import hassapi as hass
-from enum import StrEnum
 
 import entities
 import services

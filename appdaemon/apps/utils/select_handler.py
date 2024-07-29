@@ -1,8 +1,8 @@
 
+from enum import StrEnum
 from typing import TypeVar, Generic
 
 import appdaemon.plugins.hass.hassapi as hass
-from enum import StrEnum
 
 import services
 from helpers import Helper

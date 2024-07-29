@@ -2,7 +2,6 @@ import entities
 import states
 from activity_controllers.generic_controller import ActivityController
 from rooms import *
-from select_handler import SelectHandler
 
 
 class EnsuiteController(ActivityController):

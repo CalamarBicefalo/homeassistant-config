@@ -4,13 +4,13 @@ import entities
 import scenes
 from activity_controllers.living_room_controller import COFFEE_TABLE_BUTTON_IEEE_ADDRESS
 from blinds_handler import BlindsHandler
-from selects import Mode
 from music import Playlist
 from rooms import *
 from scene_controllers import scene
 from scene_controllers.scene import Scene, SceneByModeSelector
 from scene_controllers.scene_app import SceneApp
 from select_handler import SelectHandler
+from selects import Mode
 
 
 class LivingRoomScene(SceneApp):
