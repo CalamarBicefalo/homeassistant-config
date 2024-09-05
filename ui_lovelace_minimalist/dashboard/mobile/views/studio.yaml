@@ -80,7 +80,7 @@ cards:
       ulm_show_last_changed: false
       ulm_card_binary_sensor_name: Motion
       ulm_battery_entity: sensor.studio_ms_battery
-    entity: binary_sensor.studio_ms_motion
+    entity: binary_sensor.studio_motion
 
   - view_layout:
     type: "custom:button-card"
