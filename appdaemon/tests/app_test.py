@@ -1,3 +1,4 @@
+import uuid
 from unittest.mock import Mock
 
 import pytest
@@ -19,7 +20,7 @@ def subject() -> None:
 
 
 @pytest.mark.asyncio
-def test_run_for(given_that, subject: App, assert_that, time_travel):
+def test_run_for_runs_every_minute_and_afterwards(given_that, subject: App, assert_that, time_travel):
     every_minute = Mock(return_value=None)
     afterwards = Mock(return_value=None)
 
@@ -31,6 +32,33 @@ def test_run_for(given_that, subject: App, assert_that, time_travel):
     every_minute.assert_called_with(1)
     time_travel.fast_forward(1).minutes()
     afterwards.assert_called_once()
+
+
+@pytest.mark.asyncio
+def test_run_for_same_running_group(given_that, subject: App, assert_that, time_travel):
+    every_minute_1 = Mock(return_value=None)
+    every_minute_2 = Mock(return_value=None)
+    running_group = uuid.uuid4()
+
+    subject.run_for(3, every_minute=lambda x: every_minute_1(x), running_group=running_group)
+    subject.run_for(10, every_minute=lambda x: every_minute_2(x), running_group=running_group)
+    time_travel.fast_forward(10).seconds()
+    time_travel.fast_forward(1).minutes()
+    every_minute_2.assert_called_once_with(9)
+    every_minute_1.assert_not_called()
+
+
+@pytest.mark.asyncio
+def test_run_for_different_running_group(given_that, subject: App, assert_that, time_travel):
+    every_minute_1 = Mock(return_value=None)
+    every_minute_2 = Mock(return_value=None)
+
+    subject.run_for(3, every_minute=lambda x: every_minute_1(x), running_group=uuid.uuid4())
+    subject.run_for(10, every_minute=lambda x: every_minute_2(x), running_group=uuid.uuid4())
+    time_travel.fast_forward(10).seconds()
+    time_travel.fast_forward(1).minutes()
+    every_minute_2.assert_called_once_with(9)
+    every_minute_1.assert_called_once_with(2)
 
 
 

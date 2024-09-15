@@ -51,7 +51,7 @@ class BlindsHandler:
         else:
             self.close()
 
-    def set_position(self, open_percentage: int) -> None:
+    def set_position(self, open_percentage: int | float) -> None:
         self.app.call_service("cover/set_cover_position",
                               entity_id=self._blinds, position=open_percentage)
 

@@ -3,6 +3,7 @@ from __future__ import annotations
 import uuid
 from datetime import datetime
 from typing import Optional, Callable, Any, Dict
+from uuid import UUID
 
 import appdaemon.plugins.hass.hassapi as hass
 
@@ -46,6 +47,12 @@ class Handler():
         self.notifications = NotificationHandler(app)
         self.temperature = TemperatureHandler(app)
 
+class Timer:
+    minutes_left: int
+    id: UUID
+
+    def __init__(self):
+        self.id = uuid.uuid4()
 
 class App(hass.Hass):
     handlers: Handler
@@ -59,7 +66,7 @@ class App(hass.Hass):
             room_has_plants=self.room_has_plants
         )
         self.state = StateHandler(super())
-        self.timers: Dict = {}
+        self.timers: Dict[UUID, Timer] = {}
 
     @property
     def speakers(self) -> Optional[entities.Entity]:
@@ -96,24 +103,36 @@ class App(hass.Hass):
         self.turn_off(entities.SWITCH_MONITOR)
 
     def run_for(self, minutes: int, every_minute: Callable[[int], None],
-                afterwards: Optional[Callable[[], None]]) -> None:
+                afterwards: Optional[Callable[[], None]]=None, running_group: Optional[UUID]=None ) -> None:
         """
 
         :param minutes: For how long this callback should run for, with a minutely frequency
         :param every_minute: Callback to execute every minute, if throws, the timer gets aborted
         :param afterwards: Callback to execute when the loop is over
+        :param running_group: If specified, only one job per running group will be executed at once.
+               New jobs will make ongoing ones to terminate.
         :return:
         """
-        timer = uuid.uuid4()
+        timer = Timer()
+        if not running_group:
+            running_group = timer.id
+
+        self.timers[running_group] = timer
 
         def every_minute_callback(*_: Any) -> None:
-            minutes_left = self.timers[timer] - 1
+            if timer.id != self.timers[running_group].id:
+                self.log(f'Aborting run_for loop due to newer run for running group', level="INFO")
+                return
+
+            minutes_left = self.timers[running_group].minutes_left - 1
             self.log(f'Running scheduled minutely callback. Remaining time: {minutes_left}', level="DEBUG")
 
-            self.timers[timer] = minutes_left
+            self.timers[running_group].minutes_left = minutes_left
 
-            if minutes_left <= 0 and afterwards:
-                afterwards()
+            if minutes_left <= 0:
+                del self.timers[running_group]
+                if afterwards:
+                    afterwards()
                 return
 
             try:
@@ -123,7 +142,7 @@ class App(hass.Hass):
                 return
 
             self.run_in(every_minute_callback, 60)
-            self.timers[timer] = minutes_left
+            self.timers[running_group].minutes_left = minutes_left
 
         self.run_in(every_minute_callback, 60)
-        self.timers[timer] = minutes
+        self.timers[running_group].minutes_left = minutes

@@ -1,5 +1,7 @@
 import math
+import uuid
 from typing import Optional
+from uuid import UUID
 
 import entities
 import scenes
@@ -23,6 +25,7 @@ class BedroomScene(SceneApp):
     bedtime_initial_brightness = 150
     bedtime_initial_volume = 0.3
     minutes_left = 0
+    running_group = uuid.uuid4()
 
     @property
     def activity(self) -> SelectHandler:
@@ -96,7 +99,7 @@ class BedroomScene(SceneApp):
                 self.log(f'current blind position = {current_position}. next position = {next_position}', level="DEBUG")
                 self.handlers.blinds.set_position(next_position)
 
-        self.run_for(self.wakeup_duration_minutes, during_waking_up, None)
+        self.run_for(self.wakeup_duration_minutes, during_waking_up, afterwards=None, running_group=self.running_group)
 
     def prepare_to_sleep(self) -> None:
         if self.handlers.mode.is_value(Mode.SLEEPING):
@@ -123,7 +126,7 @@ class BedroomScene(SceneApp):
             if new_volume >= 0.1:
                 self.handlers.music.volume(new_volume)
 
-        self.run_for(self.bedtime_duration_minutes, during_bedtime, after_bedtime)
+        self.run_for(self.bedtime_duration_minutes, during_bedtime, afterwards=after_bedtime, running_group=self.running_group)
 
     def go_to_sleep(self) -> None:
         self.turn_off(self.room_lights)
