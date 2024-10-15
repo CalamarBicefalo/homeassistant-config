@@ -18,7 +18,7 @@ class LivingRoomScene(SceneApp):
 
     def initialize(self) -> None:
         super().initialize()
-        self.balcony_blinds = BlindsHandler(self, entities.COVER_BALCONY_BLINDS_LG_CURTAIN)
+        # self.balcony_blinds = BlindsHandler(self, entities.COVER_BALCONY_BLINDS_LG_CURTAIN)
         self.handlers.buttons.on_click(COFFEE_TABLE_BUTTON_IEEE_ADDRESS, self.music_manual_override_toggle)
         self.handlers.buttons.on_long_press(COFFEE_TABLE_BUTTON_IEEE_ADDRESS, self.disable_music_manual_override)
 
@@ -53,12 +53,12 @@ class LivingRoomScene(SceneApp):
                     Mode.DAY: scene.with_actions(
                         scenes.LIVING_ROOM_WELCOME,
                         lambda: self.handlers.blinds.best_for_temperature(),
-                        lambda: self.set_balcony_blinds_for_views(),
+                        # lambda: self.set_balcony_blinds_for_views(),
                     ),
                     Mode.NIGHT: scene.with_actions(
                         scenes.LIVING_ROOM_WELCOME,
                         lambda: self.handlers.blinds.close(),
-                        lambda: self.balcony_blinds.close(),
+                        # lambda: self.balcony_blinds.close(),
                     ),
                     Mode.SLEEPING: scenes.LIVING_ROOM_COZY,
                 })
@@ -87,7 +87,7 @@ class LivingRoomScene(SceneApp):
         return scene.with_actions(
             scene.off(),
             lambda: self.run_if_activity_stays_in(self.handlers.blinds.best_for_temperature, minutes=10),
-            lambda: self.run_if_activity_stays_in(self.balcony_blinds.best_for_temperature, minutes=10),
+            # lambda: self.run_if_activity_stays_in(self.balcony_blinds.best_for_temperature, minutes=10),
             lambda: self.disable_music_manual_override(),
         )
 
