@@ -16,7 +16,6 @@
   name: studio_motion
   device_class: motion
   entities:
-    - binary_sensor.studio_ms_motion
     - binary_sensor.ms_studio_ep1_occupancy
 - platform: group
   name: ensuite_motion

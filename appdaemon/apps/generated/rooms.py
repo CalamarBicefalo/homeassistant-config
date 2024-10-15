@@ -34,6 +34,7 @@ class Bathroom(Room):
     class Activity(StrEnum):
         EMPTY = "Empty"
         PRESENT = "Present"
+        SHOWERING = "Showering"
 
     activity: SelectHandler[Activity]
     days_between_cleaning: int = 0

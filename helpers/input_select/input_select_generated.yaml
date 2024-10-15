@@ -10,6 +10,7 @@ bathroom_activity:
   options:
     - Empty
     - Present
+    - Showering
 kitchen_activity:
   name: Kitchen activity
   icon: mdi:stove

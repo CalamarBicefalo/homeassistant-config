@@ -15,6 +15,10 @@ Ensuite activity:
   module: ensuite_controller
   class: EnsuiteController
   dependencies: !include /homeassistant/appdaemon/apps/dependencies.yaml
+Bathroom activity:
+  module: ensuite_controller
+  class: BathroomController
+  dependencies: !include /homeassistant/appdaemon/apps/dependencies.yaml
 Wardrobe activity:
   module: wardrobe_controller
   class: WardrobeController

@@ -40,6 +40,16 @@
       option: Present
   
 - binary_sensor:
+  - name: "Activity Bathroom Showering"
+    unique_id: "activity_bathroom_showering"
+    state: >
+      {{ states('input_select.bathroom_activity') == 'Showering'}}
+    icon: mdi:shower
+    device_class: running
+    attributes:
+      option: Showering
+  
+- binary_sensor:
   - name: "Activity Kitchen Empty"
     unique_id: "activity_kitchen_empty"
     state: >

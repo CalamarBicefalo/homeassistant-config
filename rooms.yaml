@@ -30,6 +30,8 @@ rooms:
         icon: mdi:account-off-outline
       - name: Present
         icon: mdi:account-badge
+      - name: Showering
+        icon: mdi:shower
     vacuum:
       period_days: 0
       room_id: 18
