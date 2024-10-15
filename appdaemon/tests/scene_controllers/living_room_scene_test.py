@@ -171,7 +171,7 @@ def living_room_scene_is(self, activity, illuminance=0, are_lights_on=False, mod
     self.state_of(entities.MEDIA_PLAYER_LIVING_ROOM_STEREO).is_set_to(playing_music)
     self.state_of(helpers.MODE).is_set_to(mode)
     self.state_of(entities.SENSOR_BEDROOM_AIR_QUALITY_TEMPERATURE).is_set_to(20)
-    self.state_of(entities.SENSOR_STUDIO_MS_ILLUMINANCE).is_set_to(illuminance)
+    self.state_of(entities.SENSOR_MS_STUDIO_EP1_ILLUMINANCE).is_set_to(illuminance)
     self.state_of(LivingRoom._activity_helper).is_set_to(activity)
     self.state_of(Studio._activity_helper).is_set_to(studio_activity)
     if are_lights_on:

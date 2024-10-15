@@ -68,7 +68,7 @@ def test_when_away(given_that, studio_scene, assert_that):
 def studio_scene_is(self, activity, illuminance, mode=selects.Mode.DAY):
     self.state_of(helpers.MODE).is_set_to(mode)
     self.state_of(entities.LIGHT_STUDIO).is_set_to(states.OFF)
-    self.state_of(entities.SENSOR_STUDIO_MS_ILLUMINANCE).is_set_to(illuminance)
+    self.state_of(entities.SENSOR_MS_STUDIO_EP1_ILLUMINANCE).is_set_to(illuminance)
     self.state_of(Studio._activity_helper).is_set_to(activity)
 
 
