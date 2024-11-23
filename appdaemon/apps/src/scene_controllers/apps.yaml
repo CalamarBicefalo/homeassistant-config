@@ -11,6 +11,10 @@ Ensuite scene:
   module: ensuite_scene
   class: EnsuiteScene
   dependencies: !include /homeassistant/appdaemon/apps/dependencies.yaml
+Bathroom scene:
+  module: bathroom_scene
+  class: BathroomScene
+  dependencies: !include /homeassistant/appdaemon/apps/dependencies.yaml
 Wardrobe scene:
   module: wardrobe_scene
   class: WardrobeScene
