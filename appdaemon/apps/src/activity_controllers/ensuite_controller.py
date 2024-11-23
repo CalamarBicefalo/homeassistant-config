@@ -88,7 +88,7 @@ class EnsuiteController(GenericBathroomController):
 
 class BathroomController(GenericBathroomController):
     motion_sensor = entities.BINARY_SENSOR_BATHROOM_MS_MOTION
-    contact_sensor = entities.BINARY_SENSOR_BATHROOM_DOOR_CS_OPENING
+    contact_sensor = entities.BINARY_SENSOR_BATHROOM_DOOR_CS
     showering_activity = Bathroom.Activity.SHOWERING
     room_name = "bathroom"
 
