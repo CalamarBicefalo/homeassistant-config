@@ -11,7 +11,7 @@ from selects import Mode
 class BathroomScene(SceneApp):
     @property
     def activity(self) -> SelectHandler:
-        return self.handlers.rooms.ensuite.activity
+        return self.handlers.rooms.bathroom.activity
     illuminance_sensor = None
     room_lights = entities.LIGHT_BATHROOM
 
