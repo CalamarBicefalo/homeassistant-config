@@ -14,7 +14,7 @@ layout:
     "title-media title-media"
     "speakers tv"
     "title-lights title-lights"
-    "balcony-blinds window-blinds"
+    "window-blinds balcony-blinds"
     "subtitle-lights subtitle-lights"
     "lights lights"
     "title-sensors title-sensors"
@@ -87,16 +87,16 @@ cards:
       ulm_card_cover_enable_slider: false
       ulm_card_cover_enable_popup: true
 
-  - view_layout:
-      grid-area: "balcony-blinds"
-    type: "custom:button-card"
-    template: card_cover
-    entity: cover.balcony_blinds_lg_curtain
-    variables:
-      ulm_card_cover_name: Balcony
-      ulm_card_cover_enable_controls: true
-      ulm_card_cover_enable_slider: false
-      ulm_card_cover_enable_popup: true
+#  - view_layout:
+#      grid-area: "balcony-blinds"
+#    type: "custom:button-card"
+#    template: card_cover
+#    entity: cover.balcony_blinds_lg_curtain
+#    variables:
+#      ulm_card_cover_name: Balcony
+#      ulm_card_cover_enable_controls: true
+#      ulm_card_cover_enable_slider: false
+#      ulm_card_cover_enable_popup: true
 
   - view_layout:
       grid-area: "subtitle-lights"
