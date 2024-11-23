@@ -41,3 +41,8 @@
   entities:
     - binary_sensor.hallway_ms_motion
     - binary_sensor.ms_hallway_ep1_occupancy
+- platform: group
+  name: bathroom_motion
+  device_class: motion
+  entities:
+    - binary_sensor.bathroom_ms_motion
