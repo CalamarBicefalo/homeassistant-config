@@ -13,5 +13,6 @@ views:
   - !include "views/office.yaml"
   - !include "views/wardrobe.yaml"
   - !include "views/ensuite.yaml"
+  - !include "views/bathroom.yaml"
   - !include "views/hallway.yaml"
   - !include "views/storage.yaml"
