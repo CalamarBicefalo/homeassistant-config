@@ -37,15 +37,18 @@ class StudioController(ActivityController):
 
         self.cancel_empty_timer()
 
-        # Work handling
-        if self.laptop_at_home() and (self.sitting_at_desk() or self.standing_at_desk()):
-            self.set_working_or_meeting()
-            self.set_as_empty_in(minutes=180)
+        if self.activity.is_value(Studio.Activity.SNARING):
+            return
 
         # Drum handling
         elif self.state.is_consuming_at_least(entities.SENSOR_DRUMKIT_ACTIVE_POWER, watts=4):
             self.activity.set(Studio.Activity.DRUMMING)
             self.set_as_empty_in(minutes=60)
+
+        # Work handling
+        elif self.laptop_at_home() and (self.sitting_at_desk() or self.standing_at_desk()):
+            self.set_working_or_meeting()
+            self.set_as_empty_in(minutes=180)
 
         # Presence
         elif self.state.is_on(self.motion_sensor):

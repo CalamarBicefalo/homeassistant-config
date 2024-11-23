@@ -204,10 +204,20 @@
     unique_id: "activity_studio_drumming"
     state: >
       {{ states('input_select.studio_activity') == 'Drumming'}}
-    icon: fas:drum
+    icon: mdi:instrument-triangle
     device_class: running
     attributes:
       option: Drumming
+  
+- binary_sensor:
+  - name: "Activity Studio Snaring"
+    unique_id: "activity_studio_snaring"
+    state: >
+      {{ states('input_select.studio_activity') == 'Snaring'}}
+    icon: fas:drum
+    device_class: running
+    attributes:
+      option: Snaring
   
 - binary_sensor:
   - name: "Activity Ensuite Empty"

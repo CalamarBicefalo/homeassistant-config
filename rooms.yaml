@@ -98,6 +98,8 @@ rooms:
       - name: Meeting
         icon: mdi:account-group
       - name: Drumming
+        icon: mdi:instrument-triangle
+      - name: Snaring
         icon: fas:drum
     vacuum:
       period_days: 2

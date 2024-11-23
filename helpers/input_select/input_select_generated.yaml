@@ -39,6 +39,7 @@ studio_activity:
     - Working
     - Meeting
     - Drumming
+    - Snaring
 ensuite_activity:
   name: Ensuite activity
   icon: mdi:shower-head

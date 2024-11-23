@@ -40,6 +40,12 @@ class StudioScene(SceneApp):
                     lambda: self.turn_off_media(),
                 )
 
+            case Studio.Activity.SNARING:
+                return scene.with_actions(
+                    scenes.STUDIO_SNARING,
+                    lambda: self.turn_off_media(),
+                )
+
             case Studio.Activity.PRESENT:
                 return scene.by_mode({
                     Mode.DAY: scenes.STUDIO_NATURAL_LIGHT,
