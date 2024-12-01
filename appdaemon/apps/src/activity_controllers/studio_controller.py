@@ -21,7 +21,6 @@ class StudioController(ActivityController):
             [
                 self.motion_sensor,
                 entities.BINARY_SENSOR_DESK_CHAIR_PS,
-                entities.SENSOR_DRUMKIT_ACTIVE_POWER,
                 entities.BINARY_SENSOR_SNYK_LAPTOP_AUDIO_INPUT_IN_USE
             ]
         )
@@ -31,19 +30,10 @@ class StudioController(ActivityController):
             f'Triggering studio activity controller {entity} -> {attribute} old={old} new={new}',
             level="DEBUG")
 
-        if entity == entities.SENSOR_DRUMKIT_ACTIVE_POWER:
-            if abs(self.state.to_float(old, entity) - self.state.to_float(new, entity)) < 3:
-                return
-
         self.cancel_empty_timer()
 
-        if self.activity.is_value(Studio.Activity.SNARING):
+        if self.activity.is_value(Studio.Activity.SNARING) or self.activity.is_value(Studio.Activity.DRUMMING):
             return
-
-        # Drum handling
-        elif self.state.is_consuming_at_least(entities.SENSOR_DRUMKIT_ACTIVE_POWER, watts=4):
-            self.activity.set(Studio.Activity.DRUMMING)
-            self.set_as_empty_in(minutes=60)
 
         # Work handling
         elif self.laptop_at_home() and (self.sitting_at_desk() or self.standing_at_desk()):

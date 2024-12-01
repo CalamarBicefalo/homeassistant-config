@@ -20,7 +20,6 @@ def test_triggers_when_motion(given_that, subject, assert_that):
         .listens_to.state([
         entities.BINARY_SENSOR_STUDIO_MOTION,
         entities.BINARY_SENSOR_DESK_CHAIR_PS,
-        entities.SENSOR_DRUMKIT_ACTIVE_POWER,
         entities.BINARY_SENSOR_SNYK_LAPTOP_AUDIO_INPUT_IN_USE
     ]) \
         .with_callback(subject.controller_handler)
@@ -51,17 +50,6 @@ def test_when_present(given_that, subject, assert_that):
     assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(Studio._activity_helper,
                                                                          Studio.Activity.PRESENT)
 
-
-@pytest.mark.asyncio
-def test_when_playing_drums(given_that, subject, assert_that):
-    given_that.studio_state_is(
-        drumkit_power = 5.0,
-    )
-
-    subject.controller_handler(None, None, None, None, None)
-
-    assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(Studio._activity_helper,
-                                                                         Studio.Activity.DRUMMING)
 @pytest.mark.asyncio
 def test_when_spurious_power_reading(given_that, subject, assert_that):
     given_that.studio_state_is(
