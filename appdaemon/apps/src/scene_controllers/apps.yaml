@@ -7,6 +7,10 @@ Studio scene:
   module: studio_scene
   class: StudioScene
   dependencies: !include /homeassistant/appdaemon/apps/dependencies.yaml
+Office scene:
+  module: office_scene
+  class: OfficeScene
+  dependencies: !include /homeassistant/appdaemon/apps/dependencies.yaml
 Ensuite scene:
   module: ensuite_scene
   class: EnsuiteScene

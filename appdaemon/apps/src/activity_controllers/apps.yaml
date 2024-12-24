@@ -11,6 +11,10 @@ Studio activity:
   module: studio_controller
   class: StudioController
   dependencies: !include /homeassistant/appdaemon/apps/dependencies.yaml
+Office activity:
+  module: office_controller
+  class: OfficeController
+  dependencies: !include /homeassistant/appdaemon/apps/dependencies.yaml
 Ensuite activity:
   module: ensuite_controller
   class: EnsuiteController

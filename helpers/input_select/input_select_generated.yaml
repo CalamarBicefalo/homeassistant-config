@@ -4,6 +4,8 @@ office_activity:
   options:
     - Empty
     - Present
+    - Working
+    - Meeting
 bathroom_activity:
   name: Bathroom activity
   icon: mdi:desk

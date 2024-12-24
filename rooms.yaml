@@ -19,6 +19,10 @@ rooms:
         icon: mdi:account-off-outline
       - name: Present
         icon: mdi:account-badge
+      - name: Working
+        icon: mdi:desktop-classic
+      - name: Meeting
+        icon: mdi:account-group
     vacuum:
       period_days: 0
       room_id: 17

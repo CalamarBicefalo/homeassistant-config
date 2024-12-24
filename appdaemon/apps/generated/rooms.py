@@ -11,6 +11,8 @@ class Office(Room):
     class Activity(StrEnum):
         EMPTY = "Empty"
         PRESENT = "Present"
+        WORKING = "Working"
+        MEETING = "Meeting"
 
     activity: SelectHandler[Activity]
     days_between_cleaning: int = 0

@@ -20,6 +20,26 @@
       option: Present
   
 - binary_sensor:
+  - name: "Activity Office Working"
+    unique_id: "activity_office_working"
+    state: >
+      {{ states('input_select.office_activity') == 'Working'}}
+    icon: mdi:desktop-classic
+    device_class: running
+    attributes:
+      option: Working
+  
+- binary_sensor:
+  - name: "Activity Office Meeting"
+    unique_id: "activity_office_meeting"
+    state: >
+      {{ states('input_select.office_activity') == 'Meeting'}}
+    icon: mdi:account-group
+    device_class: running
+    attributes:
+      option: Meeting
+  
+- binary_sensor:
   - name: "Activity Bathroom Empty"
     unique_id: "activity_bathroom_empty"
     state: >

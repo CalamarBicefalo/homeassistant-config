@@ -50,8 +50,7 @@ class StudioScene(SceneApp):
                 return scene.by_mode({
                     Mode.DAY: scenes.STUDIO_NATURAL_LIGHT,
                     Mode.NIGHT: scenes.STUDIO_NATURAL_LIGHT,
-                    # Pet-safe temporary solution
-                    Mode.SLEEPING: scene.off(),
+                    Mode.SLEEPING: scenes.STUDIO_NIGHTLIGHT,
                 })
 
         return scene.with_actions(
