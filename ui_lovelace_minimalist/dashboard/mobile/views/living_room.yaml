@@ -14,11 +14,12 @@ layout:
     "title-media title-media"
     "speakers tv"
     "title-lights title-lights"
-    "window-blinds balcony-blinds"
+    "window-blinds ."
     "subtitle-lights subtitle-lights"
     "lights lights"
     "title-sensors title-sensors"
     "sensor1 sensor2"
+    "sensor3 sensor3"
 
 cards:
   - view_layout:
@@ -126,15 +127,7 @@ cards:
     label: Presence
 
   - view_layout:
-    type: "custom:button-card"
-    template: card_binary_sensor
-    variables:
-      ulm_card_binary_sensor_alert: true
-      ulm_show_last_changed: false
-      ulm_card_binary_sensor_name: Motion Dining Table
-    entity: binary_sensor.living_room_dining_table_ms
-
-  - view_layout:
+      grid-area: "sensor1"
     type: "custom:button-card"
     template: card_binary_sensor
     variables:
@@ -144,7 +137,17 @@ cards:
     entity: binary_sensor.living_room_sofa_ms
 
   - view_layout:
-      grid-column-end: span 2
+      grid-area: "sensor2"
+    type: "custom:button-card"
+    template: card_binary_sensor
+    variables:
+      ulm_card_binary_sensor_alert: true
+      ulm_show_last_changed: false
+      ulm_card_binary_sensor_name: Motion Dining Table
+    entity: binary_sensor.living_room_dining_table_ms
+
+  - view_layout:
+      grid-area: "sensor3"
     type: "custom:button-card"
     template:
       - card_binary_sensor
