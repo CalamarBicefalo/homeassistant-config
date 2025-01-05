@@ -21,7 +21,8 @@ class ModeScene(App):
                 self.turn_off_lights()
                 self.turn_off_plugs()
             case Mode.AWAY:
-                self.handlers.blinds.best_for_temperature()
+                # TODO best for temperature works on a per room basis
+                # self.handlers.blinds.best_for_temperature()
                 self.turn_off_media()
                 self.turn_off_lights()
                 self.turn_off_plugs()

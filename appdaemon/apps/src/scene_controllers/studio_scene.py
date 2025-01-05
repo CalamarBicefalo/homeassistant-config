@@ -62,4 +62,4 @@ class StudioScene(SceneApp):
 
     def play_music_if_appropriate(self) -> None:
         if not self.handlers.music.is_playing():
-            self.handlers.music.play(Playlist.random(), volume_level=0.3)
+            self.handlers.music.play(Playlist.random(), volume_level=0.3) # TODO swap with studying playlist
