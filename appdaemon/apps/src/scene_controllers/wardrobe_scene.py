@@ -1,3 +1,5 @@
+from typing import Optional
+
 import entities
 import scenes
 from rooms import *
@@ -15,7 +17,7 @@ class WardrobeScene(SceneApp):
     illuminance_sensor = entities.SENSOR_HALLWAY_MS_ILLUMINANCE
     room_lights = entities.LIGHT_WARDROBE
 
-    def get_light_scene(self, activity: StrEnum) -> Scene | SceneByModeSelector:
+    def get_light_scene(self, activity: StrEnum, previous_activity: Optional[StrEnum]) -> Scene | SceneByModeSelector:
         match activity:
             case Wardrobe.Activity.PRESENT:
                 return scene.by_mode({

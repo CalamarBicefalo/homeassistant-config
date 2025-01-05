@@ -1,3 +1,5 @@
+from typing import Optional
+
 import entities
 import scenes
 from rooms import *
@@ -15,7 +17,7 @@ class BathroomScene(SceneApp):
     illuminance_sensor = None
     room_lights = entities.LIGHT_BATHROOM
 
-    def get_light_scene(self, activity: StrEnum) -> Scene | SceneByModeSelector:
+    def get_light_scene(self, activity: StrEnum, previous_activity: Optional[StrEnum]) -> Scene | SceneByModeSelector:
         if activity in [Bathroom.Activity.PRESENT, Bathroom.Activity.SHOWERING]:
             return scene.by_mode({
                 Mode.DAY: scenes.BATHROOM_CONCENTRATE,

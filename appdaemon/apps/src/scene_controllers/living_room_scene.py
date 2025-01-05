@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Optional
 
 import entities
 import scenes
@@ -32,7 +33,7 @@ class LivingRoomScene(SceneApp):
     blinds = entities.COVER_BLINDS_CURTAIN
     music_manual_override = False
 
-    def get_light_scene(self, activity: LivingRoom.Activity) -> Scene | SceneByModeSelector:
+    def get_light_scene(self, activity: LivingRoom.Activity, previous_activity: Optional[StrEnum]) -> Scene | SceneByModeSelector:
         match activity:
             case LivingRoom.Activity.RELAXING:
                 return scene.with_actions(

@@ -1,3 +1,5 @@
+from typing import Optional
+
 import entities
 import scenes
 from music import Playlist
@@ -18,7 +20,7 @@ class KitchenScene(SceneApp):
     room_lights = entities.LIGHT_KITCHEN
     speakers = entities.MEDIA_PLAYER_LIVING_ROOM_STEREO
 
-    def get_light_scene(self, activity: StrEnum) -> Scene | SceneByModeSelector:
+    def get_light_scene(self, activity: StrEnum, previous_activity: Optional[StrEnum]) -> Scene | SceneByModeSelector:
         match activity:
             case Kitchen.Activity.TV_BREAK:
                 return scenes.KITCHEN_TV

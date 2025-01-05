@@ -1,3 +1,5 @@
+from typing import Optional
+
 import pytest
 from appdaemontestframework import automation_fixture
 
@@ -25,7 +27,7 @@ class GenericSceneWithIlluminance(SceneApp):
     illuminance_sensor = entities.Entity(ILLUMINANCE_SENSOR)
     room_lights = entities.Entity(ROOM_LIGHTS)
 
-    def get_light_scene(self, activity: LivingRoom.Activity) -> Scene:
+    def get_light_scene(self, activity: LivingRoom.Activity, previous_activity: Optional[StrEnum]) -> Scene:
         return scene.off()
 
 

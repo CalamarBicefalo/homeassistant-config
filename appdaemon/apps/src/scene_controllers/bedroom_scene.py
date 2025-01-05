@@ -31,7 +31,7 @@ class BedroomScene(SceneApp):
     def activity(self) -> SelectHandler:
         return self.handlers.rooms.bedroom.activity
 
-    def get_light_scene(self, activity: StrEnum) -> SceneByModeSelector | Optional[Scene]:
+    def get_light_scene(self, activity: StrEnum, previous_activity: Optional[StrEnum]) -> SceneByModeSelector | Optional[Scene]:
 
         match activity:
             case Bedroom.Activity.WAKING_UP:

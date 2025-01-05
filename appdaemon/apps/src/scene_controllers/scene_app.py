@@ -50,7 +50,7 @@ class SceneApp(App):
         pass
 
     @abstractmethod
-    def get_light_scene(self, activity: StrEnum) -> Optional[Scene] | scene.SceneByModeSelector:
+    def get_light_scene(self, activity: StrEnum, previous_activity: Optional[StrEnum]) -> Optional[Scene] | scene.SceneByModeSelector:
         pass
 
     @property
@@ -62,8 +62,11 @@ class SceneApp(App):
         activity = self.activity.get()
 
         self.stop_scheduled_tasks_if_activity(entity)
+        previous_activity = None
+        if entity is self.activity._helper:
+            previous_activity = old
 
-        scene_resolver: Optional[Scene] | SceneByModeSelector = self.get_light_scene(activity)
+        scene_resolver: Optional[Scene] | SceneByModeSelector = self.get_light_scene(activity, previous_activity)
         unwrapped_scene: Optional[Scene] = None
         desired_scene: Optional[entities.Entity] | _Off = None
         current_mode = self.handlers.mode.get()

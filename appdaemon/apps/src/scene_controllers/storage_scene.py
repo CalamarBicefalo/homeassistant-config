@@ -1,3 +1,5 @@
+from typing import Optional
+
 import entities
 import scenes
 from rooms import *
@@ -14,7 +16,7 @@ class StorageScene(SceneApp):
     illuminance_sensor = None
     room_lights = entities.LIGHT_STORAGE
 
-    def get_light_scene(self, activity: StrEnum) -> Scene:
+    def get_light_scene(self, activity: StrEnum, previous_activity: Optional[StrEnum]) -> Scene:
         if activity == Storage.Activity.PRESENT:
             return scenes.STORAGE_BRIGHT
         return scene.off()
