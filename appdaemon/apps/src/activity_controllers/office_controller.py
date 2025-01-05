@@ -22,6 +22,7 @@ class OfficeController(ActivityController):
             [
                 self.motion_sensor,
                 entities.SENSOR_AMANDA_M1AIR_C02FX084Q6LX_PRIMARY_DISPLAY_ID,
+                entities.BINARY_SENSOR_AMANDA_M1AIR_C02FX084Q6LX_ACTIVE,
                 entities.SENSOR_AMANDA_M1AIR_C02FX084Q6LX_ACTIVE_AUDIO_INPUT
             ]
         )
@@ -47,7 +48,8 @@ class OfficeController(ActivityController):
             self.set_as_empty_in(seconds=10)
 
     def laptop_at_home(self) -> bool:
-        return self.state.is_value(entities.SENSOR_AMANDA_M1AIR_C02FX084Q6LX_SSID, 'SETE-2SE-5G')
+        return (self.state.is_value(entities.SENSOR_AMANDA_M1AIR_C02FX084Q6LX_SSID, 'SETE-2SE-5G')
+                and self.state.is_on(entities.BINARY_SENSOR_AMANDA_M1AIR_C02FX084Q6LX_ACTIVE))
 
     def connected_to_monitor(self) -> bool:
         return self.state.is_value(entities.SENSOR_AMANDA_M1AIR_C02FX084Q6LX_PRIMARY_DISPLAY_ID, self.home_display_id)
