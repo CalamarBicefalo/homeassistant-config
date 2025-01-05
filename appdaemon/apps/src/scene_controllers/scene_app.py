@@ -63,7 +63,7 @@ class SceneApp(App):
 
         self.stop_scheduled_tasks_if_activity(entity)
         previous_activity = None
-        if entity is self.activity._helper:
+        if entity == self.activity._helper:
             previous_activity = old
 
         scene_resolver: Optional[Scene] | SceneByModeSelector = self.get_light_scene(activity, previous_activity)

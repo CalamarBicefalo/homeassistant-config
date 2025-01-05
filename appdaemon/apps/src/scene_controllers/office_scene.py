@@ -51,5 +51,5 @@ class OfficeScene(SceneApp):
             self.handlers.music.play(Playlist.DISCOVER_WEEKLY_AMANDA, volume_level=0.3)
 
     def pause_music_if_working_before(self, previous_activity) -> None:
-        if previous_activity is Office.Activity.WORKING:
+        if previous_activity == Office.Activity.WORKING:
             self.handlers.music.pause()
