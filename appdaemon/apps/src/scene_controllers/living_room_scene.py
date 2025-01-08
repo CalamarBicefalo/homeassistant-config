@@ -57,7 +57,7 @@ class LivingRoomScene(SceneApp):
                         # lambda: self.set_balcony_blinds_for_views(),
                     ),
                     Mode.NIGHT: scene.with_actions(
-                        scenes.LIVING_ROOM_WELCOME,
+                        scenes.LIVING_ROOM_NATURAL_LIGHT_3,
                         lambda: self.handlers.blinds.close(),
                         # lambda: self.balcony_blinds.close(),
                     ),
