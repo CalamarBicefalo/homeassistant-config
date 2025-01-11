@@ -86,6 +86,9 @@ class SceneApp(App):
 
         desired_scene = unwrapped_scene.get()
 
+        if not desired_scene:
+            return
+
         if type(desired_scene) == _Off:
             self.turn_off(self.room_lights)
             return
