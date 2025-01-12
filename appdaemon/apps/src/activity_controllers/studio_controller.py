@@ -33,17 +33,21 @@ class StudioController(ActivityController):
 
         self.cancel_empty_timer()
 
-        if self.activity.is_value(Studio.Activity.SNARING) or self.activity.is_value(Studio.Activity.DRUMMING):
+        if self.activity.is_value(Studio.Activity.SNARING):
             return
 
         # Work handling
-        elif self.laptop_at_home() and (self.sitting_at_desk() or self.standing_at_desk()):
+        if (self.laptop_at_home()
+                and (self.sitting_at_desk() or self.standing_at_desk())):
             self.set_working_or_meeting()
             self.set_as_empty_in(minutes=180)
 
         # Drums
         elif self.state.is_on(entities.BINARY_SENSOR_DRUMS_VIBRATION):
             self.activity.set(Studio.Activity.DRUMMING)
+        elif  self.activity.is_value(Studio.Activity.DRUMMING):
+            # Will change to empty after 10 minutes of absence
+            return
 
         # Presence
         elif self.state.is_on(self.motion_sensor):
