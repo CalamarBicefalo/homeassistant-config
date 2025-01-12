@@ -44,7 +44,6 @@ LIVING_ROOM_NIGHTLIGHT: Scene = scene.from_entity(Entity("scene.living_room_nigh
 LIVING_ROOM_READ: Scene = scene.from_entity(Entity("scene.living_room_read"))
 LIVING_ROOM_RELAX: Scene = scene.from_entity(Entity("scene.living_room_relax"))
 LIVING_ROOM_REST: Scene = scene.from_entity(Entity("scene.living_room_rest"))
-LIVING_ROOM_WELCOME: Scene = scene.from_entity(Entity("scene.living_room_welcome"))
 OFFICE_CONCENTRATE: Scene = scene.from_entity(Entity("scene.office_concentrate"))
 OFFICE_ENERGISE: Scene = scene.from_entity(Entity("scene.office_energise"))
 OFFICE_NATURAL_LIGHT_3: Scene = scene.from_entity(Entity("scene.office_natural_light_3"))

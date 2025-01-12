@@ -52,7 +52,7 @@ class LivingRoomScene(SceneApp):
             case LivingRoom.Activity.PRESENT:
                 return scene.by_mode({
                     Mode.DAY: scene.with_actions(
-                        scenes.LIVING_ROOM_WELCOME,
+                        scenes.LIVING_ROOM_NATURAL_LIGHT_3,
                         lambda: self.handlers.blinds.best_for_temperature(),
                         # lambda: self.set_balcony_blinds_for_views(),
                     ),
