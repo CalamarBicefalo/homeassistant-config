@@ -46,3 +46,9 @@
   device_class: motion
   entities:
     - binary_sensor.bathroom_ms_motion
+- platform: group
+  name: drums_vibration
+  device_class: vibration
+  entities:
+    - binary_sensor.vs_drums_bd_vibration
+    - binary_sensor.vs_drums_xh_vibration
