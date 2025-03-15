@@ -71,7 +71,7 @@ class Kitchen(Room):
     _activity_lock : Helper = "input_boolean.activity_lock_kitchen"
     
     name = "Kitchen"
-    _room_cleaner_segment = 16
+    _room_cleaner_segment = 21
     _last_cleaned_helper = Helper("input_datetime.last_cleaned_kitchen")
     _last_present_helper = Helper("input_datetime.last_present_kitchen")
     def __init__(self, app: hass.Hass) -> None:
@@ -99,7 +99,7 @@ class LivingRoom(Room):
     _activity_lock : Helper = "input_boolean.activity_lock_living_room"
     
     name = "Living room"
-    _room_cleaner_segment = 24
+    _room_cleaner_segment = 22
     _last_cleaned_helper = Helper("input_datetime.last_cleaned_living_room")
     _last_present_helper = Helper("input_datetime.last_present_living_room")
     def __init__(self, app: hass.Hass) -> None:
@@ -150,7 +150,7 @@ class Ensuite(Room):
     _activity_lock : Helper = "input_boolean.activity_lock_ensuite"
     
     name = "Ensuite"
-    _room_cleaner_segment = 22
+    _room_cleaner_segment = 25
     _last_cleaned_helper = Helper("input_datetime.last_cleaned_ensuite")
     _last_present_helper = Helper("input_datetime.last_present_ensuite")
     def __init__(self, app: hass.Hass) -> None:
@@ -173,7 +173,7 @@ class Hallway(Room):
     _activity_lock : Helper = "input_boolean.activity_lock_hallway"
     
     name = "Hallway"
-    _room_cleaner_segment = 20
+    _room_cleaner_segment = 16
     _last_cleaned_helper = Helper("input_datetime.last_cleaned_hallway")
     _last_present_helper = Helper("input_datetime.last_present_hallway")
     def __init__(self, app: hass.Hass) -> None:
@@ -222,7 +222,7 @@ class Bedroom(Room):
     _activity_lock : Helper = "input_boolean.activity_lock_bedroom"
     
     name = "Bedroom"
-    _room_cleaner_segment = 21
+    _room_cleaner_segment = 24
     _last_cleaned_helper = Helper("input_datetime.last_cleaned_bedroom")
     _last_present_helper = Helper("input_datetime.last_present_bedroom")
     def __init__(self, app: hass.Hass) -> None:
