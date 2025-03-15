@@ -53,7 +53,7 @@ rooms:
         icon: mdi:television-classic
     vacuum:
       period_days: 1
-      room_id: 16
+      room_id: 21
       clean_after_hour_of_day: 21
     icon: mdi:stove
 
@@ -67,7 +67,7 @@ rooms:
 #        icon: mdi:silverware-fork-knife
 #    vacuum:
 #      period_days: 0
-#      room_id: 25
+#      room_id: 20
 #    icon: mdi:fork
 
   - name: Living room
@@ -88,7 +88,7 @@ rooms:
         icon: mdi:silverware-fork-knife
     vacuum:
       period_days: 0
-      room_id: 24
+      room_id: 22
     icon: mdi:sofa
 
   - name: Studio
@@ -120,7 +120,7 @@ rooms:
         icon: mdi:shower
     vacuum:
       period_days: 0
-      room_id: 22
+      room_id: 25
     icon: mdi:shower-head
 
   - name: Hallway
@@ -131,7 +131,7 @@ rooms:
         icon: mdi:account-badge
     vacuum:
       period_days: 0
-      room_id: 20
+      room_id: 16
     icon: mdi:coat-rack
 
   - name: Wardrobe
@@ -160,7 +160,7 @@ rooms:
         icon: mdi:sun-clock
     vacuum:
       period_days: 0
-      room_id: 21
+      room_id: 24
     icon: mdi:bed-king
 
   - name: Storage
