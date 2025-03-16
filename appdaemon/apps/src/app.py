@@ -91,6 +91,17 @@ class App(hass.Hass):
             datetime=helpers.datetime_to_helper(datetime.now())
         )
 
+    async def turn_on(self, entity_id: str, **kwargs) -> None:
+        try:
+            return await super().turn_on(entity_id, **kwargs)
+        except:
+            self.log(f'There was an error turning on {entity_id}', level="WARNING")
+    async def turn_off(self, entity_id: str, **kwargs) -> None:
+        try:
+            return await super().turn_off(entity_id, **kwargs)
+        except:
+            self.log(f'There was an error turning off {entity_id}', level="WARNING")
+
     def turn_off_media(self) -> None:
         self.call_service(services.MEDIA_PLAYER_MEDIA_STOP, entity_id="all")
         self.call_service(services.MEDIA_PLAYER_TURN_OFF, entity_id="all")

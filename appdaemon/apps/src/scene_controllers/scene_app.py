@@ -23,10 +23,10 @@ class SceneApp(App):
                 self.handle_scene,
                 self.activity._helper
             )
+
         if self.illuminance_sensor:
-            self.listen_state(
-                self.handle_scene,
-                self.illuminance_sensor
+            self.run_every(
+                lambda *_: self.handle_scene(None, None, None, None, None), "now", 10 * 60
             )
 
         self.listen_state(
