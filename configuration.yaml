@@ -1,7 +1,16 @@
 default_config:
 cloud:
+
+# TODO
+#  Logger: homeassistant.helpers.typing
+#Source: helpers/deprecation.py:222
+#First occurred: 12:04:42 (2 occurrences)
+#Last logged: 12:04:42
+#
+#HomeAssistantType was used from custom_event, this is a deprecated alias which will be removed in HA Core 2025.5. Use homeassistant.core.HomeAssistant instead, please report it to the author of the 'custom_event' custom integration
+#ServiceCallType was used from custom_event, this is a deprecated alias which will be removed in HA Core 2025.5. Use homeassistant.core.ServiceCall instead, please report it to the author of the 'custom_event' custom integration
 custom_event:
-  
+
 input_button: !include helpers/input_button.yaml
 
 input_number: !include_dir_merge_named helpers/input_number/
