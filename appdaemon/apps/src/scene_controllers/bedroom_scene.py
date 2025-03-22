@@ -135,3 +135,5 @@ class BedroomScene(SceneApp):
     def on_mode_change(self, new: Mode, old: Mode) -> None:
         if new == Mode.SLEEPING:
             self.go_to_sleep()
+        elif new == Mode.AWAY:
+            self.handlers.blinds.best_for_temperature()

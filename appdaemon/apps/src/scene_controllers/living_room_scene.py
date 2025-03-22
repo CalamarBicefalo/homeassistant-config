@@ -114,3 +114,7 @@ class LivingRoomScene(SceneApp):
     def music_manual_override_toggle(self) -> None:
         self.music_manual_override = True
         self.handlers.music.toggle_play_pause()
+
+    def on_mode_change(self, new: Mode, old: Mode) -> None:
+        if new == Mode.AWAY:
+            self.handlers.blinds.best_for_temperature()
