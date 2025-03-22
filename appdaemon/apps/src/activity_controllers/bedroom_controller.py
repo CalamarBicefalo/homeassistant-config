@@ -94,8 +94,6 @@ class BedroomController(MotionController):
 
         # Relaxing Handling
         if self.activity.get() == Bedroom.Activity.RELAXING:
-            if self.state.is_off(self.motion_sensor):
-                self.set_as_empty_in(minutes=30)
             return
 
         if self.should_enable_bedtime():

@@ -74,7 +74,7 @@ def test_given_bedtime_when_motion_then_keeps_bedtime(given_that, subject, asser
 
 
 @pytest.mark.asyncio
-def test_given_relaxing_when_no_motion_then_keeps_relaxing_for_up_to_30_minutes(given_that, subject, assert_that,
+def test_given_relaxing_when_no_motion_then_keeps_relaxing_for_up_to_10_minutes(given_that, subject, assert_that,
                                                                                 time_travel):
     given_that.bedroom_state_is(
         motion=states.OFF,
@@ -82,21 +82,21 @@ def test_given_relaxing_when_no_motion_then_keeps_relaxing_for_up_to_30_minutes(
     )
 
     subject.controller_handler(None, None, None, None, None)
-    time_travel.fast_forward(29).minutes()
+    time_travel.fast_forward(9).minutes()
 
     assert_that(services.INPUT_SELECT_SELECT_OPTION).was_not.set_to_activity(Bedroom._activity_helper,
                                                                              Bedroom.Activity.EMPTY)
 
 
 @pytest.mark.asyncio
-def test_given_relaxing_when_no_motion_then_sets_empty_afger_30_minutes(given_that, subject, assert_that, time_travel):
+def test_given_relaxing_when_no_motion_then_sets_empty_after_10_minutes(given_that, subject, assert_that, time_travel):
     given_that.bedroom_state_is(
         motion=states.OFF,
         activity=Bedroom.Activity.RELAXING,
     )
 
     subject.controller_handler(None, None, None, None, None)
-    time_travel.fast_forward(31).minutes()
+    time_travel.fast_forward(10).minutes()
 
     assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(Bedroom._activity_helper,
                                                                          Bedroom.Activity.EMPTY)
