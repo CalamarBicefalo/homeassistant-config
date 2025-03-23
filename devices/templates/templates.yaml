@@ -62,4 +62,115 @@
       state: "{{ trigger.event.data.command }}"
       device_class: enum
 
-
+# UNAVAILABLE DEVICES
+- sensor:
+    - name: Unavailable devices
+      unique_id: s1716371752
+      state: >
+        {{ attr.device_count }}
+      attributes:
+        # ========= Entity attributes =========
+        # If you don't use the entity_id_list, I would not include them as attributes
+        #entity_id_list: >-
+        #  {{ attr.entity_id_list }}
+        #entity_name_list: >-
+        #  {{ attr.entity_name_list }}
+        #entity_count: >-
+        #  {{ attr.entity_count }}
+        # ========= Device attributes =========
+        device_id_list: >-
+          {{ attr.device_id_list }}
+        device_name_list: >-
+          {{ attr.device_name_list }}
+  trigger:
+    - platform: time_pattern
+      minutes: "/1"
+    - platform: event
+      event_type: event_template_reloaded
+  action:
+    - alias: Generate output
+      variables:
+        # ========= Global settings ========= #
+        entity_id_of_sensor: >-
+          {#- in actions you cannot reference this, so you need to set the entity_id -#}
+          {{ 'sensor.unavailable_devices' }}
+        output: >-
+          {#- ========= Settings ========= -#}
+          {%- set included_domains = [
+            states.binary_sensor, 
+            states.button, 
+            states.climate, 
+            states.light, 
+            states.sensor, 
+            states.switch
+            ] 
+          -%}
+          {%- set reject_entity_ids = [
+            "sensor.sun_next_rising", 
+            "sensor.sun_next_noon"
+            ] +
+            area_entities('system')
+          -%}
+          {#- When all device entities are either unavailable or unknown, the device will be marked as offline. -#}
+          {%- set watched_states = ['unavailable', 'unknown'] -%}
+          {#- ========= Find Entites ========= -#}
+          {%- set ns = namespace(entity_id_list=[], entity_name_list=[], entity_count=0, device_id_list=[], device_name_list=[], device_count=0) -%}
+          {%- set watched_entities = 
+            included_domains
+            | expand
+            | rejectattr('entity_id', 'in', reject_entity_ids)
+            | selectattr('state', 'in', watched_states)
+          -%}
+          {%- for entity in watched_entities -%}
+            {%- set ns.entity_id_list = ns.entity_id_list + [entity.entity_id] -%}
+            {%- set ns.entity_name_list = ns.entity_name_list + [state_attr(entity.entity_id, 'friendly_name')] -%}
+          {%- endfor -%}
+          {%- set ns.entity_count = ns.entity_id_list | count -%}
+          {#- ========= Find Devices ========= -#}
+          {%- set device_ids = 
+            ns.entity_id_list
+            | map('device_id') 
+            | select('ne', None)
+            | unique
+            | sort
+          -%}
+          {%- for device_id in device_ids -%}
+            {%- if device_entities (device_id) | list | count == expand(device_entities (device_id)) | selectattr('state', 'in', watched_states) | list | count -%}
+              {%- set ns.device_id_list = ns.device_id_list + [device_id] -%}
+              {%- set ns.device_name_list = ns.device_name_list + [device_attr(device_id, 'name')] -%}
+            {%- endif -%}
+          {%- endfor -%}
+          {%- set ns.device_count = ns.device_id_list | count -%}
+          {{ { 'entity_id_list': ns.entity_id_list | list, 'entity_name_list': ns.entity_name_list | list, 'entity_count': ns.entity_count, 'device_id_list': ns.device_id_list | list, 'device_name_list': ns.device_name_list | list, 'device_count': ns.device_count } }}
+    - alias: Devices down
+      if:
+        - condition: template
+          value_template: >
+            {{ output.device_id_list | reject('in', state_attr(entity_id_of_sensor, 'device_id_list')) | list | count > 0 }}
+      then:
+        - repeat:
+            for_each: "{{ output.device_id_list | reject('in', state_attr(entity_id_of_sensor, 'device_id_list')) | list }}"
+            sequence:
+              - event: device_availability_changed
+                event_data:
+                  device_id: "{{ repeat.item }}"
+                  device_name: "{{ device_attr(repeat.item, 'name') }}"
+                  new_state: down
+    - alias: Devices up
+      if:
+        - condition: template
+          value_template: >
+            {{ state_attr(entity_id_of_sensor, 'device_id_list') | reject('in', output.device_id_list) | list | count > 0 }}
+      then:
+        - repeat:
+            for_each: "{{ state_attr(entity_id_of_sensor, 'device_id_list') | reject('in', output.device_id_list) | list }}"
+            sequence:
+              - event: device_availability_changed
+                event_data:
+                  device_id: "{{ repeat.item }}"
+                  device_name: "{{ device_attr(repeat.item, 'name') }}"
+                  new_state: up
+    - alias: Make the new state available for the sensor
+      variables:
+        attr: >
+          {{ output }}
