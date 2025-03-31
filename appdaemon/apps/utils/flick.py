@@ -85,4 +85,4 @@ class Point:
         return "".join(["Point(", str(self.x), ",", str(self.y), ")"])
 
 
-mop_maintenance = Point(24900, 22200)
+mop_maintenance = Point(22200, 26400)
