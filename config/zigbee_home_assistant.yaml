@@ -1,11 +1,14 @@
+enable_quirks: true
+custom_quirks_path: config/custom_zha_quirks/
+database_path: /config/zigbee.db 
 zigpy_config:
   ota:
     enabled: true
 
-    ikea_provider: true                        # Auto update Trådfri devices
-    ledvance_provider: true                    # Auto update LEDVANCE/OSRAM devices
-    salus_provider: true                       # Auto update SALUS/Computime devices
-    inovelli_provider: true                    # Auto update INOVELLI devices
+    ikea_provider: true # Auto update Trådfri devices
+    ledvance_provider: true # Auto update LEDVANCE/OSRAM devices
+    salus_provider: true # Auto update SALUS/Computime devices
+    inovelli_provider: true # Auto update INOVELLI devices
     thirdreality_provider: true
 
     z2m_remote_index: "https://raw.githubusercontent.com/Koenkk/zigbee-OTA/master/index.json"
