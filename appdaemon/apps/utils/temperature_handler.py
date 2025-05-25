@@ -10,9 +10,9 @@ from select_handler import SelectHandler
 from selects import Mode
 from state_handler import StateHandler
 
-COMFORT_INDOOR_MAX_TEMPERATURE = 24
+COMFORT_INDOOR_MAX_TEMPERATURE = 23
 COMFORT_INDOOR_MIN_TEMPERATURE = 19
-HOT_OUTSIDE = 25
+HOT_OUTSIDE = 24
 INDOOR_THERMOMETER = entities.SENSOR_BEDROOM_AIR_QUALITY_TEMPERATURE
 
 
