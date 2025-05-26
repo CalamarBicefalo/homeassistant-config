@@ -19,6 +19,8 @@ class StudioScene(SceneApp):
     illuminance_sensor = entities.SENSOR_MS_STUDIO_EP1_ILLUMINANCE
     room_lights = entities.LIGHT_STUDIO
     speakers = entities.MEDIA_PLAYER_LIVING_ROOM_STEREO
+    blinds = entities.COVER_CURTAINS_STUDIO
+    room_has_plants = False
 
     def get_light_scene(self, activity: Studio.Activity, previous_activity: Optional[StrEnum]) -> Scene | SceneByModeSelector:
         match activity:
@@ -54,18 +56,20 @@ class StudioScene(SceneApp):
                 )
 
             case Studio.Activity.PRESENT:
-                return scene.by_mode({
-                    Mode.DAY: scenes.STUDIO_NATURAL_LIGHT,
-                    Mode.NIGHT: scenes.STUDIO_NATURAL_LIGHT,
-                    Mode.SLEEPING: scenes.STUDIO_NIGHTLIGHT,
-                })
+                return scene.with_actions(
+                    scenes.STUDIO_NATURAL_LIGHT,
+                    lambda: self.handlers.blinds.best_for_temperature(),
+                )
 
         return scene.with_actions(
             scene.off(),
             lambda: self.turn_off(entities.SWITCH_MONITOR),
-            lambda: self.turn_off(entities.FAN_FAN)
+            lambda: self.turn_off(entities.FAN_FAN),
+            lambda: self.handlers.blinds.best_for_temperature(),
         )
 
+    def on_mode_change(self, new: Mode, old: Mode) -> None:
+        self.handlers.blinds.best_for_temperature()
 
     def play_music_if_appropriate(self) -> None:
         if not self.handlers.music.is_playing():
