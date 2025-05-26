@@ -14,7 +14,7 @@ class ModeController(App):
         self.log(f'Initializing mode manager.', level="DEBUG")
         self.run_at_sunrise(self.on_schedule)
         self.run_at_sunset(self.on_schedule)
-        self.handlers.alarmclock.listen(self._handle_mode_unless_away, alarmclock.Event.ALARM_DISMISSED)
+        self.handlers.alarmclock.listen(self._handle_mode, alarmclock.Event.ALARM_DISMISSED)
         self.listen_event(self.on_recompute_mode, EVENT_MODE_RECOMPUTE_NEEDED)
         self.listen_state(self.on_person_event, "person")
         self.listen_state(self.on_door_open, entities.BINARY_SENSOR_FLAT_DOOR_CS)
@@ -24,10 +24,10 @@ class ModeController(App):
 
     def on_schedule(self, kwargs: Any) -> None:
         if not self.handlers.mode.is_value(Mode.SLEEPING):
-            self._handle_mode_unless_away()
+            self._handle_mode()
 
     def on_recompute_mode(self, event_name: str, data: Any, kwargs: Any) -> None:
-        self._handle_mode_unless_away()
+        self._handle_mode()
 
     def on_person_event(self, entity, attribute, old, new, kwargs):  # type: ignore
         if self.noone_home(person=True):
@@ -35,8 +35,11 @@ class ModeController(App):
         else:
             self._handle_mode_unless_sleeping()
 
-    def _handle_mode_unless_away(self) -> None:
+    def _handle_mode(self) -> None:
+        # When away, trigger a mode refresh so that blinds update for plants/temperature if needed
         if self.handlers.mode.is_value(Mode.AWAY):
+            self._handle_day_night_mode()
+            self.run_in(lambda *_: self.handlers.mode.set(Mode.AWAY), 10)
             return
 
         self._handle_day_night_mode()

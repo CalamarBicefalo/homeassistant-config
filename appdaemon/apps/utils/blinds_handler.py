@@ -40,7 +40,7 @@ class BlindsHandler:
                                   entity_id=self._blinds)
 
     def best_for_temperature(self) -> None:
-        if self.mode.is_value(Mode.DAY):
+        if self.is_day():
             if self.temperature.should_cooldown():
                 if self.main_source_of_light:
                     self.set_position(30)
@@ -50,6 +50,9 @@ class BlindsHandler:
                 self.open()
         else:
             self.close()
+
+    def is_day(self):
+        return self.app.sunset() < self.app.sunrise()
 
     def set_position(self, open_percentage: int | float) -> None:
         self.app.call_service("cover/set_cover_position",
