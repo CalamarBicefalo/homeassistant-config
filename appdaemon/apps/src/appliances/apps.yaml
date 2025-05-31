@@ -2,16 +2,16 @@
 Vacuum mop maintenance:
   module: mop_maintenance
   class: MopMaintenance
-  dependencies: !include /homeassistant/appdaemon/apps/dependencies.yaml
+  
 Vacuum flat cleaner:
   module: flat_cleaner
   class: FlatCleaner
-  dependencies: !include /homeassistant/appdaemon/apps/dependencies.yaml
+  
 Vacuum room cleaner:
   module: room_cleaner
   class: RoomCleaner
-  dependencies: !include /homeassistant/appdaemon/apps/dependencies.yaml
+  
 Washing machine:
   module: washing_machine
   class: WashingMachine
-  dependencies: !include /homeassistant/appdaemon/apps/dependencies.yaml
+  

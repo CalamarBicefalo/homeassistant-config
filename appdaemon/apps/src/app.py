@@ -6,6 +6,7 @@ from typing import Optional, Callable, Any, Dict
 from uuid import UUID
 
 import appdaemon.plugins.hass.hassapi as hass
+from appdaemon.appdaemon import AppDaemon
 
 import entities
 import helpers
@@ -57,8 +58,8 @@ class Timer:
 class App(hass.Hass):
     handlers: Handler
 
-    def __init__(self, ad, name, logging, args, config, app_config, global_vars) -> None:  # type: ignore
-        super().__init__(ad, name, logging, args, config, app_config, global_vars)
+    def __init__(self, ad: AppDaemon, config_model: "AppConfig"):  # type: ignore
+        super().__init__(ad, config_model)
         self.handlers = Handler(
             super(),
             speakers=self.speakers,

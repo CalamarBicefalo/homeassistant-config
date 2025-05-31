@@ -1,0 +1,17 @@
+---
+Playground:
+  module: playground
+  class: Playground
+
+Mode manager:
+  module: mode_scene
+  class: ModeScene
+
+Mode controller:
+  module: mode_controller
+  class: ModeController
+
+Away monitor:
+  module: away_monitor
+  class: AwayMonitor
+  
