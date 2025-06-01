@@ -14,7 +14,7 @@ class HallwayScene(SceneApp):
     @property
     def activity(self) -> SelectHandler:
         return self.handlers.rooms.hallway.activity
-    illuminance_sensor = entities.SENSOR_HALLWAY_MS_ILLUMINANCE
+    illuminance_sensor = entities.SENSOR_MS_HALLWAY_EP1_ILLUMINANCE
     room_lights = entities.LIGHT_HALLWAY
 
     def get_light_scene(self, activity: StrEnum, previous_activity: Optional[StrEnum]) -> Scene | SceneByModeSelector:
