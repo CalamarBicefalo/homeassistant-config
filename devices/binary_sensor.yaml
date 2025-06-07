@@ -32,6 +32,7 @@
   name: wardrobe_motion
   device_class: motion
   entities:
+    - binary_sensor.wardrobe_ms_motion
     - binary_sensor.bedroom_ms_epl_zone_wardrobe_occupancy
 - platform: group
   name: office_motion
@@ -43,7 +44,6 @@
   name: hallway_motion
   device_class: motion
   entities:
-    - binary_sensor.hallway_ms_motion
     - binary_sensor.ms_hallway_ep1_occupancy
 - platform: group
   name: bathroom_motion

@@ -55,12 +55,10 @@ cards:
     type: "custom:button-card"
     template: 
       - card_binary_sensor
-      - battery_info
     name: Motion
     variables:
       ulm_show_last_changed: false
       ulm_card_binary_sensor_name: Motion
-      ulm_battery_entity: sensor.hallway_ms_battery
     entity: binary_sensor.hallway_motion
 
   - view_layout:

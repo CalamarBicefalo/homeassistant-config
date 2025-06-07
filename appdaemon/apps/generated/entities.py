@@ -119,6 +119,7 @@ BINARY_SENSOR_VS_DRUMS_XH_VIBRATION: Entity = Entity("binary_sensor.vs_drums_xh_
 BINARY_SENSOR_WARDROBE_DOOR_LEFT_CS_IASZONE: Entity = Entity("binary_sensor.wardrobe_door_left_cs_iaszone")
 BINARY_SENSOR_WARDROBE_DOOR_RIGHT_CS_IASZONE: Entity = Entity("binary_sensor.wardrobe_door_right_cs_iaszone")
 BINARY_SENSOR_WARDROBE_MIDDLE_DOOR: Entity = Entity("binary_sensor.wardrobe_middle_door")
+BINARY_SENSOR_WARDROBE_MOTION: Entity = Entity("binary_sensor.wardrobe_motion")
 BINARY_SENSOR_WARDROBE_MS_MOTION: Entity = Entity("binary_sensor.wardrobe_ms_motion")
 BINARY_SENSOR_WASHING_MACHINE_CS: Entity = Entity("binary_sensor.washing_machine_cs")
 BUTTON_BATHROOM_DOOR_CS_IDENTIFY_3: Entity = Entity("button.bathroom_door_cs_identify_3")
