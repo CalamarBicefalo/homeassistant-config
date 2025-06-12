@@ -27,6 +27,8 @@
   name: bedroom_motion
   device_class: motion
   entities:
+    - binary_sensor.bedroom_ms_occupancy
+    - binary_sensor.bedroom_instant_ms
     - binary_sensor.bedroom_ms_epl_zone_bed_occupancy
 - platform: group
   name: wardrobe_motion
