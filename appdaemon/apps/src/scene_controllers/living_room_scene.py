@@ -31,6 +31,7 @@ class LivingRoomScene(SceneApp):
     room_lights = entities.LIGHT_LIVING_ROOM
     speakers = entities.MEDIA_PLAYER_LIVING_ROOM_STEREO
     blinds = entities.COVER_BLINDS_CURTAIN
+    window = entities.BINARY_SENSOR_LIVING_ROOM_WINDOW_CS_OPENING
     music_manual_override = False
 
     def get_light_scene(self, activity: LivingRoom.Activity, previous_activity: Optional[StrEnum]) -> Scene | SceneByModeSelector:
@@ -61,7 +62,10 @@ class LivingRoomScene(SceneApp):
                         lambda: self.handlers.blinds.close(),
                         # lambda: self.balcony_blinds.close(),
                     ),
-                    Mode.SLEEPING: scenes.LIVING_ROOM_COZY,
+                    Mode.SLEEPING: scene.with_actions(
+                        scenes.LIVING_ROOM_COZY,
+                        lambda: self.handlers.blinds.best_for_temperature(),
+                    ),
                 })
 
             case LivingRoom.Activity.DRUMMING:
@@ -116,5 +120,5 @@ class LivingRoomScene(SceneApp):
         self.handlers.music.toggle_play_pause()
 
     def on_mode_change(self, new: Mode, old: Mode) -> None:
-        if new == Mode.AWAY:
+        if new == Mode.AWAY or Mode.SLEEPING:
             self.handlers.blinds.best_for_temperature()

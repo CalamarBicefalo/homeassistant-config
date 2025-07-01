@@ -5,6 +5,7 @@ from typing import Optional
 from appdaemon.plugins.hass import hassapi as hass
 
 import helpers
+import states
 from entities import Entity
 from select_handler import SelectHandler
 from selects import Mode
@@ -13,9 +14,10 @@ from temperature_handler import TemperatureHandler
 
 
 class BlindsHandler:
-    def __init__(self, app: hass.Hass, blinds: Optional[Entity], main_source_of_light: bool = False) -> None:
+    def __init__(self, app: hass.Hass, blinds: Optional[Entity], main_source_of_light: bool = False, window: Optional[Entity] = None) -> None:
         self.app = app
         self._blinds = blinds
+        self._window = window
         self.state = StateHandler(app)
         self.temperature = TemperatureHandler(app)
         self.mode = SelectHandler[Mode](app, helpers.MODE)
@@ -49,6 +51,8 @@ class BlindsHandler:
             else:
                 self.open()
         else:
+            if self.window_is_open() and self.temperature.should_cooldown():
+                self.open()
             self.close()
 
     def is_day(self):
@@ -67,3 +71,6 @@ class BlindsHandler:
 
     def is_open(self) -> bool:
         return self.get_position() >= 1
+
+    def window_is_open(self):
+        return self._window and self.state.is_value(self._window, states.OPEN)

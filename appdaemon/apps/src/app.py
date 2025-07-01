@@ -37,11 +37,11 @@ class Handler():
     temperature: TemperatureHandler
 
     def __init__(self, app: hass.Hass, speakers: Optional[Entity], blinds: Optional[Entity],
-                 room_has_plants: bool) -> None:
+                 room_has_plants: bool, window: Optional[Entity]) -> None:
         self.mode = SelectHandler[Mode](app, helpers.MODE)
         self.rooms = RoomHandlers(app)
         self.music = MusicHandler(app, speakers)
-        self.blinds = BlindsHandler(app, blinds, room_has_plants)
+        self.blinds = BlindsHandler(app, blinds, room_has_plants, window)
         self.alarmclock = AlarmClock(app)
         self.flick = FlickHandler(app)
         self.buttons = ButtonHandler(app)
@@ -64,7 +64,8 @@ class App(hass.Hass):
             super(),
             speakers=self.speakers,
             blinds=self.blinds,
-            room_has_plants=self.room_has_plants
+            room_has_plants=self.room_has_plants,
+            window=self.window
         )
         self.state = StateHandler(super())
         self.timers: Dict[UUID, Timer] = {}
@@ -79,6 +80,10 @@ class App(hass.Hass):
 
     @property
     def blinds(self) -> Optional[entities.Entity]:
+        return None
+
+    @property
+    def window(self) -> Optional[entities.Entity]:
         return None
 
     def is_dark(self) -> bool:
