@@ -128,5 +128,3 @@ class LivingRoomScene(SceneApp):
     def on_mode_change(self, new: Mode, old: Mode) -> None:
         if new == Mode.AWAY:
             self.handlers.blinds.best_for_temperature()
-        elif new == Mode.SLEEPING:
-            self.open_blinds_if_hot_and_window_open()
