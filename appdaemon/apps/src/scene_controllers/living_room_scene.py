@@ -3,7 +3,6 @@ from typing import Optional
 
 import entities
 import scenes
-import states
 from activity_controllers.living_room_controller import COFFEE_TABLE_BUTTON_IEEE_ADDRESS
 from blinds_handler import BlindsHandler
 from music import Playlist
@@ -62,10 +61,7 @@ class LivingRoomScene(SceneApp):
                         lambda: self.handlers.blinds.close(),
                         # lambda: self.balcony_blinds.close(),
                     ),
-                    Mode.SLEEPING: scene.with_actions(
-                        scenes.LIVING_ROOM_COZY,
-                        lambda: self.open_blinds_if_hot_and_window_open(),
-                    ),
+                    Mode.SLEEPING: scenes.LIVING_ROOM_COZY,
                 })
 
             case LivingRoom.Activity.DRUMMING:
@@ -111,12 +107,6 @@ class LivingRoomScene(SceneApp):
                 or self.handlers.rooms.studio.activity.is_value(Studio.Activity.MEETING)
         ):
             self.handlers.music.play(Playlist.random())
-
-    def open_blinds_if_hot_and_window_open(self) -> None:
-        if self.state.is_value(entities.BINARY_SENSOR_LIVING_ROOM_WINDOW_CS_OPENING, states.OPEN) and self.handlers.temperature.should_cooldown():
-            self.handlers.blinds.open()
-        else:
-            self.handlers.blinds.best_for_temperature()
 
     def disable_music_manual_override(self) -> None:
         self.music_manual_override = False
