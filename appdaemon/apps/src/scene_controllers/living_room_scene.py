@@ -120,5 +120,5 @@ class LivingRoomScene(SceneApp):
         self.handlers.music.toggle_play_pause()
 
     def on_mode_change(self, new: Mode, old: Mode) -> None:
-        if new == Mode.AWAY or Mode.SLEEPING:
+        if new == Mode.AWAY or new == Mode.SLEEPING:
             self.handlers.blinds.best_for_temperature()
