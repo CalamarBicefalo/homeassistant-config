@@ -7,6 +7,7 @@ import selects
 import states
 from app import App
 from select_handler import SelectHandler
+from selects import Mode
 
 
 class WashingMachine(App):
@@ -20,14 +21,23 @@ class WashingMachine(App):
     def initialize(self) -> None:
         self.listen_state(self.update_state, self.POWER_SENSOR)
         self.listen_state(self.update_state, self.DOOR_SENSOR)
-        self.listen_state(self.notify, helpers.WASHING_MACHINE)
+        self.listen_state(self.on_washing_machine_event, helpers.WASHING_MACHINE)
+        self.listen_state(self.on_mode_change, helpers.MODE)
         self._wait_timer = None
         self.washing_machine_state = SelectHandler[selects.WashingMachine](self, helpers.WASHING_MACHINE)
 
-    def notify(self, entity: Any, attribute: Any, old: Any, new: Any, kwargs: Any) -> None:
-        match new:
+    def on_washing_machine_event(self, entity: Any, attribute: Any, old: Any, new: Any, kwargs: Any) -> None:
+        self.notify_if_washing_machine_needs_attention(new)
+
+    def on_mode_change(self, entity: Any, attribute: Any, old: Any, new: Any, kwargs: Any) -> None:
+        if old == Mode.AWAY:
+            self.notify_if_washing_machine_needs_attention(self.washing_machine_state.get())
+
+    def notify_if_washing_machine_needs_attention(self, washing_machine_state: selects.WashingMachine):
+        match washing_machine_state:
             case selects.WashingMachine.MOLD_ALERT:
-                self.handlers.notifications.chore("Washing machine door closed", "Please open the washing machine door to let it dry")
+                self.handlers.notifications.chore("Washing machine door closed",
+                                                  "Please open the washing machine door to let it dry")
             case selects.WashingMachine.WET_CLOTHES_INSIDE:
                 self.handlers.notifications.chore("Washing machine is done 🙏🏿🧦", "Please hang up the laundry")
 
