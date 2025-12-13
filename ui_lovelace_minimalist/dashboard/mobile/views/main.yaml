@@ -73,7 +73,7 @@ cards:
         type: "custom:button-card"
         template: cb_card_title
         name: Who's home?
-        label: Apart from Luna
+        label: Apart from Flick
         
       - view_layout:
           grid-area: "jc"
@@ -83,7 +83,7 @@ cards:
         variables:
           ulm_card_person_use_entity_picture: true
           ulm_card_person_icon: mdi:face-man
-          ulm_card_person_battery: sensor.sm_s918b_battery_level
+          ulm_card_person_battery: sensor.jc_iphone_battery_level
         
       - view_layout:
           grid-area: "amanda"
@@ -93,7 +93,7 @@ cards:
         variables:
           ulm_card_person_use_entity_picture: true
           ulm_card_person_icon: mdi:face-woman
-          ulm_card_person_battery: sensor.mandies_iphone_battery_level
+          ulm_card_person_battery: sensor.sm_s918b_battery_level
 
       - view_layout:
           grid-area: "title-rooms"
