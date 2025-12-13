@@ -34,7 +34,6 @@ class BedroomController(MotionController):
             self.motion_sensor
         )
         self.handlers.alarmclock.listen(self.on_1_hour_to_wake_up, alarmclock.Event.ONE_HOUR_BEFORE_ALARM)
-        self.handlers.alarmclock.listen(self.on_alarm_dismissed, alarmclock.Event.ALARM_DISMISSED)
         self.handlers.buttons.on(BEDSIDE_BUTTON_IEEE_ID,
                         click=self.on_click,
                         double_click=self.on_double_click,
@@ -69,12 +68,10 @@ class BedroomController(MotionController):
         self.log(
             f'Triggering bedroom activity controller: 1 hour to wake up',
             level="INFO")
-        self.cancel_empty_timer()
-        self._waking_up_schedule = self.run_in(lambda *_: self.activity.set(Bedroom.Activity.WAKING_UP), 1800)
-        self._waking_up_schedule = self.run_in(lambda *_: self.on_alarm_buzzing(), 3600)
-
-    def on_alarm_dismissed(self) -> None:
-        pass
+        if self.activity.is_value(Bedroom.Activity.BEDTIME):
+            self.cancel_empty_timer()
+            self._waking_up_schedule = self.run_in(lambda *_: self.activity.set(Bedroom.Activity.WAKING_UP), 1800)
+            self._waking_up_schedule = self.run_in(lambda *_: self.on_alarm_buzzing(), 3600)
 
     def on_alarm_buzzing(self) -> None:
         self.cancel_empty_timer()

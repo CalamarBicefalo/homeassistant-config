@@ -14,7 +14,6 @@ class ModeController(App):
         self.log(f'Initializing mode manager.', level="DEBUG")
         self.run_at_sunrise(self.on_schedule)
         self.run_at_sunset(self.on_schedule)
-        self.handlers.alarmclock.listen(self._handle_mode, alarmclock.Event.ALARM_DISMISSED)
         self.listen_event(self.on_recompute_mode, EVENT_MODE_RECOMPUTE_NEEDED)
         self.listen_state(self.on_person_event, "person")
         self.listen_state(self.on_door_open, entities.BINARY_SENSOR_FLAT_DOOR_CS)
