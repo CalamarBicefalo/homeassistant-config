@@ -2,9 +2,9 @@
   id: calamarbicefalo
   user_id: affe11e198de496e8078cd4951b9949b
   device_trackers:
-    - device_tracker.sm_s918b
+    - device_tracker.jc_iphone
 - name: Amanda
   id: amanda
   user_id: 12d42b5178134c5db8c17fa8af4f423f
   device_trackers:
-    - device_tracker.mandies_iphone
+    - device_tracker.sm_s918b

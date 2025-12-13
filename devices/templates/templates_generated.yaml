@@ -164,7 +164,7 @@
     unique_id: "activity_living_room_drumming"
     state: >
       {{ states('input_select.living_room_activity') == 'Drumming'}}
-    icon: fas:drum
+    icon: fa7-solid:drum
     device_class: running
     attributes:
       option: Drumming
@@ -234,7 +234,7 @@
     unique_id: "activity_studio_snaring"
     state: >
       {{ states('input_select.studio_activity') == 'Snaring'}}
-    icon: fas:drum
+    icon: fa7-solid:drum
     device_class: running
     attributes:
       option: Snaring

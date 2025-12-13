@@ -83,7 +83,7 @@ rooms:
       - name: Relaxing
         icon: mdi:palm-tree
       - name: Drumming
-        icon: fas:drum
+        icon: fa7-solid:drum
       - name: Dining
         icon: mdi:silverware-fork-knife
     vacuum:
@@ -104,7 +104,7 @@ rooms:
       - name: Drumming
         icon: mdi:instrument-triangle
       - name: Snaring
-        icon: fas:drum
+        icon: fa7-solid:drum
     vacuum:
       period_days: 2
       room_id: 23

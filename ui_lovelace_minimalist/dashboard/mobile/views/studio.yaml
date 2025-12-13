@@ -1,6 +1,6 @@
 ---
 title: "Studio"
-icon: "fas:drum"
+icon: "fa7-solid:drum"
 path: "studio"
 
 type: "custom:layout-card"
