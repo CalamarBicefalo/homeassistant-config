@@ -17,6 +17,7 @@ www/community
 
 *.log
 *.log.1
+*.log.old
 *.log.fault
 home-assistant_v2.db-wal
 home-assistant_v2.db-shm
@@ -35,3 +36,4 @@ media
 music_assistant.db
 appdaemon/apps/src/playground.py
 music_assistant.db.old
+.ha_run.lock
