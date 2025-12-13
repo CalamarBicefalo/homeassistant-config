@@ -3,6 +3,7 @@
 !*.md
 
 .idea
+.ssh
 .storage
 .cloud
 .google.token
@@ -13,6 +14,7 @@ tts
 secrets
 
 custom_components
+custom_icons/iconify-icon-sets-master.zip
 www/community
 
 *.log
