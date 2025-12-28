@@ -33,7 +33,7 @@ class BedroomController(MotionController):
             self.controller_handler,
             self.motion_sensor
         )
-        self.handlers.alarmclock.listen(self.on_1_hour_to_wake_up, alarmclock.Event.ONE_HOUR_BEFORE_ALARM)
+        self.handlers.alarmclock.listen_one_hour_before_alarm(self.on_1_hour_to_wake_up)
         self.handlers.buttons.on(BEDSIDE_BUTTON_IEEE_ID,
                         click=self.on_click,
                         double_click=self.on_double_click,
