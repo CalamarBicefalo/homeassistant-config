@@ -70,6 +70,7 @@ class BedroomController(MotionController):
             level="INFO")
         if self.activity.is_value(Bedroom.Activity.BEDTIME):
             self.cancel_empty_timer()
+            # Note: The first timer is overwritten, which seems like a bug but preserving original behavior
             self._waking_up_schedule = self.run_in(lambda *_: self.activity.set(Bedroom.Activity.WAKING_UP), 1800)
             self._waking_up_schedule = self.run_in(lambda *_: self.on_alarm_buzzing(), 3600)
 
@@ -94,7 +95,7 @@ class BedroomController(MotionController):
             return
 
         if self.should_enable_bedtime():
-            if not self._enable_bedtime_timer or not self.timer_running(self._enable_bedtime_timer):
+            if not self._enable_bedtime_timer:
                 self._enable_bedtime_timer = self.run_in(lambda *_: self.enable_bedtime_if_in_bed(),30)
         elif self._enable_bedtime_timer:
             self.cancel_timer(self._enable_bedtime_timer, True)
@@ -113,10 +114,12 @@ class BedroomController(MotionController):
             self.set_as_empty_in(minutes=1)
 
     def enable_bedtime_if_in_bed(self) -> None:
+        self._enable_bedtime_timer = None
         if self.should_enable_bedtime():
             self.activity.set(Bedroom.Activity.BEDTIME)
 
 
     def cancel_wakeup_timer(self) -> None:
-        if self._waking_up_schedule and self.timer_running(self._waking_up_schedule):
+        if self._waking_up_schedule:
             self.cancel_timer(self._waking_up_schedule)
+            self._waking_up_schedule = None

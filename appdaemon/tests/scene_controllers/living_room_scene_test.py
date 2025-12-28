@@ -31,52 +31,48 @@ def test_relaxing_sets_cozy_scene(given_that, living_room_scene, assert_that):
 
 
 @pytest.mark.asyncio
-def test_relaxing_plays_music(given_that) -> None:
+def test_relaxing_plays_music(given_that, living_room_scene) -> None:
     given_that.living_room_scene_is(activity=LivingRoom.Activity.RELAXING)
 
     with mock.patch.object(MusicHandler, 'play') as music:
         music.is_playing = lambda *_: False
-        scene = LivingRoomScene(None, LivingRoomScene.__class__, None, None, None, None, None)
-        scene.handlers.music = music
-        scene.handle_scene(LivingRoom._activity_helper, None, None, None, None)
+        living_room_scene.handlers.music = music
+        living_room_scene.handle_scene(LivingRoom._activity_helper, None, None, None, None)
 
         music.play.assert_called_once()
 
 
 @pytest.mark.asyncio
-def test_relaxing_when_music_playing_does_not_play_music(given_that) -> None:
+def test_relaxing_when_music_playing_does_not_play_music(given_that, living_room_scene) -> None:
     given_that.living_room_scene_is(activity=LivingRoom.Activity.RELAXING)
 
     with mock.patch.object(MusicHandler, 'play') as music:
         music.is_playing = lambda *_: True
-        scene = LivingRoomScene(None, LivingRoomScene.__class__, None, None, None, None, None)
-        scene.handlers.music = music
-        scene.handle_scene(None, None, None, None, None)
+        living_room_scene.handlers.music = music
+        living_room_scene.handle_scene(None, None, None, None, None)
 
         music.play.assert_not_called()
 
 
 @pytest.mark.asyncio
-def test_relaxing_when_working_does_not_play_music(given_that) -> None:
+def test_relaxing_when_working_does_not_play_music(given_that, living_room_scene) -> None:
     given_that.living_room_scene_is(activity=LivingRoom.Activity.RELAXING, studio_activity=Studio.Activity.WORKING)
 
     with mock.patch.object(MusicHandler, 'play') as music:
         music.is_playing = lambda *_: False
-        scene = LivingRoomScene(None, LivingRoomScene.__class__, None, None, None, None, None)
-        scene.handlers.music = music
-        scene.handle_scene(None, None, None, None, None)
+        living_room_scene.handlers.music = music
+        living_room_scene.handle_scene(None, None, None, None, None)
 
         music.play.assert_not_called()
 
 
 @pytest.mark.asyncio
-def test_relaxing_does_not_replace_if_playing(given_that) -> None:
+def test_relaxing_does_not_replace_if_playing(given_that, living_room_scene) -> None:
     given_that.living_room_scene_is(activity=LivingRoom.Activity.RELAXING, playing_music=states.ON)
 
     with mock.patch.object(MusicHandler, 'play') as music:
-        scene = LivingRoomScene(None, LivingRoomScene.__class__, None, None, None, None, None)
-        scene.handlers.music = music
-        scene.handle_scene(None, None, None, None, None)
+        living_room_scene.handlers.music = music
+        living_room_scene.handle_scene(None, None, None, None, None)
 
         music.play.assert_not_called()
 
@@ -91,24 +87,22 @@ def test_watching_tv_sets_movie_scene(given_that, living_room_scene, assert_that
 
 
 @pytest.mark.asyncio
-def test_watching_tv_pauses_music(given_that) -> None:
+def test_watching_tv_pauses_music(given_that, living_room_scene) -> None:
     given_that.living_room_scene_is(activity=LivingRoom.Activity.WATCHING_TV)
 
     with mock.patch.object(MusicHandler, 'pause') as music:
-        scene = LivingRoomScene(None, LivingRoomScene.__class__, None, None, None, None, None)
-        scene.handlers.music = music
-        scene.handle_scene(LivingRoom._activity_helper, None, None, None, None)
+        living_room_scene.handlers.music = music
+        living_room_scene.handle_scene(LivingRoom._activity_helper, None, None, None, None)
 
         music.pause.assert_called_once()
 
 @pytest.mark.asyncio
-def test_watching_tv_closes_blinds_irrespecitively_of_mode(given_that) -> None:
+def test_watching_tv_closes_blinds_irrespecitively_of_mode(given_that, living_room_scene) -> None:
     given_that.living_room_scene_is(activity=LivingRoom.Activity.WATCHING_TV, mode=selects.Mode.DAY)
 
     with mock.patch.object(BlindsHandler, 'close') as blinds:
-        scene = LivingRoomScene(None, LivingRoomScene.__class__, None, None, None, None, None)
-        scene.handlers.blinds = blinds
-        scene.handle_scene(LivingRoom._activity_helper, None, None, None, None)
+        living_room_scene.handlers.blinds = blinds
+        living_room_scene.handle_scene(LivingRoom._activity_helper, None, None, None, None)
 
         blinds.close.assert_called_once()
 
@@ -122,13 +116,12 @@ def test_drumming_sets_drumming_scene(given_that, living_room_scene, assert_that
 
 
 @pytest.mark.asyncio
-def test_drumming_pauses_music(given_that) -> None:
+def test_drumming_pauses_music(given_that, living_room_scene) -> None:
     given_that.living_room_scene_is(activity=LivingRoom.Activity.DRUMMING)
 
     with mock.patch.object(MusicHandler, 'pause') as music:
-        scene = LivingRoomScene(None, LivingRoomScene.__class__, None, None, None, None, None)
-        scene.handlers.music = music
-        scene.handle_scene(LivingRoom._activity_helper, None, None, None, None)
+        living_room_scene.handlers.music = music
+        living_room_scene.handle_scene(LivingRoom._activity_helper, None, None, None, None)
 
         music.pause.assert_called_once()
 
@@ -143,25 +136,23 @@ def test_gaming_sets_gaming_scene(given_that, living_room_scene, assert_that):
 
 
 @pytest.mark.asyncio
-def test_gaming_pauses_music(given_that) -> None:
+def test_gaming_pauses_music(given_that, living_room_scene) -> None:
     given_that.living_room_scene_is(activity=LivingRoom.Activity.GAMING)
 
     with mock.patch.object(MusicHandler, 'pause') as music:
-        scene = LivingRoomScene(None, LivingRoomScene.__class__, None, None, None, None, None)
-        scene.handlers.music = music
-        scene.handle_scene(LivingRoom._activity_helper, None, None, None, None)
+        living_room_scene.handlers.music = music
+        living_room_scene.handle_scene(LivingRoom._activity_helper, None, None, None, None)
 
         music.pause.assert_called_once()
 
 
 @pytest.mark.asyncio
-def test_gaming_closes_blinds(given_that) -> None:
+def test_gaming_closes_blinds(given_that, living_room_scene) -> None:
     given_that.living_room_scene_is(activity=LivingRoom.Activity.GAMING, mode=selects.Mode.DAY)
 
     with mock.patch.object(BlindsHandler, 'close') as blinds:
-        scene = LivingRoomScene(None, LivingRoomScene.__class__, None, None, None, None, None)
-        scene.handlers.blinds = blinds
-        scene.handle_scene(LivingRoom._activity_helper, None, None, None, None)
+        living_room_scene.handlers.blinds = blinds
+        living_room_scene.handle_scene(LivingRoom._activity_helper, None, None, None, None)
 
         blinds.close.assert_called_once()
 

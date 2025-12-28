@@ -109,8 +109,7 @@ class SceneApp(App):
         if entity == self.activity._helper:
             while len(self._scheduled_tasks) > 0:
                 task = self._scheduled_tasks.pop()
-                if self.timer_running(task):
-                    self.cancel_timer(task)
+                self.cancel_timer(task)
 
     def run_if_activity_stays_in(self, task: Callable[[], Any], seconds: int = 0, minutes: int = 0) -> None:
         task_id: str = self.run_in(lambda *_: task, seconds + (minutes * 60))

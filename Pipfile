@@ -7,7 +7,7 @@ name = "pypi"
 pyyaml = "*"
 requests = "*"
 appdaemon = "*"
-appdaemontestframework = "*"
+appdaemontestframework = "==5.0.0"
 asynctest = "*"
 mypy = "*"
 mypy-extensions = "*"
@@ -21,11 +21,3 @@ jinja2 = "*"
 
 [requires]
 python_version = "3.11"
-
-PyYAML~=6.0.1
-Jinja2~=3.1.2
-requests~=2.28.2
-appdaemon~=4.4.2
-pytest~=7.4.3
-appdaemontestframework~=3.0.5
-freezegun~=1.2.2

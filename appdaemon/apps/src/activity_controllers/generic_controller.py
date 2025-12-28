@@ -58,7 +58,7 @@ class ActivityController(App):
             self._run_empty_timer_in(self.max_seconds_until_empty, warn_log=f'Setting {self.controller} to empty because there has been no activity for {self.max_seconds_until_empty} seconds')
 
     def _cancel_empty_timer(self) -> None:
-        if self._empty_timer and hasattr(self, 'AD') and self.timer_running(self._empty_timer):
+        if self._empty_timer:
             self.cancel_timer(self._empty_timer)
 
     def _run_empty_timer_in(self, seconds: int, warn_log: Optional[str] = None) -> None:

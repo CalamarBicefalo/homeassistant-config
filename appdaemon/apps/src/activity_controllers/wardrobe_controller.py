@@ -5,7 +5,7 @@ from rooms import *
 
 
 class WardrobeController(ActivityController):
-    motion_sensor = entities.BINARY_SENSOR_WARDROBE_MOTION
+    motion_sensor = entities.BINARY_SENSOR_WARDROBE_MS_MOTION
     _dressing_cooldown = None
     max_seconds_until_empty = 15 * 60
 
