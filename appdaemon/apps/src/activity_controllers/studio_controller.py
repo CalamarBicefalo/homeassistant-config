@@ -7,6 +7,7 @@ from rooms import *
 
 class StudioController(ActivityController):
     motion_sensor = entities.BINARY_SENSOR_STUDIO_MOTION
+    max_seconds_without_presence_until_empty = 2 * 60
 
     @property
     def activity(self) -> ActivityHandler:
@@ -40,7 +41,7 @@ class StudioController(ActivityController):
         if (self.laptop_at_home()
                 and (self.sitting_at_desk() or self.standing_at_desk())):
             self.set_working_or_meeting()
-            self.set_as_empty_in(minutes=180)
+            self.set_as_empty_in(minutes=10)
 
         # Drums
         elif self.state.is_on(entities.BINARY_SENSOR_DRUMS_VIBRATION):
