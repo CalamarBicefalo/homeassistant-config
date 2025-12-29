@@ -42,10 +42,10 @@ class AlarmClock:
         app = self._app
         state = self.state
 
-        def cb(self, entity, attribute, old, new, kwargs) -> None:
+        def cb(entity, attribute, old, new, **kwargs) -> None:
             app.log(f'alarm time changed, scheduling callback {entity} ')
             nextalarm = state.get_as_datetime(entities.INPUT_DATETIME_NEXT_IOS_ALARM) - timedelta(hours=1)
-            def one_hour_before(self, **kwargs: Any) -> None:
+            def one_hour_before(**kwargs: Any) -> None:
                 app.log(f'triggering callback 1 hour before alarm {entity} ')
                 callback()
 
@@ -55,7 +55,7 @@ class AlarmClock:
 
     def _on_alarm_dismissed(self, callback: Callable) -> Callable[..., None]:
         app = self._app
-        def cb(self, entity, attribute, old, new, kwargs) -> None:
+        def cb(entity, attribute, old, new, **kwargs) -> None:
             app.log(f'alarm dismissed, executing callback {entity} ')
             callback()
         return cb
