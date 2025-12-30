@@ -131,7 +131,6 @@ cards:
     label: Hardware
 
   - view_layout:
-      grid-column-end: span 2
     type: "custom:button-card"
     template: 
       - card_binary_sensor
@@ -152,6 +151,7 @@ cards:
     entity: switch.monitor
 
   - view_layout:
+      grid-column-end: span 2
     type: "custom:button-card"
     template: card_binary_sensor
     variables:
