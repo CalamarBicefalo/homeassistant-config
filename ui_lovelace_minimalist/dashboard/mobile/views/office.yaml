@@ -126,6 +126,7 @@ cards:
     entity: binary_sensor.vs_drums_bd_vibration
 
   - view_layout:
+      grid-column-end: span 2
     type: "custom:button-card"
     template: cb_card_title
     label: Hardware
