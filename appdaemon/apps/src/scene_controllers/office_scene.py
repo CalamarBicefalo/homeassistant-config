@@ -38,6 +38,25 @@ class OfficeScene(SceneApp):
                     lambda: self.handlers.blinds.best_for_temperature(),
                 )
 
+            case Office.Activity.DRUMMING:
+                return scene.with_actions(
+                    scenes.OFFICE_DRUMMING,
+                    lambda: self.turn_on(entities.LIGHT_DRUM_POWER_STRIP_SPEAKERS),
+                    lambda: self.turn_on(entities.LIGHT_DRUM_POWER_STRIP_LIGHT),
+                    lambda: self.turn_on(entities.LIGHT_DRUM_POWER_STRIP_USB),
+                    lambda: self.turn_on(entities.LIGHT_DRUM_POWER_STRIP_FOCUSRITE),
+                    lambda: self.turn_on(entities.LIGHT_DRUM_POWER_STRIP_DRUMS),
+                    lambda: self.turn_off_media(),
+                    lambda: self.handlers.blinds.close(),
+                )
+
+            case Office.Activity.SNARING:
+                return scene.with_actions(
+                    scenes.OFFICE_SNARING,
+                    lambda: self.turn_off_media(),
+                    lambda: self.handlers.blinds.close(),
+                )
+
             case Office.Activity.PRESENT:
                 return scene.with_actions(
                     scenes.OFFICE_NATURAL_LIGHT_3,

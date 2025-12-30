@@ -7,6 +7,7 @@ from rooms import *
 
 class StudioController(ActivityController):
     motion_sensor = entities.BINARY_SENSOR_STUDIO_MOTION
+    home_display_id = "388CDA68-6885-B1E3-0857-D6964E3302DB"
     max_seconds_without_presence_until_empty = 2 * 60
 
     @property
@@ -21,9 +22,9 @@ class StudioController(ActivityController):
             self.controller_handler,
             [
                 self.motion_sensor,
-                entities.BINARY_SENSOR_DESK_CHAIR_PS,
-                entities.BINARY_SENSOR_DRUMS_VIBRATION,
-                entities.BINARY_SENSOR_SNYK_LAPTOP_AUDIO_INPUT_IN_USE
+                entities.SENSOR_AMANDA_M1AIR_C02FX084Q6LX_PRIMARY_DISPLAY_ID,
+                entities.BINARY_SENSOR_AMANDA_M1AIR_C02FX084Q6LX_ACTIVE,
+                entities.SENSOR_AMANDA_M1AIR_C02FX084Q6LX_ACTIVE_AUDIO_INPUT
             ]
         )
 
@@ -34,21 +35,10 @@ class StudioController(ActivityController):
 
         self.cancel_empty_timer()
 
-        if self.activity.is_value(Studio.Activity.SNARING):
-            return
-
         # Work handling
-        if (self.laptop_at_home()
-                and (self.sitting_at_desk() or self.standing_at_desk())):
+        if self.laptop_at_home() and self.connected_to_monitor():
             self.set_working_or_meeting()
-            self.set_as_empty_in(minutes=10)
-
-        # Drums
-        elif self.state.is_on(entities.BINARY_SENSOR_DRUMS_VIBRATION):
-            self.activity.set(Studio.Activity.DRUMMING)
-        elif  self.activity.is_value(Studio.Activity.DRUMMING):
-            # Will change to empty after 10 minutes of absence
-            return
+            self.set_as_empty_in(minutes=180)
 
         # Presence
         elif self.state.is_on(self.motion_sensor):
@@ -57,18 +47,16 @@ class StudioController(ActivityController):
         else:
             self.set_as_empty_in(seconds=10)
 
-    def standing_at_desk(self) -> bool:
-        return self.is_working_or_meeting() and self.state.is_on(entities.BINARY_SENSOR_SNYK_LAPTOP_ACTIVE)
-
-    def sitting_at_desk(self) -> bool:
-        return self.state.is_on(entities.BINARY_SENSOR_DESK_CHAIR_PS)
-
     def laptop_at_home(self) -> bool:
-        return self.state.is_value(entities.SENSOR_SNYK_LAPTOP_SSID, 'SETE-2SE-5G')
+        return (self.state.is_value(entities.SENSOR_AMANDA_M1AIR_C02FX084Q6LX_SSID, 'SETE-2SE-5G')
+                and self.state.is_on(entities.BINARY_SENSOR_AMANDA_M1AIR_C02FX084Q6LX_ACTIVE))
+
+    def connected_to_monitor(self) -> bool:
+        return self.state.is_value(entities.SENSOR_AMANDA_M1AIR_C02FX084Q6LX_PRIMARY_DISPLAY_ID, self.home_display_id)
 
     def set_working_or_meeting(self) -> None:
-        if (self.state.is_on(entities.BINARY_SENSOR_SNYK_LAPTOP_AUDIO_INPUT_IN_USE) 
-            or self.state.is_on(entities.BINARY_SENSOR_SNYK_LAPTOP_AUDIO_OUTPUT_IN_USE)):
+        if (self.state.is_on(entities.BINARY_SENSOR_AMANDA_M1AIR_C02FX084Q6LX_AUDIO_INPUT_IN_USE)
+            or self.state.is_on(entities.BINARY_SENSOR_AMANDA_M1AIR_C02FX084Q6LX_AUDIO_OUTPUT_IN_USE)):
             self.activity.set(Studio.Activity.MEETING)
         else:
             self.activity.set(Studio.Activity.WORKING)

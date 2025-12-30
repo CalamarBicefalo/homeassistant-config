@@ -13,6 +13,8 @@ class Office(Room):
         PRESENT = "Present"
         WORKING = "Working"
         MEETING = "Meeting"
+        DRUMMING = "Drumming"
+        SNARING = "Snaring"
 
     activity: SelectHandler[Activity]
     days_between_cleaning: int = 0
@@ -115,8 +117,6 @@ class Studio(Room):
         PRESENT = "Present"
         WORKING = "Working"
         MEETING = "Meeting"
-        DRUMMING = "Drumming"
-        SNARING = "Snaring"
 
     activity: SelectHandler[Activity]
     days_between_cleaning: int = 2

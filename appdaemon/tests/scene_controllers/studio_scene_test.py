@@ -48,15 +48,6 @@ def test_when_meeting(given_that, studio_scene, assert_that):
 
 
 @pytest.mark.asyncio
-def test_when_drumming(given_that, studio_scene, assert_that):
-    given_that.studio_scene_is(activity=Studio.Activity.DRUMMING, illuminance=30)
-
-    studio_scene.handle_scene(Studio._activity_helper, None, None, None, None)
-
-    assert_that(scenes.STUDIO_DRUMMING.get()).was.turned_on()
-
-
-@pytest.mark.asyncio
 def test_when_away(given_that, studio_scene, assert_that):
     given_that.studio_scene_is(activity=Studio.Activity.EMPTY, illuminance=30)
 

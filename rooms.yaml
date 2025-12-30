@@ -23,6 +23,10 @@ rooms:
         icon: mdi:desktop-classic
       - name: Meeting
         icon: mdi:account-group
+      - name: Drumming
+        icon: mdi:instrument-triangle
+      - name: Snaring
+        icon: fa7-solid:drum
     vacuum:
       period_days: 0
       room_id: 17
@@ -101,10 +105,6 @@ rooms:
         icon: mdi:desktop-classic
       - name: Meeting
         icon: mdi:account-group
-      - name: Drumming
-        icon: mdi:instrument-triangle
-      - name: Snaring
-        icon: fa7-solid:drum
     vacuum:
       period_days: 2
       room_id: 23

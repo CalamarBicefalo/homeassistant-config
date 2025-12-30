@@ -38,23 +38,6 @@ class StudioScene(SceneApp):
                     lambda: self.handlers.music.pause(),
                 )
 
-            case Studio.Activity.DRUMMING:
-                return scene.with_actions(
-                    scenes.STUDIO_DRUMMING,
-                    lambda: self.turn_on(entities.LIGHT_DRUM_POWER_STRIP_SPEAKERS),
-                    lambda: self.turn_on(entities.LIGHT_DRUM_POWER_STRIP_LIGHT),
-                    lambda: self.turn_on(entities.LIGHT_DRUM_POWER_STRIP_USB),
-                    lambda: self.turn_on(entities.LIGHT_DRUM_POWER_STRIP_FOCUSRITE),
-                    lambda: self.turn_on(entities.LIGHT_DRUM_POWER_STRIP_DRUMS),
-                    lambda: self.turn_off_media(),
-                )
-
-            case Studio.Activity.SNARING:
-                return scene.with_actions(
-                    scenes.STUDIO_SNARING,
-                    lambda: self.turn_off_media(),
-                )
-
             case Studio.Activity.PRESENT:
                 return scene.with_actions(
                     scenes.STUDIO_NATURAL_LIGHT,

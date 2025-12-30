@@ -6,6 +6,8 @@ office_activity:
     - Present
     - Working
     - Meeting
+    - Drumming
+    - Snaring
 bathroom_activity:
   name: Bathroom activity
   icon: mdi:desk
@@ -40,8 +42,6 @@ studio_activity:
     - Present
     - Working
     - Meeting
-    - Drumming
-    - Snaring
 ensuite_activity:
   name: Ensuite activity
   icon: mdi:shower-head

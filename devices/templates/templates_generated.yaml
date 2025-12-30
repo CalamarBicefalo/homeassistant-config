@@ -40,6 +40,26 @@
       option: Meeting
   
 - binary_sensor:
+  - name: "Activity Office Drumming"
+    unique_id: "activity_office_drumming"
+    state: >
+      {{ states('input_select.office_activity') == 'Drumming'}}
+    icon: mdi:instrument-triangle
+    device_class: running
+    attributes:
+      option: Drumming
+  
+- binary_sensor:
+  - name: "Activity Office Snaring"
+    unique_id: "activity_office_snaring"
+    state: >
+      {{ states('input_select.office_activity') == 'Snaring'}}
+    icon: fa7-solid:drum
+    device_class: running
+    attributes:
+      option: Snaring
+  
+- binary_sensor:
   - name: "Activity Bathroom Empty"
     unique_id: "activity_bathroom_empty"
     state: >
@@ -218,26 +238,6 @@
     device_class: running
     attributes:
       option: Meeting
-  
-- binary_sensor:
-  - name: "Activity Studio Drumming"
-    unique_id: "activity_studio_drumming"
-    state: >
-      {{ states('input_select.studio_activity') == 'Drumming'}}
-    icon: mdi:instrument-triangle
-    device_class: running
-    attributes:
-      option: Drumming
-  
-- binary_sensor:
-  - name: "Activity Studio Snaring"
-    unique_id: "activity_studio_snaring"
-    state: >
-      {{ states('input_select.studio_activity') == 'Snaring'}}
-    icon: fa7-solid:drum
-    device_class: running
-    attributes:
-      option: Snaring
   
 - binary_sensor:
   - name: "Activity Ensuite Empty"
