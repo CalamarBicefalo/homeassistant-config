@@ -19,6 +19,7 @@ class AlarmClock:
     def __init__(self, app: hass.Hass):
         self._app = app
         self.state = StateHandler(app)
+        self._scheduled_one_hour_timer = None
 
     def listen_one_hour_before_alarm(self, callback: Callable) -> None:
         self._app.listen_event(self._on_event(callback), SLEEP_AS_ANDROID_EVENT)
@@ -45,11 +46,14 @@ class AlarmClock:
         def cb(entity, attribute, old, new, **kwargs) -> None:
             nextalarm = state.get_as_datetime(entities.INPUT_DATETIME_NEXT_IOS_ALARM) - timedelta(hours=1)
             app.log(f'alarm time changed in entity={entity}, scheduling callback for next alarm={nextalarm}')
+
             def one_hour_before(**kwargs: Any) -> None:
-                app.log(f'triggering callback 1 hour before alarm {entity} ')
+                app.log(f'triggering callback scheduled by entity={entity} at={nextalarm} ')
+                self._scheduled_one_hour_timer = None
                 callback()
 
-            app.run_at(one_hour_before, nextalarm)
+            self._cancel_scheduled_one_hour_timer()
+            self._scheduled_one_hour_timer = app.run_at(one_hour_before, nextalarm)
 
         return cb
 
@@ -59,3 +63,8 @@ class AlarmClock:
             app.log(f'alarm dismissed, executing callback {entity} ')
             callback()
         return cb
+
+    def _cancel_scheduled_one_hour_timer(self):
+        if self._scheduled_one_hour_timer:
+            self._app.cancel_timer(self._scheduled_one_hour_timer, True)
+        self._scheduled_one_hour_timer = None
