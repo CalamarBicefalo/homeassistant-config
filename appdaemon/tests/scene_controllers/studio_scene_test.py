@@ -54,7 +54,7 @@ def test_when_away(given_that, studio_scene, assert_that):
     with mock.patch.object(studio_scene.handlers.blinds, 'best_for_temperature'):
         studio_scene.handle_scene(Studio._activity_helper, None, None, None, None)
 
-    assert_that(entities.FAN_FAN).was.turned_off()
+    assert_that(entities.SWITCH_MONITOR).was.turned_off()
 
 
 def studio_scene_is(self, activity, illuminance, mode=selects.Mode.DAY):

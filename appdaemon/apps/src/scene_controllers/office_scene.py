@@ -46,14 +46,14 @@ class OfficeScene(SceneApp):
                     lambda: self.turn_on(entities.LIGHT_DRUM_POWER_STRIP_USB),
                     lambda: self.turn_on(entities.LIGHT_DRUM_POWER_STRIP_FOCUSRITE),
                     lambda: self.turn_on(entities.LIGHT_DRUM_POWER_STRIP_DRUMS),
-                    lambda: self.turn_off_media(),
+                    lambda: self.handlers.music.pause(),
                     lambda: self.handlers.blinds.close(),
                 )
 
             case Office.Activity.SNARING:
                 return scene.with_actions(
                     scenes.OFFICE_SNARING,
-                    lambda: self.turn_off_media(),
+                    lambda: self.handlers.music.pause(),
                     lambda: self.handlers.blinds.close(),
                 )
 
@@ -67,6 +67,7 @@ class OfficeScene(SceneApp):
         return scene.with_actions(
             scene.off(),
             lambda: self.pause_music_if_working_before(previous_activity),
+            lambda: self.turn_off(entities.FAN_FAN),
             # lambda: self.handlers.blinds.best_for_temperature(),
         )
 
@@ -76,7 +77,7 @@ class OfficeScene(SceneApp):
 
     def play_music_if_appropriate(self) -> None:
         if not self.handlers.music.is_playing():
-            self.handlers.music.play(Playlist.DISCOVER_WEEKLY_AMANDA, volume_level=0.3)
+            self.handlers.music.play(Playlist.random(), volume_level=0.3)
 
     def pause_music_if_working_before(self, previous_activity) -> None:
         if previous_activity == Office.Activity.WORKING:

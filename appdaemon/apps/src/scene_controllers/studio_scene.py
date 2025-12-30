@@ -47,7 +47,6 @@ class StudioScene(SceneApp):
         return scene.with_actions(
             scene.off(),
             lambda: self.turn_off(entities.SWITCH_MONITOR),
-            lambda: self.turn_off(entities.FAN_FAN),
             lambda: self.handlers.blinds.best_for_temperature(),
         )
 
@@ -56,4 +55,4 @@ class StudioScene(SceneApp):
 
     def play_music_if_appropriate(self) -> None:
         if not self.handlers.music.is_playing():
-            self.handlers.music.play(Playlist.random(), volume_level=0.3) # TODO swap with studying playlist
+            self.handlers.music.play(Playlist.DISCOVER_WEEKLY_AMANDA, volume_level=0.3)

@@ -82,14 +82,12 @@ cards:
 
   - view_layout:
     type: "custom:button-card"
-    template: 
-      - card_binary_sensor
-      - battery_info
+    template: card_binary_sensor
     variables:
+      ulm_card_generic_icon: mdi:monitor
       ulm_show_last_changed: false
-      ulm_card_binary_sensor_name: Chair
-      ulm_battery_entity: sensor.desk_chair_ps_battery
-    entity: binary_sensor.desk_chair_ps
+      ulm_card_binary_sensor_name: Monitor
+    entity: sensor.amanda_m1air_c02fx084q6lx_primary_display_id
 
 
   - view_layout:
@@ -107,18 +105,9 @@ cards:
       ulm_card_generic_icon: mdi:laptop
       ulm_show_last_changed: false
       ulm_card_binary_sensor_name: Laptop
-      ulm_battery_entity: sensor.snyk_laptop_internal_battery_level
-    entity: binary_sensor.snyk_laptop_active
+      ulm_battery_entity: sensor.amanda_m1air_c02fx084q6lx_internal_battery_level
+    entity: binary_sensor.amanda_m1air_c02fx084q6lx_active
 
-
-  - view_layout:
-    type: "custom:button-card"
-    template: card_binary_sensor
-    variables:
-      ulm_card_generic_icon: fa7-solid:drum
-      ulm_show_last_changed: false
-      ulm_card_binary_sensor_name: Drumkit
-    entity: binary_sensor.drums_vibration
 
   - view_layout:
     type: "custom:button-card"
@@ -127,47 +116,3 @@ cards:
       ulm_show_last_changed: false
       ulm_card_binary_sensor_name: Display
     entity: switch.monitor
-
-  - view_layout:
-      grid-column-end: span 2
-    type: "custom:button-card"
-    template: cb_card_title
-    label: Environment
-
-  - type: 'custom:button-card'
-    template: card_graph
-    entity: sensor.fan_temperature
-    variables:
-      ulm_card_graph_color: "var(--google-red)"
-      ulm_card_graph_name: Temperature
-      ulm_card_graph_entity: sensor.fan_temperature
-      ulm_card_graph_type: fill
-      ulm_card_graph_hours: 24
-      ulm_card_graph_group_by: interval
-      ulm_card_graph_line_width: 5
-
-  - type: 'custom:button-card'
-    template: card_graph
-    entity: sensor.fan_humidity
-    variables:
-      ulm_card_graph_color: "var(--google-blue)"
-      ulm_card_graph_name: Humidity
-      ulm_card_graph_entity: sensor.fan_humidity
-      ulm_card_graph_type: fill
-      ulm_card_graph_hours: 24
-      ulm_card_graph_group_by: interval
-      ulm_card_graph_line_width: 5
-
-  - view_layout:
-      grid-column-end: span 2
-    type: 'custom:button-card'
-    template: card_graph
-    entity: sensor.fan_pm_2_5
-    variables:
-      ulm_card_graph_color: "var(--google-green)"
-      ulm_card_graph_name: PM 2.5
-      ulm_card_graph_entity: sensor.fan_pm_2_5
-      ulm_card_graph_type: bar
-      ulm_card_graph_hours: 48
-      ulm_card_graph_group_by: interval
-      ulm_card_graph_line_width: 5
