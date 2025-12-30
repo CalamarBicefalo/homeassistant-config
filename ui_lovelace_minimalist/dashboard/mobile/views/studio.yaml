@@ -72,6 +72,7 @@ cards:
     label: Presence
 
   - view_layout:
+      grid-column-end: span 2
     type: "custom:button-card"
     template: card_binary_sensor
     name: Motion
@@ -79,16 +80,6 @@ cards:
       ulm_show_last_changed: false
       ulm_card_binary_sensor_name: Motion
     entity: binary_sensor.studio_motion
-
-  - view_layout:
-    type: "custom:button-card"
-    template: card_binary_sensor
-    variables:
-      ulm_card_generic_icon: mdi:monitor
-      ulm_show_last_changed: false
-      ulm_card_binary_sensor_name: Monitor
-    entity: sensor.amanda_m1air_c02fx084q6lx_primary_display_id
-
 
   - view_layout:
     type: "custom:button-card"
@@ -107,12 +98,3 @@ cards:
       ulm_card_binary_sensor_name: Laptop
       ulm_battery_entity: sensor.amanda_m1air_c02fx084q6lx_internal_battery_level
     entity: binary_sensor.amanda_m1air_c02fx084q6lx_active
-
-
-  - view_layout:
-    type: "custom:button-card"
-    template: card_binary_sensor
-    variables:
-      ulm_show_last_changed: false
-      ulm_card_binary_sensor_name: Display
-    entity: switch.monitor

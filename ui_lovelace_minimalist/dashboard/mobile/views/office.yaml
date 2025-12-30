@@ -105,6 +105,28 @@ cards:
 
   - view_layout:
     type: "custom:button-card"
+    template:
+      - card_binary_sensor
+      - battery_info
+    variables:
+      ulm_show_last_changed: false
+      ulm_card_binary_sensor_name: HiHat
+      ulm_battery_entity: sensor.vs_drums_xh_battery
+    entity: binary_sensor.vs_drums_xh_vibration
+
+  - view_layout:
+    type: "custom:button-card"
+    template:
+      - card_binary_sensor
+      - battery_info
+    variables:
+      ulm_show_last_changed: false
+      ulm_card_binary_sensor_name: Bass Drum
+      ulm_battery_entity: sensor.vs_drums_bd_battery
+    entity: binary_sensor.vs_drums_bd_vibration
+
+  - view_layout:
+    type: "custom:button-card"
     template: cb_card_title
     label: Hardware
 
@@ -125,10 +147,9 @@ cards:
     type: "custom:button-card"
     template: card_binary_sensor
     variables:
-      ulm_card_generic_icon: fa7-solid:drum
       ulm_show_last_changed: false
-      ulm_card_binary_sensor_name: Drumkit
-    entity: binary_sensor.drums_vibration
+      ulm_card_binary_sensor_name: Monitor
+    entity: switch.monitor
 
   - view_layout:
     type: "custom:button-card"
