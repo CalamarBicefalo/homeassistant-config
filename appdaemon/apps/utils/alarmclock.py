@@ -44,16 +44,29 @@ class AlarmClock:
         state = self.state
 
         def cb(entity, attribute, old, new, **kwargs) -> None:
-            nextalarm = state.get_as_datetime(entities.INPUT_DATETIME_NEXT_IOS_ALARM) - timedelta(hours=1)
-            app.log(f'alarm time changed in entity={entity}, scheduling callback for next alarm={nextalarm}')
+            self._cancel_scheduled_one_hour_timer()
+            alarm_time = state.get_as_datetime(entities.INPUT_DATETIME_NEXT_IOS_ALARM)
 
-            def one_hour_before(**kwargs: Any) -> None:
-                app.log(f'triggering callback scheduled by entity={entity} at={nextalarm} ')
+            if not alarm_time:
+                app.log('alarm time not set, not scheduling callback', level="WARNING")
+                return
+            
+            next_alarm_callback_time = alarm_time - timedelta(hours=1)
+            now = app.datetime()
+            
+            if next_alarm_callback_time <= now:
+                app.log(f'alarm callback time {next_alarm_callback_time} is in the past (now: {now}), not scheduling callback', level="WARNING")
+                return
+            
+            delay_seconds = (next_alarm_callback_time - now).total_seconds()
+            app.log(f'scheduling alarm callback for {next_alarm_callback_time} (in {delay_seconds}s)', level="INFO")
+
+            def one_hour_before(kwargs: Any) -> None:
+                app.log(f'triggering callback scheduled by entity={entity} at={next_alarm_callback_time}')
                 self._scheduled_one_hour_timer = None
                 callback()
 
-            self._cancel_scheduled_one_hour_timer()
-            self._scheduled_one_hour_timer = app.run_at(one_hour_before, nextalarm)
+            self._scheduled_one_hour_timer = app.run_in(one_hour_before, delay_seconds)
 
         return cb
 
