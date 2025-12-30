@@ -13,7 +13,6 @@ SLEEP_AS_ANDROID_EVENT = "SleepAsAndroid_phone"
 # Sleep As Android known events
 SLEEP_AS_ANDROID_ONE_HOUR_BEFORE_ALARM = 'before_alarm'
 
-
 class AlarmClock:
 
     def __init__(self, app: hass.Hass):
@@ -59,7 +58,7 @@ class AlarmClock:
                 return
             
             delay_seconds = (next_alarm_callback_time - now).total_seconds()
-            app.log(f'scheduling alarm callback for {next_alarm_callback_time} (in {delay_seconds}s)', level="INFO")
+            app.log(f'scheduling alarm callback for {next_alarm_callback_time} (in {_format_duration(delay_seconds)})', level="INFO")
 
             def one_hour_before(kwargs: Any) -> None:
                 app.log(f'triggering callback scheduled by entity={entity} at={next_alarm_callback_time}')
@@ -81,3 +80,19 @@ class AlarmClock:
         if self._scheduled_one_hour_timer:
             self._app.cancel_timer(self._scheduled_one_hour_timer, True)
         self._scheduled_one_hour_timer = None
+
+def _format_duration(seconds: float) -> str:
+    """Format duration in seconds to human-readable format like '2h 15m' or '45m' or '30s'."""
+    if seconds < 60:
+        return f"{int(seconds)}s"
+
+    minutes = int(seconds // 60)
+    if minutes < 60:
+        return f"{minutes}m"
+
+    hours = minutes // 60
+    remaining_minutes = minutes % 60
+    if remaining_minutes > 0:
+        return f"{hours}h {remaining_minutes}m"
+    return f"{hours}h"
+
