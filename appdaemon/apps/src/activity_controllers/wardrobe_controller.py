@@ -30,7 +30,7 @@ class WardrobeController(ActivityController):
             f'Triggering wardrobe activity controller {entity} -> {attribute} old={old} new={new}',
             level="DEBUG")
         if self._dressing_cooldown:
-            self.cancel_timer(self._dressing_cooldown)
+            self.cancel_timer(self._dressing_cooldown, True)
             self._dressing_cooldown = None
         self.cancel_empty_timer()
 
@@ -57,6 +57,7 @@ class WardrobeController(ActivityController):
             self.activity.set(CommonActivities.PRESENT)
 
     def dressing_cooldown(self) -> None:
+        self._dressing_cooldown = None
         if self.state.is_on(self.motion_sensor):
             self.handle_presence()
         else:

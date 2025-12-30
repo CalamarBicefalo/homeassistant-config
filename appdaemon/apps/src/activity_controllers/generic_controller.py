@@ -59,7 +59,7 @@ class ActivityController(App):
 
     def _cancel_empty_timer(self) -> None:
         if self._empty_timer:
-            self.cancel_timer(self._empty_timer)
+            self.cancel_timer(self._empty_timer, True)
 
     def _run_empty_timer_in(self, seconds: int, warn_log: Optional[str] = None) -> None:
         def callback() -> None:

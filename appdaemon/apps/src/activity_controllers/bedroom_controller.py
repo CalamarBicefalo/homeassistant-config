@@ -11,7 +11,7 @@ from rooms import *
 
 class BedroomController(MotionController):
     motion_sensor = entities.BINARY_SENSOR_BEDROOM_MOTION
-    _waking_up_schedule = None
+    _waking_up_timer = None
     _enable_bedtime_timer = None
 
     @property
@@ -70,9 +70,14 @@ class BedroomController(MotionController):
             level="INFO")
         if self.activity.is_value(Bedroom.Activity.BEDTIME):
             self.cancel_empty_timer()
-            # Note: The first timer is overwritten, which seems like a bug but preserving original behavior
-            self._waking_up_schedule = self.run_in(lambda *_: self.activity.set(Bedroom.Activity.WAKING_UP), 1800)
-            self._waking_up_schedule = self.run_in(lambda *_: self.on_alarm_buzzing(), 3600)
+            self._waking_up_timer = self.run_in(lambda *_: self.on_30_min_to_wake_up(), 1800)
+
+    def on_30_min_to_wake_up(self) -> None:
+        self.cancel_empty_timer()
+        self.cancel_wakeup_timer()
+
+        self.activity.set(Bedroom.Activity.WAKING_UP)
+        self._waking_up_timer = self.run_in(lambda *_: self.on_alarm_buzzing(), 1800)
 
     def on_alarm_buzzing(self) -> None:
         self.cancel_empty_timer()
@@ -99,6 +104,7 @@ class BedroomController(MotionController):
                 self._enable_bedtime_timer = self.run_in(lambda *_: self.enable_bedtime_if_in_bed(),30)
         elif self._enable_bedtime_timer:
             self.cancel_timer(self._enable_bedtime_timer, True)
+            self._enable_bedtime_timer = None
 
         self.handle_presence()
 
@@ -120,6 +126,6 @@ class BedroomController(MotionController):
 
 
     def cancel_wakeup_timer(self) -> None:
-        if self._waking_up_schedule:
-            self.cancel_timer(self._waking_up_schedule)
-            self._waking_up_schedule = None
+        if self._waking_up_timer:
+            self.cancel_timer(self._waking_up_timer, True)
+        self._waking_up_timer = None
