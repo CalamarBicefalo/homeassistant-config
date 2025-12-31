@@ -68,7 +68,7 @@ class OfficeScene(SceneApp):
             scene.off(),
             lambda: self.pause_music_if_working_before(previous_activity),
             lambda: self.turn_off(entities.FAN_FAN),
-            # lambda: self.handlers.blinds.best_for_temperature(),
+            lambda: self.handlers.blinds.best_for_temperature(),
         )
 
     def on_mode_change(self, new: Mode, old: Mode) -> None:
