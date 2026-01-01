@@ -90,6 +90,15 @@ def test_empty_activity_turns_off_lights(given_that, office_scene, assert_that):
 
 
 @pytest.mark.asyncio
+def test_mode_change_adjusts_blinds_when_empty(given_that, office_scene, fake_blinds):
+    given_that.office_scene_is(activity=Office.Activity.EMPTY, illuminance=30, mode=selects.Mode.DAY)
+
+    office_scene.on_mode_change(selects.Mode.NIGHT, selects.Mode.DAY)
+    
+    assert fake_blinds.get_position() == BEST_FOR_TEMPERATURE
+
+
+@pytest.mark.asyncio
 def test_mode_change_adjusts_blinds_when_away(given_that, office_scene, fake_blinds):
     given_that.office_scene_is(activity=Office.Activity.WORKING, illuminance=30, mode=selects.Mode.DAY)
 

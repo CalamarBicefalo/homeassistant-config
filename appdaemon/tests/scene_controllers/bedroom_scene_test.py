@@ -63,6 +63,15 @@ def test_empty_activity_adjusts_blinds(given_that, bedroom_scene, assert_that):
 
 
 @pytest.mark.asyncio
+def test_mode_change_adjusts_blinds_when_empty(given_that, bedroom_scene, fake_blinds):
+    given_that.bedroom_scene_is(activity=Bedroom.Activity.EMPTY, mode=selects.Mode.DAY)
+
+    bedroom_scene.on_mode_change(selects.Mode.NIGHT, selects.Mode.DAY)
+    
+    assert fake_blinds.get_position() == BEST_FOR_TEMPERATURE
+
+
+@pytest.mark.asyncio
 def test_mode_change_adjusts_blinds_when_away(given_that, bedroom_scene, fake_blinds):
     given_that.bedroom_scene_is(activity=Bedroom.Activity.PRESENT, mode=selects.Mode.DAY)
 
