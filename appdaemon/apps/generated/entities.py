@@ -236,7 +236,6 @@ INPUT_DATETIME_LAST_PRESENT_STORAGE: Entity = Entity("input_datetime.last_presen
 INPUT_DATETIME_LAST_PRESENT_STUDIO: Entity = Entity("input_datetime.last_present_studio")
 INPUT_DATETIME_LAST_PRESENT_WARDROBE: Entity = Entity("input_datetime.last_present_wardrobe")
 INPUT_DATETIME_LAST_WASHED_CLOTHES: Entity = Entity("input_datetime.last_washed_clothes")
-INPUT_DATETIME_NEXT_IOS_ALARM: Entity = Entity("input_datetime.next_ios_alarm")
 INPUT_NUMBER_MAX_TEMPERATURE_TODAY: Entity = Entity("input_number.max_temperature_today")
 INPUT_NUMBER_MAX_TEMPERATURE_TOMORROW: Entity = Entity("input_number.max_temperature_tomorrow")
 INPUT_NUMBER_MIN_TEMPERATURE_TODAY: Entity = Entity("input_number.min_temperature_today")

@@ -106,7 +106,7 @@ rooms:
       - name: Meeting
         icon: mdi:account-group
     vacuum:
-      period_days: 2
+      period_days: 0
       room_id: 23
     icon: mdi:android-studio
 

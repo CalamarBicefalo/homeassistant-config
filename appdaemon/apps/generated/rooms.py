@@ -119,7 +119,7 @@ class Studio(Room):
         MEETING = "Meeting"
 
     activity: SelectHandler[Activity]
-    days_between_cleaning: int = 2
+    days_between_cleaning: int = 0
     clean_after: int = -1
 
     _activity_helper : Helper = "input_select.studio_activity"
