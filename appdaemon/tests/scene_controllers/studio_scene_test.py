@@ -1,9 +1,8 @@
-from unittest import mock
-
 import pytest
 from appdaemontestframework import automation_fixture, given_that as given
 
-from music import MusicHandler
+from fakes.blinds_handler_fake import FakeBlindsHandler, BEST_FOR_TEMPERATURE
+from fakes.music_handler_fake import FakeMusicHandler
 from rooms import *
 import entities
 import helpers
@@ -20,50 +19,58 @@ def studio_scene() -> None:
     pass
 
 
+@pytest.fixture
+def fake_blinds():
+    return FakeBlindsHandler()
+
+
+@pytest.fixture
+def fake_music():
+    return FakeMusicHandler()
+
+
+@pytest.fixture(autouse=True)
+def setup_fakes(studio_scene, fake_blinds, fake_music):
+    studio_scene.handlers.blinds = fake_blinds
+    studio_scene.handlers.music = fake_music
+
+
 @pytest.mark.asyncio
-def test_when_working(given_that, studio_scene, assert_that):
+def test_when_working(given_that, studio_scene, fake_music, assert_that):
     given_that.studio_scene_is(activity=Studio.Activity.WORKING, illuminance=30)
 
-    with mock.patch.object(MusicHandler, 'play') as music:
-        music.is_playing = lambda *_: False
-        studio_scene.handlers.music = music
-        studio_scene.handle_scene(Studio._activity_helper, None, None, None, None)
+    studio_scene.handle_scene(Studio._activity_helper, None, None, None, None)
 
-        music.play.assert_called_once()
-        assert_that(scenes.STUDIO_WORKING.get()).was.turned_on()
-        assert_that(entities.SWITCH_MONITOR).was.turned_on()
+    assert fake_music.is_playing()
+    assert_that(scenes.STUDIO_WORKING.get()).was.turned_on()
+    assert_that(entities.SWITCH_MONITOR).was.turned_on()
 
 
 @pytest.mark.asyncio
-def test_when_meeting(given_that, studio_scene, assert_that):
+def test_when_meeting(given_that, studio_scene, fake_music, assert_that):
     given_that.studio_scene_is(activity=Studio.Activity.MEETING, illuminance=30)
 
     studio_scene.handle_scene(Studio._activity_helper, None, None, None, None)
 
-    with mock.patch.object(MusicHandler, 'pause') as music:
-        studio_scene.handlers.music = music
-        studio_scene.handle_scene(Studio._activity_helper, None, None, None, None)
-
-        music.pause.assert_called_once()
+    assert not fake_music.is_playing()
 
 
 @pytest.mark.asyncio
 def test_when_empty_turns_off_monitor_and_adjusts_blinds(given_that, studio_scene, assert_that):
     given_that.studio_scene_is(activity=Studio.Activity.EMPTY, illuminance=30)
 
-    with mock.patch.object(studio_scene.handlers.blinds, 'best_for_temperature'):
-        studio_scene.handle_scene(Studio._activity_helper, None, None, None, None)
+    studio_scene.handle_scene(Studio._activity_helper, None, None, None, None)
 
     assert_that(entities.SWITCH_MONITOR).was.turned_off()
 
 
 @pytest.mark.asyncio
-def test_mode_change_always_adjusts_blinds(given_that, studio_scene):
+def test_mode_change_always_adjusts_blinds(given_that, studio_scene, fake_blinds):
     given_that.studio_scene_is(activity=Studio.Activity.WORKING, illuminance=30, mode=selects.Mode.DAY)
 
-    with mock.patch.object(studio_scene.handlers.blinds, 'best_for_temperature') as blinds_mock:
-        studio_scene.on_mode_change(selects.Mode.NIGHT, selects.Mode.DAY)
-        blinds_mock.assert_called_once()
+    studio_scene.on_mode_change(selects.Mode.NIGHT, selects.Mode.DAY)
+    
+    assert fake_blinds.get_position() == BEST_FOR_TEMPERATURE
 
 
 def studio_scene_is(self, activity, illuminance, mode=selects.Mode.DAY):

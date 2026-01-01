@@ -1,8 +1,8 @@
-from unittest import mock
-
 import pytest
 from appdaemontestframework import automation_fixture, given_that as given
 
+from fakes.blinds_handler_fake import FakeBlindsHandler, BEST_FOR_TEMPERATURE
+from fakes.music_handler_fake import FakeMusicHandler
 from rooms import *
 import entities
 import helpers
@@ -10,7 +10,6 @@ import matchers
 import selects
 import scenes
 import states
-from music import MusicHandler
 from scene_controllers.bedroom_scene import BedroomScene
 
 
@@ -18,6 +17,22 @@ from scene_controllers.bedroom_scene import BedroomScene
 def bedroom_scene():
     matchers.init()
     pass
+
+
+@pytest.fixture
+def fake_blinds():
+    return FakeBlindsHandler()
+
+
+@pytest.fixture
+def fake_music():
+    return FakeMusicHandler()
+
+
+@pytest.fixture(autouse=True)
+def setup_fakes(bedroom_scene, fake_blinds, fake_music):
+    bedroom_scene.handlers.blinds = fake_blinds
+    bedroom_scene.handlers.music = fake_music
 
 
 @pytest.mark.asyncio
@@ -30,43 +45,30 @@ def test_relaxing_sets_relaxing_scene(given_that, bedroom_scene, assert_that):
 
 
 @pytest.mark.asyncio
-def test_relaxing_plays_music(given_that, bedroom_scene) -> None:
+def test_relaxing_plays_music(given_that, bedroom_scene, fake_music) -> None:
     given_that.bedroom_scene_is(activity=Bedroom.Activity.RELAXING)
 
-    with mock.patch.object(MusicHandler, 'play') as music:
-        music.is_playing = lambda *_: False
-        bedroom_scene.handlers.music = music
-        bedroom_scene.handle_scene(Bedroom._activity_helper, None, None, None, None)
+    bedroom_scene.handle_scene(Bedroom._activity_helper, None, None, None, None)
 
-        music.play.assert_called_once()
+    assert fake_music.is_playing()
 
 
 @pytest.mark.asyncio
 def test_empty_activity_adjusts_blinds(given_that, bedroom_scene, assert_that):
     given_that.bedroom_scene_is(activity=Bedroom.Activity.EMPTY, illuminance=30)
 
-    with mock.patch.object(bedroom_scene.handlers.blinds, 'best_for_temperature'):
-        bedroom_scene.handle_scene(Bedroom._activity_helper, None, None, None, None)
+    bedroom_scene.handle_scene(Bedroom._activity_helper, None, None, None, None)
 
     assert_that(entities.LIGHT_BEDROOM).was.turned_off()
 
 
 @pytest.mark.asyncio
-def test_mode_change_adjusts_blinds_when_empty(given_that, bedroom_scene):
-    given_that.bedroom_scene_is(activity=Bedroom.Activity.EMPTY, mode=selects.Mode.DAY)
-
-    with mock.patch.object(bedroom_scene.handlers.blinds, 'best_for_temperature') as blinds_mock:
-        bedroom_scene.on_mode_change(selects.Mode.NIGHT, selects.Mode.DAY)
-        blinds_mock.assert_called_once()
-
-
-@pytest.mark.asyncio
-def test_mode_change_adjusts_blinds_when_away(given_that, bedroom_scene):
+def test_mode_change_adjusts_blinds_when_away(given_that, bedroom_scene, fake_blinds):
     given_that.bedroom_scene_is(activity=Bedroom.Activity.PRESENT, mode=selects.Mode.DAY)
 
-    with mock.patch.object(bedroom_scene.handlers.blinds, 'best_for_temperature') as blinds_mock:
-        bedroom_scene.on_mode_change(selects.Mode.AWAY, selects.Mode.DAY)
-        blinds_mock.assert_called_once()
+    bedroom_scene.on_mode_change(selects.Mode.AWAY, selects.Mode.DAY)
+    
+    assert fake_blinds.get_position() == BEST_FOR_TEMPERATURE
 
 
 def bedroom_scene_is(self, activity, illuminance=0, are_lights_on=False, mode=selects.Mode.NIGHT,

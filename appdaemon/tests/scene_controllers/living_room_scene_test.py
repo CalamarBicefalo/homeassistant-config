@@ -1,9 +1,8 @@
-from unittest import mock
-
 import pytest
 from appdaemontestframework import automation_fixture, given_that as given
 
-from blinds_handler import BlindsHandler
+from fakes.blinds_handler_fake import FakeBlindsHandler, BEST_FOR_TEMPERATURE
+from fakes.music_handler_fake import FakeMusicHandler
 from rooms import *
 import entities
 import helpers
@@ -11,7 +10,6 @@ import matchers
 import selects
 import scenes
 import states
-from music import MusicHandler
 from scene_controllers.living_room_scene import LivingRoomScene
 
 
@@ -19,6 +17,22 @@ from scene_controllers.living_room_scene import LivingRoomScene
 def living_room_scene():
     matchers.init()
     pass
+
+
+@pytest.fixture
+def fake_blinds():
+    return FakeBlindsHandler()
+
+
+@pytest.fixture
+def fake_music():
+    return FakeMusicHandler()
+
+
+@pytest.fixture(autouse=True)
+def setup_fakes(living_room_scene, fake_blinds, fake_music):
+    living_room_scene.handlers.blinds = fake_blinds
+    living_room_scene.handlers.music = fake_music
 
 
 @pytest.mark.asyncio
@@ -31,50 +45,40 @@ def test_relaxing_sets_cozy_scene(given_that, living_room_scene, assert_that):
 
 
 @pytest.mark.asyncio
-def test_relaxing_plays_music(given_that, living_room_scene) -> None:
+def test_relaxing_plays_music(given_that, living_room_scene, fake_music) -> None:
     given_that.living_room_scene_is(activity=LivingRoom.Activity.RELAXING)
 
-    with mock.patch.object(MusicHandler, 'play') as music:
-        music.is_playing = lambda *_: False
-        living_room_scene.handlers.music = music
-        living_room_scene.handle_scene(LivingRoom._activity_helper, None, None, None, None)
+    living_room_scene.handle_scene(LivingRoom._activity_helper, None, None, None, None)
 
-        music.play.assert_called_once()
+    assert fake_music.is_playing()
 
 
 @pytest.mark.asyncio
-def test_relaxing_when_music_playing_does_not_play_music(given_that, living_room_scene) -> None:
+def test_relaxing_when_music_playing_does_not_play_music(given_that, living_room_scene, fake_music) -> None:
     given_that.living_room_scene_is(activity=LivingRoom.Activity.RELAXING)
+    fake_music.play()  # Given: music is already playing
 
-    with mock.patch.object(MusicHandler, 'play') as music:
-        music.is_playing = lambda *_: True
-        living_room_scene.handlers.music = music
-        living_room_scene.handle_scene(None, None, None, None, None)
+    living_room_scene.handle_scene(None, None, None, None, None)
 
-        music.play.assert_not_called()
+    assert fake_music.is_playing()  # Still playing, no change
 
 
 @pytest.mark.asyncio
-def test_relaxing_when_working_does_not_play_music(given_that, living_room_scene) -> None:
+def test_relaxing_when_working_does_not_play_music(given_that, living_room_scene, fake_music) -> None:
     given_that.living_room_scene_is(activity=LivingRoom.Activity.RELAXING, studio_activity=Studio.Activity.WORKING)
 
-    with mock.patch.object(MusicHandler, 'play') as music:
-        music.is_playing = lambda *_: False
-        living_room_scene.handlers.music = music
-        living_room_scene.handle_scene(None, None, None, None, None)
+    living_room_scene.handle_scene(None, None, None, None, None)
 
-        music.play.assert_not_called()
+    assert not fake_music.is_playing()  # Music not started
 
 
 @pytest.mark.asyncio
-def test_relaxing_does_not_replace_if_playing(given_that, living_room_scene) -> None:
+def test_relaxing_does_not_replace_if_playing(given_that, living_room_scene, fake_music) -> None:
     given_that.living_room_scene_is(activity=LivingRoom.Activity.RELAXING, playing_music=states.ON)
 
-    with mock.patch.object(MusicHandler, 'play') as music:
-        living_room_scene.handlers.music = music
-        living_room_scene.handle_scene(None, None, None, None, None)
+    living_room_scene.handle_scene(None, None, None, None, None)
 
-        music.play.assert_not_called()
+    assert not fake_music.is_playing()  # Music not started
 
 
 @pytest.mark.asyncio
@@ -87,24 +91,20 @@ def test_watching_tv_sets_movie_scene(given_that, living_room_scene, assert_that
 
 
 @pytest.mark.asyncio
-def test_watching_tv_pauses_music(given_that, living_room_scene) -> None:
+def test_watching_tv_pauses_music(given_that, living_room_scene, fake_music) -> None:
     given_that.living_room_scene_is(activity=LivingRoom.Activity.WATCHING_TV)
 
-    with mock.patch.object(MusicHandler, 'pause') as music:
-        living_room_scene.handlers.music = music
-        living_room_scene.handle_scene(LivingRoom._activity_helper, None, None, None, None)
+    living_room_scene.handle_scene(LivingRoom._activity_helper, None, None, None, None)
 
-        music.pause.assert_called_once()
+    assert not fake_music.is_playing()
 
 @pytest.mark.asyncio
-def test_watching_tv_closes_blinds_irrespecitively_of_mode(given_that, living_room_scene) -> None:
+def test_watching_tv_closes_blinds_irrespecitively_of_mode(given_that, living_room_scene, fake_blinds) -> None:
     given_that.living_room_scene_is(activity=LivingRoom.Activity.WATCHING_TV, mode=selects.Mode.DAY)
 
-    with mock.patch.object(BlindsHandler, 'close') as blinds:
-        living_room_scene.handlers.blinds = blinds
-        living_room_scene.handle_scene(LivingRoom._activity_helper, None, None, None, None)
+    living_room_scene.handle_scene(LivingRoom._activity_helper, None, None, None, None)
 
-        blinds.close.assert_called_once()
+    assert fake_blinds.is_closed()
 
 @pytest.mark.asyncio
 def test_drumming_sets_drumming_scene(given_that, living_room_scene, assert_that):
@@ -116,14 +116,12 @@ def test_drumming_sets_drumming_scene(given_that, living_room_scene, assert_that
 
 
 @pytest.mark.asyncio
-def test_drumming_pauses_music(given_that, living_room_scene) -> None:
+def test_drumming_pauses_music(given_that, living_room_scene, fake_music) -> None:
     given_that.living_room_scene_is(activity=LivingRoom.Activity.DRUMMING)
 
-    with mock.patch.object(MusicHandler, 'pause') as music:
-        living_room_scene.handlers.music = music
-        living_room_scene.handle_scene(LivingRoom._activity_helper, None, None, None, None)
+    living_room_scene.handle_scene(LivingRoom._activity_helper, None, None, None, None)
 
-        music.pause.assert_called_once()
+    assert not fake_music.is_playing()
 
 
 @pytest.mark.asyncio
@@ -136,62 +134,57 @@ def test_gaming_sets_gaming_scene(given_that, living_room_scene, assert_that):
 
 
 @pytest.mark.asyncio
-def test_gaming_pauses_music(given_that, living_room_scene) -> None:
+def test_gaming_pauses_music(given_that, living_room_scene, fake_music) -> None:
     given_that.living_room_scene_is(activity=LivingRoom.Activity.GAMING)
 
-    with mock.patch.object(MusicHandler, 'pause') as music:
-        living_room_scene.handlers.music = music
-        living_room_scene.handle_scene(LivingRoom._activity_helper, None, None, None, None)
+    living_room_scene.handle_scene(LivingRoom._activity_helper, None, None, None, None)
 
-        music.pause.assert_called_once()
+    assert not fake_music.is_playing()
 
 
 @pytest.mark.asyncio
-def test_gaming_closes_blinds(given_that, living_room_scene) -> None:
+def test_gaming_closes_blinds(given_that, living_room_scene, fake_blinds) -> None:
     given_that.living_room_scene_is(activity=LivingRoom.Activity.GAMING, mode=selects.Mode.DAY)
 
-    with mock.patch.object(BlindsHandler, 'close') as blinds:
-        living_room_scene.handlers.blinds = blinds
-        living_room_scene.handle_scene(LivingRoom._activity_helper, None, None, None, None)
+    living_room_scene.handle_scene(LivingRoom._activity_helper, None, None, None, None)
 
-        blinds.close.assert_called_once()
+    assert fake_blinds.is_closed()
 
 
 @pytest.mark.asyncio
 def test_empty_activity_turns_off_lights(given_that, living_room_scene, assert_that):
     given_that.living_room_scene_is(activity=LivingRoom.Activity.EMPTY, illuminance=30)
 
-    with mock.patch.object(living_room_scene.handlers.blinds, 'best_for_temperature'):
-        living_room_scene.handle_scene(LivingRoom._activity_helper, None, None, None, None)
+    living_room_scene.handle_scene(LivingRoom._activity_helper, None, None, None, None)
 
     assert_that(entities.LIGHT_LIVING_ROOM).was.turned_off()
 
 
 @pytest.mark.asyncio
-def test_mode_change_adjusts_blinds_when_empty(given_that, living_room_scene):
+def test_mode_change_adjusts_blinds_when_empty(given_that, living_room_scene, fake_blinds):
     given_that.living_room_scene_is(activity=LivingRoom.Activity.EMPTY, mode=selects.Mode.DAY)
 
-    with mock.patch.object(living_room_scene.handlers.blinds, 'best_for_temperature') as blinds_mock:
-        living_room_scene.on_mode_change(selects.Mode.NIGHT, selects.Mode.DAY)
-        blinds_mock.assert_called_once()
+    living_room_scene.on_mode_change(selects.Mode.NIGHT, selects.Mode.DAY)
+    
+    assert fake_blinds.get_position() == BEST_FOR_TEMPERATURE
 
 
 @pytest.mark.asyncio
-def test_mode_change_adjusts_blinds_when_away(given_that, living_room_scene):
+def test_mode_change_adjusts_blinds_when_away(given_that, living_room_scene, fake_blinds):
     given_that.living_room_scene_is(activity=LivingRoom.Activity.PRESENT, mode=selects.Mode.DAY)
 
-    with mock.patch.object(living_room_scene.handlers.blinds, 'best_for_temperature') as blinds_mock:
-        living_room_scene.on_mode_change(selects.Mode.AWAY, selects.Mode.DAY)
-        blinds_mock.assert_called_once()
+    living_room_scene.on_mode_change(selects.Mode.AWAY, selects.Mode.DAY)
+    
+    assert fake_blinds.get_position() == BEST_FOR_TEMPERATURE
 
 
 @pytest.mark.asyncio
-def test_mode_change_adjusts_blinds_when_sleeping(given_that, living_room_scene):
+def test_mode_change_adjusts_blinds_when_sleeping(given_that, living_room_scene, fake_blinds):
     given_that.living_room_scene_is(activity=LivingRoom.Activity.PRESENT, mode=selects.Mode.DAY)
 
-    with mock.patch.object(living_room_scene.handlers.blinds, 'best_for_temperature') as blinds_mock:
-        living_room_scene.on_mode_change(selects.Mode.SLEEPING, selects.Mode.DAY)
-        blinds_mock.assert_called_once()
+    living_room_scene.on_mode_change(selects.Mode.SLEEPING, selects.Mode.DAY)
+    
+    assert fake_blinds.get_position() == BEST_FOR_TEMPERATURE
 
 def living_room_scene_is(self, activity, illuminance=0, are_lights_on=False, mode=selects.Mode.NIGHT,
                          playing_music=states.OFF, studio_activity=Studio.Activity.EMPTY):

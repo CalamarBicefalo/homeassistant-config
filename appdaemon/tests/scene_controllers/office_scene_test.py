@@ -1,9 +1,8 @@
-from unittest import mock
-
 import pytest
 from appdaemontestframework import automation_fixture, given_that as given
 
-from music import MusicHandler
+from fakes.blinds_handler_fake import FakeBlindsHandler, BEST_FOR_TEMPERATURE
+from fakes.music_handler_fake import FakeMusicHandler
 from rooms import *
 import entities
 import helpers
@@ -14,94 +13,89 @@ import states
 from scene_controllers.office_scene import OfficeScene
 
 
+@pytest.fixture
+def fake_blinds():
+    return FakeBlindsHandler()
+
+
+@pytest.fixture
+def fake_music():
+    return FakeMusicHandler()
+
+
 @automation_fixture(OfficeScene)
 def office_scene() -> None:
     matchers.init()
     pass
 
 
+@pytest.fixture(autouse=True)
+def setup_fakes(office_scene, fake_blinds, fake_music):
+    office_scene.handlers.blinds = fake_blinds
+    office_scene.handlers.music = fake_music
+
+
 @pytest.mark.asyncio
-def test_working_activity_plays_music_and_manages_blinds(given_that, office_scene, assert_that):
+def test_working_activity_plays_music_and_manages_blinds(given_that, office_scene, fake_blinds, fake_music, assert_that):
     given_that.office_scene_is(activity=Office.Activity.WORKING, illuminance=30)
 
-    with mock.patch.object(MusicHandler, 'play') as music:
-        music.is_playing = lambda *_: False
-        office_scene.handlers.music = music
-        
-        with mock.patch.object(office_scene.handlers.blinds, 'best_for_temperature') as blinds:
-            office_scene.handle_scene(Office._activity_helper, None, None, None, None)
+    office_scene.handle_scene(Office._activity_helper, None, None, None, None)
 
-            music.play.assert_called_once()
-            blinds.assert_called_once()
-            assert_that(scenes.OFFICE_NATURAL_LIGHT_3.get()).was.turned_on()
+    assert fake_music.is_playing()
+    assert fake_blinds.get_position() == BEST_FOR_TEMPERATURE
+    assert_that(scenes.OFFICE_NATURAL_LIGHT_3.get()).was.turned_on()
 
 
 @pytest.mark.asyncio
-def test_meeting_activity_pauses_music(given_that, office_scene, assert_that):
+def test_meeting_activity_pauses_music(given_that, office_scene, fake_music, assert_that):
     given_that.office_scene_is(activity=Office.Activity.MEETING, illuminance=30)
 
-    with mock.patch.object(MusicHandler, 'pause') as music:
-        office_scene.handlers.music = music
-        
-        with mock.patch.object(office_scene.handlers.blinds, 'best_for_temperature'):
-            office_scene.handle_scene(Office._activity_helper, None, None, None, None)
+    office_scene.handle_scene(Office._activity_helper, None, None, None, None)
 
-            music.pause.assert_called_once()
+    assert not fake_music.is_playing()
 
 
 @pytest.mark.asyncio
-def test_drumming_activity_closes_blinds_and_stops_media(given_that, office_scene, assert_that):
+def test_drumming_activity_closes_blinds_and_stops_media(given_that, office_scene, fake_blinds, assert_that):
     given_that.office_scene_is(activity=Office.Activity.DRUMMING, illuminance=30)
 
-    with mock.patch.object(office_scene.handlers.blinds, 'close') as blinds_close:
-        office_scene.handle_scene(Office._activity_helper, None, None, None, None)
+    office_scene.handle_scene(Office._activity_helper, None, None, None, None)
 
-        assert_that(scenes.OFFICE_DRUMMING.get()).was.turned_on()
-        assert_that(entities.LIGHT_DRUM_POWER_STRIP_SPEAKERS).was.turned_on()
-        assert_that(entities.LIGHT_DRUM_POWER_STRIP_LIGHT).was.turned_on()
-        assert_that(entities.LIGHT_DRUM_POWER_STRIP_USB).was.turned_on()
-        assert_that(entities.LIGHT_DRUM_POWER_STRIP_FOCUSRITE).was.turned_on()
-        assert_that(entities.LIGHT_DRUM_POWER_STRIP_DRUMS).was.turned_on()
-        blinds_close.assert_called_once()
+    assert_that(scenes.OFFICE_DRUMMING.get()).was.turned_on()
+    assert_that(entities.LIGHT_DRUM_POWER_STRIP_SPEAKERS).was.turned_on()
+    assert_that(entities.LIGHT_DRUM_POWER_STRIP_LIGHT).was.turned_on()
+    assert_that(entities.LIGHT_DRUM_POWER_STRIP_USB).was.turned_on()
+    assert_that(entities.LIGHT_DRUM_POWER_STRIP_FOCUSRITE).was.turned_on()
+    assert_that(entities.LIGHT_DRUM_POWER_STRIP_DRUMS).was.turned_on()
+    assert fake_blinds.is_closed()
 
 
 @pytest.mark.asyncio
-def test_snaring_activity_closes_blinds_and_stops_media(given_that, office_scene, assert_that):
+def test_snaring_activity_closes_blinds_and_stops_media(given_that, office_scene, fake_blinds, assert_that):
     given_that.office_scene_is(activity=Office.Activity.SNARING, illuminance=30)
 
-    with mock.patch.object(office_scene.handlers.blinds, 'close') as blinds_close:
-        office_scene.handle_scene(Office._activity_helper, None, None, None, None)
+    office_scene.handle_scene(Office._activity_helper, None, None, None, None)
 
-        assert_that(scenes.OFFICE_SNARING.get()).was.turned_on()
-        blinds_close.assert_called_once()
+    assert_that(scenes.OFFICE_SNARING.get()).was.turned_on()
+    assert fake_blinds.is_closed()
 
 
 @pytest.mark.asyncio
 def test_empty_activity_turns_off_lights(given_that, office_scene, assert_that):
     given_that.office_scene_is(activity=Office.Activity.EMPTY, illuminance=30)
 
-    with mock.patch.object(office_scene.handlers.blinds, 'best_for_temperature'):
-        office_scene.handle_scene(Office._activity_helper, None, None, None, None)
+    office_scene.handle_scene(Office._activity_helper, None, None, None, None)
 
-        assert_that(entities.LIGHT_OFFICE).was.turned_off()
-
-
-@pytest.mark.asyncio
-def test_mode_change_adjusts_blinds_when_empty(given_that, office_scene):
-    given_that.office_scene_is(activity=Office.Activity.EMPTY, illuminance=30, mode=selects.Mode.DAY)
-
-    with mock.patch.object(office_scene.handlers.blinds, 'best_for_temperature') as blinds_mock:
-        office_scene.on_mode_change(selects.Mode.NIGHT, selects.Mode.DAY)
-        blinds_mock.assert_called_once()
+    assert_that(entities.LIGHT_OFFICE).was.turned_off()
 
 
 @pytest.mark.asyncio
-def test_mode_change_adjusts_blinds_when_away(given_that, office_scene):
+def test_mode_change_adjusts_blinds_when_away(given_that, office_scene, fake_blinds):
     given_that.office_scene_is(activity=Office.Activity.WORKING, illuminance=30, mode=selects.Mode.DAY)
 
-    with mock.patch.object(office_scene.handlers.blinds, 'best_for_temperature') as blinds_mock:
-        office_scene.on_mode_change(selects.Mode.AWAY, selects.Mode.DAY)
-        blinds_mock.assert_called_once()
+    office_scene.on_mode_change(selects.Mode.AWAY, selects.Mode.DAY)
+    
+    assert fake_blinds.get_position() == BEST_FOR_TEMPERATURE
 
 
 def office_scene_is(self, activity, illuminance, mode=selects.Mode.DAY):

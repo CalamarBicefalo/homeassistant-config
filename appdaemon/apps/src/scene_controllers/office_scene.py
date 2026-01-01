@@ -72,7 +72,7 @@ class OfficeScene(SceneApp):
         )
 
     def on_mode_change(self, new: Mode, old: Mode) -> None:
-        if new == Mode.AWAY or self.activity.is_value(Office.Activity.EMPTY):
+        if new == Mode.AWAY:
             self.handlers.blinds.best_for_temperature()
 
     def play_music_if_appropriate(self) -> None:
