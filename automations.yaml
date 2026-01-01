@@ -7,7 +7,7 @@
       exclude:
         entity_id:
         - sensor.snyk_laptop_internal_battery_level
-        - sensor.sm_s918b_battery_level
+        - sensor.phone_amanda_battery_level
         - sensor.mandies_iphone_battery_level
       actions:
       - service: notify.mobile_app_galaxy_s23

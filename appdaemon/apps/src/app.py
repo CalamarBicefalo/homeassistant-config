@@ -105,11 +105,11 @@ class App(hass.Hass):
         self.call_service(services.LIGHT_TURN_OFF, entity_id="all")
 
     def turn_off_plugs(self) -> None:
-        self.turn_off(entities.LIGHT_DRUM_POWER_STRIP_SPEAKERS)
-        self.turn_off(entities.LIGHT_DRUM_POWER_STRIP_LIGHT)
-        self.turn_off(entities.LIGHT_DRUM_POWER_STRIP_USB)
-        self.turn_off(entities.LIGHT_DRUM_POWER_STRIP_FOCUSRITE)
-        self.turn_off(entities.LIGHT_DRUM_POWER_STRIP_DRUMS)
+        self.turn_off(entities.SWITCH_DRUM_POWER_STRIP_SPEAKERS)
+        self.turn_off(entities.SWITCH_DRUM_POWER_STRIP_SWITCH)
+        self.turn_off(entities.SWITCH_DRUM_POWER_STRIP_TABLET)
+        self.turn_off(entities.SWITCH_DRUM_POWER_STRIP_FOCUSRITE)
+        self.turn_off(entities.SWITCH_DRUM_POWER_STRIP_ROLAND)
         self.turn_off(entities.SWITCH_MONITOR)
 
     def run_for(self, minutes: int, every_minute: Callable[[int], None],

@@ -7,4 +7,4 @@
   id: amanda
   user_id: 12d42b5178134c5db8c17fa8af4f423f
   device_trackers:
-    - device_tracker.sm_s918b
+    - device_tracker.phone_amanda

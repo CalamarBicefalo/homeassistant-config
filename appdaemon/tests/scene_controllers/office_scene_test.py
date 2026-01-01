@@ -62,11 +62,11 @@ def test_drumming_activity_closes_blinds_and_stops_media(given_that, office_scen
     office_scene.handle_scene(Office._activity_helper, None, None, None, None)
 
     assert_that(scenes.OFFICE_DRUMMING.get()).was.turned_on()
-    assert_that(entities.LIGHT_DRUM_POWER_STRIP_SPEAKERS).was.turned_on()
-    assert_that(entities.LIGHT_DRUM_POWER_STRIP_LIGHT).was.turned_on()
-    assert_that(entities.LIGHT_DRUM_POWER_STRIP_USB).was.turned_on()
-    assert_that(entities.LIGHT_DRUM_POWER_STRIP_FOCUSRITE).was.turned_on()
-    assert_that(entities.LIGHT_DRUM_POWER_STRIP_DRUMS).was.turned_on()
+    assert_that(entities.SWITCH_DRUM_POWER_STRIP_SPEAKERS).was.turned_on()
+    assert_that(entities.SWITCH_DRUM_POWER_STRIP_SWITCH).was.turned_on()
+    assert_that(entities.SWITCH_DRUM_POWER_STRIP_TABLET).was.turned_on()
+    assert_that(entities.SWITCH_DRUM_POWER_STRIP_FOCUSRITE).was.turned_on()
+    assert_that(entities.SWITCH_DRUM_POWER_STRIP_ROLAND).was.turned_on()
     assert fake_blinds.is_closed()
 
 

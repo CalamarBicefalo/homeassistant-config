@@ -41,11 +41,11 @@ class OfficeScene(SceneApp):
             case Office.Activity.DRUMMING:
                 return scene.with_actions(
                     scenes.OFFICE_DRUMMING,
-                    lambda: self.turn_on(entities.LIGHT_DRUM_POWER_STRIP_SPEAKERS),
-                    lambda: self.turn_on(entities.LIGHT_DRUM_POWER_STRIP_LIGHT),
-                    lambda: self.turn_on(entities.LIGHT_DRUM_POWER_STRIP_USB),
-                    lambda: self.turn_on(entities.LIGHT_DRUM_POWER_STRIP_FOCUSRITE),
-                    lambda: self.turn_on(entities.LIGHT_DRUM_POWER_STRIP_DRUMS),
+                    lambda: self.turn_on(entities.SWITCH_DRUM_POWER_STRIP_SPEAKERS),
+                    lambda: self.turn_on(entities.SWITCH_DRUM_POWER_STRIP_SWITCH),
+                    lambda: self.turn_on(entities.SWITCH_DRUM_POWER_STRIP_TABLET),
+                    lambda: self.turn_on(entities.SWITCH_DRUM_POWER_STRIP_FOCUSRITE),
+                    lambda: self.turn_on(entities.SWITCH_DRUM_POWER_STRIP_ROLAND),
                     lambda: self.handlers.music.pause(),
                     lambda: self.handlers.blinds.close(),
                 )
@@ -68,6 +68,11 @@ class OfficeScene(SceneApp):
             scene.off(),
             lambda: self.pause_music_if_working_before(previous_activity),
             lambda: self.turn_off(entities.FAN_FAN),
+            lambda: self.turn_off(entities.SWITCH_DRUM_POWER_STRIP_SPEAKERS),
+            lambda: self.turn_off(entities.SWITCH_DRUM_POWER_STRIP_SWITCH),
+            lambda: self.turn_off(entities.SWITCH_DRUM_POWER_STRIP_TABLET),
+            lambda: self.turn_off(entities.SWITCH_DRUM_POWER_STRIP_FOCUSRITE),
+            lambda: self.turn_off(entities.SWITCH_DRUM_POWER_STRIP_ROLAND),
             lambda: self.handlers.blinds.best_for_temperature(),
         )
 

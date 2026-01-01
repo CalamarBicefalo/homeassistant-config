@@ -93,7 +93,7 @@ cards:
         variables:
           ulm_card_person_use_entity_picture: true
           ulm_card_person_icon: mdi:face-woman
-          ulm_card_person_battery: sensor.sm_s918b_battery_level
+          ulm_card_person_battery: sensor.phone_amanda_battery_level
 
       - view_layout:
           grid-area: "title-rooms"
