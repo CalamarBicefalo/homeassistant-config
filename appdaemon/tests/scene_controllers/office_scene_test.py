@@ -86,6 +86,24 @@ def test_empty_activity_turns_off_lights(given_that, office_scene, assert_that):
         assert_that(entities.LIGHT_OFFICE).was.turned_off()
 
 
+@pytest.mark.asyncio
+def test_mode_change_adjusts_blinds_when_empty(given_that, office_scene):
+    given_that.office_scene_is(activity=Office.Activity.EMPTY, illuminance=30, mode=selects.Mode.DAY)
+
+    with mock.patch.object(office_scene.handlers.blinds, 'best_for_temperature') as blinds_mock:
+        office_scene.on_mode_change(selects.Mode.NIGHT, selects.Mode.DAY)
+        blinds_mock.assert_called_once()
+
+
+@pytest.mark.asyncio
+def test_mode_change_adjusts_blinds_when_away(given_that, office_scene):
+    given_that.office_scene_is(activity=Office.Activity.WORKING, illuminance=30, mode=selects.Mode.DAY)
+
+    with mock.patch.object(office_scene.handlers.blinds, 'best_for_temperature') as blinds_mock:
+        office_scene.on_mode_change(selects.Mode.AWAY, selects.Mode.DAY)
+        blinds_mock.assert_called_once()
+
+
 def office_scene_is(self, activity, illuminance, mode=selects.Mode.DAY):
     self.state_of(helpers.MODE).is_set_to(mode)
     self.state_of(entities.LIGHT_OFFICE).is_set_to(states.OFF)

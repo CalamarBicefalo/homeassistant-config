@@ -41,6 +41,34 @@ def test_relaxing_plays_music(given_that, bedroom_scene) -> None:
         music.play.assert_called_once()
 
 
+@pytest.mark.asyncio
+def test_empty_activity_adjusts_blinds(given_that, bedroom_scene, assert_that):
+    given_that.bedroom_scene_is(activity=Bedroom.Activity.EMPTY, illuminance=30)
+
+    with mock.patch.object(bedroom_scene.handlers.blinds, 'best_for_temperature'):
+        bedroom_scene.handle_scene(Bedroom._activity_helper, None, None, None, None)
+
+    assert_that(entities.LIGHT_BEDROOM).was.turned_off()
+
+
+@pytest.mark.asyncio
+def test_mode_change_adjusts_blinds_when_empty(given_that, bedroom_scene):
+    given_that.bedroom_scene_is(activity=Bedroom.Activity.EMPTY, mode=selects.Mode.DAY)
+
+    with mock.patch.object(bedroom_scene.handlers.blinds, 'best_for_temperature') as blinds_mock:
+        bedroom_scene.on_mode_change(selects.Mode.NIGHT, selects.Mode.DAY)
+        blinds_mock.assert_called_once()
+
+
+@pytest.mark.asyncio
+def test_mode_change_adjusts_blinds_when_away(given_that, bedroom_scene):
+    given_that.bedroom_scene_is(activity=Bedroom.Activity.PRESENT, mode=selects.Mode.DAY)
+
+    with mock.patch.object(bedroom_scene.handlers.blinds, 'best_for_temperature') as blinds_mock:
+        bedroom_scene.on_mode_change(selects.Mode.AWAY, selects.Mode.DAY)
+        blinds_mock.assert_called_once()
+
+
 def bedroom_scene_is(self, activity, illuminance=0, are_lights_on=False, mode=selects.Mode.NIGHT,
                          playing_music=states.OFF):
     self.state_of(entities.COVER_BEDROOM_CURTAIN_COVER).is_set_to(states.OPEN)

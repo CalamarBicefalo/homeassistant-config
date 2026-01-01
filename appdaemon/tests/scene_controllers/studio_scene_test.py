@@ -48,13 +48,22 @@ def test_when_meeting(given_that, studio_scene, assert_that):
 
 
 @pytest.mark.asyncio
-def test_when_away(given_that, studio_scene, assert_that):
+def test_when_empty_turns_off_monitor_and_adjusts_blinds(given_that, studio_scene, assert_that):
     given_that.studio_scene_is(activity=Studio.Activity.EMPTY, illuminance=30)
 
     with mock.patch.object(studio_scene.handlers.blinds, 'best_for_temperature'):
         studio_scene.handle_scene(Studio._activity_helper, None, None, None, None)
 
     assert_that(entities.SWITCH_MONITOR).was.turned_off()
+
+
+@pytest.mark.asyncio
+def test_mode_change_always_adjusts_blinds(given_that, studio_scene):
+    given_that.studio_scene_is(activity=Studio.Activity.WORKING, illuminance=30, mode=selects.Mode.DAY)
+
+    with mock.patch.object(studio_scene.handlers.blinds, 'best_for_temperature') as blinds_mock:
+        studio_scene.on_mode_change(selects.Mode.NIGHT, selects.Mode.DAY)
+        blinds_mock.assert_called_once()
 
 
 def studio_scene_is(self, activity, illuminance, mode=selects.Mode.DAY):

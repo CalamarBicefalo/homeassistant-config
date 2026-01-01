@@ -156,6 +156,43 @@ def test_gaming_closes_blinds(given_that, living_room_scene) -> None:
 
         blinds.close.assert_called_once()
 
+
+@pytest.mark.asyncio
+def test_empty_activity_turns_off_lights(given_that, living_room_scene, assert_that):
+    given_that.living_room_scene_is(activity=LivingRoom.Activity.EMPTY, illuminance=30)
+
+    with mock.patch.object(living_room_scene.handlers.blinds, 'best_for_temperature'):
+        living_room_scene.handle_scene(LivingRoom._activity_helper, None, None, None, None)
+
+    assert_that(entities.LIGHT_LIVING_ROOM).was.turned_off()
+
+
+@pytest.mark.asyncio
+def test_mode_change_adjusts_blinds_when_empty(given_that, living_room_scene):
+    given_that.living_room_scene_is(activity=LivingRoom.Activity.EMPTY, mode=selects.Mode.DAY)
+
+    with mock.patch.object(living_room_scene.handlers.blinds, 'best_for_temperature') as blinds_mock:
+        living_room_scene.on_mode_change(selects.Mode.NIGHT, selects.Mode.DAY)
+        blinds_mock.assert_called_once()
+
+
+@pytest.mark.asyncio
+def test_mode_change_adjusts_blinds_when_away(given_that, living_room_scene):
+    given_that.living_room_scene_is(activity=LivingRoom.Activity.PRESENT, mode=selects.Mode.DAY)
+
+    with mock.patch.object(living_room_scene.handlers.blinds, 'best_for_temperature') as blinds_mock:
+        living_room_scene.on_mode_change(selects.Mode.AWAY, selects.Mode.DAY)
+        blinds_mock.assert_called_once()
+
+
+@pytest.mark.asyncio
+def test_mode_change_adjusts_blinds_when_sleeping(given_that, living_room_scene):
+    given_that.living_room_scene_is(activity=LivingRoom.Activity.PRESENT, mode=selects.Mode.DAY)
+
+    with mock.patch.object(living_room_scene.handlers.blinds, 'best_for_temperature') as blinds_mock:
+        living_room_scene.on_mode_change(selects.Mode.SLEEPING, selects.Mode.DAY)
+        blinds_mock.assert_called_once()
+
 def living_room_scene_is(self, activity, illuminance=0, are_lights_on=False, mode=selects.Mode.NIGHT,
                          playing_music=states.OFF, studio_activity=Studio.Activity.EMPTY):
     self.state_of(entities.COVER_LIVING_ROOM_BLINDS).is_set_to(states.OPEN)
