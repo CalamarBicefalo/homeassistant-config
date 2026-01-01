@@ -80,9 +80,10 @@ def test_snaring_activity_closes_blinds_and_stops_media(given_that, office_scene
 def test_empty_activity_turns_off_lights(given_that, office_scene, assert_that):
     given_that.office_scene_is(activity=Office.Activity.EMPTY, illuminance=30)
 
-    office_scene.handle_scene(Office._activity_helper, None, None, None, None)
+    with mock.patch.object(office_scene.handlers.blinds, 'best_for_temperature'):
+        office_scene.handle_scene(Office._activity_helper, None, None, None, None)
 
-    assert_that(entities.LIGHT_OFFICE).was.turned_off()
+        assert_that(entities.LIGHT_OFFICE).was.turned_off()
 
 
 def office_scene_is(self, activity, illuminance, mode=selects.Mode.DAY):
