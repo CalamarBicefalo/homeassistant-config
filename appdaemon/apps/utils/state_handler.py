@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, time
 from typing import Any, Optional
 
 import appdaemon.plugins.hass.hassapi as hass
@@ -30,6 +30,9 @@ class StateHandler:
     def is_off(self, device: Entity | Helper | str) -> bool:
         return self.is_value(device, states.OFF)
 
+    def is_home(self, device_tracker: Entity | Helper | str) -> bool:
+        return self.is_value(device_tracker, 'home')
+
     def get_as_str(self, device: Entity | Helper | str) -> str:
         state: str = self._app.get_state(device)
         return state
@@ -54,6 +57,17 @@ class StateHandler:
                          level="WARNING")
             return datetime.fromisoformat(default)
         return d
+
+    def get_as_time(self, device: Entity | Helper | str) -> Optional[time]:
+        state: str = self.get_as_str(device)
+        if not state or state == 'unknown':
+            return None
+        try:
+            hour, minute = map(int, state.split(':'))
+            return time(hour=hour, minute=minute)
+        except (ValueError, AttributeError) as e:
+            self._app.log(f'Error parsing time from {device} state "{state}": {e}', level="ERROR")
+            return None
 
     def get_watt_consumption(self, device: Entity | Helper | str) -> int:
         return int(self.get_as_number(device))
