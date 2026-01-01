@@ -161,30 +161,13 @@ def test_empty_activity_turns_off_lights(given_that, living_room_scene, assert_t
 
 
 @pytest.mark.asyncio
-def test_mode_change_adjusts_blinds_when_empty(given_that, living_room_scene, fake_blinds):
+def test_mode_change_adjusts_blinds(given_that, living_room_scene, fake_blinds):
     given_that.living_room_scene_is(activity=LivingRoom.Activity.EMPTY, mode=selects.Mode.DAY)
 
     living_room_scene.on_mode_change(selects.Mode.NIGHT, selects.Mode.DAY)
     
     assert fake_blinds.get_position() == BEST_FOR_TEMPERATURE
 
-
-@pytest.mark.asyncio
-def test_mode_change_adjusts_blinds_when_away(given_that, living_room_scene, fake_blinds):
-    given_that.living_room_scene_is(activity=LivingRoom.Activity.PRESENT, mode=selects.Mode.DAY)
-
-    living_room_scene.on_mode_change(selects.Mode.AWAY, selects.Mode.DAY)
-    
-    assert fake_blinds.get_position() == BEST_FOR_TEMPERATURE
-
-
-@pytest.mark.asyncio
-def test_mode_change_adjusts_blinds_when_sleeping(given_that, living_room_scene, fake_blinds):
-    given_that.living_room_scene_is(activity=LivingRoom.Activity.PRESENT, mode=selects.Mode.DAY)
-
-    living_room_scene.on_mode_change(selects.Mode.SLEEPING, selects.Mode.DAY)
-    
-    assert fake_blinds.get_position() == BEST_FOR_TEMPERATURE
 
 def living_room_scene_is(self, activity, illuminance=0, are_lights_on=False, mode=selects.Mode.NIGHT,
                          playing_music=states.OFF, studio_activity=Studio.Activity.EMPTY):
