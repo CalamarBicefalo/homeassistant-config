@@ -55,6 +55,7 @@
 - platform: group
   name: drums_vibration
   device_class: vibration
+  all: true
   entities:
     - binary_sensor.vs_drums_bd_vibration
     - binary_sensor.vs_drums_xh_vibration
