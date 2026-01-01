@@ -17,3 +17,15 @@ zigpy_config:
     broadcast_enabled: true
     broadcast_initial_delay: 14400
     broadcast_interval: 14400
+
+device_config:
+  a4:c1:38:69:72:b0:a6:9e-1:
+    type: "switch"
+  a4:c1:38:69:72:b0:a6:9e-2:
+    type: "switch"
+  a4:c1:38:69:72:b0:a6:9e-3:
+    type: "switch"
+  a4:c1:38:69:72:b0:a6:9e-4:
+    type: "switch"
+  a4:c1:38:69:72:b0:a6:9e-5:
+    type: "switch"
