@@ -63,8 +63,13 @@ class StateHandler:
         if not state or state == 'unknown':
             return None
         try:
-            hour, minute = map(int, state.split(':'))
-            return time(hour=hour, minute=minute)
+            parts = state.split(':')
+            if len(parts) >= 2:
+                hour = int(parts[0])
+                minute = int(parts[1])
+                return time(hour=hour, minute=minute)
+            else:
+                raise ValueError(f"Invalid time format: {state}")
         except (ValueError, AttributeError) as e:
             self._app.log(f'Error parsing time from {device} state "{state}": {e}', level="ERROR")
             return None
