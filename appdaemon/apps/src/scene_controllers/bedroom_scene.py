@@ -75,6 +75,7 @@ class BedroomScene(SceneApp):
     def prepare_to_wake_up(self) -> None:
         is_dark = self.is_dark()
         self.log(f'Running wakeup loop, is_dark={is_dark}.', level="INFO")
+        self.handlers.music.play(Tune.BIRDS, shuffle=False, volume_level=0.2)
 
         def during_waking_up(minutes_left: int) -> None:
             self.log(f'Running wakeup loop, {self.minutes_left} minutes left.', level="DEBUG")
