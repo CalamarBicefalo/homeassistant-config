@@ -5,14 +5,17 @@
     path: sbyx/low-battery-level-detection-notification-for-all-battery-sensors.yaml
     input:
       exclude:
-        entity_id:
-        - sensor.snyk_laptop_internal_battery_level
-        - sensor.phone_amanda_battery_level
-        - sensor.mandies_iphone_battery_level
+        device_id:
+        - bd05eb8198d3a8d1c8734aa3e23811e8
+        - a58f5d5b508c5e7eb701b4e80ce69e5f
+        - 7639905b40fa4fd3f6c1ebed67a5b795
+        - 1c6fbdaf5d229a52ef7d436804d5f58f
+        - dae1a66fac2112d0e63d70e08d93dc31
+        - 651c4c4116297cc38fcdfbf2c5849708
+        - 5052e0f614661ad5af55d8cf1c31a531
       actions:
-      - service: notify.mobile_app_galaxy_s23
-        data:
-          message: Battery of sensor {{sensors}} is low
+      - action: notify.mobile_app_jc_iphone
+        data: {}
 - id: '1712425858556'
   alias: Fetch min-max temperature
   description: Simple automation to get min and max temperature
