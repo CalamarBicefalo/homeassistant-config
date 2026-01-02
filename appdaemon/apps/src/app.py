@@ -112,15 +112,17 @@ class App(hass.Hass):
         self.turn_off(entities.SWITCH_DRUM_POWER_STRIP_ROLAND)
         self.turn_off(entities.SWITCH_MONITOR)
 
-    def run_for(self, minutes: int, every_minute: Callable[[int], None],
-                afterwards: Optional[Callable[[], None]]=None, running_group: Optional[UUID]=None ) -> None:
+    def run_for(self, minutes: int, callback: Callable[[int], None],
+                afterwards: Optional[Callable[[], None]]=None, running_group: Optional[UUID]=None,
+                interval_minutes: int = 1) -> None:
         """
 
-        :param minutes: For how long this callback should run for, with a minutely frequency
-        :param every_minute: Callback to execute every minute, if throws, the timer gets aborted
+        :param minutes: For how long this callback should run for
+        :param callback: Callback to execute at each interval, if throws, the timer gets aborted
         :param afterwards: Callback to execute when the loop is over
         :param running_group: If specified, only one job per running group will be executed at once.
                New jobs will make ongoing ones to terminate.
+        :param interval_minutes: Interval in minutes between callback executions (default 1)
         :return:
         """
         timer = Timer()
@@ -129,13 +131,13 @@ class App(hass.Hass):
 
         self.timers[running_group] = timer
 
-        def every_minute_callback(*_: Any) -> None:
+        def interval_callback(*_: Any) -> None:
             if timer.id != self.timers[running_group].id:
                 self.log(f'Aborting run_for loop due to newer run for running group', level="INFO")
                 return
 
-            minutes_left = self.timers[running_group].minutes_left - 1
-            self.log(f'Running scheduled minutely callback. Remaining time: {minutes_left}', level="DEBUG")
+            minutes_left = self.timers[running_group].minutes_left - interval_minutes
+            self.log(f'Running scheduled callback. Remaining time: {minutes_left}', level="DEBUG")
 
             self.timers[running_group].minutes_left = minutes_left
 
@@ -146,13 +148,13 @@ class App(hass.Hass):
                 return
 
             try:
-                every_minute(minutes_left)
+                callback(minutes_left)
             except Exception as exc:
                 self.log(f'Aborting run_for loop due to exception: {exc}', level="INFO")
                 return
 
-            self.run_in(every_minute_callback, 60)
+            self.run_in(interval_callback, interval_minutes * 60)
             self.timers[running_group].minutes_left = minutes_left
 
-        self.run_in(every_minute_callback, 60)
+        self.run_in(interval_callback, interval_minutes * 60)
         self.timers[running_group].minutes_left = minutes

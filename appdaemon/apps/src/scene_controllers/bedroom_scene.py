@@ -20,9 +20,9 @@ class BedroomScene(SceneApp):
     speakers = entities.MEDIA_PLAYER_BEDROOM_SPEAKERS
     blinds = entities.COVER_BEDROOM_CURTAIN_COVER
     room_has_plants = True
-    wakeup_duration_minutes = 20
+    wakeup_duration_minutes = 15
     bedtime_duration_minutes = 30
-    bedtime_initial_brightness = 150
+    bedtime_initial_brightness_pct = 60
     bedtime_initial_volume = 0.3
     minutes_left = 0
     running_group = uuid.uuid4()
@@ -45,7 +45,7 @@ class BedroomScene(SceneApp):
                     None,
                     lambda: self.turn_off_media(),
                     lambda: self.turn_on(entities.SCENE_BEDROOM_BEDTIME,
-                                         brightness=self.bedtime_initial_brightness),
+                                         brightness_pct=self.bedtime_initial_brightness_pct),
                     lambda: self.handlers.blinds.close(),
                     lambda: self.handlers.music.play(Playlist.NEO_CLASSICAL_LOUNGE,
                                                      volume_level=self.bedtime_initial_volume),
@@ -83,8 +83,8 @@ class BedroomScene(SceneApp):
 
             if is_dark:
                 # Brighten lights slowly
-                new_brightness = round(6 * (self.wakeup_duration_minutes - minutes_left))
-                self.get_entity(self.room_lights).turn_on(brightness=new_brightness)
+                new_brightness_pct = round(6 * (self.wakeup_duration_minutes - minutes_left))
+                self.get_entity(self.room_lights).turn_on(brightness_pct=new_brightness_pct)
             else:
                 # Open blinds
                 current_position = self.handlers.blinds.get_position()
@@ -96,10 +96,12 @@ class BedroomScene(SceneApp):
 
                 next_increment = math.floor(left_to_open / minutes_left)
                 next_position = current_position + next_increment
-                self.log(f'current blind position = {current_position}. next position = {next_position}', level="DEBUG")
-                self.handlers.blinds.set_position(next_position)
+                self.log(f'current blind position = {current_position}. next position = {next_position}, increment = {next_increment}', level="DEBUG")
+                
+                if next_increment >= 25:
+                    self.handlers.blinds.set_position(next_position)
 
-        self.run_for(self.wakeup_duration_minutes, during_waking_up, afterwards=None, running_group=self.running_group)
+        self.run_for(self.wakeup_duration_minutes, callback=during_waking_up, afterwards=None, running_group=self.running_group, interval_minutes=3)
 
     def prepare_to_sleep(self) -> None:
         if self.handlers.mode.is_value(Mode.SLEEPING):
@@ -118,15 +120,15 @@ class BedroomScene(SceneApp):
                 raise Exception("aborting bedtime loop because mode is sleeping")
 
             # Dim lights
-            new_brightness = round(self.bedtime_initial_brightness * minutes_left / self.bedtime_duration_minutes)
-            self.get_entity(self.room_lights).turn_on(brightness=new_brightness)
+            new_brightness_pct = round(self.bedtime_initial_brightness_pct * minutes_left / self.bedtime_duration_minutes)
+            self.get_entity(self.room_lights).turn_on(brightness_pct=new_brightness_pct)
 
             # Dim music
             new_volume = round(self.bedtime_initial_volume * minutes_left / self.bedtime_duration_minutes, 2)
             if new_volume >= 0.1:
                 self.handlers.music.volume(new_volume)
 
-        self.run_for(self.bedtime_duration_minutes, during_bedtime, afterwards=after_bedtime, running_group=self.running_group)
+        self.run_for(self.bedtime_duration_minutes, callback=during_bedtime, afterwards=after_bedtime, running_group=self.running_group, interval_minutes=1)
 
     def go_to_sleep(self) -> None:
         self.turn_off(self.room_lights)

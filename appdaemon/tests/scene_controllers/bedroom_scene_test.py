@@ -80,6 +80,70 @@ def test_mode_change_adjusts_blinds_when_away(given_that, bedroom_scene, fake_bl
     assert fake_blinds.get_position() == BEST_FOR_TEMPERATURE
 
 
+@pytest.mark.asyncio
+def test_bedtime_starts_music(given_that, bedroom_scene, fake_music):
+    given_that.bedroom_scene_is(activity=Bedroom.Activity.BEDTIME)
+    
+    bedroom_scene.handle_scene(Bedroom._activity_helper, None, None, None, None)
+    
+    assert fake_music.is_playing()
+
+
+@pytest.mark.asyncio
+def test_bedtime_closes_blinds(given_that, bedroom_scene, fake_blinds):
+    given_that.bedroom_scene_is(activity=Bedroom.Activity.BEDTIME)
+    
+    bedroom_scene.handle_scene(Bedroom._activity_helper, None, None, None, None)
+    
+    assert fake_blinds.is_closed()
+
+
+@pytest.mark.asyncio
+def test_present_day_mode_turns_on_bright_scene(given_that, bedroom_scene, assert_that):
+    given_that.bedroom_scene_is(activity=Bedroom.Activity.PRESENT, mode=selects.Mode.DAY)
+    
+    bedroom_scene.handle_scene(Bedroom._activity_helper, None, None, None, None)
+    
+    assert_that(scenes.BEDROOM_BRIGHT.get()).was.turned_on()
+
+
+@pytest.mark.asyncio
+def test_present_night_mode_turns_on_nightlight(given_that, bedroom_scene, assert_that):
+    given_that.bedroom_scene_is(activity=Bedroom.Activity.PRESENT, mode=selects.Mode.NIGHT)
+    
+    bedroom_scene.handle_scene(Bedroom._activity_helper, None, None, None, None)
+    
+    assert_that(scenes.BEDROOM_NIGHTLIGHT.get()).was.turned_on()
+
+
+@pytest.mark.asyncio
+def test_present_sleeping_mode_turns_off_lights(given_that, bedroom_scene, assert_that):
+    given_that.bedroom_scene_is(activity=Bedroom.Activity.PRESENT, mode=selects.Mode.SLEEPING)
+    
+    bedroom_scene.handle_scene(Bedroom._activity_helper, None, None, None, None)
+    
+    assert_that(entities.LIGHT_BEDROOM).was.turned_off()
+
+
+@pytest.mark.asyncio
+def test_mode_change_to_sleeping_turns_off_lights(given_that, bedroom_scene, assert_that):
+    given_that.bedroom_scene_is(activity=Bedroom.Activity.PRESENT, mode=selects.Mode.NIGHT)
+    
+    bedroom_scene.on_mode_change(selects.Mode.SLEEPING, selects.Mode.NIGHT)
+    
+    assert_that(entities.LIGHT_BEDROOM).was.turned_off()
+
+
+@pytest.mark.asyncio
+def test_mode_change_to_sleeping_starts_rain_sounds(given_that, bedroom_scene, fake_music, time_travel):
+    given_that.bedroom_scene_is(activity=Bedroom.Activity.PRESENT, mode=selects.Mode.NIGHT)
+    
+    bedroom_scene.on_mode_change(selects.Mode.SLEEPING, selects.Mode.NIGHT)
+    time_travel.fast_forward(3).seconds()
+    
+    assert fake_music.is_playing()
+
+
 def bedroom_scene_is(self, activity, illuminance=0, are_lights_on=False, mode=selects.Mode.NIGHT,
                          playing_music=states.OFF):
     self.state_of(entities.COVER_BEDROOM_CURTAIN_COVER).is_set_to(states.OPEN)
