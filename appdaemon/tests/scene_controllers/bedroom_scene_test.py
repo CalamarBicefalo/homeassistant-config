@@ -181,6 +181,20 @@ def test_music_stops_when_bedroom_empty_after_waking(given_that, bedroom_scene, 
     assert not fake_music.is_playing()
 
 
+def test_present_day_mode_does_not_adjust_blinds_when_just_woke_up_and_open(given_that, bedroom_scene, fake_blinds):
+    given_that.bedroom_scene_is(activity=Bedroom.Activity.EMPTY, illuminance=100, mode=selects.Mode.SLEEPING)
+    fake_blinds.open()
+    
+    bedroom_scene.mode_controller(None, None, selects.Mode.SLEEPING, selects.Mode.DAY, None)
+    assert bedroom_scene.just_woke_up
+    assert fake_blinds.get_position() == 100.0
+    
+    given_that.bedroom_scene_is(activity=Bedroom.Activity.PRESENT, illuminance=100, mode=selects.Mode.DAY)
+    bedroom_scene.handle_scene(Bedroom._activity_helper, None, Bedroom.Activity.EMPTY, None, None)
+    
+    assert fake_blinds.get_position() == 100.0
+
+
 def bedroom_scene_is(self, activity, illuminance=0, are_lights_on=False, mode=selects.Mode.NIGHT,
                          playing_music=states.OFF):
     self.state_of(entities.COVER_BEDROOM_CURTAIN_COVER).is_set_to(states.OPEN)

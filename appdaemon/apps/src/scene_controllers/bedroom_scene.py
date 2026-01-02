@@ -61,7 +61,7 @@ class BedroomScene(SceneApp):
 
             case Bedroom.Activity.PRESENT:
                 return scene.by_mode({
-                    Mode.DAY: scene.with_actions(scenes.BEDROOM_BRIGHT, lambda: self.handlers.blinds.best_for_temperature()),
+                    Mode.DAY: scene.with_actions(scenes.BEDROOM_BRIGHT, lambda: self.adjust_blinds_for_day()),
                     Mode.NIGHT: scene.with_actions(scenes.BEDROOM_NIGHTLIGHT, lambda: self.handlers.blinds.close()),
                     Mode.SLEEPING: scene.with_actions(scene.off(), lambda: self.handlers.blinds.close()),
                 })
@@ -137,6 +137,11 @@ class BedroomScene(SceneApp):
 
         self.run_for(self.bedtime_duration_minutes, callback=during_bedtime, afterwards=after_bedtime, running_group=self.running_group, interval_minutes=1)
 
+    def adjust_blinds_for_day(self) -> None:
+        if self.just_woke_up and self.handlers.blinds.get_position() >= 90:
+            return
+        self.handlers.blinds.best_for_temperature()
+
     def go_to_sleep(self) -> None:
         self.turn_off(self.room_lights)
         self.run_in(lambda *_: self.handlers.music.play(Tune.RAIN, volume_level=0.2), 2)
@@ -145,4 +150,7 @@ class BedroomScene(SceneApp):
         if new == Mode.SLEEPING:
             self.go_to_sleep()
         elif new == Mode.AWAY or self.activity.is_value(Bedroom.Activity.EMPTY):
+            if self.just_woke_up and self.handlers.blinds.get_position() >= 90:
+                # Right after wake up avoid the awkward curtains open/close dance, and just let them be if they are open
+                return
             self.handlers.blinds.best_for_temperature()
