@@ -20,7 +20,7 @@ def test_when_away_notifies_of_suspicious_activity(given_that, monitor, assert_t
 
     monitor.on_door_open(None, None, None, None, None)
 
-    assert_that(services.NOTIFY_MOBILE_APP_GALAXY_S23).was.called_with(
+    assert_that(services.NOTIFY_MOBILE_APP_JC_IPHONE).was.called_with(
         message=f'Front door opened while away',
         title="🚨Activity detected")
 
@@ -31,4 +31,4 @@ def test_when_present_does_not_notify(given_that, monitor, assert_that):
 
     monitor.on_door_open(None, None, None, None, None)
 
-    assert_that(services.NOTIFY_MOBILE_APP_GALAXY_S23).was_not.called()
+    assert_that(services.NOTIFY_MOBILE_APP_JC_IPHONE).was_not.called()

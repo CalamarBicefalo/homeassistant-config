@@ -17,12 +17,12 @@ class NotificationHandler:
         self.speaker = MusicHandler(app, self.announcement_speaker)
 
     def security_alert(self, title: str, message: str) -> None:
-        self._app.call_service(services.NOTIFY_MOBILE_APP_GALAXY_S23,
+        self._app.call_service(services.NOTIFY_MOBILE_APP_JC_IPHONE,
                           message=message,
                           title=title)
 
     def chore(self, title: str, message: str) -> None:
-        self._app.call_service(services.NOTIFY_MOBILE_APP_GALAXY_S23,
+        self._app.call_service(services.NOTIFY_MOBILE_APP_JC_IPHONE,
                           message=message,
                           title=title)
         self._app.call_service(services.NOTIFY_MOBILE_APP_MANDIES_IPHONE,
@@ -33,7 +33,7 @@ class NotificationHandler:
 
     def debug(self, message: str) -> None:
         self._app.log(f'App Debug: {message}', level="WARNING")
-        self._app.call_service(services.NOTIFY_MOBILE_APP_GALAXY_S23,
+        self._app.call_service(services.NOTIFY_MOBILE_APP_JC_IPHONE,
                                message=message,
                                title="Debug")
 
