@@ -166,6 +166,21 @@ def test_waking_up_plays_radio_after_completion(given_that, bedroom_scene, fake_
     assert fake_music.get_volume() == 0.3
 
 
+def test_music_stops_when_bedroom_empty_after_waking(given_that, bedroom_scene, fake_music):
+    given_that.bedroom_scene_is(activity=Bedroom.Activity.WAKING_UP, illuminance=30, mode=selects.Mode.SLEEPING)
+    given_that.state_of(entities.SENSOR_LIVING_ROOM_ILLUMINANCE).is_set_to(30)
+    
+    bedroom_scene.mode_controller(None, None, selects.Mode.SLEEPING, selects.Mode.DAY, None)
+    bedroom_scene.handle_scene(Bedroom._activity_helper, None, None, None, None)
+    
+    assert fake_music.is_playing()
+    
+    given_that.bedroom_scene_is(activity=Bedroom.Activity.EMPTY, illuminance=30, mode=selects.Mode.DAY)
+    bedroom_scene.handle_scene(Bedroom._activity_helper, None, Bedroom.Activity.WAKING_UP, None, None)
+    
+    assert not fake_music.is_playing()
+
+
 def bedroom_scene_is(self, activity, illuminance=0, are_lights_on=False, mode=selects.Mode.NIGHT,
                          playing_music=states.OFF):
     self.state_of(entities.COVER_BEDROOM_CURTAIN_COVER).is_set_to(states.OPEN)

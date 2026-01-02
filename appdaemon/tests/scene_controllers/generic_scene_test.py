@@ -62,6 +62,34 @@ def test_when_bright_because_of_light_then_lights_on(given_that, generic_room_sc
     assert_that(ROOM_LIGHTS).was_not.turned_off()
 
 
+def test_wakeup_flag_resets_after_two_minutes(given_that, generic_room_scene, time_travel):
+    initial_state(given_that, activity=CommonActivities.EMPTY, mode=Mode.SLEEPING)
+    
+    generic_room_scene.mode_controller(None, None, Mode.SLEEPING, Mode.DAY, None)
+    initial_state(given_that, activity=CommonActivities.PRESENT, mode=Mode.DAY)
+    
+    generic_room_scene.handle_scene(LivingRoom._activity_helper, None, CommonActivities.EMPTY, None, None)
+    
+    assert generic_room_scene.just_woke_up
+    
+    time_travel.fast_forward(121).seconds()
+    
+    assert not generic_room_scene.just_woke_up
+
+
+def test_wakeup_flag_resets_after_ninety_minutes_without_activity_change(given_that, generic_room_scene, time_travel):
+    initial_state(given_that, activity=CommonActivities.EMPTY, mode=Mode.SLEEPING)
+    
+    generic_room_scene.mode_controller(None, None, Mode.SLEEPING, Mode.DAY, None)
+    
+    assert generic_room_scene.just_woke_up
+    
+    time_travel.fast_forward(90).minutes()
+    time_travel.fast_forward(1).seconds()
+    
+    assert not generic_room_scene.just_woke_up
+
+
 def initial_state(self, activity, illuminance=0, are_lights_on=False, mode=Mode.DAY):
     self.state_of(helpers.MODE).is_set_to(mode)
     self.state_of(ILLUMINANCE_SENSOR).is_set_to(illuminance)

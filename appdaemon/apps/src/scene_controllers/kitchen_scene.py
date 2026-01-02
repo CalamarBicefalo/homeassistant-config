@@ -2,7 +2,7 @@ from typing import Optional
 
 import entities
 import scenes
-from music import Playlist
+from music import Playlist, Radio
 from rooms import *
 from scene_controllers import scene
 from scene_controllers.scene import Scene, SceneByModeSelector
@@ -26,11 +26,17 @@ class KitchenScene(SceneApp):
                 return scenes.KITCHEN_TV
 
             case Kitchen.Activity.PRESENT:
-                return scene.by_mode({
+                present_scene = {
                     Mode.DAY: scenes.KITCHEN_CONCENTRATE,
                     Mode.NIGHT: scenes.KITCHEN_COOK,
                     Mode.SLEEPING: scenes.KITCHEN_NIGHTLIGHT,
-                })
+                }
+                if self.just_woke_up:
+                    return scene.with_actions(
+                        present_scene.get(self.handlers.mode.get()),
+                        lambda: self.play_morning_radio(),
+                    )
+                return scene.by_mode(present_scene)
 
             case Kitchen.Activity.COOKING:
                 return scene.with_actions(
@@ -43,3 +49,6 @@ class KitchenScene(SceneApp):
     def play_music_if_appropriate(self) -> None:
         if not self.handlers.music.is_playing():
             self.handlers.music.play(Playlist.random())
+
+    def play_morning_radio(self) -> None:
+        self.handlers.music.play(Radio.BBC_RADIO_4, shuffle=False, volume_level=0.3)

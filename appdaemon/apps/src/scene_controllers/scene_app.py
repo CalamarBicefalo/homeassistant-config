@@ -15,6 +15,8 @@ from selects import Mode
 
 class SceneApp(App):
     _scheduled_tasks: Deque[str] = collections.deque()
+    just_woke_up = False
+    _wakeup_reset_timer: Optional[str] = None
 
     def initialize(self) -> None:
         self.log(f'Initializing {self.scene} scene.', level="DEBUG")
@@ -65,6 +67,8 @@ class SceneApp(App):
         previous_activity = None
         if entity == self.activity._helper:
             previous_activity = old
+            if self.just_woke_up and self._wakeup_reset_timer is None and previous_activity is not Bedroom.Activity.BEDTIME:
+                self._wakeup_reset_timer = self.run_in(lambda *_: self._reset_wakeup_flag(), 120)
 
         scene_resolver: Optional[Scene] | SceneByModeSelector = self.get_light_scene(activity, previous_activity)
         unwrapped_scene: Optional[Scene] = None
@@ -116,8 +120,14 @@ class SceneApp(App):
         self._scheduled_tasks.append(task_id)
 
     def mode_controller(self, entity: Any, attribute: Any, old: Any, new: Any, kwargs: Any) -> None:
+        if old == Mode.SLEEPING and (new == Mode.DAY or new == Mode.NIGHT):
+            self.just_woke_up = True
+            self.run_in(lambda *_: self._reset_wakeup_flag(), 90 * 60)
         self.on_mode_change(new, old)
 
-    @abstractmethod
+    def _reset_wakeup_flag(self) -> None:
+        self.just_woke_up = False
+        self._wakeup_reset_timer = None
+
     def on_mode_change(self, new: Mode, old: Mode) -> None:
         pass

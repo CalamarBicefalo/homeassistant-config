@@ -67,9 +67,12 @@ class BedroomScene(SceneApp):
                 })
 
             case Bedroom.Activity.EMPTY:
+                actions = [lambda: self.handlers.blinds.best_for_temperature()]
+                if self.just_woke_up:
+                    actions.append(lambda: self.handlers.music.pause())
                 return scene.with_actions(
                         scene.off(),
-                        lambda: self.handlers.blinds.best_for_temperature(),
+                        *actions,
         )
 
     def prepare_to_wake_up(self) -> None:
