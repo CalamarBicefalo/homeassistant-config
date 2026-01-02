@@ -5,7 +5,7 @@ from uuid import UUID
 
 import entities
 import scenes
-from music import Playlist, Tune
+from music import Playlist, Radio, Tune
 from rooms import *
 from scene_controllers import scene
 from scene_controllers.scene import SceneByModeSelector, Scene
@@ -102,7 +102,10 @@ class BedroomScene(SceneApp):
                 if next_increment >= 25:
                     self.handlers.blinds.set_position(next_position)
 
-        self.run_for(self.wakeup_duration_minutes, callback=during_waking_up, afterwards=None, running_group=self.running_group, interval_minutes=3)
+        def after_wakeup() -> None:
+            self.run_in(lambda *_: self.handlers.music.play(Radio.BBC_RADIO_4, shuffle=False, volume_level=0.3), 60)
+
+        self.run_for(self.wakeup_duration_minutes, callback=during_waking_up, afterwards=after_wakeup, running_group=self.running_group, interval_minutes=3)
 
     def prepare_to_sleep(self) -> None:
         if self.handlers.mode.is_value(Mode.SLEEPING):

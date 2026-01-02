@@ -154,6 +154,18 @@ def test_waking_up_starts_birds_music(given_that, bedroom_scene, fake_music):
     assert fake_music.get_volume() == 0.2
 
 
+def test_waking_up_plays_radio_after_completion(given_that, bedroom_scene, fake_music, time_travel):
+    given_that.bedroom_scene_is(activity=Bedroom.Activity.WAKING_UP, illuminance=30)
+    given_that.state_of(entities.SENSOR_LIVING_ROOM_ILLUMINANCE).is_set_to(30)
+    
+    bedroom_scene.handle_scene(Bedroom._activity_helper, None, None, None, None)
+    time_travel.fast_forward(bedroom_scene.wakeup_duration_minutes).minutes()
+    time_travel.fast_forward(61).seconds()
+    
+    assert fake_music.is_playing()
+    assert fake_music.get_volume() == 0.3
+
+
 def bedroom_scene_is(self, activity, illuminance=0, are_lights_on=False, mode=selects.Mode.NIGHT,
                          playing_music=states.OFF):
     self.state_of(entities.COVER_BEDROOM_CURTAIN_COVER).is_set_to(states.OPEN)

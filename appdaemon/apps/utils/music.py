@@ -88,6 +88,9 @@ class Tune(StrEnum):
     RAIN = "filesystem_local://track/rain.mp3"
     ONE_SECOND_OF_SILENCE = "filesystem_local://track/one_second_of_silence.mp3"
 
+class Radio(StrEnum):
+    BBC_RADIO_4 = "bbc_sounds://radio/bbc_radio_fourfm"
+    BBC_RADIO_3_UNWIND = "bbc_sounds://radio/bbc_radio_three_unwind"
 
 class Playlist(StrEnum):
 
