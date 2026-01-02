@@ -8,10 +8,6 @@ from appdaemon.plugins.hass import hassapi as hass
 import entities
 from state_handler import StateHandler
 
-# MQTT event encapsulating all Sleep as Android events
-SLEEP_AS_ANDROID_EVENT = "SleepAsAndroid_phone"
-# Sleep As Android known events
-SLEEP_AS_ANDROID_ONE_HOUR_BEFORE_ALARM = 'before_alarm'
 
 class AlarmClock:
 
@@ -19,69 +15,70 @@ class AlarmClock:
         self._app = app
         self.state = StateHandler(app)
         self._scheduled_one_hour_timer = None
+        self._callback_offset_seconds = 0  # Default to right on time
 
-    def listen_one_hour_before_alarm(self, callback: Callable) -> None:
-        self._app.listen_event(self._on_event(callback), SLEEP_AS_ANDROID_EVENT)
+    def run_before_alarm(self, callback: Callable, hours: int = 0, minutes: int = 0, seconds: int = 0) -> None:
+        self._callback_offset_seconds = hours * 3600 + minutes * 60 + seconds
         self._app.listen_state(self._on_ios_alarm_change(callback), entities.INPUT_BOOLEAN_IOS_ALARM_ENABLED)
         self._app.listen_state(self._on_ios_alarm_change(callback), entities.INPUT_DATETIME_IOS_ALARM_TIME)
+        
+        # Schedule daily 3AM check to ensure callback is set when alarm time doesn't change
+        self._app.run_daily(self._on_daily_ios_alarm_check(callback), time(3, 0, 0))
 
-
-    # MQTT events sent by Sleep As Android
-    def _on_event(self, callback: Callable) -> Callable[[Any, str, Any, Any], None]:
-        def on_specified_event(event_name: str, data: Any, kwargs: Any) -> None:
-            self._app.log(f'received alarm clock event {data["event"]} ',
-                level="INFO")
-            if data['event'] == SLEEP_AS_ANDROID_ONE_HOUR_BEFORE_ALARM: callback()
-
-        return on_specified_event
-
-    # Updates on known datetime helpers for iOS Alarms
+    # iOS Alarm state change handlers
     def _on_ios_alarm_change(self, callback: Callable) -> Callable[..., None]:
+        def cb(entity, attribute, old, new, **kwargs) -> None:
+            self._schedule_ios_alarm_callback(callback)
+        return cb
+
+    def _on_daily_ios_alarm_check(self, callback: Callable) -> Callable[..., None]:
+        def cb(kwargs: Any) -> None:
+            self._app.log('daily 3AM iOS alarm check triggered', level="INFO")
+            self._schedule_ios_alarm_callback(callback)
+        return cb
+
+    def _schedule_ios_alarm_callback(self, callback: Callable) -> None:
         app = self._app
         state = self.state
+        
+        self._cancel_scheduled_one_hour_timer()
+        
+        if not state.is_home(entities.DEVICE_TRACKER_JC_IPHONE):
+            app.log('device is not home, not scheduling callback', level="INFO")
+            return
+        
+        is_enabled = state.is_on(entities.INPUT_BOOLEAN_IOS_ALARM_ENABLED)
+        if not is_enabled:
+            app.log('alarm is disabled, not scheduling callback', level="INFO")
+            return
+        
+        alarm_time = state.get_as_time(entities.INPUT_DATETIME_IOS_ALARM_TIME)
+        if not alarm_time:
+            app.log('alarm time not set, not scheduling callback', level="WARNING")
+            return
+        
+        alarm_datetime = self._calculate_next_alarm_datetime(alarm_time)
+        if not alarm_datetime:
+            app.log(f'failed to calculate alarm datetime from {alarm_time}', level="ERROR")
+            return
+        
+        next_alarm_callback_time = alarm_datetime - timedelta(seconds=self._callback_offset_seconds)
+        now = app.datetime()
+        
+        # Edge case: callback time can be in the past if we're within the offset window of the alarm
+        if next_alarm_callback_time <= now:
+            app.log(f'alarm callback time {next_alarm_callback_time} is in the past (now: {now}), not scheduling callback', level="WARNING")
+            return
+        
+        delay_seconds = (next_alarm_callback_time - now).total_seconds()
+        app.log(f'scheduling alarm callback for {next_alarm_callback_time} (in {_format_duration(delay_seconds)}, offset={_format_duration(self._callback_offset_seconds)})', level="INFO")
 
-        def cb(entity, attribute, old, new, **kwargs) -> None:
-            self._cancel_scheduled_one_hour_timer()
-            
-            if not state.is_home(entities.DEVICE_TRACKER_JC_IPHONE):
-                app.log('device is not home, not scheduling callback', level="INFO")
-                return
-            
-            is_enabled = state.is_on(entities.INPUT_BOOLEAN_IOS_ALARM_ENABLED)
-            if not is_enabled:
-                app.log('alarm is disabled, not scheduling callback', level="INFO")
-                return
-            
-            alarm_time = state.get_as_time(entities.INPUT_DATETIME_IOS_ALARM_TIME)
-            if not alarm_time:
-                app.log('alarm time not set, not scheduling callback', level="WARNING")
-                return
-            
-            alarm_datetime = self._calculate_next_alarm_datetime(alarm_time)
-            if not alarm_datetime:
-                app.log(f'failed to calculate alarm datetime from {alarm_time}', level="ERROR")
-                return
-            
-            next_alarm_callback_time = alarm_datetime - timedelta(hours=1)
-            now = app.datetime()
-            
-            # Edge case: callback time can be in the past if we're within 1 hour of the alarm
-            # (e.g., it's 7:30, alarm is 8:00, callback would have been at 7:00)
-            if next_alarm_callback_time <= now:
-                app.log(f'alarm callback time {next_alarm_callback_time} is in the past (now: {now}), not scheduling callback', level="WARNING")
-                return
-            
-            delay_seconds = (next_alarm_callback_time - now).total_seconds()
-            app.log(f'scheduling alarm callback for {next_alarm_callback_time} (in {_format_duration(delay_seconds)})', level="INFO")
+        def one_hour_before(kwargs: Any) -> None:
+            app.log(f'triggering callback scheduled at={next_alarm_callback_time}')
+            self._scheduled_one_hour_timer = None
+            callback()
 
-            def one_hour_before(kwargs: Any) -> None:
-                app.log(f'triggering callback scheduled by entity={entity} at={next_alarm_callback_time}')
-                self._scheduled_one_hour_timer = None
-                callback()
-
-            self._scheduled_one_hour_timer = app.run_in(one_hour_before, delay_seconds)
-
-        return cb
+        self._scheduled_one_hour_timer = app.run_in(one_hour_before, delay_seconds)
 
     def _cancel_scheduled_one_hour_timer(self):
         if self._scheduled_one_hour_timer:
