@@ -25,22 +25,25 @@ def app() -> None:
 
 
 @pytest.mark.asyncio
-def test_play_sets_volume(assert_that: Any, app: MusicApp) -> None:
+def test_play_sets_volume(assert_that: Any, app: MusicApp, time_travel: Any) -> None:
     app.handlers.music.play("tune", volume_level=0.2)
+    time_travel.fast_forward(1).seconds()
     assert_that(services.MEDIA_PLAYER_VOLUME_SET).was.called_with(
         entity_id=speakers, volume_level=0.2)
 
 
 @pytest.mark.asyncio
-def test_play_sets_shuffling(assert_that: Any, app: MusicApp) -> None:
+def test_play_sets_shuffling(assert_that: Any, app: MusicApp, time_travel: Any) -> None:
     app.handlers.music.play("tune", shuffle=True)
+    time_travel.fast_forward(1).seconds()
     assert_that(services.MEDIA_PLAYER_SHUFFLE_SET).was.called_with(
         entity_id=speakers, shuffle=True)
 
 
 @pytest.mark.asyncio
-def test_play_plays_tune(assert_that: Any, app: MusicApp) -> None:
+def test_play_plays_tune(assert_that: Any, app: MusicApp, time_travel: Any) -> None:
     app.handlers.music.play("tune")
+    time_travel.fast_forward(1).seconds()
     assert_that(services.MEDIA_PLAYER_PLAY_MEDIA).was.called_with(
         entity_id=speakers,
         media_content_id="tune",

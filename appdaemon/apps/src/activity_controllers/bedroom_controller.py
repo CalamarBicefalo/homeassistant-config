@@ -8,7 +8,7 @@ from activity_controllers.generic_controller import MotionController
 from ieee_addresses import BEDSIDE_BUTTON_IEEE_ID
 from rooms import *
 
-
+MINUTES_TO_WAKE_UP=15
 class BedroomController(MotionController):
     motion_sensor = entities.BINARY_SENSOR_BEDROOM_MOTION
     _waking_up_timer = None
@@ -33,7 +33,7 @@ class BedroomController(MotionController):
             self.controller_handler,
             self.motion_sensor
         )
-        self.handlers.alarmclock.run_before_alarm(self.on_30_min_to_wake_up, minutes=30)
+        self.handlers.alarmclock.run_before_alarm(self.wake_up_callback, minutes=MINUTES_TO_WAKE_UP)
         self.handlers.buttons.on(BEDSIDE_BUTTON_IEEE_ID,
                         click=self.on_click,
                         double_click=self.on_double_click,
@@ -64,9 +64,9 @@ class BedroomController(MotionController):
             self.activity.set(Bedroom.Activity.BEDTIME)
             self.fire_event(mode_controller.EVENT_MODE_RECOMPUTE_NEEDED)
 
-    def on_30_min_to_wake_up(self) -> None:
+    def wake_up_callback(self) -> None:
         self.log(
-            f'Triggering bedroom activity controller: 30 minutes to wake up',
+            f'Triggering bedroom activity controller: {MINUTES_TO_WAKE_UP} minutes to wake up',
             level="INFO")
         if not self.activity.is_value(Bedroom.Activity.BEDTIME):
             self.log('Not in bedtime activity, skipping wake up preparation', level="INFO")
@@ -76,7 +76,7 @@ class BedroomController(MotionController):
         self.cancel_wakeup_timer()
 
         self.activity.set(Bedroom.Activity.WAKING_UP)
-        self._waking_up_timer = self.run_in(lambda *_: self.on_alarm_buzzing(), 1800)
+        self._waking_up_timer = self.run_in(lambda *_: self.on_alarm_buzzing(), 60*MINUTES_TO_WAKE_UP)
 
     def on_alarm_buzzing(self) -> None:
         self.cancel_empty_timer()

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import random
 from enum import StrEnum
-from typing import Optional, Any
+from typing import Optional, Any, Callable
 
 from appdaemon.plugins.hass import hassapi as hass
 
@@ -28,17 +28,30 @@ class MusicHandler:
              volume_level: float = 0.3) -> None:
         self._validate()
 
-        self.volume(volume_level)
-        self._app.call_service(services.MEDIA_PLAYER_SHUFFLE_SET,
-                               entity_id=self._speakers, shuffle=shuffle)
-        self._app.log(f'{"Shuffling" if shuffle else "Not shuffling"} queue of {self._speakers}.', level="DEBUG")
+        def do_play() -> None:
+            self.volume(volume_level)
+            self._app.call_service(services.MEDIA_PLAYER_SHUFFLE_SET,
+                                   entity_id=self._speakers, shuffle=shuffle)
+            self._app.log(f'{"Shuffling" if shuffle else "Not shuffling"} queue of {self._speakers}.', level="DEBUG")
+            self._app.call_service(services.MEDIA_PLAYER_PLAY_MEDIA,
+                                   entity_id=self._speakers,
+                                   media_content_id=tune,
+                                   enqueue="replace",
+                                   media_content_type="music"
+                                   )
+            self._app.log(f'Playing {tune} on {self._speakers} - replacing existing queue.', level="DEBUG")
+
+        self.run_in_speaker_without_chime(do_play)
+
+    def run_in_speaker_without_chime(self, callback: Callable[[], None]) -> None:
+        self.volume(0)
         self._app.call_service(services.MEDIA_PLAYER_PLAY_MEDIA,
                                entity_id=self._speakers,
-                               media_content_id=tune,
+                               media_content_id=Tune.ONE_SECOND_OF_SILENCE,
                                enqueue="replace",
                                media_content_type="music"
                                )
-        self._app.log(f'Playing {tune} on {self._speakers} - replacing existing queue.', level="DEBUG")
+        self._app.run_in(lambda *_: callback(), 1)
 
     def pause(self) -> None:
         self._validate()
@@ -51,7 +64,7 @@ class MusicHandler:
     def volume(self, volume_level: float) -> None:
         self._validate()
         self._app.call_service(services.MEDIA_PLAYER_VOLUME_SET,
-                               entity_id=self._speakers, volume_level=volume_level),
+                               entity_id=self._speakers, volume_level=volume_level)
         self._app.log(f'Configured volume of {self._speakers} to {volume_level}.', level="DEBUG")
 
     def mute(self) -> None:

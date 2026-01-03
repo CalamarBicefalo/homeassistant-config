@@ -5,6 +5,7 @@ from uuid import UUID
 
 import entities
 import scenes
+from activity_controllers.bedroom_controller import MINUTES_TO_WAKE_UP
 from music import Playlist, Radio, Tune
 from rooms import *
 from scene_controllers import scene
@@ -20,7 +21,7 @@ class BedroomScene(SceneApp):
     speakers = entities.MEDIA_PLAYER_BEDROOM_SPEAKERS
     blinds = entities.COVER_BEDROOM_CURTAIN_COVER
     room_has_plants = True
-    wakeup_duration_minutes = 15
+    wakeup_duration_minutes = MINUTES_TO_WAKE_UP
     bedtime_duration_minutes = 30
     bedtime_initial_brightness_pct = 60
     bedtime_initial_volume = 0.3
