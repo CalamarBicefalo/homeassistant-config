@@ -84,7 +84,7 @@ class MusicHandler:
 
 
 class Tune(StrEnum):
-    BIRDS = "filesystem_local://track/birds.mp3"
+    BIRDS = "https://open.spotify.com/track/795a5BseQbNwU637Ne6nxz?si=fce2b7cfd85a4dbc"
     RAIN = "filesystem_local://track/rain.mp3"
     ONE_SECOND_OF_SILENCE = "filesystem_local://track/one_second_of_silence.mp3"
 
