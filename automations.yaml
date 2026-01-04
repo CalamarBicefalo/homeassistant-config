@@ -74,8 +74,8 @@
       monday_enabled: false
       time: '16:00:00'
       actions:
-      - service: notify.mobile_app_galaxy_s23
-        metadata: {}
+      - metadata: {}
         data:
           message: Unavailable entities {{entities}}
           title: Cleanup needed
+        action: notify.mobile_app_jc_iphone
