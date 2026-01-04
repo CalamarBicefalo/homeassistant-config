@@ -67,10 +67,11 @@ class ActivityController(App):
             if self.activity.is_value(CommonActivities.EMPTY):
                 return
 
+            old_activity = self.activity.get()
             self.activity.set(CommonActivities.EMPTY)
             if warn_log:
                 # self.handlers.notifications.debug(warn_log)
-                self.log(warn_log + f' current activity {self.activity.get()}', level="WARNING")
+                self.log(warn_log + f' previous activity was {old_activity}', level="WARNING")
 
         self._empty_timer = self.run_in(lambda *_: callback(), seconds)
 
