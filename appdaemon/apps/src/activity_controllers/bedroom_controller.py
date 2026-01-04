@@ -18,13 +18,8 @@ class BedroomController(MotionController):
     def activity(self) -> ActivityHandler:
         return self.handlers.rooms.bedroom.activity
 
-    @property
-    def max_seconds_until_empty(self) -> int:
-        return 10 * 60 * 60
-
-    @property
-    def max_seconds_without_presence_until_empty(self) -> int:
-        return 10 * 60
+    max_seconds_until_empty = 10 * 60 * 60
+    max_seconds_without_presence_until_empty = 60 * 60
 
     def initialize(self) -> None:
         super().initialize_lock()
