@@ -85,7 +85,7 @@ class SceneApp(App):
                 self.turn_off(self.room_lights)
             return
 
-        if entity == self.activity._helper and type(unwrapped_scene) == SceneWithActions:
+        if self.should_execute_actions(entity, unwrapped_scene):
             cast(SceneWithActions, unwrapped_scene).execute_actions()
 
         desired_scene = unwrapped_scene.get()
@@ -109,6 +109,12 @@ class SceneApp(App):
         else:
             self.turn_off(self.room_lights)
 
+    def should_execute_actions(self, entity, unwrapped_scene: Scene) -> bool | Any:
+        is_activity_change = entity == self.activity._helper
+        is_mode_change = entity == entities.INPUT_SELECT_MODE
+        scene_has_actions = type(unwrapped_scene) == SceneWithActions
+        return (is_activity_change or is_mode_change) and scene_has_actions
+
     def stop_scheduled_tasks_if_activity(self, entity: Helper | str) -> None:
         if entity == self.activity._helper:
             while len(self._scheduled_tasks) > 0:
@@ -116,7 +122,7 @@ class SceneApp(App):
                 self.cancel_timer(task)
 
     def run_if_activity_stays_in(self, task: Callable[[], Any], seconds: int = 0, minutes: int = 0) -> None:
-        task_id: str = self.run_in(lambda *_: task, seconds + (minutes * 60))
+        task_id: str = self.run_in(lambda *_: task(), seconds + (minutes * 60))
         self._scheduled_tasks.append(task_id)
 
     def mode_controller(self, entity: Any, attribute: Any, old: Any, new: Any, kwargs: Any) -> None:
@@ -130,4 +136,4 @@ class SceneApp(App):
         self._wakeup_reset_timer = None
 
     def on_mode_change(self, new: Mode, old: Mode) -> None:
-        pass
+        self.handle_scene(entities.INPUT_SELECT_MODE, 'state', old, new, None)

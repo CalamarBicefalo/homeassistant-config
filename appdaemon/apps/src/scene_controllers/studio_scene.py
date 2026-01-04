@@ -29,6 +29,7 @@ class StudioScene(SceneApp):
                     scenes.STUDIO_WORKING,
                     lambda: self.turn_on(entities.SWITCH_MONITOR),
                     lambda: self.play_music_if_appropriate(),
+                    lambda: self.handlers.blinds.best_for_temperature(),
                 )
 
             case Studio.Activity.MEETING:
@@ -49,9 +50,6 @@ class StudioScene(SceneApp):
             lambda: self.turn_off(entities.SWITCH_MONITOR),
             lambda: self.handlers.blinds.best_for_temperature(),
         )
-
-    def on_mode_change(self, new: Mode, old: Mode) -> None:
-        self.handlers.blinds.best_for_temperature()
 
     def play_music_if_appropriate(self) -> None:
         if not self.handlers.music.is_playing():
