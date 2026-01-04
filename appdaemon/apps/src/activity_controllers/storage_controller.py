@@ -7,7 +7,7 @@ from rooms import *
 class StorageController(ActivityController):
     motion_sensor = entities.BINARY_SENSOR_STORAGE_MS_MOTION
     contact_sensor = entities.BINARY_SENSOR_STORAGE_DOOR_CS
-    max_seconds_without_presence_until_empty = 30
+    max_seconds_without_presence_until_empty = 60
     max_seconds_until_empty = 60 * 10
 
     @property
@@ -32,8 +32,11 @@ class StorageController(ActivityController):
             level="DEBUG")
         self.cancel_empty_timer()
 
-        if new == states.DETECTED:
-            self.activity.set(Storage.Activity.PRESENT)
+        if self.state.is_on(self.motion_sensor):
+            self.activity.set(CommonActivities.PRESENT)
+
+        else:
+            self.set_as_empty_in(seconds=30)
 
     def on_door(self, entity, attribute, old, new, kwargs) -> None:  # type: ignore
         self.log(
