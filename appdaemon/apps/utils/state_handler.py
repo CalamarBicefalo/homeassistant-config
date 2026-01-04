@@ -87,7 +87,7 @@ class StateHandler:
             return float(value)
         except (ValueError, TypeError):
             self._app.log(error, level="ERROR")
-            self._app.call_service(services.NOTIFY_MOBILE_APP_GALAXY_S23,
+            self._app.call_service(services.NOTIFY_MOBILE_APP_JC_IPHONE,
                                    message=error,
                                    title="Debug")
             return 0

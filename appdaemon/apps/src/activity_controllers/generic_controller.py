@@ -70,7 +70,7 @@ class ActivityController(App):
             self.activity.set(CommonActivities.EMPTY)
             if warn_log:
                 # self.handlers.notifications.debug(warn_log)
-                self.log(warn_log, level="WARNING")
+                self.log(warn_log + f' current activity {self.activity.get()}', level="WARNING")
 
         self._empty_timer = self.run_in(lambda *_: callback(), seconds)
 
