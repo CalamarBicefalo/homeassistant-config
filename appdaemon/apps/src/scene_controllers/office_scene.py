@@ -29,6 +29,7 @@ class OfficeScene(SceneApp):
                     scenes.OFFICE_NATURAL_LIGHT_3,
                     lambda: self.play_music_if_appropriate(),
                     lambda: self.handlers.blinds.best_for_temperature(),
+                    lambda: self.turn_on(entities.SWITCH_MONITOR),
                 )
 
             case Office.Activity.MEETING:
@@ -36,6 +37,7 @@ class OfficeScene(SceneApp):
                     scenes.OFFICE_NATURAL_LIGHT_3,
                     lambda: self.handlers.music.pause(),
                     lambda: self.handlers.blinds.best_for_temperature(),
+                    lambda: self.turn_on(entities.SWITCH_MONITOR),
                 )
 
             case Office.Activity.DRUMMING:
@@ -48,6 +50,7 @@ class OfficeScene(SceneApp):
                     lambda: self.turn_on(entities.SWITCH_DRUM_POWER_STRIP_ROLAND),
                     lambda: self.handlers.music.pause(),
                     lambda: self.handlers.blinds.close(),
+                    lambda: self.turn_off(entities.SWITCH_MONITOR),
                 )
 
             case Office.Activity.SNARING:
@@ -55,6 +58,7 @@ class OfficeScene(SceneApp):
                     scenes.OFFICE_SNARING,
                     lambda: self.handlers.music.pause(),
                     lambda: self.handlers.blinds.close(),
+                    lambda: self.turn_off(entities.SWITCH_MONITOR),
                 )
 
             case Office.Activity.PRESENT:
@@ -73,6 +77,7 @@ class OfficeScene(SceneApp):
             lambda: self.turn_off(entities.SWITCH_DRUM_POWER_STRIP_TABLET),
             lambda: self.turn_off(entities.SWITCH_DRUM_POWER_STRIP_FOCUSRITE),
             lambda: self.turn_off(entities.SWITCH_DRUM_POWER_STRIP_ROLAND),
+            lambda: self.turn_off(entities.SWITCH_MONITOR),
             lambda: self.handlers.blinds.best_for_temperature(),
         )
 

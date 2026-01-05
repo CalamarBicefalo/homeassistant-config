@@ -14,11 +14,11 @@ from selects import Mode
 
 
 class SceneApp(App):
-    _scheduled_tasks: Deque[str] = collections.deque()
-    just_woke_up = False
-    _wakeup_reset_timer: Optional[str] = None
 
     def initialize(self) -> None:
+        self._scheduled_tasks: Deque[str] = collections.deque()
+        self.just_woke_up = False
+        self._wakeup_reset_timer: Optional[str] = None
         self.log(f'Initializing {self.scene} scene.', level="DEBUG")
         if self.activity:
             self.listen_state(

@@ -7,6 +7,7 @@ from rooms import *
 
 class OfficeController(ActivityController):
     motion_sensor = entities.BINARY_SENSOR_OFFICE_MOTION
+    max_seconds_until_empty = 4 * 3600
 
     @property
     def activity(self) -> ActivityHandler:
@@ -39,7 +40,6 @@ class OfficeController(ActivityController):
         # Work handling
         if self.laptop_at_home() and self.sitting_at_desk():
             self.set_working_or_meeting()
-            self.set_as_empty_in(minutes=10)
 
         # Drums
         elif self.state.is_on(entities.BINARY_SENSOR_DRUMS_VIBRATION):

@@ -11,8 +11,6 @@ from rooms import *
 MINUTES_TO_WAKE_UP=15
 class BedroomController(MotionController):
     motion_sensor = entities.BINARY_SENSOR_BEDROOM_MOTION
-    _waking_up_timer = None
-    _enable_bedtime_timer = None
 
     @property
     def activity(self) -> ActivityHandler:
@@ -22,6 +20,8 @@ class BedroomController(MotionController):
     max_seconds_without_presence_until_empty = 60 * 60
 
     def initialize(self) -> None:
+        self._waking_up_timer = None
+        self._enable_bedtime_timer = None
         super().initialize_lock()
         self.log(f'Initializing {self.controller} motion based activity controller.', level="DEBUG")
         self.listen_state(

@@ -15,7 +15,6 @@ MAX_SECONDS_WITHOUT_PRESENCE_UNTIL_EMPTY = 10 * 60
 
 
 class ActivityController(App):
-    _empty_timer = None
 
     @property
     def controller(self) -> str:
@@ -27,6 +26,7 @@ class ActivityController(App):
         pass
 
     def initialize_lock(self) -> None:
+        self._empty_timer = None
         self.log(f'Initializing {self.controller} activity controller.', level="DEBUG")
 
         self.listen_event(
@@ -38,9 +38,9 @@ class ActivityController(App):
         self.cancel_empty_timer()
         self.activity.on_activity_changed_event(event_name, data, kwargs)
 
-    def set_as_empty_in(self, seconds: int = 0, minutes: int = 0) -> None:
+    def set_as_empty_in(self, seconds: int = 0, minutes: int = 0, hours: int = 0) -> None:
         self._cancel_empty_timer()
-        self._run_empty_timer_in(seconds=seconds + (minutes * 60))
+        self._run_empty_timer_in(seconds=seconds + (minutes * 60) + (hours * 3600))
 
     def cancel_empty_timer(self) -> None:
         """
