@@ -122,7 +122,12 @@ class SceneApp(App):
                 self.cancel_timer(task)
 
     def run_if_activity_stays_in(self, task: Callable[[], Any], seconds: int = 0, minutes: int = 0) -> None:
-        task_id: str = self.run_in(lambda *_: task(), seconds + (minutes * 60))
+        def wrapped_task(*args):
+            task()
+            if task_id in self._scheduled_tasks:
+                self._scheduled_tasks.remove(task_id)
+        
+        task_id: str = self.run_in(wrapped_task, seconds + (minutes * 60))
         self._scheduled_tasks.append(task_id)
 
     def mode_controller(self, entity: Any, attribute: Any, old: Any, new: Any, kwargs: Any) -> None:
