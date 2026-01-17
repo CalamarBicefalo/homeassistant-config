@@ -45,8 +45,8 @@ class BedroomScene(SceneApp):
                 return scene.with_actions(
                     None,
                     lambda: self.turn_off_media(),
-                    lambda: self.turn_on(entities.SCENE_BEDROOM_BEDTIME,
-                                         brightness_pct=self.bedtime_initial_brightness_pct),
+                    lambda: self.turn_on(entities.SCENE_BEDROOM_BEDTIME),
+                    lambda: self.turn_on(self.room_lights, brightness_pct=self.bedtime_initial_brightness_pct),
                     lambda: self.handlers.blinds.close(),
                     lambda: self.handlers.music.play(Playlist.NEO_CLASSICAL_LOUNGE,
                                                      volume_level=self.bedtime_initial_volume),
