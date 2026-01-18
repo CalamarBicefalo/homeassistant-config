@@ -13,7 +13,7 @@ from state_handler import StateHandler
 COMFORT_INDOOR_MAX_TEMPERATURE = 23
 COMFORT_INDOOR_MIN_TEMPERATURE = 19
 HOT_OUTSIDE = 24
-INDOOR_THERMOMETER = entities.SENSOR_BEDROOM_AIR_QUALITY_TEMPERATURE
+INDOOR_THERMOMETER = entities.SENSOR_BEDROOM_TEMPERATURE
 
 
 class IndoorTemperature(enum.Enum):
@@ -53,10 +53,10 @@ class TemperatureHandler:
         return temperature and temperature >= HOT_OUTSIDE
 
     def get_indoor(self) -> IndoorTemperature:
-        temperature = self.state.get_as_number(entities.SENSOR_BEDROOM_AIR_QUALITY_TEMPERATURE)
+        temperature = self.state.get_as_number(entities.SENSOR_BEDROOM_TEMPERATURE)
         if temperature and temperature > COMFORT_INDOOR_MAX_TEMPERATURE:
             return IndoorTemperature.HOT
-        temperature = self.state.get_as_number(entities.SENSOR_BEDROOM_AIR_QUALITY_TEMPERATURE)
+        temperature = self.state.get_as_number(entities.SENSOR_BEDROOM_TEMPERATURE)
         if temperature and temperature < COMFORT_INDOOR_MIN_TEMPERATURE:
             return IndoorTemperature.COLD
 
