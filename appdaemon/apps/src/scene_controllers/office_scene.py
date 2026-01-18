@@ -71,7 +71,7 @@ class OfficeScene(SceneApp):
         return scene.with_actions(
             scene.off(),
             lambda: self.pause_music_if_working_before(previous_activity),
-            lambda: self.turn_off(entities.FAN_FAN),
+            lambda: self.turn_off(entities.FAN_OFFICE_FAN),
             lambda: self.turn_off(entities.SWITCH_DRUM_POWER_STRIP_SPEAKERS),
             lambda: self.turn_off(entities.SWITCH_DRUM_POWER_STRIP_SWITCH),
             lambda: self.turn_off(entities.SWITCH_DRUM_POWER_STRIP_TABLET),
