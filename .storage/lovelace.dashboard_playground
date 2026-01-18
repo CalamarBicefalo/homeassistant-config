@@ -23,7 +23,7 @@
                     "rows": 2,
                     "columns": 24
                   },
-                  "entity": "lock.smart_lock_pro",
+                  "entity": "lock.main_door_lock",
                   "name": "Marsh Court",
                   "show_entity_picture": true,
                   "hide_state": false,
@@ -132,13 +132,13 @@
                     "columns": 12,
                     "rows": 2
                   },
-                  "face_style": "markers",
                   "visibility": [
                     {
                       "condition": "screen",
                       "media_query": "(min-width: 1024px)"
                     }
-                  ]
+                  ],
+                  "face_style": "markers"
                 }
               ],
               "column_span": 3
@@ -167,7 +167,10 @@
                   "features": [
                     "hide_room_icon",
                     "hide_area_stats",
-                    "exclude_default_entities"
+                    "full_card_actions",
+                    "skip_climate_styles",
+                    "exclude_default_entities",
+                    "multi_light_background"
                   ],
                   "grid_options": {
                     "columns": "full",
@@ -176,13 +179,14 @@
                   "occupancy": {
                     "entities": [
                       "binary_sensor.living_room_motion"
-                    ]
+                    ],
+                    "icon_color": "accent",
+                    "card_border_color": "accent"
                   },
                   "background": {
                     "opacity": 100
                   },
                   "styles": {
-                    "entities": {},
                     "sensors": {
                       "font-weight": "bold;",
                       "padding-left": "8px;",
@@ -190,11 +194,21 @@
                     },
                     "title": {
                       "font-weight": "bold;",
-                      "font-size": "1.2em;",
-                      "padding-left": "5px",
+                      "font-size": "1.5em;",
+                      "padding": "0 0 4px 2px",
                       "text-shadow": "0 1px 0 black;"
+                    },
+                    "entity_icon": {},
+                    "entities": {
+                      "width": "60px;",
+                      "opacity": "1;",
+                      "margin": "16px -8px 0 0;"
                     }
                   },
+                  "problem": {
+                    "display": "active_only"
+                  },
+                  "icon_opacity_preset": "high_visibility",
                   "sensor_layout": "stacked"
                 },
                 {
@@ -236,6 +250,105 @@
                   "heading_style": "title"
                 },
                 {
+                  "features": [
+                    {
+                      "type": "custom:service-call",
+                      "entries": [
+                        {
+                          "type": "dropdown",
+                          "entity_id": "input_select.office_activity",
+                          "icon": "mdi:desk",
+                          "options": [
+                            {
+                              "entity_id": "input_select.office_activity",
+                              "option": "Empty",
+                              "tap_action": {
+                                "action": "perform-action",
+                                "perform_action": "input_select.select_option",
+                                "data": {
+                                  "option": "Empty"
+                                },
+                                "target": {
+                                  "entity_id": "input_select.office_activity"
+                                }
+                              }
+                            },
+                            {
+                              "entity_id": "input_select.office_activity",
+                              "option": "Present",
+                              "tap_action": {
+                                "action": "perform-action",
+                                "perform_action": "input_select.select_option",
+                                "data": {
+                                  "option": "Present"
+                                },
+                                "target": {
+                                  "entity_id": "input_select.office_activity"
+                                }
+                              }
+                            },
+                            {
+                              "entity_id": "input_select.office_activity",
+                              "option": "Working",
+                              "tap_action": {
+                                "action": "perform-action",
+                                "perform_action": "input_select.select_option",
+                                "data": {
+                                  "option": "Working"
+                                },
+                                "target": {
+                                  "entity_id": "input_select.office_activity"
+                                }
+                              }
+                            },
+                            {
+                              "entity_id": "input_select.office_activity",
+                              "option": "Meeting",
+                              "tap_action": {
+                                "action": "perform-action",
+                                "perform_action": "input_select.select_option",
+                                "data": {
+                                  "option": "Meeting"
+                                },
+                                "target": {
+                                  "entity_id": "input_select.office_activity"
+                                }
+                              }
+                            },
+                            {
+                              "entity_id": "input_select.office_activity",
+                              "option": "Drumming",
+                              "tap_action": {
+                                "action": "perform-action",
+                                "perform_action": "input_select.select_option",
+                                "data": {
+                                  "option": "Drumming"
+                                },
+                                "target": {
+                                  "entity_id": "input_select.office_activity"
+                                }
+                              }
+                            },
+                            {
+                              "entity_id": "input_select.office_activity",
+                              "option": "Snaring",
+                              "tap_action": {
+                                "action": "perform-action",
+                                "perform_action": "input_select.select_option",
+                                "data": {
+                                  "option": "Snaring"
+                                },
+                                "target": {
+                                  "entity_id": "input_select.office_activity"
+                                }
+                              }
+                            }
+                          ],
+                          "autofill_entity_id": true
+                        }
+                      ]
+                    }
+                  ],
                   "alert_classes": [
                     "motion",
                     "moisture"
@@ -247,7 +360,7 @@
                   "display_type": "picture",
                   "type": "area",
                   "area": "office",
-                  "features_position": "bottom",
+                  "features_position": "inline",
                   "color": "",
                   "vertical": false,
                   "grid_options": {
@@ -406,6 +519,21 @@
                 }
               ],
               "color": "red"
+            },
+            {
+              "type": "entity",
+              "show_name": false,
+              "show_state": true,
+              "show_icon": true,
+              "entity": "sensor.apple_watch_ble_area",
+              "visibility": [
+                {
+                  "condition": "user",
+                  "users": [
+                    "affe11e198de496e8078cd4951b9949b"
+                  ]
+                }
+              ]
             }
           ],
           "header": {
@@ -696,7 +824,9 @@
                 }
               ]
             }
-          ]
+          ],
+          "theme": "Frosted Glass",
+          "cards": []
         }
       ]
     }
