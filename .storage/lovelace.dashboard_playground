@@ -18,9 +18,27 @@
                   "heading_style": "subtitle"
                 },
                 {
+                  "clock_style": "digital",
+                  "clock_size": "large",
+                  "show_seconds": true,
+                  "no_background": false,
+                  "type": "clock",
+                  "grid_options": {
+                    "columns": 12,
+                    "rows": 3
+                  },
+                  "face_style": "markers",
+                  "visibility": [
+                    {
+                      "condition": "screen",
+                      "media_query": "(min-width: 1024px)"
+                    }
+                  ]
+                },
+                {
                   "type": "tile",
                   "grid_options": {
-                    "rows": 2,
+                    "rows": 1,
                     "columns": 24
                   },
                   "entity": "lock.main_door_lock",
@@ -31,6 +49,15 @@
                   "tap_action": {
                     "action": "more-info"
                   },
+                  "features": [
+                    {
+                      "type": "lock-commands"
+                    }
+                  ],
+                  "features_position": "inline"
+                },
+                {
+                  "type": "custom:custom-features-card",
                   "features": [
                     {
                       "type": "custom:service-call",
@@ -54,7 +81,7 @@
                               },
                               "icon": "fa7-solid:sun",
                               "label": "Day",
-                              "styles": ":host {\n            --color: var(--label-badge-yellow);\n            display: flex;\n            \n          }",
+                              "styles": ":host {\n            --color: var(--label-badge-green);\n            display: flex;\n            \n          }",
                               "type": "button"
                             },
                             {
@@ -120,25 +147,14 @@
                       "styles": ":host {\n  --mdc-icon-size: 24px;\n  --feature-height: 60px;\n  --background-opacity: 0;\n}\n\n\n"
                     }
                   ],
-                  "features_position": "inline"
-                },
-                {
-                  "clock_style": "digital",
-                  "clock_size": "large",
-                  "show_seconds": true,
-                  "no_background": false,
-                  "type": "clock",
+                  "features_position": "inline",
                   "grid_options": {
-                    "columns": 12,
-                    "rows": 2
+                    "rows": 2,
+                    "columns": 24
                   },
-                  "visibility": [
-                    {
-                      "condition": "screen",
-                      "media_query": "(min-width: 1024px)"
-                    }
-                  ],
-                  "face_style": "markers"
+                  "transparent": false,
+                  "styles": "height: auto;",
+                  "feature_height": 70
                 }
               ],
               "column_span": 3
@@ -156,21 +172,18 @@
                   "area": "living_room",
                   "entity": "binary_sensor.living_room_motion",
                   "sensors": [
-                    "input_select.living_room_activity",
-                    "sensor.kitchen_air_quality_temperature",
-                    "sensor.kitchen_air_quality_humidity"
+                    "input_select.living_room_activity"
                   ],
                   "entities": [
                     "light.living_room",
-                    "media_player.tv_2"
+                    "media_player.tv_2",
+                    "media_player.living_room_stereo"
                   ],
                   "features": [
                     "hide_room_icon",
                     "hide_area_stats",
-                    "full_card_actions",
-                    "skip_climate_styles",
                     "exclude_default_entities",
-                    "multi_light_background"
+                    "hide_sensor_icons"
                   ],
                   "grid_options": {
                     "columns": "full",
@@ -180,8 +193,7 @@
                     "entities": [
                       "binary_sensor.living_room_motion"
                     ],
-                    "icon_color": "accent",
-                    "card_border_color": "accent"
+                    "card_border_color": "amber"
                   },
                   "background": {
                     "opacity": 100
@@ -189,55 +201,114 @@
                   "styles": {
                     "sensors": {
                       "font-weight": "bold;",
-                      "padding-left": "8px;",
+                      "padding-left": "12px;",
                       "text-shadow": "0 1px 0 black;"
                     },
                     "title": {
                       "font-weight": "bold;",
-                      "font-size": "1.5em;",
-                      "padding": "0 0 4px 2px",
+                      "font-size": "1.2em;",
+                      "padding-left": "5px",
                       "text-shadow": "0 1px 0 black;"
                     },
-                    "entity_icon": {},
                     "entities": {
-                      "width": "60px;",
-                      "opacity": "1;",
-                      "margin": "16px -8px 0 0;"
+                      "justify-self": "end;",
+                      "margin-right": "4px;"
                     }
                   },
+                  "sensor_layout": "stacked",
                   "problem": {
                     "display": "active_only"
                   },
-                  "icon_opacity_preset": "high_visibility",
+                  "icon_opacity_preset": "default"
+                },
+                {
+                  "type": "custom:room-summary-card",
+                  "area": "kitchen",
+                  "entity": "binary_sensor.kitchen_motion",
+                  "sensors": [
+                    "input_select.kitchen_activity"
+                  ],
+                  "entities": [
+                    "light.kitchen",
+                    "media_player.kitchen_speaker"
+                  ],
+                  "features": [
+                    "hide_room_icon",
+                    "hide_area_stats",
+                    "exclude_default_entities",
+                    "hide_sensor_icons"
+                  ],
+                  "grid_options": {
+                    "columns": 6,
+                    "rows": 3
+                  },
+                  "occupancy": {
+                    "entities": [
+                      "binary_sensor.kitchen_motion"
+                    ]
+                  },
+                  "background": {
+                    "opacity": 100
+                  },
+                  "styles": {
+                    "entities": {},
+                    "sensors": {
+                      "font-weight": "bold;",
+                      "padding-left": "9px;",
+                      "text-shadow": "0 1px 0 black;"
+                    },
+                    "title": {
+                      "font-weight": "bold;",
+                      "font-size": "1.2em;",
+                      "padding-left": "5px",
+                      "text-shadow": "0 1px 0 black;"
+                    }
+                  },
                   "sensor_layout": "stacked"
                 },
                 {
-                  "alert_classes": [
-                    "motion",
-                    "moisture"
+                  "type": "custom:room-summary-card",
+                  "area": "studio",
+                  "entity": "binary_sensor.studio_motion",
+                  "sensors": [
+                    "input_select.studio_activity"
                   ],
-                  "sensor_classes": [
-                    "temperature",
-                    "humidity"
+                  "entities": [
+                    "light.studio"
                   ],
-                  "type": "area",
-                  "area": "kitchen",
+                  "features": [
+                    "hide_room_icon",
+                    "hide_area_stats",
+                    "exclude_default_entities",
+                    "hide_sensor_icons"
+                  ],
+                  "occupancy": {
+                    "entities": [
+                      "binary_sensor.studio_motion"
+                    ]
+                  },
+                  "background": {
+                    "opacity": 100
+                  },
+                  "styles": {
+                    "entities": {},
+                    "sensors": {
+                      "font-weight": "bold;",
+                      "padding-left": "9px;",
+                      "text-shadow": "0 1px 0 black;"
+                    },
+                    "title": {
+                      "font-weight": "bold;",
+                      "font-size": "1.2em;",
+                      "padding-left": "5px",
+                      "text-shadow": "0 1px 0 black;"
+                    }
+                  },
+                  "sensor_layout": "stacked",
                   "grid_options": {
                     "columns": 6,
                     "rows": 3
                   }
-                },
-                {
-                  "alert_classes": [
-                    "motion",
-                    "moisture"
-                  ],
-                  "sensor_classes": [
-                    "temperature",
-                    "humidity"
-                  ],
-                  "type": "area",
-                  "area": "studio"
                 }
               ]
             },
@@ -250,143 +321,100 @@
                   "heading_style": "title"
                 },
                 {
-                  "features": [
-                    {
-                      "type": "custom:service-call",
-                      "entries": [
-                        {
-                          "type": "dropdown",
-                          "entity_id": "input_select.office_activity",
-                          "icon": "mdi:desk",
-                          "options": [
-                            {
-                              "entity_id": "input_select.office_activity",
-                              "option": "Empty",
-                              "tap_action": {
-                                "action": "perform-action",
-                                "perform_action": "input_select.select_option",
-                                "data": {
-                                  "option": "Empty"
-                                },
-                                "target": {
-                                  "entity_id": "input_select.office_activity"
-                                }
-                              }
-                            },
-                            {
-                              "entity_id": "input_select.office_activity",
-                              "option": "Present",
-                              "tap_action": {
-                                "action": "perform-action",
-                                "perform_action": "input_select.select_option",
-                                "data": {
-                                  "option": "Present"
-                                },
-                                "target": {
-                                  "entity_id": "input_select.office_activity"
-                                }
-                              }
-                            },
-                            {
-                              "entity_id": "input_select.office_activity",
-                              "option": "Working",
-                              "tap_action": {
-                                "action": "perform-action",
-                                "perform_action": "input_select.select_option",
-                                "data": {
-                                  "option": "Working"
-                                },
-                                "target": {
-                                  "entity_id": "input_select.office_activity"
-                                }
-                              }
-                            },
-                            {
-                              "entity_id": "input_select.office_activity",
-                              "option": "Meeting",
-                              "tap_action": {
-                                "action": "perform-action",
-                                "perform_action": "input_select.select_option",
-                                "data": {
-                                  "option": "Meeting"
-                                },
-                                "target": {
-                                  "entity_id": "input_select.office_activity"
-                                }
-                              }
-                            },
-                            {
-                              "entity_id": "input_select.office_activity",
-                              "option": "Drumming",
-                              "tap_action": {
-                                "action": "perform-action",
-                                "perform_action": "input_select.select_option",
-                                "data": {
-                                  "option": "Drumming"
-                                },
-                                "target": {
-                                  "entity_id": "input_select.office_activity"
-                                }
-                              }
-                            },
-                            {
-                              "entity_id": "input_select.office_activity",
-                              "option": "Snaring",
-                              "tap_action": {
-                                "action": "perform-action",
-                                "perform_action": "input_select.select_option",
-                                "data": {
-                                  "option": "Snaring"
-                                },
-                                "target": {
-                                  "entity_id": "input_select.office_activity"
-                                }
-                              }
-                            }
-                          ],
-                          "autofill_entity_id": true
-                        }
-                      ]
-                    }
-                  ],
-                  "alert_classes": [
-                    "motion",
-                    "moisture"
-                  ],
-                  "sensor_classes": [
-                    "temperature",
-                    "humidity"
-                  ],
-                  "display_type": "picture",
-                  "type": "area",
+                  "type": "custom:room-summary-card",
                   "area": "office",
-                  "features_position": "inline",
-                  "color": "",
-                  "vertical": false,
+                  "entity": "binary_sensor.office_motion",
+                  "sensors": [
+                    "input_select.office_activity"
+                  ],
+                  "entities": [
+                    "light.office",
+                    "fan.office_fan",
+                    "media_player.office_speaker_2"
+                  ],
+                  "features": [
+                    "hide_room_icon",
+                    "hide_area_stats",
+                    "exclude_default_entities",
+                    "hide_sensor_icons"
+                  ],
                   "grid_options": {
                     "columns": "full",
                     "rows": 3
-                  }
+                  },
+                  "occupancy": {
+                    "entities": [
+                      "binary_sensor.office_motion"
+                    ]
+                  },
+                  "background": {
+                    "opacity": 100
+                  },
+                  "styles": {
+                    "entities": {
+                      "justify-self": "end;",
+                      "margin-right": "4px;"
+                    },
+                    "sensors": {
+                      "font-weight": "bold;",
+                      "padding-left": "12px;",
+                      "text-shadow": "0 1px 0 black;"
+                    },
+                    "title": {
+                      "font-weight": "bold;",
+                      "font-size": "1.2em;",
+                      "padding-left": "5px",
+                      "text-shadow": "0 1px 0 black;"
+                    }
+                  },
+                  "sensor_layout": "stacked"
                 },
                 {
-                  "alert_classes": [
-                    "motion",
-                    "moisture"
-                  ],
-                  "sensor_classes": [
-                    "temperature",
-                    "humidity"
-                  ],
-                  "display_type": "picture",
-                  "type": "area",
+                  "type": "custom:room-summary-card",
                   "area": "bathroom",
-                  "features_position": "bottom",
-                  "color": "",
-                  "vertical": false,
+                  "entity": "binary_sensor.bathroom_motion",
+                  "sensors": [
+                    "input_select.bathroom_activity"
+                  ],
+                  "entities": [
+                    "light.bathroom"
+                  ],
+                  "features": [
+                    "hide_room_icon",
+                    "hide_area_stats",
+                    "exclude_default_entities",
+                    "hide_sensor_icons"
+                  ],
                   "grid_options": {
                     "columns": 12,
                     "rows": 3
-                  }
+                  },
+                  "occupancy": {
+                    "entities": [
+                      "binary_sensor.bathroom_motion"
+                    ]
+                  },
+                  "background": {
+                    "opacity": 100
+                  },
+                  "styles": {
+                    "entities": {
+                      "justify-self": "end;",
+                      "margin-right": "4px;"
+                    },
+                    "sensors": {
+                      "font-weight": "bold;",
+                      "padding-left": "12px;",
+                      "text-shadow": "0 1px 0 black;"
+                    },
+                    "title": {
+                      "font-weight": "bold;",
+                      "font-size": "1.2em;",
+                      "padding-left": "5px",
+                      "text-shadow": "0 1px 0 black;"
+                    }
+                  },
+                  "sensor_layout": "stacked"
                 }
               ]
             },
@@ -399,44 +427,142 @@
                   "heading_style": "title"
                 },
                 {
-                  "alert_classes": [
-                    "motion",
-                    "moisture"
-                  ],
-                  "sensor_classes": [
-                    "temperature",
-                    "humidity"
-                  ],
-                  "type": "area",
+                  "type": "custom:room-summary-card",
                   "area": "bedroom",
+                  "entity": "binary_sensor.bedroom_motion",
+                  "sensors": [
+                    "input_select.bedroom_activity"
+                  ],
+                  "entities": [
+                    "light.bedroom",
+                    "fan.bedroom_fan",
+                    "media_player.bedroom_speakers"
+                  ],
+                  "features": [
+                    "hide_room_icon",
+                    "hide_area_stats",
+                    "exclude_default_entities",
+                    "hide_sensor_icons"
+                  ],
                   "layout_options": {
                     "grid_columns": 4,
                     "grid_rows": 3
+                  },
+                  "occupancy": {
+                    "entities": [
+                      "binary_sensor.bedroom_motion"
+                    ],
+                    "card_border_color": "amber"
+                  },
+                  "background": {
+                    "opacity": 100
+                  },
+                  "styles": {
+                    "entities": {
+                      "justify-self": "end;",
+                      "margin-right": "4px;"
+                    },
+                    "sensors": {
+                      "font-weight": "bold;",
+                      "padding-left": "12px;",
+                      "text-shadow": "0 1px 0 black;"
+                    },
+                    "title": {
+                      "font-weight": "bold;",
+                      "font-size": "1.2em;",
+                      "padding-left": "5px",
+                      "text-shadow": "0 1px 0 black;"
+                    }
+                  },
+                  "sensor_layout": "stacked"
+                },
+                {
+                  "type": "custom:room-summary-card",
+                  "area": "ensuite",
+                  "entity": "binary_sensor.ensuite_motion",
+                  "sensors": [
+                    "input_select.ensuite_activity"
+                  ],
+                  "entities": [
+                    "light.ensuite"
+                  ],
+                  "features": [
+                    "hide_room_icon",
+                    "hide_area_stats",
+                    "exclude_default_entities",
+                    "hide_sensor_icons"
+                  ],
+                  "occupancy": {
+                    "entities": [
+                      "binary_sensor.ensuite_motion"
+                    ]
+                  },
+                  "background": {
+                    "opacity": 100
+                  },
+                  "styles": {
+                    "entities": {},
+                    "sensors": {
+                      "font-weight": "bold;",
+                      "padding-left": "9px;",
+                      "text-shadow": "0 1px 0 black;"
+                    },
+                    "title": {
+                      "font-weight": "bold;",
+                      "font-size": "1.2em;",
+                      "padding-left": "5px",
+                      "text-shadow": "0 1px 0 black;"
+                    }
+                  },
+                  "sensor_layout": "stacked",
+                  "grid_options": {
+                    "columns": 6,
+                    "rows": 3
                   }
                 },
                 {
-                  "alert_classes": [
-                    "motion",
-                    "moisture"
+                  "type": "custom:room-summary-card",
+                  "area": "wardrobe",
+                  "entity": "binary_sensor.wardrobe_motion",
+                  "sensors": [
+                    "input_select.wardrobe_activity"
                   ],
-                  "sensor_classes": [
-                    "temperature",
-                    "humidity"
+                  "entities": [
+                    "light.wardrobe"
                   ],
-                  "type": "area",
-                  "area": "ensuite"
-                },
-                {
-                  "alert_classes": [
-                    "motion",
-                    "moisture"
+                  "features": [
+                    "hide_room_icon",
+                    "hide_area_stats",
+                    "exclude_default_entities",
+                    "hide_sensor_icons"
                   ],
-                  "sensor_classes": [
-                    "temperature",
-                    "humidity"
-                  ],
-                  "type": "area",
-                  "area": "wardrobe"
+                  "occupancy": {
+                    "entities": [
+                      "binary_sensor.wardrobe_motion"
+                    ]
+                  },
+                  "background": {
+                    "opacity": 100
+                  },
+                  "styles": {
+                    "entities": {},
+                    "sensors": {
+                      "font-weight": "bold;",
+                      "padding-left": "9px;",
+                      "text-shadow": "0 1px 0 black;"
+                    },
+                    "title": {
+                      "font-weight": "bold;",
+                      "font-size": "1.2em;",
+                      "padding-left": "5px",
+                      "text-shadow": "0 1px 0 black;"
+                    }
+                  },
+                  "sensor_layout": "stacked",
+                  "grid_options": {
+                    "columns": 6,
+                    "rows": 3
+                  }
                 }
               ]
             },
@@ -449,44 +575,92 @@
                   "heading_style": "title"
                 },
                 {
-                  "alert_classes": [
-                    "motion",
-                    "moisture"
-                  ],
-                  "sensor_classes": [
-                    "temperature",
-                    "humidity"
-                  ],
-                  "display_type": "picture",
-                  "type": "area",
+                  "type": "custom:room-summary-card",
                   "area": "hallway",
-                  "features_position": "bottom",
-                  "color": "",
-                  "vertical": false,
+                  "entity": "binary_sensor.hallway_motion",
+                  "sensors": [
+                    "input_select.hallway_activity"
+                  ],
+                  "entities": [
+                    "light.hallway"
+                  ],
+                  "features": [
+                    "hide_room_icon",
+                    "hide_area_stats",
+                    "exclude_default_entities",
+                    "hide_sensor_icons"
+                  ],
                   "grid_options": {
                     "columns": 6,
                     "rows": 3
-                  }
+                  },
+                  "occupancy": {
+                    "entities": [
+                      "binary_sensor.hallway_motion"
+                    ]
+                  },
+                  "background": {
+                    "opacity": 100
+                  },
+                  "styles": {
+                    "entities": {},
+                    "sensors": {
+                      "font-weight": "bold;",
+                      "padding-left": "9px;",
+                      "text-shadow": "0 1px 0 black;"
+                    },
+                    "title": {
+                      "font-weight": "bold;",
+                      "font-size": "1.2em;",
+                      "padding-left": "5px",
+                      "text-shadow": "0 1px 0 black;"
+                    }
+                  },
+                  "sensor_layout": "stacked"
                 },
                 {
-                  "alert_classes": [
-                    "motion",
-                    "moisture"
-                  ],
-                  "sensor_classes": [
-                    "temperature",
-                    "humidity"
-                  ],
-                  "display_type": "picture",
-                  "type": "area",
+                  "type": "custom:room-summary-card",
                   "area": "storage",
-                  "features_position": "bottom",
-                  "color": "",
-                  "vertical": false,
+                  "entity": "binary_sensor.storage_ms_motion",
+                  "sensors": [
+                    "input_select.storage_activity"
+                  ],
+                  "entities": [
+                    "light.storage"
+                  ],
+                  "features": [
+                    "hide_room_icon",
+                    "hide_area_stats",
+                    "exclude_default_entities",
+                    "hide_sensor_icons"
+                  ],
                   "grid_options": {
                     "columns": 6,
                     "rows": 3
-                  }
+                  },
+                  "occupancy": {
+                    "entities": [
+                      "binary_sensor.storage_ms_motion"
+                    ]
+                  },
+                  "background": {
+                    "opacity": 100
+                  },
+                  "styles": {
+                    "entities": {},
+                    "sensors": {
+                      "font-weight": "bold;",
+                      "padding-left": "9px;",
+                      "text-shadow": "0 1px 0 black;"
+                    },
+                    "title": {
+                      "font-weight": "bold;",
+                      "font-size": "1.2em;",
+                      "padding-left": "5px",
+                      "text-shadow": "0 1px 0 black;"
+                    }
+                  },
+                  "sensor_layout": "stacked"
                 }
               ],
               "column_span": 1
@@ -542,7 +716,6 @@
             "badges_wrap": "scroll"
           },
           "top_margin": false,
-          "theme": "Frosted Glass",
           "visible": [
             {
               "user": "12d42b5178134c5db8c17fa8af4f423f"
@@ -824,9 +997,7 @@
                 }
               ]
             }
-          ],
-          "theme": "Frosted Glass",
-          "cards": []
+          ]
         }
       ]
     }
