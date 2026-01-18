@@ -157,8 +157,8 @@
                   "entity": "binary_sensor.living_room_motion",
                   "sensors": [
                     "input_select.living_room_activity",
-                    "sensor.fan_temperature",
-                    "sensor.fan_humidity"
+                    "sensor.kitchen_air_quality_temperature",
+                    "sensor.kitchen_air_quality_humidity"
                   ],
                   "entities": [
                     "light.living_room",
