@@ -28,28 +28,35 @@ class BedroomController(MotionController):
             self.controller_handler,
             self.motion_sensor
         )
+        self.listen_state(
+            self.watch_button_handler,
+            entities.COUNTER_APPLE_WATCH_BUTTON_TAPPED
+        )
         self.handlers.alarmclock.run_before_alarm(self.wake_up_callback, minutes=MINUTES_TO_WAKE_UP)
         self.handlers.buttons.on(BEDSIDE_BUTTON_IEEE_ID,
-                        click=self.on_click,
-                        double_click=self.on_double_click,
-                        long_press=self.on_long_press
-                        )
+                                 click=self.go_to_sleep_handler,
+                                 double_click=self.relaxing_handler,
+                                 long_press=self.reset_room_handler
+                                 )
 
-    def on_double_click(self) -> None:
+    def watch_button_handler(self, entity, attribute, old, new, kwargs) -> None:
+        self.go_to_sleep_handler()
+
+    def relaxing_handler(self) -> None:
         self.cancel_empty_timer()
         self.cancel_wakeup_timer()
 
         self.activity.set(Bedroom.Activity.RELAXING)
         self.fire_event(mode_controller.EVENT_MODE_RECOMPUTE_NEEDED)
 
-    def on_long_press(self) -> None:
+    def reset_room_handler(self) -> None:
         self.cancel_empty_timer()
         self.cancel_wakeup_timer()
 
         self.activity.set(CommonActivities.PRESENT)
         self.fire_event(mode_controller.EVENT_MODE_RECOMPUTE_NEEDED)
 
-    def on_click(self) -> None:
+    def go_to_sleep_handler(self) -> None:
         self.cancel_empty_timer()
         self.cancel_wakeup_timer()
 
