@@ -23,7 +23,7 @@ class BedroomScene(SceneApp):
     room_has_plants = True
     wakeup_duration_minutes = MINUTES_TO_WAKE_UP
     bedtime_duration_minutes = 30
-    bedtime_initial_brightness_pct = 60
+    bedtime_initial_brightness_pct = 40
     bedtime_initial_volume = 0.3
     minutes_left = 0
     running_group = uuid.uuid4()
