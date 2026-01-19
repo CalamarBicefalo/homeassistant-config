@@ -21,19 +21,20 @@
                   "clock_style": "digital",
                   "clock_size": "large",
                   "show_seconds": true,
-                  "no_background": false,
+                  "no_background": true,
                   "type": "clock",
                   "grid_options": {
                     "columns": 12,
                     "rows": 3
                   },
-                  "face_style": "markers",
                   "visibility": [
                     {
                       "condition": "screen",
                       "media_query": "(min-width: 1024px)"
                     }
-                  ]
+                  ],
+                  "title": "Marsh Court",
+                  "face_style": "markers"
                 },
                 {
                   "type": "tile",
@@ -42,9 +43,13 @@
                     "columns": 24
                   },
                   "entity": "lock.main_door_lock",
-                  "name": "Marsh Court",
+                  "name": "Entrance",
                   "show_entity_picture": true,
                   "hide_state": false,
+                  "state_content": [
+                    "state",
+                    "last_changed"
+                  ],
                   "vertical": false,
                   "tap_action": {
                     "action": "more-info"
@@ -55,6 +60,25 @@
                     }
                   ],
                   "features_position": "inline"
+                },
+                {
+                  "type": "tile",
+                  "entity": "person.jose_carlos",
+                  "show_entity_picture": true,
+                  "state_content": "state",
+                  "vertical": false,
+                  "features_position": "inline"
+                },
+                {
+                  "type": "tile",
+                  "entity": "person.amanda",
+                  "show_entity_picture": true,
+                  "vertical": false,
+                  "features_position": "bottom",
+                  "grid_options": {
+                    "columns": 6,
+                    "rows": 1
+                  }
                 },
                 {
                   "type": "custom:custom-features-card",
@@ -163,11 +187,6 @@
               "type": "grid",
               "cards": [
                 {
-                  "type": "heading",
-                  "heading_style": "title",
-                  "heading": "Living Space"
-                },
-                {
                   "type": "custom:room-summary-card",
                   "area": "living_room",
                   "entity": "binary_sensor.living_room_motion",
@@ -186,14 +205,13 @@
                     "hide_sensor_icons"
                   ],
                   "grid_options": {
-                    "columns": "full",
+                    "columns": 6,
                     "rows": 3
                   },
                   "occupancy": {
                     "entities": [
                       "binary_sensor.living_room_motion"
-                    ],
-                    "card_border_color": "amber"
+                    ]
                   },
                   "background": {
                     "opacity": 100
@@ -212,7 +230,7 @@
                     },
                     "entities": {
                       "justify-self": "end;",
-                      "margin-right": "4px;"
+                      "margin": "4px;"
                     }
                   },
                   "sensor_layout": "stacked",
@@ -251,7 +269,10 @@
                     "opacity": 100
                   },
                   "styles": {
-                    "entities": {},
+                    "entities": {
+                      "justify-self": "end;",
+                      "margin": "4px;"
+                    },
                     "sensors": {
                       "font-weight": "bold;",
                       "padding-left": "9px;",
@@ -291,7 +312,10 @@
                     "opacity": 100
                   },
                   "styles": {
-                    "entities": {},
+                    "entities": {
+                      "justify-self": "end;",
+                      "margin": "4px;"
+                    },
                     "sensors": {
                       "font-weight": "bold;",
                       "padding-left": "9px;",
@@ -309,16 +333,6 @@
                     "columns": 6,
                     "rows": 3
                   }
-                }
-              ]
-            },
-            {
-              "type": "grid",
-              "cards": [
-                {
-                  "type": "heading",
-                  "heading": "Work",
-                  "heading_style": "title"
                 },
                 {
                   "type": "custom:room-summary-card",
@@ -339,7 +353,7 @@
                     "hide_sensor_icons"
                   ],
                   "grid_options": {
-                    "columns": "full",
+                    "columns": 6,
                     "rows": 3
                   },
                   "occupancy": {
@@ -353,54 +367,7 @@
                   "styles": {
                     "entities": {
                       "justify-self": "end;",
-                      "margin-right": "4px;"
-                    },
-                    "sensors": {
-                      "font-weight": "bold;",
-                      "padding-left": "12px;",
-                      "text-shadow": "0 1px 0 black;"
-                    },
-                    "title": {
-                      "font-weight": "bold;",
-                      "font-size": "1.2em;",
-                      "padding-left": "5px",
-                      "text-shadow": "0 1px 0 black;"
-                    }
-                  },
-                  "sensor_layout": "stacked"
-                },
-                {
-                  "type": "custom:room-summary-card",
-                  "area": "bathroom",
-                  "entity": "binary_sensor.bathroom_motion",
-                  "sensors": [
-                    "input_select.bathroom_activity"
-                  ],
-                  "entities": [
-                    "light.bathroom"
-                  ],
-                  "features": [
-                    "hide_room_icon",
-                    "hide_area_stats",
-                    "exclude_default_entities",
-                    "hide_sensor_icons"
-                  ],
-                  "grid_options": {
-                    "columns": 12,
-                    "rows": 3
-                  },
-                  "occupancy": {
-                    "entities": [
-                      "binary_sensor.bathroom_motion"
-                    ]
-                  },
-                  "background": {
-                    "opacity": 100
-                  },
-                  "styles": {
-                    "entities": {
-                      "justify-self": "end;",
-                      "margin-right": "4px;"
+                      "margin": "4px;"
                     },
                     "sensors": {
                       "font-weight": "bold;",
@@ -422,11 +389,6 @@
               "type": "grid",
               "cards": [
                 {
-                  "type": "heading",
-                  "heading": "Bedroom",
-                  "heading_style": "title"
-                },
-                {
                   "type": "custom:room-summary-card",
                   "area": "bedroom",
                   "entity": "binary_sensor.bedroom_motion",
@@ -444,15 +406,10 @@
                     "exclude_default_entities",
                     "hide_sensor_icons"
                   ],
-                  "layout_options": {
-                    "grid_columns": 4,
-                    "grid_rows": 3
-                  },
                   "occupancy": {
                     "entities": [
                       "binary_sensor.bedroom_motion"
-                    ],
-                    "card_border_color": "amber"
+                    ]
                   },
                   "background": {
                     "opacity": 100
@@ -460,51 +417,11 @@
                   "styles": {
                     "entities": {
                       "justify-self": "end;",
-                      "margin-right": "4px;"
+                      "margin": "4px;"
                     },
                     "sensors": {
                       "font-weight": "bold;",
                       "padding-left": "12px;",
-                      "text-shadow": "0 1px 0 black;"
-                    },
-                    "title": {
-                      "font-weight": "bold;",
-                      "font-size": "1.2em;",
-                      "padding-left": "5px",
-                      "text-shadow": "0 1px 0 black;"
-                    }
-                  },
-                  "sensor_layout": "stacked"
-                },
-                {
-                  "type": "custom:room-summary-card",
-                  "area": "ensuite",
-                  "entity": "binary_sensor.ensuite_motion",
-                  "sensors": [
-                    "input_select.ensuite_activity"
-                  ],
-                  "entities": [
-                    "light.ensuite"
-                  ],
-                  "features": [
-                    "hide_room_icon",
-                    "hide_area_stats",
-                    "exclude_default_entities",
-                    "hide_sensor_icons"
-                  ],
-                  "occupancy": {
-                    "entities": [
-                      "binary_sensor.ensuite_motion"
-                    ]
-                  },
-                  "background": {
-                    "opacity": 100
-                  },
-                  "styles": {
-                    "entities": {},
-                    "sensors": {
-                      "font-weight": "bold;",
-                      "padding-left": "9px;",
                       "text-shadow": "0 1px 0 black;"
                     },
                     "title": {
@@ -545,7 +462,10 @@
                     "opacity": 100
                   },
                   "styles": {
-                    "entities": {},
+                    "entities": {
+                      "justify-self": "end;",
+                      "margin": "4px;"
+                    },
                     "sensors": {
                       "font-weight": "bold;",
                       "padding-left": "9px;",
@@ -563,17 +483,106 @@
                     "columns": 6,
                     "rows": 3
                   }
+                },
+                {
+                  "type": "custom:room-summary-card",
+                  "area": "ensuite",
+                  "entity": "binary_sensor.ensuite_motion",
+                  "sensors": [
+                    "input_select.ensuite_activity"
+                  ],
+                  "entities": [
+                    "light.ensuite"
+                  ],
+                  "features": [
+                    "hide_room_icon",
+                    "hide_area_stats",
+                    "exclude_default_entities",
+                    "hide_sensor_icons"
+                  ],
+                  "occupancy": {
+                    "entities": [
+                      "binary_sensor.ensuite_motion"
+                    ]
+                  },
+                  "background": {
+                    "opacity": 100
+                  },
+                  "styles": {
+                    "entities": {
+                      "justify-self": "end;",
+                      "margin": "4px;"
+                    },
+                    "sensors": {
+                      "font-weight": "bold;",
+                      "padding-left": "9px;",
+                      "text-shadow": "0 1px 0 black;"
+                    },
+                    "title": {
+                      "font-weight": "bold;",
+                      "font-size": "1.2em;",
+                      "padding-left": "5px",
+                      "text-shadow": "0 1px 0 black;"
+                    }
+                  },
+                  "sensor_layout": "stacked",
+                  "grid_options": {
+                    "columns": 6,
+                    "rows": 3
+                  }
+                },
+                {
+                  "type": "custom:room-summary-card",
+                  "area": "bathroom",
+                  "entity": "binary_sensor.bathroom_motion",
+                  "sensors": [
+                    "input_select.bathroom_activity"
+                  ],
+                  "entities": [
+                    "light.bathroom"
+                  ],
+                  "features": [
+                    "hide_room_icon",
+                    "hide_area_stats",
+                    "exclude_default_entities",
+                    "hide_sensor_icons"
+                  ],
+                  "grid_options": {
+                    "columns": 6,
+                    "rows": 3
+                  },
+                  "occupancy": {
+                    "entities": [
+                      "binary_sensor.bathroom_motion"
+                    ]
+                  },
+                  "background": {
+                    "opacity": 100
+                  },
+                  "styles": {
+                    "entities": {
+                      "justify-self": "end;",
+                      "margin": "4px;"
+                    },
+                    "sensors": {
+                      "font-weight": "bold;",
+                      "padding-left": "12px;",
+                      "text-shadow": "0 1px 0 black;"
+                    },
+                    "title": {
+                      "font-weight": "bold;",
+                      "font-size": "1.2em;",
+                      "padding-left": "5px",
+                      "text-shadow": "0 1px 0 black;"
+                    }
+                  },
+                  "sensor_layout": "stacked"
                 }
               ]
             },
             {
               "type": "grid",
               "cards": [
-                {
-                  "type": "heading",
-                  "heading": "Common Areas",
-                  "heading_style": "title"
-                },
                 {
                   "type": "custom:room-summary-card",
                   "area": "hallway",
@@ -603,7 +612,10 @@
                     "opacity": 100
                   },
                   "styles": {
-                    "entities": {},
+                    "entities": {
+                      "justify-self": "end;",
+                      "margin": "4px;"
+                    },
                     "sensors": {
                       "font-weight": "bold;",
                       "padding-left": "9px;",
@@ -647,7 +659,10 @@
                     "opacity": 100
                   },
                   "styles": {
-                    "entities": {},
+                    "entities": {
+                      "justify-self": "end;",
+                      "margin": "4px;"
+                    },
                     "sensors": {
                       "font-weight": "bold;",
                       "padding-left": "9px;",
@@ -664,6 +679,10 @@
                 }
               ],
               "column_span": 1
+            },
+            {
+              "type": "grid",
+              "cards": []
             }
           ],
           "cards": [],
@@ -674,9 +693,32 @@
               "show_state": true,
               "show_icon": true,
               "entity": "weather.forecast_marsh_court",
-              "state_content": [
-                "temperature",
-                "state"
+              "state_content": "temperature",
+              "show_entity_picture": false,
+              "color": "accent"
+            },
+            {
+              "type": "entity",
+              "show_name": false,
+              "show_state": true,
+              "show_icon": true,
+              "entity": "sensor.bedroom_temperature",
+              "icon": "fa7-solid:house",
+              "color": "accent"
+            },
+            {
+              "type": "entity",
+              "show_name": false,
+              "show_state": true,
+              "show_icon": true,
+              "entity": "sensor.apple_watch_ble_area",
+              "visibility": [
+                {
+                  "condition": "user",
+                  "users": [
+                    "affe11e198de496e8078cd4951b9949b"
+                  ]
+                }
               ]
             },
             {
@@ -693,27 +735,12 @@
                 }
               ],
               "color": "red"
-            },
-            {
-              "type": "entity",
-              "show_name": false,
-              "show_state": true,
-              "show_icon": true,
-              "entity": "sensor.apple_watch_ble_area",
-              "visibility": [
-                {
-                  "condition": "user",
-                  "users": [
-                    "affe11e198de496e8078cd4951b9949b"
-                  ]
-                }
-              ]
             }
           ],
           "header": {
             "layout": "responsive",
             "badges_position": "top",
-            "badges_wrap": "scroll"
+            "badges_wrap": "wrap"
           },
           "top_margin": false,
           "visible": [
