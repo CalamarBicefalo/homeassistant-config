@@ -7,6 +7,7 @@ from rooms import *
 
 class OfficeController(ActivityController):
     motion_sensor = entities.BINARY_SENSOR_OFFICE_MOTION
+    max_seconds_without_presence_until_empty = 2 * 60
     max_seconds_until_empty = 4 * 3600
 
     @property
@@ -52,7 +53,7 @@ class OfficeController(ActivityController):
             self.activity.set(CommonActivities.PRESENT)
 
         else:
-            self.set_as_empty_in(seconds=10)
+            self.set_as_empty_in(seconds=self.max_seconds_without_presence_until_empty)
 
     def sitting_at_desk(self) -> bool:
         return self.state.is_on(entities.BINARY_SENSOR_DESK_CHAIR_PS)

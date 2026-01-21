@@ -6,7 +6,8 @@ from rooms import *
 
 class WardrobeController(ActivityController):
     motion_sensor = entities.BINARY_SENSOR_WARDROBE_MS_MOTION
-    max_seconds_until_empty = 15 * 60
+    max_seconds_without_presence_until_empty = 2 * 60
+    max_seconds_until_empty = 30 * 60
 
     @property
     def activity(self) -> ActivityHandler:

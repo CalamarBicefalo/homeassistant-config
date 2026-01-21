@@ -45,7 +45,7 @@ class StudioController(ActivityController):
             self.activity.set(CommonActivities.PRESENT)
 
         else:
-            self.set_as_empty_in(seconds=10)
+            self.set_as_empty_in(seconds=self.max_seconds_without_presence_until_empty)
 
     def laptop_at_home(self) -> bool:
         return (self.state.is_value(entities.SENSOR_AMANDA_M1AIR_C02FX084Q6LX_SSID, 'SETE-2SE-5G')

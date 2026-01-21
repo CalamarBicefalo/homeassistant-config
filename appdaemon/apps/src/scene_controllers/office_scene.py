@@ -26,7 +26,7 @@ class OfficeScene(SceneApp):
         match activity:
             case Office.Activity.WORKING:
                 return scene.with_actions(
-                    scenes.OFFICE_NATURAL_LIGHT_3,
+                    scenes.OFFICE_WORKING,
                     lambda: self.play_music_if_appropriate(),
                     lambda: self.handlers.blinds.best_for_temperature(),
                     lambda: self.turn_on(entities.SWITCH_MONITOR),
@@ -34,7 +34,7 @@ class OfficeScene(SceneApp):
 
             case Office.Activity.MEETING:
                 return scene.with_actions(
-                    scenes.OFFICE_NATURAL_LIGHT_3,
+                    scenes.OFFICE_WORKING,
                     lambda: self.handlers.music.pause(),
                     lambda: self.handlers.blinds.best_for_temperature(),
                     lambda: self.turn_on(entities.SWITCH_MONITOR),

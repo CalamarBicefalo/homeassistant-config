@@ -17,7 +17,7 @@ class BedroomController(MotionController):
         return self.handlers.rooms.bedroom.activity
 
     max_seconds_until_empty = 10 * 60 * 60
-    max_seconds_without_presence_until_empty = 60 * 60
+    max_seconds_without_presence_until_empty = 2 * 60
 
     def initialize(self) -> None:
         self._waking_up_timer = None
