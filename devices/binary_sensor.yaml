@@ -1,5 +1,12 @@
 ---
 - platform: group
+  name: drums_vibration
+  device_class: vibration
+  all: true
+  entities:
+    - binary_sensor.vs_drums_bd_vibration
+    - binary_sensor.vs_drums_xh_vibration
+- platform: group
   name: kitchen_motion
   device_class: motion
   entities:
@@ -42,6 +49,8 @@
   entities:
     - binary_sensor.office_ms_occupancy
     - binary_sensor.office_instant_ms
+    - binary_sensor.drums_vibration
+    - binary_sensor.desk_chair_ps
 - platform: group
   name: hallway_motion
   device_class: motion
@@ -52,10 +61,3 @@
   device_class: motion
   entities:
     - binary_sensor.bathroom_ms_motion
-- platform: group
-  name: drums_vibration
-  device_class: vibration
-  all: true
-  entities:
-    - binary_sensor.vs_drums_bd_vibration
-    - binary_sensor.vs_drums_xh_vibration
