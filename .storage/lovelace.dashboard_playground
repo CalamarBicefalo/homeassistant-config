@@ -753,11 +753,12 @@
             {
               "user": "affe11e198de496e8078cd4951b9949b"
             }
-          ]
+          ],
+          "theme": "Frosted Glass Dark"
         },
         {
           "type": "sections",
-          "max_columns": 4,
+          "max_columns": 2,
           "title": "Living Room",
           "path": "living-room",
           "icon": "mdi:sofa",
@@ -767,22 +768,218 @@
               "type": "grid",
               "cards": [
                 {
+                  "type": "tile",
+                  "grid_options": {
+                    "columns": "full",
+                    "rows": 3
+                  },
+                  "entity": "input_select.living_room_activity",
+                  "name": "Living Room",
+                  "show_entity_picture": false,
+                  "state_content": [
+                    "state",
+                    "last_changed"
+                  ],
+                  "vertical": false,
+                  "features": [
+                    {
+                      "type": "custom:service-call",
+                      "entries": [
+                        {
+                          "type": "selector",
+                          "entity_id": "input_select.living_room_activity",
+                          "icon": "mdi:sofa",
+                          "options": [
+                            {
+                              "entity_id": "input_select.living_room_activity",
+                              "option": "Present",
+                              "tap_action": {
+                                "action": "perform-action",
+                                "perform_action": "input_select.select_option",
+                                "data": {
+                                  "option": "Present"
+                                },
+                                "target": {
+                                  "entity_id": "input_select.living_room_activity"
+                                }
+                              },
+                              "haptics": true,
+                              "icon": "mdi:account-badge",
+                              "label": "Present"
+                            },
+                            {
+                              "entity_id": "input_select.living_room_activity",
+                              "option": "Watching TV",
+                              "tap_action": {
+                                "action": "perform-action",
+                                "perform_action": "input_select.select_option",
+                                "data": {
+                                  "option": "Watching TV"
+                                },
+                                "target": {
+                                  "entity_id": "input_select.living_room_activity"
+                                }
+                              },
+                              "icon": "mdi:youtube-tv",
+                              "label": "Watching TV",
+                              "haptics": true
+                            },
+                            {
+                              "entity_id": "input_select.living_room_activity",
+                              "option": "Gaming",
+                              "tap_action": {
+                                "action": "perform-action",
+                                "perform_action": "input_select.select_option",
+                                "data": {
+                                  "option": "Gaming"
+                                },
+                                "target": {
+                                  "entity_id": "input_select.living_room_activity"
+                                }
+                              },
+                              "icon": "mdi:controller-classic",
+                              "label": "Gaming",
+                              "haptics": true
+                            },
+                            {
+                              "entity_id": "input_select.living_room_activity",
+                              "option": "Drumming",
+                              "tap_action": {
+                                "action": "perform-action",
+                                "perform_action": "input_select.select_option",
+                                "data": {
+                                  "option": "Drumming"
+                                },
+                                "target": {
+                                  "entity_id": "input_select.living_room_activity"
+                                }
+                              },
+                              "label": "Drumming",
+                              "icon": "fa7-solid:drum",
+                              "haptics": true
+                            },
+                            {
+                              "entity_id": "input_select.living_room_activity",
+                              "option": "Relaxing",
+                              "tap_action": {
+                                "action": "perform-action",
+                                "perform_action": "input_select.select_option",
+                                "data": {
+                                  "option": "Relaxing"
+                                },
+                                "target": {
+                                  "entity_id": "input_select.living_room_activity"
+                                }
+                              },
+                              "label": "Relaxing",
+                              "icon": "mdi:palm-tree",
+                              "haptics": true
+                            },
+                            {
+                              "entity_id": "input_select.living_room_activity",
+                              "option": "Dining",
+                              "tap_action": {
+                                "action": "perform-action",
+                                "perform_action": "input_select.select_option",
+                                "data": {
+                                  "option": "Dining"
+                                },
+                                "target": {
+                                  "entity_id": "input_select.living_room_activity"
+                                }
+                              },
+                              "label": "Dining",
+                              "icon": "mdi:silverware-fork-knife",
+                              "haptics": true
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "features_position": "bottom"
+                }
+              ],
+              "column_span": 4
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
                   "type": "heading",
-                  "heading": "New section"
+                  "heading": "Media",
+                  "heading_style": "title",
+                  "icon": "media"
                 },
                 {
-                  "type": "custom:auto-entities",
-                  "card": {
-                    "type": "entities"
+                  "type": "tile",
+                  "entity": "media_player.living_room_stereo",
+                  "show_entity_picture": true,
+                  "hide_state": false,
+                  "state_content": [
+                    "state",
+                    "media_title"
+                  ],
+                  "vertical": false,
+                  "features": [
+                    {
+                      "type": "media-player-playback"
+                    },
+                    {
+                      "type": "media-player-volume-slider"
+                    }
+                  ],
+                  "features_position": "bottom"
+                },
+                {
+                  "type": "tile",
+                  "entity": "media_player.tv_2",
+                  "show_entity_picture": true,
+                  "hide_state": false,
+                  "state_content": "state",
+                  "vertical": false,
+                  "features": [
+                    {
+                      "type": "media-player-playback"
+                    }
+                  ],
+                  "features_position": "bottom"
+                }
+              ],
+              "column_span": 1
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading": "Lights & Blinds",
+                  "heading_style": "title"
+                },
+                {
+                  "type": "tile",
+                  "entity": "cover.living_room_blinds",
+                  "vertical": false,
+                  "features_position": "bottom",
+                  "features": [
+                    {
+                      "type": "cover-open-close"
+                    }
+                  ]
+                },
+                {
+                  "type": "tile",
+                  "entity": "light.living_room",
+                  "name": {
+                    "type": "entity"
                   },
-                  "filter": {
-                    "include": [
-                      {
-                        "entity_id": "binary_sensor.activity_living_room*"
-                      }
-                    ],
-                    "exclude": []
-                  }
+                  "vertical": false,
+                  "features": [
+                    {
+                      "type": "light-brightness"
+                    }
+                  ],
+                  "features_position": "bottom"
                 }
               ]
             },
@@ -791,240 +988,61 @@
               "cards": [
                 {
                   "type": "heading",
-                  "heading": "New section"
+                  "heading": "Sensors",
+                  "heading_style": "title"
                 },
                 {
-                  "type": "custom:mini-graph-card",
-                  "entities": [
-                    "sensor.fan_pm_2_5"
-                  ],
-                  "show": {
-                    "name": true,
-                    "legend": true,
-                    "icon": false,
-                    "labels": false
-                  },
-                  "color_thresholds": [
-                    {
-                      "value": 35,
-                      "color": "var(--success-color)"
-                    },
-                    {
-                      "value": 53,
-                      "color": "var(--info-color)"
-                    },
-                    {
-                      "value": 70,
-                      "color": "var(--warning-color)"
-                    },
-                    {
-                      "value": 500,
-                      "color": "var(--error-color)"
-                    }
-                  ]
+                  "type": "tile",
+                  "entity": "binary_sensor.living_room_sofa_ms"
                 },
                 {
-                  "type": "custom:mini-graph-card",
-                  "name": "Air Quality",
-                  "icon": "mdi:server",
-                  "entities": [
-                    {
-                      "entity": "sensor.fan_pm_2_5",
-                      "name": "PM-2.5"
-                    },
-                    {
-                      "entity": "sensor.fan_pm_10",
-                      "name": "PM-10"
-                    },
-                    {
-                      "entity": "sensor.fan_nitrogen_dioxide_index",
-                      "name": "NO₂"
-                    },
-                    {
-                      "entity": "sensor.fan_volatile_organic_compounds_index",
-                      "name": "VOC"
-                    },
-                    {
-                      "entity": "sensor.fan_hcho",
-                      "name": "HCHO",
-                      "color": "pink"
-                    }
-                  ],
-                  "show": {
-                    "icon": false,
-                    "name": true,
-                    "state": false
-                  },
-                  "card_mod": {
-                    "style": ".name::after {\n  --aq-bg-color: {% set iaq_level = states('sensor.studio_iaq_level') %}\n                    {% if iaq_level == 'Excellent' %}\n                      var(--success-color)\n                    {% elif iaq_level == 'Good' %}\n                      var(--info-color)\n                    {% elif iaq_level == 'Fair' %}\n                      var(--warning-color)\n                    {% elif iaq_level == 'Poor' or iaq_level == 'Inadequate' %}\n                      var(--error-color)\n                    {% else %}\n                      var(--info-color)\n                    {% endif %};\n  content: \"{{states('sensor.studio_iaq_level')}}\";  \n  margin: 6px 0px 0px 12px;\n  padding: 0px 8px;\n  background-color: var(--aq-bg-color);\n  color: var(--text-light-primary-color);\n  font-weight: 500;\n  border-radius: 4px;\n}\n"
-                  }
+                  "type": "tile",
+                  "entity": "binary_sensor.living_room_dining_table_ms"
                 },
                 {
-                  "type": "custom:mini-graph-card",
-                  "entities": [
-                    {
-                      "entity": "sensor.studio_iaq_index",
-                      "name": "Air Quality"
-                    }
+                  "type": "tile",
+                  "entity": "binary_sensor.sofa_ps",
+                  "state_content": [
+                    "state",
+                    "last_changed"
                   ],
-                  "points_per_hour": 6,
-                  "show": {
-                    "name": true,
-                    "legend": true,
-                    "icon": false,
-                    "labels": false,
-                    "state": false,
-                    "points": false
-                  },
-                  "color_thresholds": [
-                    {
-                      "value": 60,
-                      "color": "var(--success-color)"
-                    },
-                    {
-                      "value": 55,
-                      "color": "var(--info-color)"
-                    },
-                    {
-                      "value": 45,
-                      "color": "var(--warning-color)"
-                    },
-                    {
-                      "value": 40,
-                      "color": "var(--error-color)"
-                    }
-                  ],
-                  "tap_action": {
-                    "action": "fire-dom-event",
-                    "browser_mod": {
-                      "service": "browser_mod.popup",
-                      "data": {
-                        "title": "Air Quality",
-                        "content": {
-                          "type": "vertical-stack",
-                          "cards": [
-                            {
-                              "type": "horizontal-stack",
-                              "cards": [
-                                {
-                                  "type": "custom:mini-graph-card",
-                                  "points_per_hour": 6,
-                                  "line_width": 2,
-                                  "entities": [
-                                    {
-                                      "entity": "sensor.fan_temperature",
-                                      "name": "Temperature",
-                                      "color": "var(--error-color)"
-                                    }
-                                  ],
-                                  "show": {
-                                    "name": true,
-                                    "legend": true,
-                                    "icon": false,
-                                    "state": true,
-                                    "points": false
-                                  },
-                                  "card_mod": {
-                                    "style": ".name > span {\n  opacity: 1 !important;\n}\n"
-                                  }
-                                },
-                                {
-                                  "type": "custom:mini-graph-card",
-                                  "points_per_hour": 6,
-                                  "line_width": 2,
-                                  "entities": [
-                                    {
-                                      "entity": "sensor.fan_humidity",
-                                      "name": "Humidity",
-                                      "color": "var(--info-color)"
-                                    }
-                                  ],
-                                  "show": {
-                                    "name": true,
-                                    "legend": true,
-                                    "icon": false,
-                                    "state": true,
-                                    "points": false
-                                  },
-                                  "card_mod": {
-                                    "style": ".name > span {\n  opacity: 1 !important;\n"
-                                  }
-                                }
-                              ]
-                            },
-                            {
-                              "type": "custom:mini-graph-card",
-                              "points_per_hour": 60,
-                              "line_width": 1,
-                              "name": "Particles",
-                              "entities": [
-                                {
-                                  "entity": "sensor.fan_pm_2_5",
-                                  "name": "PM 2.5 (Smoke)",
-                                  "color": "var(--success-color)"
-                                },
-                                {
-                                  "entity": "sensor.fan_pm_10",
-                                  "name": "PM 10 (Allergens)",
-                                  "color": "var(--warning-color)"
-                                }
-                              ],
-                              "show": {
-                                "name": true,
-                                "legend": true,
-                                "icon": false,
-                                "state": true,
-                                "points": false
-                              },
-                              "card_mod": {
-                                "style": ".name > span {\n  opacity: 1 !important;\n"
-                              }
-                            },
-                            {
-                              "type": "custom:mini-graph-card",
-                              "points_per_hour": 60,
-                              "line_width": 1,
-                              "name": "Gases",
-                              "entities": [
-                                {
-                                  "entity": "sensor.fan_hcho",
-                                  "name": "HCHO",
-                                  "color": "var(--success-color)"
-                                },
-                                {
-                                  "entity": "sensor.fan_nitrogen_dioxide_index",
-                                  "name": "NO2",
-                                  "color": "var(--warning-color)"
-                                },
-                                {
-                                  "entity": "sensor.fan_volatile_organic_compounds_index",
-                                  "name": "VOC",
-                                  "color": "var(--info-color)"
-                                }
-                              ],
-                              "show": {
-                                "name": true,
-                                "legend": true,
-                                "icon": false,
-                                "state": true,
-                                "points": false
-                              },
-                              "card_mod": {
-                                "style": ".name > span {\n  opacity: 1 !important;\n"
-                              }
-                            }
-                          ]
-                        }
-                      }
-                    }
-                  },
-                  "card_mod": {
-                    "style": ".name::after {\n  --aq-bg-color: {% set iaq_level = states('sensor.studio_iaq_level') %}\n                    {% if iaq_level == 'Excellent' %}\n                      var(--success-color)\n                    {% elif iaq_level == 'Good' %}\n                      var(--info-color)\n                    {% elif iaq_level == 'Fair' %}\n                      var(--warning-color)\n                    {% elif iaq_level == 'Poor' or iaq_level == 'Inadequate' %}\n                      var(--error-color)\n                    {% else %}\n                      var(--info-color)\n                    {% endif %};\n  content: \"{{states('sensor.studio_iaq_level')}}\";  \n  margin: 6px 0px 0px 12px;\n  padding: 0px 8px;\n  background-color: var(--aq-bg-color);\n  color: var(--text-light-primary-color);\n  font-weight: 500;\n  border-radius: 4px;\n}\n"
-                  }
+                  "vertical": false,
+                  "features_position": "inline"
                 }
               ]
             }
-          ]
+          ],
+          "background": {
+            "opacity": 30,
+            "alignment": "top center",
+            "size": "cover",
+            "repeat": "no-repeat",
+            "attachment": "fixed",
+            "image": {
+              "media_content_id": "media-source://image_upload/5081154c00e1700e02ee2d4cb8d10caa",
+              "media_content_type": "image/jpeg",
+              "metadata": {
+                "title": "Photo Edit.jpg",
+                "thumbnail": "/api/image/serve/5081154c00e1700e02ee2d4cb8d10caa/256x256",
+                "media_class": "image",
+                "children_media_class": null,
+                "navigateIds": [
+                  {},
+                  {
+                    "media_content_type": "app",
+                    "media_content_id": "media-source://image_upload"
+                  }
+                ]
+              }
+            }
+          },
+          "cards": [],
+          "theme": "Frosted Glass Dark",
+          "header": {
+            "layout": "responsive",
+            "badges_position": "top",
+            "badges_wrap": "scroll"
+          }
         }
       ]
     }
