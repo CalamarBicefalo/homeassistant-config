@@ -20,6 +20,7 @@ class WardrobeController(ActivityController):
             self.controller_handler,
             [
                 self.motion_sensor,
+                entities.BINARY_SENSOR_VS_WARDROBE_MIDDLE_DOOR_VIBRATION,
                 entities.BINARY_SENSOR_WARDROBE_MIDDLE_DOOR,
                 entities.BINARY_SENSOR_WARDROBE_DOOR_RIGHT_CS_IASZONE,
                 entities.BINARY_SENSOR_WARDROBE_DOOR_LEFT_CS_IASZONE,
@@ -67,6 +68,7 @@ class WardrobeController(ActivityController):
     def is_wardrobe_sensor(self, entity: entities.Entity) -> bool:
         return entity in [
             entities.BINARY_SENSOR_WARDROBE_MIDDLE_DOOR,
+            entities.BINARY_SENSOR_VS_WARDROBE_MIDDLE_DOOR_VIBRATION,
             entities.BINARY_SENSOR_WARDROBE_DOOR_RIGHT_CS_IASZONE,
             entities.BINARY_SENSOR_WARDROBE_DOOR_LEFT_CS_IASZONE,
         ]
@@ -74,6 +76,7 @@ class WardrobeController(ActivityController):
     def wardrobe_is_open(self) -> bool:
         return (  # type: ignore
                 self.state.is_on(entities.BINARY_SENSOR_WARDROBE_MIDDLE_DOOR)
+                or self.state.is_on(entities.BINARY_SENSOR_VS_WARDROBE_MIDDLE_DOOR_VIBRATION)
                 or self.state.is_value(entities.BINARY_SENSOR_WARDROBE_DOOR_RIGHT_CS_IASZONE, states.OPEN)
                 or self.state.is_value(entities.BINARY_SENSOR_WARDROBE_DOOR_LEFT_CS_IASZONE, states.OPEN)
         )

@@ -43,7 +43,7 @@ def test_working_activity_plays_music_and_manages_blinds(given_that, office_scen
 
     assert fake_music.is_playing()
     assert fake_blinds.get_position() == BEST_FOR_TEMPERATURE
-    assert_that(scenes.OFFICE_NATURAL_LIGHT_3.get()).was.turned_on()
+    assert_that(scenes.OFFICE_WORKING.get()).was.turned_on()
 
 
 @pytest.mark.asyncio

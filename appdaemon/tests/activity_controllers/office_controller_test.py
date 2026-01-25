@@ -34,7 +34,7 @@ def test_transitions_to_empty_after_timeout(given_that, subject, assert_that, ti
     )
 
     subject.controller_handler(None, None, None, None, None)
-    time_travel.fast_forward(11).seconds()
+    time_travel.fast_forward(2).minutes()
 
     assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(Office._activity_helper,
                                                                          Office.Activity.EMPTY)

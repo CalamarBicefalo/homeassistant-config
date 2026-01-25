@@ -34,7 +34,7 @@ def test_when_away(given_that, subject, assert_that, time_travel):
     )
 
     subject.controller_handler(None, None, None, None, None)
-    time_travel.fast_forward(11).seconds()
+    time_travel.fast_forward(2).minutes()
 
     assert_that(services.INPUT_SELECT_SELECT_OPTION).was.set_to_activity(Studio._activity_helper,
                                                                          Studio.Activity.EMPTY)

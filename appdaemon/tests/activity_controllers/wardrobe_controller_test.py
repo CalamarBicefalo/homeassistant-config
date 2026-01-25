@@ -20,6 +20,7 @@ def test_triggers_when_motion_or_doors_changes(given_that, subject, assert_that)
         .listens_to.state(
         [
             entities.BINARY_SENSOR_WARDROBE_MS_MOTION,
+            entities.BINARY_SENSOR_VS_WARDROBE_MIDDLE_DOOR_VIBRATION,
             entities.BINARY_SENSOR_WARDROBE_MIDDLE_DOOR,
             entities.BINARY_SENSOR_WARDROBE_DOOR_RIGHT_CS_IASZONE,
             entities.BINARY_SENSOR_WARDROBE_DOOR_LEFT_CS_IASZONE,
@@ -126,6 +127,7 @@ def wardrobe_state_is(self,
     self.state_of(entities.INPUT_BOOLEAN_ACTIVITY_LOCK_WARDROBE).is_set_to(False)
     self.state_of(entities.BINARY_SENSOR_WARDROBE_MS_MOTION).is_set_to(motion)
     self.state_of(entities.BINARY_SENSOR_WARDROBE_MIDDLE_DOOR).is_set_to(wardrobe_motion)
+    self.state_of(entities.BINARY_SENSOR_VS_WARDROBE_MIDDLE_DOOR_VIBRATION).is_set_to(states.OFF)
     self.state_of(entities.BINARY_SENSOR_WARDROBE_DOOR_RIGHT_CS_IASZONE).is_set_to(wardrobe_right_door)
     self.state_of(entities.BINARY_SENSOR_WARDROBE_DOOR_LEFT_CS_IASZONE).is_set_to(wardrobe_left_door)
     self.state_of(Wardrobe._activity_helper).is_set_to(activity)
