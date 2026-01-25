@@ -111,11 +111,11 @@ cards:
 
   - type: 'custom:button-card'
     template: card_graph
-    entity: sensor.bedroom_air_quality_temperature
+    entity: sensor.bedroom_temperature
     variables:
       ulm_card_graph_color: "var(--google-red)"
       ulm_card_graph_name: Temperature
-      ulm_card_graph_entity: sensor.bedroom_air_quality_temperature
+      ulm_card_graph_entity: sensor.bedroom_temperature
       ulm_card_graph_type: fill
       ulm_card_graph_hours: 24
       ulm_card_graph_group_by: interval
@@ -123,11 +123,11 @@ cards:
 
   - type: 'custom:button-card'
     template: card_graph
-    entity: sensor.bedroom_air_quality_humidity
+    entity: sensor.bedroom_humidity
     variables:
       ulm_card_graph_color: "var(--google-blue)"
       ulm_card_graph_name: Humidity
-      ulm_card_graph_entity: sensor.bedroom_air_quality_humidity
+      ulm_card_graph_entity: sensor.bedroom_humidity
       ulm_card_graph_type: fill
       ulm_card_graph_hours: 24
       ulm_card_graph_group_by: interval
@@ -137,11 +137,11 @@ cards:
       grid-column-end: span 2
     type: 'custom:button-card'
     template: card_graph
-    entity: sensor.bedroom_air_quality_particulate_matter
+    entity: sensor.bedroom_pm_2_5
     variables:
       ulm_card_graph_color: "var(--google-green)"
       ulm_card_graph_name: Air Pollution
-      ulm_card_graph_entity: sensor.bedroom_air_quality_particulate_matter
+      ulm_card_graph_entity: sensor.bedroom_pm_2_5
       ulm_card_graph_type: bar
       ulm_card_graph_hours: 48
       ulm_card_graph_group_by: interval

@@ -1,11 +1,11 @@
-studio:
-  name: "Studio"
+office:
+  name: "Office"
   sources:
-    hcho: sensor.fan_hcho
-    voc_index: sensor.fan_volatile_organic_compounds_index
-    # temperature: sensor.fan_temperature
-    humidity: sensor.fan_humidity
-    # no2: sensor.fan_nitrogen_dioxide_index 
+    hcho: sensor.office_fan_hcho
+    voc_index: sensor.office_fan_volatile_organic_compounds_index
+    # temperature: sensor.office_fan_temperature
+    humidity: sensor.office_fan_humidity
+    # no2: sensor.office_fan_nitrogen_dioxide_index 
     pm:
-      - sensor.fan_pm_2_5
-      - sensor.fan_pm_10
+      - sensor.office_fan_pm_2_5
+      - sensor.office_fan_pm_10

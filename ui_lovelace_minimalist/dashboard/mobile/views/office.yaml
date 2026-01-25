@@ -158,7 +158,7 @@ cards:
     variables:
       ulm_show_last_changed: false
       ulm_card_binary_sensor_name: Fan
-    entity: fan.fan
+    entity: fan.office_fan
 
   - view_layout:
       grid-column-end: span 2
@@ -168,11 +168,11 @@ cards:
 
   - type: 'custom:button-card'
     template: card_graph
-    entity: sensor.fan_temperature
+    entity: sensor.office_fan_temperature
     variables:
       ulm_card_graph_color: "var(--google-red)"
       ulm_card_graph_name: Temperature
-      ulm_card_graph_entity: sensor.fan_temperature
+      ulm_card_graph_entity: sensor.office_fan_temperature
       ulm_card_graph_type: fill
       ulm_card_graph_hours: 24
       ulm_card_graph_group_by: interval
@@ -180,11 +180,11 @@ cards:
 
   - type: 'custom:button-card'
     template: card_graph
-    entity: sensor.fan_humidity
+    entity: sensor.office_fan_humidity
     variables:
       ulm_card_graph_color: "var(--google-blue)"
       ulm_card_graph_name: Humidity
-      ulm_card_graph_entity: sensor.fan_humidity
+      ulm_card_graph_entity: sensor.office_fan_humidity
       ulm_card_graph_type: fill
       ulm_card_graph_hours: 24
       ulm_card_graph_group_by: interval
@@ -194,11 +194,11 @@ cards:
       grid-column-end: span 2
     type: 'custom:button-card'
     template: card_graph
-    entity: sensor.fan_pm_2_5
+    entity: sensor.office_fan_pm_2_5
     variables:
       ulm_card_graph_color: "var(--google-green)"
       ulm_card_graph_name: PM 2.5
-      ulm_card_graph_entity: sensor.fan_pm_2_5
+      ulm_card_graph_entity: sensor.office_fan_pm_2_5
       ulm_card_graph_type: bar
       ulm_card_graph_hours: 48
       ulm_card_graph_group_by: interval
