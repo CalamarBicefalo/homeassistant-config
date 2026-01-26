@@ -24,8 +24,13 @@ class WardrobeScene(SceneApp):
                     Mode.DAY: scenes.WARDROBE_BRIGHT,
                     Mode.NIGHT: scenes.WARDROBE_NIGHTLIGHT,
                     Mode.SLEEPING: scene.off(),
+                    Mode.AWAY: scene.off(),
                 })
             case Wardrobe.Activity.DRESSING:
-                return scenes.WARDROBE_DRESSING
-
+                return scene.by_mode({
+                    Mode.DAY: scenes.WARDROBE_DRESSING,
+                    Mode.NIGHT: scenes.WARDROBE_DRESSING,
+                    Mode.SLEEPING: scenes.WARDROBE_NIGHTLIGHT,
+                    Mode.AWAY: scene.off(),
+                })
         return scene.off()
