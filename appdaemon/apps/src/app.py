@@ -106,7 +106,6 @@ class App(hass.Hass):
 
     def turn_off_plugs(self) -> None:
         self.turn_off(entities.SWITCH_DRUM_POWER_STRIP_SPEAKERS)
-        self.turn_off(entities.SWITCH_DRUM_POWER_STRIP_SWITCH)
         self.turn_off(entities.SWITCH_DRUM_POWER_STRIP_TABLET)
         self.turn_off(entities.SWITCH_DRUM_POWER_STRIP_FOCUSRITE)
         self.turn_off(entities.SWITCH_DRUM_POWER_STRIP_ROLAND)
