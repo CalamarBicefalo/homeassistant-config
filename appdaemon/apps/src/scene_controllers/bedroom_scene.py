@@ -107,7 +107,7 @@ class BedroomScene(SceneApp):
                     self.handlers.blinds.set_position(next_position)
 
         def after_wakeup() -> None:
-            self.run_in(lambda *_: self.handlers.music.play(Radio.BBC_RADIO_4, shuffle=False, volume_level=0.3), 60)
+            self.run_in(lambda *_: self.handlers.music.play(Playlist.LATIN_JAZZ, shuffle=False, volume_level=0.3), 60)
 
         self.run_for(self.wakeup_duration_minutes, callback=during_waking_up, afterwards=after_wakeup, running_group=self.running_group, interval_minutes=3)
 
