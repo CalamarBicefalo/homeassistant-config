@@ -18,12 +18,12 @@ from selects import Mode
 class BedroomScene(SceneApp):
     illuminance_sensor = entities.SENSOR_BEDROOM_MS_EPL_ILLUMINANCE
     room_lights = entities.LIGHT_BEDROOM
+    bedside_lamps = [entities.LIGHT_BEDSIDE_1, entities.LIGHT_BEDSIDE_2]
     speakers = entities.MEDIA_PLAYER_BEDROOM_SPEAKERS
     blinds = entities.COVER_BEDROOM_CURTAIN_COVER
     room_has_plants = True
     wakeup_duration_minutes = MINUTES_TO_WAKE_UP
     bedtime_duration_minutes = 30
-    bedtime_initial_brightness_pct = 40
     bedtime_initial_volume = 0.3
     minutes_left = 0
     running_group = uuid.uuid4()
@@ -46,7 +46,6 @@ class BedroomScene(SceneApp):
                     None,
                     lambda: self.turn_off_media(),
                     lambda: self.turn_on(entities.SCENE_BEDROOM_BEDTIME),
-                    lambda: self.turn_on(self.room_lights, brightness_pct=self.bedtime_initial_brightness_pct),
                     lambda: self.handlers.blinds.close(),
                     lambda: self.handlers.music.play(Playlist.NEO_CLASSICAL_LOUNGE,
                                                      volume_level=self.bedtime_initial_volume),
@@ -88,8 +87,9 @@ class BedroomScene(SceneApp):
 
             if is_dark:
                 # Brighten lights slowly
-                new_brightness_pct = round(6 * (self.wakeup_duration_minutes - minutes_left))
-                self.get_entity(self.room_lights).turn_on(brightness_pct=new_brightness_pct)
+                brightness_ratio = (self.wakeup_duration_minutes - minutes_left) / self.wakeup_duration_minutes
+                new_brightness = round(255 * brightness_ratio)
+                self.set_bedside_lamps_brightness(new_brightness)
             else:
                 # Open blinds
                 current_position = self.handlers.blinds.get_position()
@@ -111,10 +111,19 @@ class BedroomScene(SceneApp):
 
         self.run_for(self.wakeup_duration_minutes, callback=during_waking_up, afterwards=after_wakeup, running_group=self.running_group, interval_minutes=3)
 
+    def set_bedside_lamps_brightness(self, brightness: int) -> None:
+        for lamp in self.bedside_lamps:
+            if brightness > 0:
+                self.get_entity(lamp).turn_on(brightness=brightness)
+            else:
+                self.turn_off(lamp)
+
     def prepare_to_sleep(self) -> None:
         if self.handlers.mode.is_value(Mode.SLEEPING):
             self.log(f'aborting bedtime loop because mode is sleeping.')
             return
+
+        initial_brightness = self.state.get_attr_as_number(self.room_lights, "brightness") or 100
 
         def after_bedtime() -> None:
             self.handlers.mode.set(Mode.SLEEPING)
@@ -128,8 +137,9 @@ class BedroomScene(SceneApp):
                 raise Exception("aborting bedtime loop because mode is sleeping")
 
             # Dim lights
-            new_brightness_pct = round(self.bedtime_initial_brightness_pct * minutes_left / self.bedtime_duration_minutes)
-            self.get_entity(self.room_lights).turn_on(brightness_pct=new_brightness_pct)
+            brightness_ratio = minutes_left / self.bedtime_duration_minutes
+            new_brightness = round(initial_brightness * brightness_ratio)
+            self.set_bedside_lamps_brightness(new_brightness)
 
             # Dim music
             new_volume = round(self.bedtime_initial_volume * minutes_left / self.bedtime_duration_minutes, 2)

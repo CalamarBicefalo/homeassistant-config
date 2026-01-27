@@ -202,6 +202,8 @@ def bedroom_scene_is(self, activity, illuminance=0, are_lights_on=False, mode=se
     self.state_of(helpers.MODE).is_set_to(mode)
     self.state_of(entities.SENSOR_BEDROOM_MS_EPL_ILLUMINANCE).is_set_to(illuminance)
     self.state_of(Bedroom._activity_helper).is_set_to(activity)
+    self.state_of(entities.LIGHT_BEDSIDE_1).is_set_to(states.ON, {"brightness": 100})
+    self.state_of(entities.LIGHT_BEDSIDE_2).is_set_to(states.ON, {"brightness": 100})
     if are_lights_on:
         self.state_of(entities.LIGHT_BEDROOM).is_set_to(states.ON)
     else:
