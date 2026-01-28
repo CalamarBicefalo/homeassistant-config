@@ -43,7 +43,6 @@ def test_when_working(given_that, studio_scene, fake_music, assert_that):
 
     assert fake_music.is_playing()
     assert_that(scenes.STUDIO_WORKING.get()).was.turned_on()
-    assert_that(entities.SWITCH_MONITOR).was.turned_on()
 
 
 @pytest.mark.asyncio
@@ -61,7 +60,6 @@ def test_when_empty_turns_off_monitor_and_adjusts_blinds(given_that, studio_scen
 
     studio_scene.handle_scene(Studio._activity_helper, None, None, None, None)
 
-    assert_that(entities.SWITCH_MONITOR).was.turned_off()
 
 
 @pytest.mark.asyncio

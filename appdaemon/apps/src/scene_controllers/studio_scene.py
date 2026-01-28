@@ -27,7 +27,6 @@ class StudioScene(SceneApp):
             case Studio.Activity.WORKING:
                 return scene.with_actions(
                     scenes.STUDIO_WORKING,
-                    lambda: self.turn_on(entities.SWITCH_MONITOR),
                     lambda: self.play_music_if_appropriate(),
                     lambda: self.handlers.blinds.best_for_temperature(),
                 )
@@ -35,7 +34,6 @@ class StudioScene(SceneApp):
             case Studio.Activity.MEETING:
                 return scene.with_actions(
                     scenes.STUDIO_WORKING,
-                    lambda: self.turn_on(entities.SWITCH_MONITOR),
                     lambda: self.handlers.music.pause(),
                 )
 
@@ -47,7 +45,6 @@ class StudioScene(SceneApp):
 
         return scene.with_actions(
             scene.off(),
-            lambda: self.turn_off(entities.SWITCH_MONITOR),
             lambda: self.handlers.blinds.best_for_temperature(),
         )
 
