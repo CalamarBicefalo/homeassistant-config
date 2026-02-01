@@ -1,0 +1,8 @@
+zha_aqara_vibration_set_sensitivity:
+  alias: ZHA - Aqara Vibration - Set Sensitivity
+  use_blueprint:
+    path: niro1987/zha_aqara_vibration_set_sensitivity.yaml
+    input:
+      device: 0083f026bc6cca8a3f4b40ec45598eab
+      sensitivity: High
+  description: ''
