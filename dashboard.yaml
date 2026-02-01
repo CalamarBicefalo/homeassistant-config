@@ -7,19 +7,93 @@ views:
         cards:
           - type: heading
             heading_style: subtitle
-          - clock_style: digital
-            clock_size: large
+          - type: custom:custom-features-card
+            features:
+              - type: custom:service-call
+                entries:
+                  - type: selector
+                    entity_id: input_select.mode
+                    options:
+                      - entity_id: input_select.mode
+                        option: Day
+                        tap_action:
+                          action: perform-action
+                          perform_action: input_select.select_option
+                          data:
+                            option: Day
+                          target:
+                            entity_id: input_select.mode
+                        icon: fa7-solid:sun
+                        label: Day
+                        styles: ''
+                        type: button
+                      - entity_id: input_select.mode
+                        option: Night
+                        tap_action:
+                          action: perform-action
+                          perform_action: input_select.select_option
+                          data:
+                            option: Night
+                          target:
+                            entity_id: input_select.mode
+                        label: Night
+                        icon: mdi:moon-waning-crescent
+                        type: button
+                        styles: ''
+                      - entity_id: input_select.mode
+                        option: Away
+                        tap_action:
+                          action: perform-action
+                          perform_action: input_select.select_option
+                          data:
+                            option: Away
+                          target:
+                            entity_id: input_select.mode
+                        label: Away
+                        icon: mdi:home-export-outline
+                        type: button
+                        styles: ''
+                      - entity_id: input_select.mode
+                        option: Sleeping
+                        tap_action:
+                          action: perform-action
+                          perform_action: input_select.select_option
+                          data:
+                            option: Sleeping
+                          target:
+                            entity_id: input_select.mode
+                        icon: mdi:sleep
+                        label: Sleep
+                        type: button
+                        styles: ''
+                    haptics: true
+                    styles: ''
+                    icon: mdi:house
+                    thumb: md3-filled
+                styles: |+
+
+            features_position: inline
+            grid_options:
+              rows: 1
+              columns: 24
+            transparent: false
+            styles: ''
+            feature_height: 32
+          - clock_style: analog
+            clock_size: small
             show_seconds: true
-            no_background: true
+            no_background: false
+            border: false
+            ticks: hour
+            face_style: markers
             type: clock
             grid_options:
               columns: 12
-              rows: 3
+              rows: 2
             visibility:
               - condition: screen
                 media_query: '(min-width: 1024px)'
-            title: Marsh Court
-            face_style: markers
+            seconds_motion: continuous
           - type: tile
             grid_options:
               rows: 1
@@ -51,106 +125,8 @@ views:
             grid_options:
               columns: 6
               rows: 1
-          - type: custom:custom-features-card
-            features:
-              - type: custom:service-call
-                entries:
-                  - type: selector
-                    entity_id: input_select.mode
-                    options:
-                      - entity_id: input_select.mode
-                        option: Day
-                        tap_action:
-                          action: perform-action
-                          perform_action: input_select.select_option
-                          data:
-                            option: Day
-                          target:
-                            entity_id: input_select.mode
-                        icon: fa7-solid:sun
-                        label: Day
-                        styles: |-
-                          :host {
-                                      --color: var(--label-badge-green);
-                                      display: flex;
-                          
-                                    }
-                        type: button
-                      - entity_id: input_select.mode
-                        option: Night
-                        tap_action:
-                          action: perform-action
-                          perform_action: input_select.select_option
-                          data:
-                            option: Night
-                          target:
-                            entity_id: input_select.mode
-                        label: Night
-                        icon: mdi:moon-waning-crescent
-                        type: button
-                        styles: |-
-                          :host {
-                                      --color: var(--label-badge-blue);
-                                      display: flex;
-                          
-                                    }
-                      - entity_id: input_select.mode
-                        option: Away
-                        tap_action:
-                          action: perform-action
-                          perform_action: input_select.select_option
-                          data:
-                            option: Away
-                          target:
-                            entity_id: input_select.mode
-                        label: Away
-                        icon: mdi:home-export-outline
-                        type: button
-                        styles: |-
-                          :host {
-                                      --color: var(--label-badge-red);
-                                      display: flex;
-                          
-                                    }
-                      - entity_id: input_select.mode
-                        option: Sleeping
-                        tap_action:
-                          action: perform-action
-                          perform_action: input_select.select_option
-                          data:
-                            option: Sleeping
-                          target:
-                            entity_id: input_select.mode
-                        icon: mdi:sleep
-                        label: Sleep
-                        type: button
-                        styles: |-
-                          :host {
-                                      --color: var(--label-badge-grey);
-                                      display: flex;
-                          
-                                    }
-                    haptics: true
-                    styles: |-
-                      :host {
-                        gap: 4px;
-                      }
-                    icon: mdi:house
-                styles: |+
-                  :host {
-                    --mdc-icon-size: 24px;
-                    --feature-height: 60px;
-                    --background-opacity: 0;
-                  }
-
-
-            features_position: inline
-            grid_options:
-              rows: 2
-              columns: 24
-            transparent: false
-            styles: 'height: auto;'
-            feature_height: 70
+          - type: heading
+            heading_style: subtitle
         column_span: 3
       - type: grid
         cards:
@@ -174,12 +150,14 @@ views:
             occupancy:
               entities:
                 - binary_sensor.living_room_motion
+              options:
+                - disabled_card_styles_animation
             background:
               opacity: 100
             styles:
               sensors:
                 font-weight: bold;
-                padding-left: 12px;
+                padding-left: 8px;
                 text-shadow: 0 1px 0 black;
               title:
                 font-weight: bold;
@@ -193,6 +171,15 @@ views:
             problem:
               display: active_only
             icon_opacity_preset: default
+            smoke:
+              entities:
+                - null
+            gas:
+              entities:
+                - null
+            water:
+              entities:
+                - null
           - type: custom:room-summary-card
             area: kitchen
             entity: binary_sensor.kitchen_motion
@@ -611,7 +598,7 @@ views:
                       gap: 0px;
                       }
                       .icon-label::before {
-                      
+
                         font-size: 24px;
                         line-height:22px;
                         content:"Living Room";
@@ -800,6 +787,1709 @@ views:
             entity: binary_sensor.living_room_dining_table_ms
           - type: tile
             entity: binary_sensor.sofa_ps
+            state_content:
+              - state
+              - last_changed
+            vertical: false
+            features_position: inline
+        column_span: 2
+    background:
+      opacity: 10
+      alignment: top center
+      size: cover
+      repeat: no-repeat
+      attachment: fixed
+    cards: []
+    theme: Frosted Glass Dark
+    header:
+      layout: responsive
+      badges_position: bottom
+      badges_wrap: scroll
+    badges: []
+  - type: sections
+    max_columns: 2
+    title: Kitchen
+    path: kitchen
+    icon: mdi:countertop
+    subview: true
+    sections:
+      - type: grid
+        cards:
+          - type: custom:custom-features-card
+            features:
+              - type: custom:service-call
+                entries:
+                  - type: button
+                    entity_id: ''
+                    icon: mdi:arrow-left-circle
+                    styles: |-
+                      :host {
+                      flex-basis: fit-content;
+                      }
+                    thumb: transparent
+                    tap_action:
+                      action: navigate
+                      navigation_path: /dashboard-playground
+                  - type: toggle
+                    entity_id: input_boolean.activity_lock_kitchen
+                    tap_action:
+                      action: toggle
+                      target:
+                        entity_id: input_boolean.activity_lock_kitchen
+                      data: {}
+                    icon: mdi:lock
+                    haptics: true
+                    unchecked_icon: ''
+                    checked_icon: ''
+                    thumb: md3-switch
+                    autofill_entity_id: true
+                    label: '{{ states(''input_select.kitchen_activity'') }} '
+                    styles: |-
+                      :host {
+
+                      --accent-color: #ca0c3dcc;
+                      --switch-checked-button-color: #ca0c0c;
+                      --switch-checked-track-color: #ffb6c3a8;
+                      .background {
+                          backdrop-filter: blur(12px);
+                          -webkit-backdrop-filter: blur(6.8px);
+                      }
+                      .icon-label {
+                      flex-direction: column;
+                      align-items: start;
+                      gap: 0px;
+                      }
+                      .icon-label::before {
+
+                        font-size: 24px;
+                        line-height:22px;
+                        content:"Kitchen";
+                      }
+                      .label {
+                      font-weight: 300;
+                      font-size: 16px;
+                      line-height:20px;
+                      }
+                      .icon {
+                      display: none;
+                      }
+                      }
+                    allow_list: true
+                    check_numeric: false
+                styles: |-
+                  :host {
+                  font-size: 30px;
+                  height: 120px;
+                  }
+              - type: custom:service-call
+                entries:
+                  - type: selector
+                    entity_id: input_select.kitchen_activity
+                    icon: mdi:countertop
+                    options:
+                      - entity_id: input_select.kitchen_activity
+                        option: Present
+                        tap_action:
+                          action: perform-action
+                          perform_action: input_select.select_option
+                          data:
+                            option: Present
+                          target:
+                            entity_id: input_select.kitchen_activity
+                        haptics: true
+                        icon: mdi:account-badge
+                        label: Present
+                      - entity_id: input_select.kitchen_activity
+                        option: Cooking
+                        tap_action:
+                          action: perform-action
+                          perform_action: input_select.select_option
+                          data:
+                            option: Cooking
+                          target:
+                            entity_id: input_select.kitchen_activity
+                        icon: mdi:chef-hat
+                        label: Cooking
+                        haptics: true
+                      - entity_id: input_select.kitchen_activity
+                        option: Dining
+                        tap_action:
+                          action: perform-action
+                          perform_action: input_select.select_option
+                          data:
+                            option: Dining
+                          target:
+                            entity_id: input_select.kitchen_activity
+                        label: Dining
+                        icon: mdi:silverware-fork-knife
+                        haptics: true
+                    thumb: default
+                styles: |-
+                  :host {
+
+                      --feature-color: {{ '#ff070766' if is_state('input_boolean.activity_lock_kitchen', 'on') else '#ffc10766' }};
+                      backdrop-filter: blur(6.8px);
+                      -webkit-backdrop-filter: blur(6.8px);
+                      border: 1px solid rgba(64, 17, 58, 0.3);
+
+                  }
+            styles: >-
+              :host {
+
+              ha-card {
+
+              background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0,
+              0, 0)), url(/local/img/kitchen.jpg) no-repeat center center;
+
+              background-size: cover;
+
+              }
+
+              }
+            transparent: false
+            feature_height: 54
+            grid_options:
+              columns: 48
+              rows: auto
+        column_span: 4
+      - type: grid
+        cards:
+          - type: heading
+            heading: Media
+            heading_style: title
+            icon: media
+          - type: tile
+            grid_options:
+              columns: 12
+              rows: 1
+            entity: media_player.kitchen_speaker
+            show_entity_picture: true
+            hide_state: false
+            state_content:
+              - state
+              - media_title
+            vertical: false
+            features:
+              - type: media-player-playback
+              - type: media-player-volume-slider
+            features_position: inline
+        column_span: 1
+      - type: grid
+        cards:
+          - type: heading
+            heading: Lights
+            heading_style: title
+          - type: tile
+            grid_options:
+              columns: full
+              rows: 1
+            entity: light.kitchen
+            name:
+              type: entity
+            vertical: false
+            features:
+              - type: light-brightness
+            features_position: inline
+      - type: grid
+        cards:
+          - type: heading
+            heading: Plugs
+            heading_style: title
+          - type: tile
+            entity: switch.smart_wi_fi_power_strip_switch_1
+          - type: tile
+            entity: switch.coffee_machine_switch
+          - type: tile
+            entity: switch.microwave_switch
+          - type: tile
+            entity: switch.toaster
+          - type: tile
+            entity: switch.thermomix_switch
+        column_span: 2
+      - type: grid
+        cards:
+          - type: heading
+            heading: Sensors
+            heading_style: title
+          - type: tile
+            entity: binary_sensor.kitchen_motion
+            state_content:
+              - state
+              - last_changed
+            vertical: false
+            features_position: inline
+        column_span: 2
+    background:
+      opacity: 10
+      alignment: top center
+      size: cover
+      repeat: no-repeat
+      attachment: fixed
+    cards: []
+    theme: Frosted Glass Dark
+    header:
+      layout: responsive
+      badges_position: top
+      badges_wrap: scroll
+  - type: sections
+    max_columns: 2
+    title: Studio
+    path: studio
+    icon: fa7-solid:drum
+    subview: true
+    sections:
+      - type: grid
+        cards:
+          - type: custom:custom-features-card
+            features:
+              - type: custom:service-call
+                entries:
+                  - type: button
+                    entity_id: ''
+                    icon: mdi:arrow-left-circle
+                    styles: |-
+                      :host {
+                      flex-basis: fit-content;
+                      }
+                    thumb: transparent
+                    tap_action:
+                      action: navigate
+                      navigation_path: /dashboard-playground
+                  - type: toggle
+                    entity_id: input_boolean.activity_lock_studio
+                    tap_action:
+                      action: toggle
+                      target:
+                        entity_id: input_boolean.activity_lock_studio
+                      data: {}
+                    icon: mdi:lock
+                    haptics: true
+                    unchecked_icon: ''
+                    checked_icon: ''
+                    thumb: md3-switch
+                    autofill_entity_id: true
+                    label: '{{ states(''input_select.studio_activity'') }} '
+                    styles: |-
+                      :host {
+
+                      --accent-color: #ca0c3dcc;
+                      --switch-checked-button-color: #ca0c0c;
+                      --switch-checked-track-color: #ffb6c3a8;
+                      .background {
+                          backdrop-filter: blur(12px);
+                          -webkit-backdrop-filter: blur(6.8px);
+                      }
+                      .icon-label {
+                      flex-direction: column;
+                      align-items: start;
+                      gap: 0px;
+                      }
+                      .icon-label::before {
+
+                        font-size: 24px;
+                        line-height:22px;
+                        content:"Studio";
+                      }
+                      .label {
+                      font-weight: 300;
+                      font-size: 16px;
+                      line-height:20px;
+                      }
+                      .icon {
+                      display: none;
+                      }
+                      }
+                    allow_list: true
+                    check_numeric: false
+                styles: |-
+                  :host {
+                  font-size: 30px;
+                  height: 120px;
+                  }
+              - type: custom:service-call
+                entries:
+                  - type: selector
+                    entity_id: input_select.studio_activity
+                    icon: fa7-solid:drum
+                    options:
+                      - entity_id: input_select.studio_activity
+                        option: Present
+                        tap_action:
+                          action: perform-action
+                          perform_action: input_select.select_option
+                          data:
+                            option: Present
+                          target:
+                            entity_id: input_select.studio_activity
+                        haptics: true
+                        icon: mdi:account-badge
+                        label: Present
+                      - entity_id: input_select.studio_activity
+                        option: Working
+                        tap_action:
+                          action: perform-action
+                          perform_action: input_select.select_option
+                          data:
+                            option: Working
+                          target:
+                            entity_id: input_select.studio_activity
+                        icon: mdi:desk
+                        label: Working
+                        haptics: true
+                    thumb: default
+                styles: |-
+                  :host {
+
+                      --feature-color: {{ '#ff070766' if is_state('input_boolean.activity_lock_studio', 'on') else '#ffc10766' }};
+                      backdrop-filter: blur(6.8px);
+                      -webkit-backdrop-filter: blur(6.8px);
+                      border: 1px solid rgba(64, 17, 58, 0.3);
+
+                  }
+            styles: >-
+              :host {
+
+              ha-card {
+
+              background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0,
+              0, 0)), url(/local/img/studio.jpg) no-repeat center center;
+
+              background-size: cover;
+
+              }
+
+              }
+            transparent: false
+            feature_height: 54
+            grid_options:
+              columns: 48
+              rows: auto
+        column_span: 4
+      - type: grid
+        cards:
+          - type: heading
+            heading: Lights & Blinds
+            heading_style: title
+          - type: tile
+            entity: cover.living_room_blinds
+            vertical: false
+            features_position: bottom
+            features:
+              - type: cover-open-close
+          - type: tile
+            entity: light.studio
+            name:
+              type: entity
+            vertical: false
+            features:
+              - type: light-brightness
+            features_position: bottom
+      - type: grid
+        cards:
+          - type: heading
+            heading: Sensors
+            heading_style: title
+          - type: tile
+            entity: binary_sensor.studio_motion
+            state_content:
+              - state
+              - last_changed
+            vertical: false
+            features_position: inline
+        column_span: 2
+    background:
+      opacity: 10
+      alignment: top center
+      size: cover
+      repeat: no-repeat
+      attachment: fixed
+    cards: []
+    theme: Frosted Glass Dark
+    header:
+      layout: responsive
+      badges_position: top
+      badges_wrap: scroll
+  - type: sections
+    max_columns: 2
+    title: Office
+    path: office
+    icon: mdi:office
+    subview: true
+    sections:
+      - type: grid
+        cards:
+          - type: custom:custom-features-card
+            features:
+              - type: custom:service-call
+                entries:
+                  - type: button
+                    entity_id: ''
+                    icon: mdi:arrow-left-circle
+                    styles: |-
+                      :host {
+                      flex-basis: fit-content;
+                      }
+                    thumb: transparent
+                    tap_action:
+                      action: navigate
+                      navigation_path: /dashboard-playground
+                  - type: toggle
+                    entity_id: input_boolean.activity_lock_office
+                    tap_action:
+                      action: toggle
+                      target:
+                        entity_id: input_boolean.activity_lock_office
+                      data: {}
+                    icon: mdi:lock
+                    haptics: true
+                    unchecked_icon: ''
+                    checked_icon: ''
+                    thumb: md3-switch
+                    autofill_entity_id: true
+                    label: '{{ states(''input_select.office_activity'') }} '
+                    styles: |-
+                      :host {
+
+                      --accent-color: #ca0c3dcc;
+                      --switch-checked-button-color: #ca0c0c;
+                      --switch-checked-track-color: #ffb6c3a8;
+                      .background {
+                          backdrop-filter: blur(12px);
+                          -webkit-backdrop-filter: blur(6.8px);
+                      }
+                      .icon-label {
+                      flex-direction: column;
+                      align-items: start;
+                      gap: 0px;
+                      }
+                      .icon-label::before {
+
+                        font-size: 24px;
+                        line-height:22px;
+                        content:"Office";
+                      }
+                      .label {
+                      font-weight: 300;
+                      font-size: 16px;
+                      line-height:20px;
+                      }
+                      .icon {
+                      display: none;
+                      }
+                      }
+                    allow_list: true
+                    check_numeric: false
+                styles: |-
+                  :host {
+                  font-size: 30px;
+                  height: 120px;
+                  }
+              - type: custom:service-call
+                entries:
+                  - type: selector
+                    entity_id: input_select.office_activity
+                    icon: mdi:office
+                    options:
+                      - entity_id: input_select.office_activity
+                        option: Present
+                        tap_action:
+                          action: perform-action
+                          perform_action: input_select.select_option
+                          data:
+                            option: Present
+                          target:
+                            entity_id: input_select.office_activity
+                        haptics: true
+                        icon: mdi:account-badge
+                        label: Present
+                      - entity_id: input_select.office_activity
+                        option: Working
+                        tap_action:
+                          action: perform-action
+                          perform_action: input_select.select_option
+                          data:
+                            option: Working
+                          target:
+                            entity_id: input_select.office_activity
+                        icon: mdi:desk
+                        label: Working
+                        haptics: true
+                      - entity_id: input_select.office_activity
+                        option: Gaming
+                        tap_action:
+                          action: perform-action
+                          perform_action: input_select.select_option
+                          data:
+                            option: Gaming
+                          target:
+                            entity_id: input_select.office_activity
+                        icon: mdi:controller-classic
+                        label: Gaming
+                        haptics: true
+                      - entity_id: input_select.office_activity
+                        option: Drumming
+                        tap_action:
+                          action: perform-action
+                          perform_action: input_select.select_option
+                          data:
+                            option: Drumming
+                          target:
+                            entity_id: input_select.office_activity
+                        label: Drumming
+                        icon: fa7-solid:drum
+                        haptics: true
+                    thumb: default
+                styles: |-
+                  :host {
+
+                      --feature-color: {{ '#ff070766' if is_state('input_boolean.activity_lock_office', 'on') else '#ffc10766' }};
+                      backdrop-filter: blur(6.8px);
+                      -webkit-backdrop-filter: blur(6.8px);
+                      border: 1px solid rgba(64, 17, 58, 0.3);
+
+                  }
+            styles: >-
+              :host {
+
+              ha-card {
+
+              background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0,
+              0, 0)), url(/local/img/office.jpg) no-repeat center center;
+
+              background-size: cover;
+
+              }
+
+              }
+            transparent: false
+            feature_height: 54
+            grid_options:
+              columns: 48
+              rows: auto
+        column_span: 4
+      - type: grid
+        cards:
+          - type: heading
+            heading: Media
+            heading_style: title
+            icon: media
+          - type: tile
+            grid_options:
+              columns: 12
+              rows: 1
+            entity: media_player.office_speaker_2
+            show_entity_picture: true
+            hide_state: false
+            state_content:
+              - state
+              - media_title
+            vertical: false
+            features:
+              - type: media-player-playback
+              - type: media-player-volume-slider
+            features_position: inline
+        column_span: 1
+      - type: grid
+        cards:
+          - type: heading
+            heading: Lights & Blinds
+            heading_style: title
+          - type: tile
+            entity: cover.office_blinds
+            vertical: false
+            features_position: bottom
+            features:
+              - type: cover-open-close
+          - type: tile
+            entity: light.office
+            name:
+              type: entity
+            vertical: false
+            features:
+              - type: light-brightness
+            features_position: bottom
+      - type: grid
+        cards:
+          - type: heading
+            heading: Sensors
+            heading_style: title
+          - type: tile
+            entity: binary_sensor.office_motion
+          - type: tile
+            entity: binary_sensor.desk_chair_ps
+            state_content:
+              - state
+              - last_changed
+            vertical: false
+            features_position: inline
+          - type: tile
+            entity: fan.office_fan
+            vertical: false
+            features_position: inline
+        column_span: 2
+    background:
+      opacity: 10
+      alignment: top center
+      size: cover
+      repeat: no-repeat
+      attachment: fixed
+    cards: []
+    theme: Frosted Glass Dark
+    header:
+      layout: responsive
+      badges_position: top
+      badges_wrap: scroll
+  - type: sections
+    max_columns: 2
+    title: Bedroom
+    path: bedroom
+    icon: mdi:bed
+    subview: true
+    sections:
+      - type: grid
+        cards:
+          - type: custom:custom-features-card
+            features:
+              - type: custom:service-call
+                entries:
+                  - type: button
+                    entity_id: ''
+                    icon: mdi:arrow-left-circle
+                    styles: |-
+                      :host {
+                      flex-basis: fit-content;
+                      }
+                    thumb: transparent
+                    tap_action:
+                      action: navigate
+                      navigation_path: /dashboard-playground
+                  - type: toggle
+                    entity_id: input_boolean.activity_lock_bedroom
+                    tap_action:
+                      action: toggle
+                      target:
+                        entity_id: input_boolean.activity_lock_bedroom
+                      data: {}
+                    icon: mdi:lock
+                    haptics: true
+                    unchecked_icon: ''
+                    checked_icon: ''
+                    thumb: md3-switch
+                    autofill_entity_id: true
+                    label: '{{ states(''input_select.bedroom_activity'') }} '
+                    styles: |-
+                      :host {
+
+                      --accent-color: #ca0c3dcc;
+                      --switch-checked-button-color: #ca0c0c;
+                      --switch-checked-track-color: #ffb6c3a8;
+                      .background {
+                          backdrop-filter: blur(12px);
+                          -webkit-backdrop-filter: blur(6.8px);
+                      }
+                      .icon-label {
+                      flex-direction: column;
+                      align-items: start;
+                      gap: 0px;
+                      }
+                      .icon-label::before {
+
+                        font-size: 24px;
+                        line-height:22px;
+                        content:"Bedroom";
+                      }
+                      .label {
+                      font-weight: 300;
+                      font-size: 16px;
+                      line-height:20px;
+                      }
+                      .icon {
+                      display: none;
+                      }
+                      }
+                    allow_list: true
+                    check_numeric: false
+                styles: |-
+                  :host {
+                  font-size: 30px;
+                  height: 120px;
+                  }
+              - type: custom:service-call
+                entries:
+                  - type: selector
+                    entity_id: input_select.bedroom_activity
+                    icon: mdi:bed
+                    options:
+                      - entity_id: input_select.bedroom_activity
+                        option: Present
+                        tap_action:
+                          action: perform-action
+                          perform_action: input_select.select_option
+                          data:
+                            option: Present
+                          target:
+                            entity_id: input_select.bedroom_activity
+                        haptics: true
+                        icon: mdi:account-badge
+                        label: Present
+                      - entity_id: input_select.bedroom_activity
+                        option: Sleeping
+                        tap_action:
+                          action: perform-action
+                          perform_action: input_select.select_option
+                          data:
+                            option: Sleeping
+                          target:
+                            entity_id: input_select.bedroom_activity
+                        icon: mdi:sleep
+                        label: Sleeping
+                        haptics: true
+                      - entity_id: input_select.bedroom_activity
+                        option: Relaxing
+                        tap_action:
+                          action: perform-action
+                          perform_action: input_select.select_option
+                          data:
+                            option: Relaxing
+                          target:
+                            entity_id: input_select.bedroom_activity
+                        label: Relaxing
+                        icon: mdi:palm-tree
+                        haptics: true
+                    thumb: default
+                styles: |-
+                  :host {
+
+                      --feature-color: {{ '#ff070766' if is_state('input_boolean.activity_lock_bedroom', 'on') else '#ffc10766' }};
+                      backdrop-filter: blur(6.8px);
+                      -webkit-backdrop-filter: blur(6.8px);
+                      border: 1px solid rgba(64, 17, 58, 0.3);
+
+                  }
+            styles: >-
+              :host {
+
+              ha-card {
+
+              background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0,
+              0, 0)), url(/local/img/bedroom.jpg) no-repeat center center;
+
+              background-size: cover;
+
+              }
+
+              }
+            transparent: false
+            feature_height: 54
+            grid_options:
+              columns: 48
+              rows: auto
+        column_span: 4
+      - type: grid
+        cards:
+          - type: heading
+            heading: Media
+            heading_style: title
+            icon: media
+          - type: tile
+            grid_options:
+              columns: 12
+              rows: 1
+            entity: media_player.bedroom_speakers
+            show_entity_picture: true
+            hide_state: false
+            state_content:
+              - state
+              - media_title
+            vertical: false
+            features:
+              - type: media-player-playback
+              - type: media-player-volume-slider
+            features_position: inline
+        column_span: 1
+      - type: grid
+        cards:
+          - type: heading
+            heading: Lights & Blinds
+            heading_style: title
+          - type: tile
+            entity: cover.bedroom_curtain_cover
+            vertical: false
+            features_position: bottom
+            features:
+              - type: cover-open-close
+          - type: tile
+            entity: light.bedroom
+            name:
+              type: entity
+            vertical: false
+            features:
+              - type: light-brightness
+            features_position: bottom
+      - type: grid
+        cards:
+          - type: heading
+            heading: Sensors
+            heading_style: title
+          - type: tile
+            entity: binary_sensor.bedroom_motion
+          - type: tile
+            entity: binary_sensor.wardrobe_motion
+            state_content:
+              - state
+              - last_changed
+            vertical: false
+            features_position: inline
+          - type: tile
+            entity: fan.bedroom_fan
+            vertical: false
+            features_position: inline
+        column_span: 2
+    background:
+      opacity: 10
+      alignment: top center
+      size: cover
+      repeat: no-repeat
+      attachment: fixed
+    cards: []
+    theme: Frosted Glass Dark
+    header:
+      layout: responsive
+      badges_position: top
+      badges_wrap: scroll
+  - type: sections
+    max_columns: 2
+    title: Wardrobe
+    path: wardrobe
+    icon: mdi:wardrobe
+    subview: true
+    sections:
+      - type: grid
+        cards:
+          - type: custom:custom-features-card
+            features:
+              - type: custom:service-call
+                entries:
+                  - type: button
+                    entity_id: ''
+                    icon: mdi:arrow-left-circle
+                    styles: |-
+                      :host {
+                      flex-basis: fit-content;
+                      }
+                    thumb: transparent
+                    tap_action:
+                      action: navigate
+                      navigation_path: /dashboard-playground
+                  - type: toggle
+                    entity_id: input_boolean.activity_lock_wardrobe
+                    tap_action:
+                      action: toggle
+                      target:
+                        entity_id: input_boolean.activity_lock_wardrobe
+                      data: {}
+                    icon: mdi:lock
+                    haptics: true
+                    unchecked_icon: ''
+                    checked_icon: ''
+                    thumb: md3-switch
+                    autofill_entity_id: true
+                    label: '{{ states(''input_select.wardrobe_activity'') }} '
+                    styles: |-
+                      :host {
+
+                      --accent-color: #ca0c3dcc;
+                      --switch-checked-button-color: #ca0c0c;
+                      --switch-checked-track-color: #ffb6c3a8;
+                      .background {
+                          backdrop-filter: blur(12px);
+                          -webkit-backdrop-filter: blur(6.8px);
+                      }
+                      .icon-label {
+                      flex-direction: column;
+                      align-items: start;
+                      gap: 0px;
+                      }
+                      .icon-label::before {
+
+                        font-size: 24px;
+                        line-height:22px;
+                        content:"Wardrobe";
+                      }
+                      .label {
+                      font-weight: 300;
+                      font-size: 16px;
+                      line-height:20px;
+                      }
+                      .icon {
+                      display: none;
+                      }
+                      }
+                    allow_list: true
+                    check_numeric: false
+                styles: |-
+                  :host {
+                  font-size: 30px;
+                  height: 120px;
+                  }
+              - type: custom:service-call
+                entries:
+                  - type: selector
+                    entity_id: input_select.wardrobe_activity
+                    icon: mdi:wardrobe
+                    options:
+                      - entity_id: input_select.wardrobe_activity
+                        option: Present
+                        tap_action:
+                          action: perform-action
+                          perform_action: input_select.select_option
+                          data:
+                            option: Present
+                          target:
+                            entity_id: input_select.wardrobe_activity
+                        haptics: true
+                        icon: mdi:account-badge
+                        label: Present
+                    thumb: default
+                styles: |-
+                  :host {
+
+                      --feature-color: {{ '#ff070766' if is_state('input_boolean.activity_lock_wardrobe', 'on') else '#ffc10766' }};
+                      backdrop-filter: blur(6.8px);
+                      -webkit-backdrop-filter: blur(6.8px);
+                      border: 1px solid rgba(64, 17, 58, 0.3);
+
+                  }
+            styles: >-
+              :host {
+
+              ha-card {
+
+              background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0,
+              0, 0)), url(/local/img/wardrobe.jpg) no-repeat center center;
+
+              background-size: cover;
+
+              }
+
+              }
+            transparent: false
+            feature_height: 54
+            grid_options:
+              columns: 48
+              rows: auto
+        column_span: 4
+      - type: grid
+        cards:
+          - type: heading
+            heading: Lights & Blinds
+            heading_style: title
+          - type: tile
+            entity: cover.bedroom_curtain_cover
+            vertical: false
+            features_position: bottom
+            features:
+              - type: cover-open-close
+          - type: tile
+            entity: light.wardrobe
+            name:
+              type: entity
+            vertical: false
+            features:
+              - type: light-brightness
+            features_position: bottom
+      - type: grid
+        cards:
+          - type: heading
+            heading: Sensors
+            heading_style: title
+          - type: tile
+            entity: binary_sensor.wardrobe_motion
+            state_content:
+              - state
+              - last_changed
+            vertical: false
+            features_position: inline
+          - type: tile
+            entity: binary_sensor.wardrobe_door_left_cs_iaszone
+          - type: tile
+            entity: binary_sensor.wardrobe_door_right_cs_iaszone
+          - type: tile
+            entity: binary_sensor.wardrobe_middle_door
+        column_span: 2
+    background:
+      opacity: 10
+      alignment: top center
+      size: cover
+      repeat: no-repeat
+      attachment: fixed
+    cards: []
+    theme: Frosted Glass Dark
+    header:
+      layout: responsive
+      badges_position: top
+      badges_wrap: scroll
+  - type: sections
+    max_columns: 2
+    title: Ensuite
+    path: ensuite
+    icon: mdi:shower-head
+    subview: true
+    sections:
+      - type: grid
+        cards:
+          - type: custom:custom-features-card
+            features:
+              - type: custom:service-call
+                entries:
+                  - type: button
+                    entity_id: ''
+                    icon: mdi:arrow-left-circle
+                    styles: |-
+                      :host {
+                      flex-basis: fit-content;
+                      }
+                    thumb: transparent
+                    tap_action:
+                      action: navigate
+                      navigation_path: /dashboard-playground
+                  - type: toggle
+                    entity_id: input_boolean.activity_lock_ensuite
+                    tap_action:
+                      action: toggle
+                      target:
+                        entity_id: input_boolean.activity_lock_ensuite
+                      data: {}
+                    icon: mdi:lock
+                    haptics: true
+                    unchecked_icon: ''
+                    checked_icon: ''
+                    thumb: md3-switch
+                    autofill_entity_id: true
+                    label: '{{ states(''input_select.ensuite_activity'') }} '
+                    styles: |-
+                      :host {
+
+                      --accent-color: #ca0c3dcc;
+                      --switch-checked-button-color: #ca0c0c;
+                      --switch-checked-track-color: #ffb6c3a8;
+                      .background {
+                          backdrop-filter: blur(12px);
+                          -webkit-backdrop-filter: blur(6.8px);
+                      }
+                      .icon-label {
+                      flex-direction: column;
+                      align-items: start;
+                      gap: 0px;
+                      }
+                      .icon-label::before {
+
+                        font-size: 24px;
+                        line-height:22px;
+                        content:"Ensuite";
+                      }
+                      .label {
+                      font-weight: 300;
+                      font-size: 16px;
+                      line-height:20px;
+                      }
+                      .icon {
+                      display: none;
+                      }
+                      }
+                    allow_list: true
+                    check_numeric: false
+                styles: |-
+                  :host {
+                  font-size: 30px;
+                  height: 120px;
+                  }
+              - type: custom:service-call
+                entries:
+                  - type: selector
+                    entity_id: input_select.ensuite_activity
+                    icon: mdi:shower-head
+                    options:
+                      - entity_id: input_select.ensuite_activity
+                        option: Present
+                        tap_action:
+                          action: perform-action
+                          perform_action: input_select.select_option
+                          data:
+                            option: Present
+                          target:
+                            entity_id: input_select.ensuite_activity
+                        haptics: true
+                        icon: mdi:account-badge
+                        label: Present
+                      - entity_id: input_select.ensuite_activity
+                        option: Showering
+                        tap_action:
+                          action: perform-action
+                          perform_action: input_select.select_option
+                          data:
+                            option: Showering
+                          target:
+                            entity_id: input_select.ensuite_activity
+                        icon: mdi:shower
+                        label: Showering
+                        haptics: true
+                    thumb: default
+                styles: |-
+                  :host {
+
+                      --feature-color: {{ '#ff070766' if is_state('input_boolean.activity_lock_ensuite', 'on') else '#ffc10766' }};
+                      backdrop-filter: blur(6.8px);
+                      -webkit-backdrop-filter: blur(6.8px);
+                      border: 1px solid rgba(64, 17, 58, 0.3);
+
+                  }
+            styles: >-
+              :host {
+
+              ha-card {
+
+              background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0,
+              0, 0)), url(/local/img/bathroom.jpg) no-repeat center center;
+
+              background-size: cover;
+
+              }
+
+              }
+            transparent: false
+            feature_height: 54
+            grid_options:
+              columns: 48
+              rows: auto
+        column_span: 4
+      - type: grid
+        cards:
+          - type: heading
+            heading: Lights
+            heading_style: title
+          - type: tile
+            entity: light.ensuite
+            name:
+              type: entity
+            vertical: false
+            features:
+              - type: light-brightness
+            features_position: bottom
+      - type: grid
+        cards:
+          - type: heading
+            heading: Sensors
+            heading_style: title
+          - type: tile
+            entity: binary_sensor.ensuite_motion
+          - type: tile
+            entity: binary_sensor.ensuite_door_cs
+            state_content:
+              - state
+              - last_changed
+            vertical: false
+            features_position: inline
+        column_span: 2
+    background:
+      opacity: 10
+      alignment: top center
+      size: cover
+      repeat: no-repeat
+      attachment: fixed
+    cards: []
+    theme: Frosted Glass Dark
+    header:
+      layout: responsive
+      badges_position: top
+      badges_wrap: scroll
+  - type: sections
+    max_columns: 2
+    title: Bathroom
+    path: bathroom
+    icon: mdi:shower-head
+    subview: true
+    sections:
+      - type: grid
+        cards:
+          - type: custom:custom-features-card
+            features:
+              - type: custom:service-call
+                entries:
+                  - type: button
+                    entity_id: ''
+                    icon: mdi:arrow-left-circle
+                    styles: |-
+                      :host {
+                      flex-basis: fit-content;
+                      }
+                    thumb: transparent
+                    tap_action:
+                      action: navigate
+                      navigation_path: /dashboard-playground
+                  - type: toggle
+                    entity_id: input_boolean.activity_lock_bathroom
+                    tap_action:
+                      action: toggle
+                      target:
+                        entity_id: input_boolean.activity_lock_bathroom
+                      data: {}
+                    icon: mdi:lock
+                    haptics: true
+                    unchecked_icon: ''
+                    checked_icon: ''
+                    thumb: md3-switch
+                    autofill_entity_id: true
+                    label: '{{ states(''input_select.bathroom_activity'') }} '
+                    styles: |-
+                      :host {
+
+                      --accent-color: #ca0c3dcc;
+                      --switch-checked-button-color: #ca0c0c;
+                      --switch-checked-track-color: #ffb6c3a8;
+                      .background {
+                          backdrop-filter: blur(12px);
+                          -webkit-backdrop-filter: blur(6.8px);
+                      }
+                      .icon-label {
+                      flex-direction: column;
+                      align-items: start;
+                      gap: 0px;
+                      }
+                      .icon-label::before {
+
+                        font-size: 24px;
+                        line-height:22px;
+                        content:"Bathroom";
+                      }
+                      .label {
+                      font-weight: 300;
+                      font-size: 16px;
+                      line-height:20px;
+                      }
+                      .icon {
+                      display: none;
+                      }
+                      }
+                    allow_list: true
+                    check_numeric: false
+                styles: |-
+                  :host {
+                  font-size: 30px;
+                  height: 120px;
+                  }
+              - type: custom:service-call
+                entries:
+                  - type: selector
+                    entity_id: input_select.bathroom_activity
+                    icon: mdi:shower-head
+                    options:
+                      - entity_id: input_select.bathroom_activity
+                        option: Present
+                        tap_action:
+                          action: perform-action
+                          perform_action: input_select.select_option
+                          data:
+                            option: Present
+                          target:
+                            entity_id: input_select.bathroom_activity
+                        haptics: true
+                        icon: mdi:account-badge
+                        label: Present
+                      - entity_id: input_select.bathroom_activity
+                        option: Showering
+                        tap_action:
+                          action: perform-action
+                          perform_action: input_select.select_option
+                          data:
+                            option: Showering
+                          target:
+                            entity_id: input_select.bathroom_activity
+                        icon: mdi:shower
+                        label: Showering
+                        haptics: true
+                    thumb: default
+                styles: |-
+                  :host {
+
+                      --feature-color: {{ '#ff070766' if is_state('input_boolean.activity_lock_bathroom', 'on') else '#ffc10766' }};
+                      backdrop-filter: blur(6.8px);
+                      -webkit-backdrop-filter: blur(6.8px);
+                      border: 1px solid rgba(64, 17, 58, 0.3);
+
+                  }
+            styles: >-
+              :host {
+
+              ha-card {
+
+              background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0,
+              0, 0)), url(/local/img/bathroom.jpg) no-repeat center center;
+
+              background-size: cover;
+
+              }
+
+              }
+            transparent: false
+            feature_height: 54
+            grid_options:
+              columns: 48
+              rows: auto
+        column_span: 4
+      - type: grid
+        cards:
+          - type: heading
+            heading: Lights
+            heading_style: title
+          - type: tile
+            entity: light.bathroom
+            name:
+              type: entity
+            vertical: false
+            features:
+              - type: light-brightness
+            features_position: bottom
+      - type: grid
+        cards:
+          - type: heading
+            heading: Sensors
+            heading_style: title
+          - type: tile
+            entity: binary_sensor.bathroom_motion
+          - type: tile
+            entity: binary_sensor.bathroom_door_cs
+            state_content:
+              - state
+              - last_changed
+            vertical: false
+            features_position: inline
+        column_span: 2
+    background:
+      opacity: 10
+      alignment: top center
+      size: cover
+      repeat: no-repeat
+      attachment: fixed
+    cards: []
+    theme: Frosted Glass Dark
+    header:
+      layout: responsive
+      badges_position: top
+      badges_wrap: scroll
+  - type: sections
+    max_columns: 2
+    title: Hallway
+    path: hallway
+    icon: mdi:coat-rack
+    subview: true
+    sections:
+      - type: grid
+        cards:
+          - type: custom:custom-features-card
+            features:
+              - type: custom:service-call
+                entries:
+                  - type: button
+                    entity_id: ''
+                    icon: mdi:arrow-left-circle
+                    styles: |-
+                      :host {
+                      flex-basis: fit-content;
+                      }
+                    thumb: transparent
+                    tap_action:
+                      action: navigate
+                      navigation_path: /dashboard-playground
+                  - type: toggle
+                    entity_id: input_boolean.activity_lock_hallway
+                    tap_action:
+                      action: toggle
+                      target:
+                        entity_id: input_boolean.activity_lock_hallway
+                      data: {}
+                    icon: mdi:lock
+                    haptics: true
+                    unchecked_icon: ''
+                    checked_icon: ''
+                    thumb: md3-switch
+                    autofill_entity_id: true
+                    label: '{{ states(''input_select.hallway_activity'') }} '
+                    styles: |-
+                      :host {
+
+                      --accent-color: #ca0c3dcc;
+                      --switch-checked-button-color: #ca0c0c;
+                      --switch-checked-track-color: #ffb6c3a8;
+                      .background {
+                          backdrop-filter: blur(12px);
+                          -webkit-backdrop-filter: blur(6.8px);
+                      }
+                      .icon-label {
+                      flex-direction: column;
+                      align-items: start;
+                      gap: 0px;
+                      }
+                      .icon-label::before {
+
+                        font-size: 24px;
+                        line-height:22px;
+                        content:"Hallway";
+                      }
+                      .label {
+                      font-weight: 300;
+                      font-size: 16px;
+                      line-height:20px;
+                      }
+                      .icon {
+                      display: none;
+                      }
+                      }
+                    allow_list: true
+                    check_numeric: false
+                styles: |-
+                  :host {
+                  font-size: 30px;
+                  height: 120px;
+                  }
+              - type: custom:service-call
+                entries:
+                  - type: selector
+                    entity_id: input_select.hallway_activity
+                    icon: mdi:coat-rack
+                    options:
+                      - entity_id: input_select.hallway_activity
+                        option: Present
+                        tap_action:
+                          action: perform-action
+                          perform_action: input_select.select_option
+                          data:
+                            option: Present
+                          target:
+                            entity_id: input_select.hallway_activity
+                        haptics: true
+                        icon: mdi:account-badge
+                        label: Present
+                    thumb: default
+                styles: |-
+                  :host {
+
+                      --feature-color: {{ '#ff070766' if is_state('input_boolean.activity_lock_hallway', 'on') else '#ffc10766' }};
+                      backdrop-filter: blur(6.8px);
+                      -webkit-backdrop-filter: blur(6.8px);
+                      border: 1px solid rgba(64, 17, 58, 0.3);
+
+                  }
+            styles: >-
+              :host {
+
+              ha-card {
+
+              background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0,
+              0, 0)), url(/local/img/hallway.jpg) no-repeat center center;
+
+              background-size: cover;
+
+              }
+
+              }
+            transparent: false
+            feature_height: 54
+            grid_options:
+              columns: 48
+              rows: auto
+        column_span: 4
+      - type: grid
+        cards:
+          - type: heading
+            heading: Lights
+            heading_style: title
+          - type: tile
+            entity: light.hallway
+            name:
+              type: entity
+            vertical: false
+            features:
+              - type: light-brightness
+            features_position: bottom
+      - type: grid
+        cards:
+          - type: heading
+            heading: Sensors
+            heading_style: title
+          - type: tile
+            entity: binary_sensor.hallway_motion
+          - type: tile
+            entity: binary_sensor.flat_door_cs
+            state_content:
+              - state
+              - last_changed
+            vertical: false
+            features_position: inline
+        column_span: 2
+    background:
+      opacity: 10
+      alignment: top center
+      size: cover
+      repeat: no-repeat
+      attachment: fixed
+    cards: []
+    theme: Frosted Glass Dark
+    header:
+      layout: responsive
+      badges_position: top
+      badges_wrap: scroll
+  - type: sections
+    max_columns: 2
+    title: Storage
+    path: storage
+    icon: mdi:washing-machine
+    subview: true
+    sections:
+      - type: grid
+        cards:
+          - type: custom:custom-features-card
+            features:
+              - type: custom:service-call
+                entries:
+                  - type: button
+                    entity_id: ''
+                    icon: mdi:arrow-left-circle
+                    styles: |-
+                      :host {
+                      flex-basis: fit-content;
+                      }
+                    thumb: transparent
+                    tap_action:
+                      action: navigate
+                      navigation_path: /dashboard-playground
+                  - type: toggle
+                    entity_id: input_boolean.activity_lock_storage
+                    tap_action:
+                      action: toggle
+                      target:
+                        entity_id: input_boolean.activity_lock_storage
+                      data: {}
+                    icon: mdi:lock
+                    haptics: true
+                    unchecked_icon: ''
+                    checked_icon: ''
+                    thumb: md3-switch
+                    autofill_entity_id: true
+                    label: '{{ states(''input_select.storage_activity'') }} '
+                    styles: |-
+                      :host {
+
+                      --accent-color: #ca0c3dcc;
+                      --switch-checked-button-color: #ca0c0c;
+                      --switch-checked-track-color: #ffb6c3a8;
+                      .background {
+                          backdrop-filter: blur(12px);
+                          -webkit-backdrop-filter: blur(6.8px);
+                      }
+                      .icon-label {
+                      flex-direction: column;
+                      align-items: start;
+                      gap: 0px;
+                      }
+                      .icon-label::before {
+
+                        font-size: 24px;
+                        line-height:22px;
+                        content:"Storage";
+                      }
+                      .label {
+                      font-weight: 300;
+                      font-size: 16px;
+                      line-height:20px;
+                      }
+                      .icon {
+                      display: none;
+                      }
+                      }
+                    allow_list: true
+                    check_numeric: false
+                styles: |-
+                  :host {
+                  font-size: 30px;
+                  height: 120px;
+                  }
+              - type: custom:service-call
+                entries:
+                  - type: selector
+                    entity_id: input_select.storage_activity
+                    icon: mdi:washing-machine
+                    options:
+                      - entity_id: input_select.storage_activity
+                        option: Present
+                        tap_action:
+                          action: perform-action
+                          perform_action: input_select.select_option
+                          data:
+                            option: Present
+                          target:
+                            entity_id: input_select.storage_activity
+                        haptics: true
+                        icon: mdi:account-badge
+                        label: Present
+                    thumb: default
+                styles: |-
+                  :host {
+
+                      --feature-color: {{ '#ff070766' if is_state('input_boolean.activity_lock_storage', 'on') else '#ffc10766' }};
+                      backdrop-filter: blur(6.8px);
+                      -webkit-backdrop-filter: blur(6.8px);
+                      border: 1px solid rgba(64, 17, 58, 0.3);
+
+                  }
+            styles: >-
+              :host {
+
+              ha-card {
+
+              background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0,
+              0, 0)), url(/local/img/storage.jpg) no-repeat center center;
+
+              background-size: cover;
+
+              }
+
+              }
+            transparent: false
+            feature_height: 54
+            grid_options:
+              columns: 48
+              rows: auto
+        column_span: 4
+      - type: grid
+        cards:
+          - type: heading
+            heading: Lights
+            heading_style: title
+          - type: tile
+            entity: light.storage
+            name:
+              type: entity
+            vertical: false
+            features:
+              - type: light-brightness
+            features_position: bottom
+      - type: grid
+        cards:
+          - type: heading
+            heading: Sensors
+            heading_style: title
+          - type: tile
+            entity: input_select.washing_machine
+            state_content:
+              - state
+              - last_changed
+            vertical: false
+            features_position: inline
+          - type: tile
+            entity: binary_sensor.storage_ms_motion
+          - type: tile
+            entity: binary_sensor.storage_door_cs
             state_content:
               - state
               - last_changed
