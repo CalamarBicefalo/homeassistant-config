@@ -7,6 +7,21 @@ views:
         cards:
           - type: heading
             heading_style: subtitle
+          - clock_style: analog
+            clock_size: medium
+            show_seconds: true
+            no_background: false
+            border: false
+            ticks: hour
+            face_style: markers
+            type: clock
+            grid_options:
+              columns: 24
+              rows: 3
+            visibility:
+              - condition: screen
+                media_query: '(min-width: 1024px)'
+            seconds_motion: continuous
           - type: custom:custom-features-card
             features:
               - type: custom:service-call
@@ -75,25 +90,10 @@ views:
             features_position: inline
             grid_options:
               rows: 1
-              columns: 24
+              columns: 12
             transparent: false
             styles: ''
             feature_height: 32
-          - clock_style: analog
-            clock_size: small
-            show_seconds: true
-            no_background: false
-            border: false
-            ticks: hour
-            face_style: markers
-            type: clock
-            grid_options:
-              columns: 12
-              rows: 2
-            visibility:
-              - condition: screen
-                media_query: '(min-width: 1024px)'
-            seconds_motion: continuous
           - type: tile
             grid_options:
               rows: 1
@@ -534,6 +534,8 @@ views:
             entity: sensor.unavailable_entities
             above: 0
         color: red
+        tap_action:
+          action: more-info
     header:
       layout: responsive
       badges_position: top
@@ -637,6 +639,14 @@ views:
                         haptics: true
                         icon: mdi:account-badge
                         label: Present
+                        hold_action:
+                          action: perform-action
+                          perform_action: input_select.select_option
+                          target:
+                            entity_id:
+                              - input_select.living_room_activity
+                          data:
+                            option: Empty
                       - entity_id: input_select.living_room_activity
                         option: Watching TV
                         tap_action:
@@ -649,6 +659,14 @@ views:
                         icon: mdi:youtube-tv
                         label: TV
                         haptics: true
+                        hold_action:
+                          action: perform-action
+                          perform_action: input_select.select_option
+                          target:
+                            entity_id:
+                              - input_select.living_room_activity
+                          data:
+                            option: Empty
                       - entity_id: input_select.living_room_activity
                         option: Gaming
                         tap_action:
@@ -661,6 +679,14 @@ views:
                         icon: mdi:controller-classic
                         label: Gaming
                         haptics: true
+                        hold_action:
+                          action: perform-action
+                          perform_action: input_select.select_option
+                          target:
+                            entity_id:
+                              - input_select.living_room_activity
+                          data:
+                            option: Empty
                       - entity_id: input_select.living_room_activity
                         option: Drumming
                         tap_action:
@@ -673,6 +699,14 @@ views:
                         label: Drumming
                         icon: fa7-solid:drum
                         haptics: true
+                        hold_action:
+                          action: perform-action
+                          perform_action: input_select.select_option
+                          target:
+                            entity_id:
+                              - input_select.living_room_activity
+                          data:
+                            option: Empty
                       - entity_id: input_select.living_room_activity
                         option: Relaxing
                         tap_action:
@@ -685,6 +719,14 @@ views:
                         label: Relaxing
                         icon: mdi:palm-tree
                         haptics: true
+                        hold_action:
+                          action: perform-action
+                          perform_action: input_select.select_option
+                          target:
+                            entity_id:
+                              - input_select.living_room_activity
+                          data:
+                            option: Empty
                       - entity_id: input_select.living_room_activity
                         option: Dining
                         tap_action:
@@ -697,6 +739,14 @@ views:
                         label: Dining
                         icon: mdi:silverware-fork-knife
                         haptics: true
+                        hold_action:
+                          action: perform-action
+                          perform_action: input_select.select_option
+                          target:
+                            entity_id:
+                              - input_select.living_room_activity
+                          data:
+                            option: Empty
                     thumb: default
                 styles: |-
                   :host {
@@ -899,6 +949,14 @@ views:
                         haptics: true
                         icon: mdi:account-badge
                         label: Present
+                        hold_action:
+                          action: perform-action
+                          perform_action: input_select.select_option
+                          target:
+                            entity_id:
+                              - input_select.kitchen_activity
+                          data:
+                            option: Empty
                       - entity_id: input_select.kitchen_activity
                         option: Cooking
                         tap_action:
@@ -911,6 +969,14 @@ views:
                         icon: mdi:chef-hat
                         label: Cooking
                         haptics: true
+                        hold_action:
+                          action: perform-action
+                          perform_action: input_select.select_option
+                          target:
+                            entity_id:
+                              - input_select.kitchen_activity
+                          data:
+                            option: Empty
                       - entity_id: input_select.kitchen_activity
                         option: Dining
                         tap_action:
@@ -923,6 +989,14 @@ views:
                         label: Dining
                         icon: mdi:silverware-fork-knife
                         haptics: true
+                        hold_action:
+                          action: perform-action
+                          perform_action: input_select.select_option
+                          target:
+                            entity_id:
+                              - input_select.kitchen_activity
+                          data:
+                            option: Empty
                     thumb: default
                 styles: |-
                   :host {
@@ -1124,6 +1198,14 @@ views:
                         haptics: true
                         icon: mdi:account-badge
                         label: Present
+                        hold_action:
+                          action: perform-action
+                          perform_action: input_select.select_option
+                          target:
+                            entity_id:
+                              - input_select.studio_activity
+                          data:
+                            option: Empty
                       - entity_id: input_select.studio_activity
                         option: Working
                         tap_action:
@@ -1136,6 +1218,14 @@ views:
                         icon: mdi:desk
                         label: Working
                         haptics: true
+                        hold_action:
+                          action: perform-action
+                          perform_action: input_select.select_option
+                          target:
+                            entity_id:
+                              - input_select.studio_activity
+                          data:
+                            option: Empty
                     thumb: default
                 styles: |-
                   :host {
@@ -1302,6 +1392,14 @@ views:
                         haptics: true
                         icon: mdi:account-badge
                         label: Present
+                        hold_action:
+                          action: perform-action
+                          perform_action: input_select.select_option
+                          target:
+                            entity_id:
+                              - input_select.office_activity
+                          data:
+                            option: Empty
                       - entity_id: input_select.office_activity
                         option: Working
                         tap_action:
@@ -1314,6 +1412,14 @@ views:
                         icon: mdi:desk
                         label: Working
                         haptics: true
+                        hold_action:
+                          action: perform-action
+                          perform_action: input_select.select_option
+                          target:
+                            entity_id:
+                              - input_select.office_activity
+                          data:
+                            option: Empty
                       - entity_id: input_select.office_activity
                         option: Gaming
                         tap_action:
@@ -1326,6 +1432,14 @@ views:
                         icon: mdi:controller-classic
                         label: Gaming
                         haptics: true
+                        hold_action:
+                          action: perform-action
+                          perform_action: input_select.select_option
+                          target:
+                            entity_id:
+                              - input_select.office_activity
+                          data:
+                            option: Empty
                       - entity_id: input_select.office_activity
                         option: Drumming
                         tap_action:
@@ -1338,6 +1452,14 @@ views:
                         label: Drumming
                         icon: fa7-solid:drum
                         haptics: true
+                        hold_action:
+                          action: perform-action
+                          perform_action: input_select.select_option
+                          target:
+                            entity_id:
+                              - input_select.office_activity
+                          data:
+                            option: Empty
                     thumb: default
                 styles: |-
                   :host {
@@ -1532,6 +1654,14 @@ views:
                         haptics: true
                         icon: mdi:account-badge
                         label: Present
+                        hold_action:
+                          action: perform-action
+                          perform_action: input_select.select_option
+                          target:
+                            entity_id:
+                              - input_select.bedroom_activity
+                          data:
+                            option: Empty
                       - entity_id: input_select.bedroom_activity
                         option: Sleeping
                         tap_action:
@@ -1544,6 +1674,14 @@ views:
                         icon: mdi:sleep
                         label: Sleeping
                         haptics: true
+                        hold_action:
+                          action: perform-action
+                          perform_action: input_select.select_option
+                          target:
+                            entity_id:
+                              - input_select.bedroom_activity
+                          data:
+                            option: Empty
                       - entity_id: input_select.bedroom_activity
                         option: Relaxing
                         tap_action:
@@ -1556,6 +1694,14 @@ views:
                         label: Relaxing
                         icon: mdi:palm-tree
                         haptics: true
+                        hold_action:
+                          action: perform-action
+                          perform_action: input_select.select_option
+                          target:
+                            entity_id:
+                              - input_select.bedroom_activity
+                          data:
+                            option: Empty
                     thumb: default
                 styles: |-
                   :host {
@@ -1750,6 +1896,14 @@ views:
                         haptics: true
                         icon: mdi:account-badge
                         label: Present
+                        hold_action:
+                          action: perform-action
+                          perform_action: input_select.select_option
+                          target:
+                            entity_id:
+                              - input_select.wardrobe_activity
+                          data:
+                            option: Empty
                     thumb: default
                 styles: |-
                   :host {
@@ -1922,6 +2076,14 @@ views:
                         haptics: true
                         icon: mdi:account-badge
                         label: Present
+                        hold_action:
+                          action: perform-action
+                          perform_action: input_select.select_option
+                          target:
+                            entity_id:
+                              - input_select.ensuite_activity
+                          data:
+                            option: Empty
                       - entity_id: input_select.ensuite_activity
                         option: Showering
                         tap_action:
@@ -1934,6 +2096,14 @@ views:
                         icon: mdi:shower
                         label: Showering
                         haptics: true
+                        hold_action:
+                          action: perform-action
+                          perform_action: input_select.select_option
+                          target:
+                            entity_id:
+                              - input_select.ensuite_activity
+                          data:
+                            option: Empty
                     thumb: default
                 styles: |-
                   :host {
@@ -2096,6 +2266,14 @@ views:
                         haptics: true
                         icon: mdi:account-badge
                         label: Present
+                        hold_action:
+                          action: perform-action
+                          perform_action: input_select.select_option
+                          target:
+                            entity_id:
+                              - input_select.bathroom_activity
+                          data:
+                            option: Empty
                       - entity_id: input_select.bathroom_activity
                         option: Showering
                         tap_action:
@@ -2108,6 +2286,14 @@ views:
                         icon: mdi:shower
                         label: Showering
                         haptics: true
+                        hold_action:
+                          action: perform-action
+                          perform_action: input_select.select_option
+                          target:
+                            entity_id:
+                              - input_select.bathroom_activity
+                          data:
+                            option: Empty
                     thumb: default
                 styles: |-
                   :host {
@@ -2270,6 +2456,14 @@ views:
                         haptics: true
                         icon: mdi:account-badge
                         label: Present
+                        hold_action:
+                          action: perform-action
+                          perform_action: input_select.select_option
+                          target:
+                            entity_id:
+                              - input_select.hallway_activity
+                          data:
+                            option: Empty
                     thumb: default
                 styles: |-
                   :host {
@@ -2432,6 +2626,14 @@ views:
                         haptics: true
                         icon: mdi:account-badge
                         label: Present
+                        hold_action:
+                          action: perform-action
+                          perform_action: input_select.select_option
+                          target:
+                            entity_id:
+                              - input_select.storage_activity
+                          data:
+                            option: Empty
                     thumb: default
                 styles: |-
                   :host {
