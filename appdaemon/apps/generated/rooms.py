@@ -94,8 +94,8 @@ class LivingRoom(Room):
         DINING = "Dining"
 
     activity: SelectHandler[Activity]
-    days_between_cleaning: int = 0
-    clean_after: int = -1
+    days_between_cleaning: int = 1
+    clean_after: int = 21
 
     _activity_helper : Helper = "input_select.living_room_activity"
     _activity_lock : Helper = "input_boolean.activity_lock_living_room"

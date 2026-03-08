@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+from collections import deque
 from datetime import datetime
-from typing import Set
+from threading import Lock
+from typing import Any, ClassVar, Deque, Optional, Set
 
 from appdaemon.plugins.hass import hassapi as hass
 
@@ -14,6 +16,14 @@ from state_handler import StateHandler
 MAX_ROOMS_CLEANED_BEFORE_MAINTENANCE = 10
 
 class FlickHandler:
+    _room_queue: ClassVar[Deque[int]] = deque()
+    _queue_lock: ClassVar[Lock] = Lock()
+    _status_listener_apps: ClassVar[Set[int]] = set()
+    _cleaning_in_progress: ClassVar[bool] = False
+
+    _IN_PROGRESS_STATUSES: ClassVar[Set[str]] = {"segment_cleaning", "cleaning"}
+    _READY_FOR_NEXT_ROOM_STATUSES: ClassVar[Set[str]] = {"returning_home", "charging"}
+
     def __init__(self, app: hass) -> None:
         self.app = app
         self._opening: Set[Entity] = set()
@@ -33,16 +43,73 @@ class FlickHandler:
         )
 
     def clean_room(self, room: int) -> None:
+        self._ensure_status_listener()
+        with FlickHandler._queue_lock:
+            FlickHandler._room_queue.append(room)
+        self._try_clean_next_room()
+
+    def _ensure_status_listener(self) -> None:
+        app_id = id(self.app)
+        with FlickHandler._queue_lock:
+            if app_id in FlickHandler._status_listener_apps:
+                return
+
+            FlickHandler._status_listener_apps.add(app_id)
+            status = self._get_flick_status()
+            FlickHandler._cleaning_in_progress = status in FlickHandler._IN_PROGRESS_STATUSES
+
+        self.app.listen_state(
+            self._on_flick_status_change,
+            entities.SENSOR_FLICK_STATUS,
+        )
+
+    def _on_flick_status_change(self, entity: Any, attribute: Any, old: Any, new: Any, kwargs: Any) -> None:
+        if not new:
+            return
+
+        if new in FlickHandler._IN_PROGRESS_STATUSES:
+            with FlickHandler._queue_lock:
+                FlickHandler._cleaning_in_progress = True
+            return
+
+        if new in FlickHandler._READY_FOR_NEXT_ROOM_STATUSES:
+            with FlickHandler._queue_lock:
+                FlickHandler._cleaning_in_progress = False
+            self._try_clean_next_room()
+
+    def _try_clean_next_room(self) -> None:
+        next_room: int | None = None
+
+        with FlickHandler._queue_lock:
+            status = self._get_flick_status()
+            if status in FlickHandler._IN_PROGRESS_STATUSES:
+                FlickHandler._cleaning_in_progress = True
+                return
+
+            FlickHandler._cleaning_in_progress = False
+
+            if not FlickHandler._room_queue:
+                return
+
+            next_room = FlickHandler._room_queue.popleft()
+            FlickHandler._cleaning_in_progress = True
+
         self.app.call_service(
             services.VACUUM_SEND_COMMAND,
             entity_id=entities.VACUUM_FLICK,
             command="app_segment_clean",
-            params=room,
+            params=next_room,
         )
         self.app.call_service(
             services.INPUT_NUMBER_INCREMENT,
             entity_id=entities.INPUT_NUMBER_ROOMS_CLEANED_SINCE_LAST_MAINTENANCE
         )
+
+    def _get_flick_status(self) -> Optional[str]:
+        try:
+            return self.state.get_as_str(entities.SENSOR_FLICK_STATUS)
+        except Exception:
+            return None
 
     def go_to_maintenance_spot(self) -> None:
         self.app.call_service(
