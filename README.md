@@ -24,8 +24,6 @@ to generate types for services, entities, helpers among others.
 The generated code uses types that are utilised in various helper functions throughout the automations to prevent
 avoidable errors.
 
-![](docs/img/generate.gif)
-
 This will give you autocompletion in your appdaemons code.
 
 ![](docs/img/coding.gif)
