@@ -36,16 +36,6 @@ homeassistant: !include_dir_named config/homeassistant/
 frontend:
   themes: !include_dir_merge_named themes
 
-lovelace:
-  mode: storage
-  dashboards:
-    mobile-dashboard:
-      mode: yaml
-      title: Marsh Court
-      icon: mdi:home
-      show_in_sidebar: true
-      filename: ui_lovelace_minimalist/dashboard/mobile/index.yaml
-
 sensor:
   - platform: mqtt_room
     device_id: "iBeacon:0b466121-31c0-4eb0-bd36-3bcb62fa52c4-100-1"
