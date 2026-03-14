@@ -1,6 +1,7 @@
 from typing import NewType
 Entity = NewType('Entity', str)
 AUTOMATION_BATTERY_CHECKER: Entity = Entity("automation.battery_checker")
+AUTOMATION_CLOSE_FLAT_DOOR: Entity = Entity("automation.close_flat_door")
 AUTOMATION_FETCH_MIN_MAX_TEMPERATURE: Entity = Entity("automation.fetch_min_max_temperature")
 AUTOMATION_UNAVAILABLE_DEVICE_WATCHDOG: Entity = Entity("automation.unavailable_device_watchdog")
 BINARY_SENSOR_ACTIVITY_BATHROOM_EMPTY: Entity = Entity("binary_sensor.activity_bathroom_empty")

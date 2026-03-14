@@ -1,0 +1,6 @@
+- platform: group
+  name: all_wearables
+  services:
+    - action: mobile_app_galaxy_watch6
+    - action: mobile_app_jc_iphone
+    - action: mobile_app_sm_s918b
