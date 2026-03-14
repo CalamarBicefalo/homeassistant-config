@@ -17,6 +17,7 @@ secrets
 custom_components
 custom_icons/iconify-icon-sets-master.zip
 www/community
+.cache
 
 *.log
 *.log.1

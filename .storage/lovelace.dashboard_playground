@@ -1401,6 +1401,245 @@
               "cards": [
                 {
                   "type": "heading",
+                  "heading": "Appliances",
+                  "heading_style": "title"
+                },
+                {
+                  "type": "custom:button-card",
+                  "entity": "sensor.dishwasher_operation_state",
+                  "name": "Dishwasher",
+                  "show_label": true,
+                  "tap_action": {
+                    "action": "none"
+                  },
+                  "hold_action": {
+                    "action": "none"
+                  },
+                  "double_tap_action": {
+                    "action": "none"
+                  },
+                  "icon": "mdi:dishwasher",
+                  "state": [
+                    {
+                      "value": "Ready",
+                      "label": "Idle",
+                      "styles": {
+                        "custom_fields": {
+                          "bar": [
+                            {
+                              "display": "none"
+                            }
+                          ],
+                          "stat1": [
+                            {
+                              "display": "none"
+                            }
+                          ],
+                          "stat2": [
+                            {
+                              "visibility": "hidden"
+                            }
+                          ],
+                          "stat3": [
+                            {
+                              "visibility": "hidden"
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "value": "Off",
+                      "label": "Off",
+                      "styles": {
+                        "custom_fields": {
+                          "bar": [
+                            {
+                              "display": "none"
+                            }
+                          ],
+                          "stat1": [
+                            {
+                              "display": "none"
+                            }
+                          ],
+                          "stat2": [
+                            {
+                              "visibility": "hidden"
+                            }
+                          ],
+                          "stat3": [
+                            {
+                              "visibility": "hidden"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "styles": {
+                    "card": [
+                      {
+                        "padding": "20px"
+                      },
+                      {
+                        "height": "180px"
+                      },
+                      "font-family:'Montserrat', sans-serif",
+                      {
+                        "font-size": "16px"
+                      }
+                    ],
+                    "grid": [
+                      {
+                        "grid-template-areas": "\"i program\" \"n stat2\" \"bar bar\" \"stat1 stat3\""
+                      },
+                      {
+                        "grid-template-columns": "1fr 1fr"
+                      },
+                      {
+                        "grid-template-rows": "70px min-content 40px min-content"
+                      }
+                    ],
+                    "name": [
+                      {
+                        "justify-self": "start"
+                      },
+                      {
+                        "font-size": "16px"
+                      },
+                      {
+                        "font-weight": 500
+                      }
+                    ],
+                    "label": [
+                      {
+                        "justify-self": "start"
+                      },
+                      {
+                        "font-size": "16px"
+                      },
+                      {
+                        "font-weight": 500
+                      }
+                    ],
+                    "icon": [
+                      {
+                        "width": "36px"
+                      }
+                    ],
+                    "img_cell": [
+                      {
+                        "justify-self": "start"
+                      },
+                      {
+                        "align-self": "start"
+                      },
+                      {
+                        "width": "36px"
+                      },
+                      {
+                        "height": "36px"
+                      }
+                    ],
+                    "custom_fields": {
+                      "program": [
+                        {
+                          "justify-self": "end"
+                        },
+                        {
+                          "align-self": "end"
+                        },
+                        {
+                          "padding-bottom": "6px"
+                        },
+                        {
+                          "font-size": "16px"
+                        },
+                        {
+                          "font-weight": 500
+                        },
+                        {
+                          "visibility": "[[[ return states['switch.dishwasher_power'].state !== 'off' ? 'visible' : 'hidden'; ]]]\n"
+                        }
+                      ],
+                      "stat1": [
+                        {
+                          "justify-self": "start"
+                        },
+                        {
+                          "font-size": "12px"
+                        },
+                        {
+                          "opacity": 0.7
+                        }
+                      ],
+                      "stat2": [
+                        {
+                          "justify-self": "end"
+                        },
+                        {
+                          "font-size": "16px"
+                        },
+                        {
+                          "font-weight": 500
+                        },
+                        {
+                          "visibility": "[[[ return states['switch.dishwasher_power'].state !== 'off' ? 'visible' : 'hidden'; ]]]\n"
+                        }
+                      ],
+                      "stat3": [
+                        {
+                          "justify-self": "end"
+                        },
+                        {
+                          "font-size": "12px"
+                        },
+                        {
+                          "opacity": 0.7
+                        },
+                        {
+                          "visibility": "[[[ \n  var powerState = states['switch.dishwasher_power'].state;\n  if (powerState === 'off') {\n    return 'visible';  // Keep stat3 visible when power is off\n  }\n  var progress = states['sensor.dishwasher_programme_progress'].state;\n  if (progress === 'unavailable' || progress === 'unknown' || progress === '') {\n    return 'visible';  // Show stat3 as \"Ready\" when power is on and progress is empty\n  }\n  return 'visible';  // Show progress percentage otherwise\n]]]\n"
+                        }
+                      ],
+                      "bar": [
+                        {
+                          "justify-self": "start"
+                        },
+                        {
+                          "width": "100%"
+                        },
+                        {
+                          "border-radius": "6px"
+                        },
+                        {
+                          "background": "var(--slider-color)"
+                        },
+                        {
+                          "height": "16px"
+                        }
+                      ]
+                    }
+                  },
+                  "custom_fields": {
+                    "bar": "[[[ \n  var state = parseFloat(states['sensor.dishwasher_programme_progress'].state); \n  if (isNaN(state)) { state = 0; }  // Ensure it defaults to 0 if the state isn't a valid number\n  return `<div style=\"background: var(--slider-color); border-radius: 6px; width: 100%; height: 16px;\">\n            <div style=\"background: var(--color-blue); border-radius: 6px; height: 16px; width: ${state}%;\"></div>\n          </div>`;\n]]]\n",
+                    "program": "[[[ \n  var powerState = states['switch.dishwasher_power'].state;\n  var program = states['select.dishwasher_active_programme'].state;\n  var programLabels = {\n    \"dishcare_dishwasher_program_eco_50\": \"Eco\",\n    \"dishcare_dishwasher_program_auto_2\": \"Auto\",\n    \"dishcare_dishwasher_program_intensiv_70\": \"Heavy\",\n    \"dishcare_dishwasher_program_quick_65\": \"Express 65°\",\n    \"dishcare_dishwasher_program_night_wash\": \"Silent\",\n    \"dishcare_dishwasher_program_machine_care\": \"Machine Care\",\n    \"dishcare_dishwasher_program_pre_rinse\": \"Pre-rinse\"\n  };\n\n  // If the dishwasher is on but no program is running, show \"Idle\"\n  if (powerState !== 'off' && (!program || program === 'unavailable' || program === 'unknown')) {\n    return \"Idle\";\n  }\n\n  return programLabels[program] || program;  \n]]]\n",
+                    "stat1": "[[[ \n  // Icons for rinse aid and salt status\n  var rinseAidState = states['sensor.dishwasher_rinse_aid_nearly_empty'].state;\n  var saltState = states['sensor.dishwasher_salt_nearly_empty'].state;\n\n  // Set the icon color based on state\n  var rinseAidColor = rinseAidState === 'present' ? 'red' : 'gray';\n  var saltColor = saltState === 'present' ? 'red' : 'gray';\n\n  return ` \n    <span style=\"color: ${rinseAidColor}; margin-right: 4px;\">\n      <ha-icon icon=\"fapro:sparkles\" style=\"width: 16px; height: 16px;\"></ha-icon>\n    </span>\n    <span style=\"color: ${saltColor};\">\n      <ha-icon icon=\"fapro:salt-shaker\" style=\"width: 16px; height: 16px;\"></ha-icon>\n    </span>\n  `;\n]]]\n",
+                    "stat2": "[[[ \n  var finishTime = states['sensor.dishwasher_programme_finish_time'].state;\n\n  // If no program is running or finish time is unavailable, return an empty string\n  if (!finishTime || finishTime === 'unavailable' || finishTime === 'unknown') {\n    return \"\";\n  }\n\n  var time = new Date(finishTime);\n  var hours = time.getHours();\n  var minutes = time.getMinutes();\n  return 'Finished at ' + (hours < 10 ? '0' : '') + hours + ':' + (minutes < 10 ? '0' : '') + minutes;\n]]]\n",
+                    "stat3": "[[[ \n  var powerState = states['switch.dishwasher_power'].state;\n  if (powerState === 'off') {\n    return \"Off\";  // Display \"Off\" when the power is off\n  }\n\n  var progress = states['sensor.dishwasher_programme_progress'] ? states['sensor.dishwasher_programme_progress'].state : 'unknown';\n\n  // If the progress is unavailable or empty, show \"Ready\"\n  if (progress === 'unavailable' || progress === 'unknown' || progress === '') {\n    return \"Ready\";  // Default to \"Ready\" when the dishwasher is in idle state\n  }\n\n  // Otherwise, return the progress percentage\n  return progress + '%'; \n]]]\n"
+                  }
+                },
+                {
+                  "type": "heading",
+                  "heading": "New section"
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
                   "heading": "Plugs",
                   "heading_style": "title"
                 },
@@ -1414,18 +1653,18 @@
                 },
                 {
                   "type": "tile",
-                  "entity": "switch.microwave_switch"
-                },
-                {
-                  "type": "tile",
                   "entity": "switch.toaster"
                 },
                 {
                   "type": "tile",
                   "entity": "switch.thermomix_switch"
+                },
+                {
+                  "type": "tile",
+                  "entity": "switch.microwave_switch"
                 }
               ],
-              "column_span": 2
+              "column_span": 1
             },
             {
               "type": "grid",

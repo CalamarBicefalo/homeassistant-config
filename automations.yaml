@@ -79,3 +79,61 @@
           message: Unavailable entities {{entities}}
           title: Cleanup needed
         action: notify.mobile_app_jc_iphone
+- id: '1773510464558'
+  alias: Close Flat Door
+  description: ''
+  triggers:
+  - type: not_opened
+    device_id: 1cfc42db1ce88c3dda623f40cfdf8f01
+    entity_id: 8e323bc45a26065baa7e8a90103712f2
+    domain: binary_sensor
+    trigger: device
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 5
+  conditions:
+  - condition: device
+    device_id: 587764c8bf0e0d594ae9c61069d6d4fd
+    domain: lock
+    entity_id: bf75a93b31678341121fff57f9d5e07d
+    type: is_open
+  actions:
+  - action: lock.lock
+    metadata: {}
+    target:
+      device_id: 587764c8bf0e0d594ae9c61069d6d4fd
+    data: {}
+  mode: single
+- id: '1773511307345'
+  alias: Notify if door unlocked
+  description: Sends a notification to wearable device group if the door is unlocked
+    or jammed for long enough
+  triggers:
+  - device_id: 587764c8bf0e0d594ae9c61069d6d4fd
+    domain: lock
+    entity_id: bf75a93b31678341121fff57f9d5e07d
+    type: jammed
+    trigger: device
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 10
+  - device_id: 587764c8bf0e0d594ae9c61069d6d4fd
+    domain: lock
+    entity_id: bf75a93b31678341121fff57f9d5e07d
+    type: unlocked
+    trigger: device
+    for:
+      hours: 0
+      minutes: 7
+      seconds: 0
+  conditions: []
+  actions:
+  - action: notify.notify
+    metadata: {}
+    data:
+      message: Please close the flat door
+      title: Flat door open
+      target:
+  mode: single
