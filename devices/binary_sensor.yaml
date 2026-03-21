@@ -47,8 +47,7 @@
   name: office_motion
   device_class: motion
   entities:
-    - binary_sensor.office_ms_occupancy
-    - binary_sensor.office_instant_ms
+    - binary_sensor.office_ms_eppro_occupancy
     - binary_sensor.drums_vibration
     - binary_sensor.desk_chair_ps
 - platform: group
