@@ -91,13 +91,13 @@
     for:
       hours: 0
       minutes: 0
-      seconds: 5
+      seconds: 3
   conditions:
-  - condition: device
-    device_id: 587764c8bf0e0d594ae9c61069d6d4fd
-    domain: lock
-    entity_id: bf75a93b31678341121fff57f9d5e07d
-    type: is_open
+  - type: is_not_open
+    condition: device
+    device_id: 1cfc42db1ce88c3dda623f40cfdf8f01
+    entity_id: 8e323bc45a26065baa7e8a90103712f2
+    domain: binary_sensor
   actions:
   - action: lock.lock
     metadata: {}
@@ -130,10 +130,10 @@
       seconds: 0
   conditions: []
   actions:
-  - action: notify.notify
+  - action: notify.all_wearables
     metadata: {}
     data:
-      message: Please close the flat door
-      title: Flat door open
-      target:
+      title: Door unlocked
+      message: The flat door is either unlocked or jammed for too long. Please have
+        a look.
   mode: single

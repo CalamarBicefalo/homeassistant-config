@@ -162,7 +162,12 @@
                       "type": "lock-commands"
                     }
                   ],
-                  "features_position": "inline"
+                  "features_position": "bottom",
+                  "card_mod": {
+                    "style": {
+                      "ha-tile-info$": ".secondary {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  white-space: nowrap;\n}\n.secondary:before {\n  margin-right: 4px;\n  content: \"{{ 'Open' if is_state('binary_sensor.flat_door_cs', 'on') else 'Closed' }} · \";\n}\n"
+                    }
+                  }
                 },
                 {
                   "type": "tile",

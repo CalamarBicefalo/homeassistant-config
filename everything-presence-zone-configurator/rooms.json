@@ -1,0 +1,205 @@
+[
+  {
+    "id": "8db74960-e59b-4a28-8f98-4ea5b0a15fe9",
+    "name": "Studio",
+    "deviceId": "48398bbb384d6210741ed0c1e169a2fc",
+    "profileId": "everything_presence_pro",
+    "units": "metric",
+    "zones": [],
+    "entityMappings": {
+      "discoveredAt": "2026-03-14T21:34:53.959Z",
+      "autoMatchedCount": 70,
+      "manuallyMappedCount": 0,
+      "presenceEntity": "binary_sensor.everything_presence_pro_da42ec_occupancy",
+      "zoneConfigEntities": {
+        "zone1": {
+          "beginX": "number.everything_presence_pro_da42ec_zone_1_start_x",
+          "endX": "number.everything_presence_pro_da42ec_zone_1_end_x",
+          "beginY": "number.everything_presence_pro_da42ec_zone_1_start_y",
+          "endY": "number.everything_presence_pro_da42ec_zone_1_end_y"
+        },
+        "zone2": {
+          "beginX": "number.everything_presence_pro_da42ec_zone_2_start_x",
+          "endX": "number.everything_presence_pro_da42ec_zone_2_end_x",
+          "beginY": "number.everything_presence_pro_da42ec_zone_2_start_y",
+          "endY": "number.everything_presence_pro_da42ec_zone_2_end_y"
+        },
+        "zone3": {
+          "beginX": "number.everything_presence_pro_da42ec_zone_3_start_x",
+          "endX": "number.everything_presence_pro_da42ec_zone_3_end_x",
+          "beginY": "number.everything_presence_pro_da42ec_zone_3_start_y",
+          "endY": "number.everything_presence_pro_da42ec_zone_3_end_y"
+        },
+        "zone4": {
+          "beginX": "number.everything_presence_pro_da42ec_zone_4_start_x",
+          "endX": "number.everything_presence_pro_da42ec_zone_4_end_x",
+          "beginY": "number.everything_presence_pro_da42ec_zone_4_start_y",
+          "endY": "number.everything_presence_pro_da42ec_zone_4_end_y"
+        }
+      },
+      "exclusionZoneConfigEntities": {
+        "exclusion1": {
+          "beginX": "number.everything_presence_pro_da42ec_exclusion_zone_1_start_x",
+          "endX": "number.everything_presence_pro_da42ec_exclusion_zone_1_end_x",
+          "beginY": "number.everything_presence_pro_da42ec_exclusion_zone_1_start_y",
+          "endY": "number.everything_presence_pro_da42ec_exclusion_zone_1_end_y"
+        },
+        "exclusion2": {
+          "beginX": "number.everything_presence_pro_da42ec_exclusion_zone_2_start_x",
+          "endX": "number.everything_presence_pro_da42ec_exclusion_zone_2_end_x",
+          "beginY": "number.everything_presence_pro_da42ec_exclusion_zone_2_start_y",
+          "endY": "number.everything_presence_pro_da42ec_exclusion_zone_2_end_y"
+        }
+      },
+      "entryZoneConfigEntities": {},
+      "polygonZoneEntities": {},
+      "polygonExclusionEntities": {},
+      "polygonEntryEntities": {},
+      "trackingTargets": {
+        "target1": {
+          "x": "sensor.everything_presence_pro_da42ec_target_1_x",
+          "y": "sensor.everything_presence_pro_da42ec_target_1_y",
+          "speed": "sensor.everything_presence_pro_da42ec_target_1_speed",
+          "resolution": "sensor.everything_presence_pro_da42ec_target_1_resolution",
+          "angle": "sensor.everything_presence_pro_da42ec_target_1_angle",
+          "distance": "sensor.everything_presence_pro_da42ec_target_1_distance",
+          "active": "binary_sensor.everything_presence_pro_da42ec_target_1_active"
+        },
+        "target2": {
+          "x": "sensor.everything_presence_pro_da42ec_target_2_x",
+          "y": "sensor.everything_presence_pro_da42ec_target_2_y",
+          "speed": "sensor.everything_presence_pro_da42ec_target_2_speed",
+          "resolution": "sensor.everything_presence_pro_da42ec_target_2_resolution",
+          "angle": "sensor.everything_presence_pro_da42ec_target_2_angle",
+          "distance": "sensor.everything_presence_pro_da42ec_target_2_distance",
+          "active": "binary_sensor.everything_presence_pro_da42ec_target_2_active"
+        },
+        "target3": {
+          "x": "sensor.everything_presence_pro_da42ec_target_3_x",
+          "y": "sensor.everything_presence_pro_da42ec_target_3_y",
+          "speed": "sensor.everything_presence_pro_da42ec_target_3_speed",
+          "resolution": "sensor.everything_presence_pro_da42ec_target_3_resolution",
+          "angle": "sensor.everything_presence_pro_da42ec_target_3_angle",
+          "distance": "sensor.everything_presence_pro_da42ec_target_3_distance",
+          "active": "binary_sensor.everything_presence_pro_da42ec_target_3_active"
+        }
+      }
+    },
+    "entityNamePrefix": "everything_presence_pro_da42ec_restart_device",
+    "roomShell": {
+      "points": [
+        {
+          "x": -3000,
+          "y": -2900
+        },
+        {
+          "x": -100,
+          "y": -2900
+        },
+        {
+          "x": -100,
+          "y": 1100
+        },
+        {
+          "x": -3000,
+          "y": 1100
+        }
+      ]
+    },
+    "devicePlacement": {
+      "x": -400,
+      "y": -2900,
+      "rotationDeg": 31
+    },
+    "furniture": [
+      {
+        "id": "09947457-4f8a-40fa-a53c-b8200f9b3d5d",
+        "typeId": "desk-lshaped",
+        "x": -969.1777443948882,
+        "y": -2495.962668969799,
+        "width": 1730.6913103376116,
+        "depth": 769.481440952846,
+        "height": 750,
+        "rotationDeg": 360,
+        "aspectRatioLocked": false
+      },
+      {
+        "id": "d46b3f3a-2632-4874-8c4c-5941647aa969",
+        "typeId": "conference-chair",
+        "x": -1300,
+        "y": -2200,
+        "width": 600,
+        "depth": 600,
+        "height": 850,
+        "rotationDeg": 0,
+        "aspectRatioLocked": true
+      },
+      {
+        "id": "4999db64-c269-4ab1-9588-fe0421bd5ed2",
+        "typeId": "rug-small-rect",
+        "x": -1540.1141717616708,
+        "y": 95.91701961442736,
+        "width": 2909.774780273437,
+        "depth": 1927.3754664829796,
+        "height": 10,
+        "rotationDeg": 0,
+        "aspectRatioLocked": false
+      },
+      {
+        "id": "d1271f0b-bb1a-4eea-a972-6a6ea3b370d1",
+        "typeId": "plant-large",
+        "x": -2746.464466094067,
+        "y": 795.9876882952693,
+        "width": 500,
+        "depth": 500,
+        "height": 1200,
+        "rotationDeg": 0,
+        "aspectRatioLocked": true
+      },
+      {
+        "id": "077daf82-00e1-4c4e-94ce-c0cab642958b",
+        "typeId": "plant-large",
+        "x": -2745.55891178422,
+        "y": 96.73530188965269,
+        "width": 500,
+        "depth": 500,
+        "height": 1200,
+        "rotationDeg": 0,
+        "aspectRatioLocked": true
+      },
+      {
+        "id": "25213ecc-01e5-4157-8457-4794366dd6fa",
+        "typeId": "plant-large",
+        "x": -353.53553390593277,
+        "y": 795.9876882952693,
+        "width": 500,
+        "depth": 500,
+        "height": 1200,
+        "rotationDeg": 0,
+        "aspectRatioLocked": true
+      },
+      {
+        "id": "6bb0bca2-7e27-405e-b98e-1ee15a565873",
+        "typeId": "plant-large",
+        "x": -354.44108821577976,
+        "y": 96.73530188965269,
+        "width": 500,
+        "depth": 500,
+        "height": 1200,
+        "rotationDeg": 0,
+        "aspectRatioLocked": true
+      }
+    ],
+    "doors": [
+      {
+        "id": "6b1e9358-d2f4-4f46-b059-76abf2dd2031",
+        "segmentIndex": 0,
+        "positionOnSegment": 0.22,
+        "widthMm": 850,
+        "swingDirection": "out",
+        "swingSide": "left"
+      }
+    ],
+    "metadata": {}
+  }
+]
