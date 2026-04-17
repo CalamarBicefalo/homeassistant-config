@@ -144,7 +144,7 @@ def sent_to_clean_bedroom(self):
     self.called_with(
         entity_id=entities.VACUUM_FLICK,
         command="app_segment_clean",
-        params=Bedroom._room_cleaner_segment
+        params=[Bedroom._room_cleaner_segment]
     )
 
 

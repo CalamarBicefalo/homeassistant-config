@@ -46,6 +46,7 @@ class FlickHandler:
         self._ensure_status_listener()
         with FlickHandler._queue_lock:
             FlickHandler._room_queue.append(room)
+            self.app.log(f'Room {room} added to queue. Queue now: {list(FlickHandler._room_queue)}', level="INFO")
         self._try_clean_next_room()
 
     def _ensure_status_listener(self) -> None:
@@ -67,6 +68,8 @@ class FlickHandler:
         if not new:
             return
 
+        self.app.log(f'Flick status changed: {old} -> {new}. Queue: {list(FlickHandler._room_queue)}', level="INFO")
+
         if new in FlickHandler._IN_PROGRESS_STATUSES:
             with FlickHandler._queue_lock:
                 FlickHandler._cleaning_in_progress = True
@@ -84,21 +87,24 @@ class FlickHandler:
             status = self._get_flick_status()
             if status in FlickHandler._IN_PROGRESS_STATUSES:
                 FlickHandler._cleaning_in_progress = True
+                self.app.log(f'Vacuum busy (status={status}), not starting next room. Queue: {list(FlickHandler._room_queue)}', level="INFO")
                 return
 
             FlickHandler._cleaning_in_progress = False
 
             if not FlickHandler._room_queue:
+                self.app.log('Queue empty, nothing to clean', level="DEBUG")
                 return
 
             next_room = FlickHandler._room_queue.popleft()
             FlickHandler._cleaning_in_progress = True
+            self.app.log(f'Starting to clean room {next_room}. Remaining queue: {list(FlickHandler._room_queue)}', level="INFO")
 
         self.app.call_service(
             services.VACUUM_SEND_COMMAND,
             entity_id=entities.VACUUM_FLICK,
             command="app_segment_clean",
-            params=next_room,
+            params=[next_room],
         )
         self.app.call_service(
             services.INPUT_NUMBER_INCREMENT,

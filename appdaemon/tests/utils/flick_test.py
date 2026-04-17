@@ -36,7 +36,7 @@ def test_clean_room(given_that, app: FlickApp, assert_that):
     assert_that(services.VACUUM_SEND_COMMAND).was.called_with(
         entity_id=entities.VACUUM_FLICK,
         command="app_segment_clean",
-        params=rooms.Kitchen._room_cleaner_segment
+        params=[rooms.Kitchen._room_cleaner_segment]
     )
 
 
@@ -89,7 +89,7 @@ def test_clean_room_queues_until_flick_ready(given_that, app: FlickApp):
         and call.kwargs.get("command") == "app_segment_clean"
     ]
     assert len(send_calls) == 1
-    assert send_calls[0].kwargs.get("params") == 1
+    assert send_calls[0].kwargs.get("params") == [1]
 
     given_that.state_of(entities.SENSOR_FLICK_STATUS).is_set_to("returning_home")
     app.handlers.flick._on_flick_status_change(None, None, "segment_cleaning", "returning_home", None)
@@ -101,7 +101,7 @@ def test_clean_room_queues_until_flick_ready(given_that, app: FlickApp):
         and call.kwargs.get("command") == "app_segment_clean"
     ]
     assert len(send_calls) == 2
-    assert [call.kwargs.get("params") for call in send_calls] == [1, 2]
+    assert [call.kwargs.get("params") for call in send_calls] == [[1], [2]]
 
 
 @pytest.mark.asyncio
