@@ -84,13 +84,15 @@ class FlickHandler:
         next_room: int | None = None
 
         with FlickHandler._queue_lock:
+            if FlickHandler._cleaning_in_progress:
+                self.app.log(f'Cleaning already in progress, queued room will wait. Queue: {list(FlickHandler._room_queue)}', level="INFO")
+                return
+
             status = self._get_flick_status()
             if status in FlickHandler._IN_PROGRESS_STATUSES:
                 FlickHandler._cleaning_in_progress = True
                 self.app.log(f'Vacuum busy (status={status}), not starting next room. Queue: {list(FlickHandler._room_queue)}', level="INFO")
                 return
-
-            FlickHandler._cleaning_in_progress = False
 
             if not FlickHandler._room_queue:
                 self.app.log('Queue empty, nothing to clean', level="DEBUG")

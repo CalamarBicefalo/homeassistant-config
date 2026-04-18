@@ -130,6 +130,64 @@ def test_go_to_maintenance(given_that, app: FlickApp, assert_that):
         params=[flick.mop_maintenance.x, flick.mop_maintenance.y]
     )
 
+
+@pytest.mark.asyncio
+def test_two_rooms_queued_rapidly_both_get_cleaned(given_that, app: FlickApp):
+    """
+    Reproduces real-world scenario from logs where kitchen and living room
+    were queued ~1 second apart, but vacuum status was still 'charging'.
+    Previously, both rooms would start immediately and the second was ignored.
+    """
+    given_that.flick_state_is(flick_status="charging")
+
+    # Kitchen queued and starts (vacuum is idle)
+    app.handlers.flick.clean_room(21)
+    # Living room queued ~1 second later, vacuum status still shows 'charging'
+    # because it takes ~30 seconds for the vacuum to report 'segment_cleaning'
+    app.handlers.flick.clean_room(22)
+
+    # Only kitchen should have started
+    send_calls = _get_segment_clean_calls(app)
+    assert len(send_calls) == 1
+    assert send_calls[0].kwargs.get("params") == [21]
+
+    # Vacuum finally reports it's cleaning (30 seconds later in real world)
+    app.handlers.flick._on_flick_status_change(None, None, "charging", "segment_cleaning", None)
+
+    # Still only one room started
+    send_calls = _get_segment_clean_calls(app)
+    assert len(send_calls) == 1
+
+    # Vacuum finishes kitchen and returns home
+    app.handlers.flick._on_flick_status_change(None, None, "segment_cleaning", "returning_home", None)
+
+    # Now living room should start
+    send_calls = _get_segment_clean_calls(app)
+    assert len(send_calls) == 2
+    assert send_calls[1].kwargs.get("params") == [22]
+
+    # Vacuum starts cleaning living room
+    app.handlers.flick._on_flick_status_change(None, None, "returning_home", "segment_cleaning", None)
+
+    # Vacuum finishes and returns home
+    app.handlers.flick._on_flick_status_change(None, None, "segment_cleaning", "returning_home", None)
+
+    # Back to charging, queue should be empty, no new commands
+    app.handlers.flick._on_flick_status_change(None, None, "returning_home", "charging", None)
+
+    send_calls = _get_segment_clean_calls(app)
+    assert len(send_calls) == 2
+
+
+def _get_segment_clean_calls(app):
+    return [
+        call for call in app.call_service.call_args_list
+        if call.args
+        and call.args[0] == services.VACUUM_SEND_COMMAND
+        and call.kwargs.get("command") == "app_segment_clean"
+    ]
+
+
 def flick_state_is(self, rooms_cleaned_since_maintenance=0, flick_status="charging"):
     self.state_of(entities.INPUT_NUMBER_ROOMS_CLEANED_SINCE_LAST_MAINTENANCE).is_set_to(rooms_cleaned_since_maintenance)
     self.state_of(entities.SENSOR_FLICK_STATUS).is_set_to(flick_status)
