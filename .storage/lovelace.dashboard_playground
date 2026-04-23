@@ -837,6 +837,14 @@
                           "styles": ":host {\n\n--accent-color: #ca0c3dcc;\n--switch-checked-button-color: #ca0c0c;\n--switch-checked-track-color: #ffb6c3a8;\n.background {\n    backdrop-filter: blur(12px);\n    -webkit-backdrop-filter: blur(6.8px);\n}\n.icon-label {\nflex-direction: column;\nalign-items: start;\ngap: 0px;\n}\n.icon-label::before {\n\n  font-size: 24px;\n  line-height:22px;\n  content:\"Living Room\";\n}\n.label {\nfont-weight: 300;\nfont-size: 16px;\nline-height:20px;\n}\n.icon {\ndisplay: none;\n}\n}",
                           "allow_list": true,
                           "check_numeric": false
+                        },
+                        {
+                          "type": "button",
+                          "entity_id": "input_datetime.last_cleaned_living_room",
+                          "styles": ":host {\n\n--icon-color: #ffffff;\n--label-color: #ffffff;\n--accent-color: #ca0c3dcc;\n--switch-checked-button-color: #ca0c0c;\n--switch-checked-track-color: #ffb6c3a8;\n.background {\n    backdrop-filter: blur(12px);\n    -webkit-backdrop-filter: blur(6.8px);\n}\n\n\n.label {\nfont-weight: 300;\nfont-size: 16px;\nline-height:20px;\n}\n\n}",
+                          "thumb": "md3-outlined",
+                          "icon": "mdi:broom",
+                          "label": "{{ value | as_datetime | relative_time }} ago"
                         }
                       ],
                       "styles": ":host {\nfont-size: 30px;\nheight: 120px;\n}"
@@ -876,6 +884,17 @@
                                 "data": {
                                   "option": "Empty"
                                 }
+                              },
+                              "double_tap_action": {
+                                "action": "perform-action",
+                                "perform_action": "input_boolean.toggle",
+                                "target": {
+                                  "entity_id": [
+                                    "input_boolean.activity_lock_living_room"
+                                  ]
+                                },
+                                "confirmation": false,
+                                "data": {}
                               }
                             },
                             {
