@@ -40,6 +40,7 @@ class MusicHandler:
                                    media_content_type="music"
                                    )
             self._app.log(f'Playing {tune} on {self._speakers} - replacing existing queue.', level="DEBUG")
+            self._app.call_service(services.MEDIA_PLAYER_MEDIA_PLAY, entity_id=self._speakers)
 
         self.run_in_speaker_without_chime(do_play)
 
