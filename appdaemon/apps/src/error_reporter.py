@@ -8,6 +8,9 @@ from app import App
 LAST_ERROR_SENSOR = "sensor.appdaemon_last_error"
 ERROR_EVENT = "appdaemon.error"
 
+# Heartbeat state set on startup so the sensor always exists (liveness check).
+STATUS_OK = "ok"
+
 # HA state values are capped at 255 chars; keep the headline within that.
 MAX_STATE_LENGTH = 255
 
@@ -25,6 +28,13 @@ class ErrorReporter(App):
     def initialize(self) -> None:
         self.log('Initializing error reporter.', level="DEBUG")
         self.listen_log(self.on_log, level="WARNING")
+        # Heartbeat: create the sensor on startup so the app's liveness is
+        # verifiable and ops.appderrors never 404s. Real errors overwrite it.
+        self.set_state(
+            LAST_ERROR_SENSOR,
+            state=STATUS_OK,
+            attributes={"status": STATUS_OK, "initialized_at": str(self.datetime())},
+        )
 
     def on_log(self, name: str, ts: datetime, level: str, log_type: str,
                message: str, kwargs: Any) -> None:

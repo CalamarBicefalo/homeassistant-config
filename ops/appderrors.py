@@ -9,6 +9,7 @@ from ops.timeutil import since_to_iso
 
 # Kept in sync with appdaemon/apps/src/error_reporter.py.
 LAST_ERROR_SENSOR = "sensor.appdaemon_last_error"
+STATUS_OK = "ok"
 
 
 def _history_rows(client: HaClient, since: str) -> list[dict[str, Any]]:
@@ -27,21 +28,26 @@ def main() -> None:
 
     latest = client.try_state(LAST_ERROR_SENSOR)
     if latest is None:
-        print("No AppDaemon errors reported yet "
-            f"({LAST_ERROR_SENSOR} does not exist). Is the error_reporter app running?")
+        print(f"{LAST_ERROR_SENSOR} does not exist - the error_reporter app is not "
+            "running (or hasn't started yet).")
         return
 
-    print("== Latest AppDaemon error ==")
-    print(json.dumps(latest, indent=2, sort_keys=True))
+    attrs = latest.get("attributes", {})
+    if latest.get("state") == STATUS_OK:
+        print(f"error_reporter is running; no AppDaemon errors since "
+            f"{attrs.get('initialized_at', '?')}.")
+    else:
+        print("== Latest AppDaemon error ==")
+        print(json.dumps(latest, indent=2, sort_keys=True))
 
     print(f"\n== Error timeline (last {args.since}) ==")
-    rows = _history_rows(client, args.since)
+    rows = [r for r in _history_rows(client, args.since) if r.get("state") != STATUS_OK]
     if not rows:
-        print("(no recorded changes in window)")
+        print("(no errors in window)")
     for row in rows:
-        attrs = row.get("attributes", {})
+        row_attrs = row.get("attributes", {})
         when = row.get("last_changed", "?")
-        print(f"{when}  {attrs.get('level', '?'):<8} [{attrs.get('app', '?')}] {row.get('state', '')}")
+        print(f"{when}  {row_attrs.get('level', '?'):<8} [{row_attrs.get('app', '?')}] {row.get('state', '')}")
 
 
 if __name__ == "__main__":

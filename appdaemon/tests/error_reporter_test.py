@@ -6,7 +6,7 @@ from appdaemon.plugins.hass.hassapi import Hass
 from appdaemontestframework import automation_fixture
 
 import matchers
-from error_reporter import ErrorReporter, LAST_ERROR_SENSOR, ERROR_EVENT
+from error_reporter import ErrorReporter, LAST_ERROR_SENSOR, ERROR_EVENT, STATUS_OK
 
 TS = datetime(2026, 5, 31, 12, 0, 0)
 
@@ -22,6 +22,19 @@ def stub_listen_log():
 @automation_fixture(ErrorReporter)
 def reporter() -> None:
     matchers.init()
+
+
+@pytest.mark.asyncio
+def test_initialize_sets_ok_heartbeat(reporter, hass_mocks):
+    # Re-run initialize with fresh mocks (the fixture clears them after setup).
+    reporter.initialize()
+
+    set_state = hass_mocks.hass_functions["set_state"]
+    args, kwargs = set_state.call_args
+    assert args[0] == LAST_ERROR_SENSOR
+    assert kwargs["state"] == STATUS_OK
+    assert kwargs["attributes"]["status"] == STATUS_OK
+    assert "initialized_at" in kwargs["attributes"]
 
 
 @pytest.mark.asyncio
