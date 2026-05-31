@@ -25,7 +25,7 @@ class NotificationHandler:
         self._app.call_service(services.NOTIFY_MOBILE_APP_JC_IPHONE,
                           message=message,
                           title=title)
-        self._app.call_service(services.NOTIFY_MOBILE_APP_MANDIES_IPHONE,
+        self._app.call_service(services.NOTIFY_MOBILE_APP_MANDIE_S_PHONE,
                           message=message,
                           title=title)
         if not self.mode.is_value(Mode.SLEEPING):

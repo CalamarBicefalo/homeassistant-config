@@ -95,3 +95,24 @@ I am not around. (Otherwise I find myself being chased by robots).
 ### Vacuum maintenance
 A simple app that truly shows who's wearing the pants in this house.
 My vacuum cleaner comes moaning every now and then to demand maintenance love.
+
+## Production diagnostics
+
+A small read-only toolkit (`ops/`) for inspecting the live instance without
+shelling into the box, so problems can be diagnosed quickly (including by AI
+agents). It reuses the same token as the code generator (`secrets/secrets.yaml`)
+and is run from the repo root:
+
+```
+pipenv run python -m ops.logs --level ERROR   # HA core warnings/errors
+pipenv run python -m ops.appderrors           # AppDaemon app errors
+pipenv run python -m ops.state <entity_id>    # current state + attributes
+pipenv run python -m ops.history <entity_id>  # recorded history
+pipenv run python -m ops.logbook              # logbook entries
+pipenv run python -m ops.template "<jinja>"   # render a template against live state
+```
+
+AppDaemon errors are made visible by the `error_reporter` app, which mirrors any
+WARNING/ERROR from the apps into Home Assistant (a `sensor.appdaemon_last_error`
+entity plus `appdaemon.error` events) — so a broken automation surfaces instead
+of failing silently. The triage loop for agents is documented in `AGENTS.md`.

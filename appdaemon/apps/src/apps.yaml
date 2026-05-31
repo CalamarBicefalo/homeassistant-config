@@ -14,4 +14,8 @@ Mode controller:
 Away monitor:
   module: away_monitor
   class: AwayMonitor
-  
+
+Error reporter:
+  module: error_reporter
+  class: ErrorReporter
+

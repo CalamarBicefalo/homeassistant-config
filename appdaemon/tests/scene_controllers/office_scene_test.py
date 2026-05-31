@@ -110,7 +110,7 @@ def test_mode_change_adjusts_blinds_when_away(given_that, office_scene, fake_bli
 def office_scene_is(self, activity, illuminance, mode=selects.Mode.DAY):
     self.state_of(helpers.MODE).is_set_to(mode)
     self.state_of(entities.LIGHT_OFFICE).is_set_to(states.OFF)
-    self.state_of(entities.SENSOR_MS_STUDIO_EP1_ILLUMINANCE).is_set_to(illuminance)
+    self.state_of(entities.SENSOR_OFFICE_MS_EPPRO_ILLUMINANCE).is_set_to(illuminance)
     self.state_of(Office._activity_helper).is_set_to(activity)
 
 
