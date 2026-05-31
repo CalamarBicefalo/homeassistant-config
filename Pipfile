@@ -6,6 +6,8 @@ name = "pypi"
 [packages]
 pyyaml = "*"
 requests = "*"
+websocket-client = "*"
+certifi = "*"
 appdaemon = "*"
 appdaemontestframework = "==5.0.0"
 asynctest = "*"

@@ -15,7 +15,9 @@
         - 5052e0f614661ad5af55d8cf1c31a531
       actions:
       - action: notify.mobile_app_jc_iphone
-        data: {}
+        data:
+          title: Low battery
+          message: 'Low battery: {{ sensors }}'
 - id: '1712425858556'
   alias: Fetch min-max temperature
   description: Simple automation to get min and max temperature
