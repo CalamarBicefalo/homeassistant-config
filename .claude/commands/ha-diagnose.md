@@ -1,6 +1,6 @@
 ---
 description: Diagnose a Home Assistant / AppDaemon problem against the live instance and propose a fix
-argument-hint: "[symptom, entity_id, or app name — optional]"
+argument-hint: "[describe the problem — optional; if omitted I'll ask]"
 allowed-tools: Bash(pipenv run python -m ops.logs:*), Bash(pipenv run python -m ops.appderrors:*), Bash(pipenv run python -m ops.state:*), Bash(pipenv run python -m ops.history:*), Bash(pipenv run python -m ops.logbook:*), Bash(pipenv run python -m ops.template:*), Bash(pipenv run pytest:*), Bash(pipenv run mypy:*)
 ---
 
@@ -9,6 +9,12 @@ Focus: $ARGUMENTS
 
 Use the read-only `ops/` toolkit (run from the repo root with `pipenv run python -m ops.<cmd>`).
 Do NOT deploy or restart anything — stop at a reviewed branch.
+
+## 0. Get the symptom
+If a focus is provided above, use it as the starting point.
+If it is empty, FIRST ask the user what's wrong before doing anything else — use
+the AskUserQuestion tool (or a short plain question) to capture: what they observed,
+which room/device/automation, and roughly when. Wait for their answer, then continue.
 
 ## 1. Gather evidence
 - `ops.appderrors` — AppDaemon app errors (backed by `sensor.appdaemon_last_error`).
