@@ -70,8 +70,7 @@ class LivingRoomController(ActivityController):
         )
 
     def watching_tv(self) -> bool:
-        return self.state.is_on(entities.MEDIA_PLAYER_TV_2) or self.state.is_on(
-            entities.MEDIA_PLAYER_SONY_KD_49XF8096)
+        return self.state.is_on(entities.MEDIA_PLAYER_SONY_KD_49XF8096)
 
     def sitting_on_sofa(self) -> bool:
         return self.state.is_on(entities.BINARY_SENSOR_SOFA_PS)
