@@ -53,7 +53,8 @@ class BlindsHandler:
         else:
             if self.window_is_open() and self.temperature.should_cooldown():
                 self.open()
-            self.close()
+            else:
+                self.close()
 
     def is_day(self):
         return self.app.sunset() < self.app.sunrise()
