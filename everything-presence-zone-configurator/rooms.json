@@ -7,85 +7,55 @@
     "units": "metric",
     "zones": [],
     "entityMappings": {
-      "discoveredAt": "2026-03-14T21:34:53.959Z",
-      "autoMatchedCount": 70,
+      "discoveredAt": "2026-06-20T21:01:37.148Z",
+      "autoMatchedCount": 76,
       "manuallyMappedCount": 0,
-      "presenceEntity": "binary_sensor.everything_presence_pro_da42ec_occupancy",
-      "zoneConfigEntities": {
-        "zone1": {
-          "beginX": "number.everything_presence_pro_da42ec_zone_1_start_x",
-          "endX": "number.everything_presence_pro_da42ec_zone_1_end_x",
-          "beginY": "number.everything_presence_pro_da42ec_zone_1_start_y",
-          "endY": "number.everything_presence_pro_da42ec_zone_1_end_y"
-        },
-        "zone2": {
-          "beginX": "number.everything_presence_pro_da42ec_zone_2_start_x",
-          "endX": "number.everything_presence_pro_da42ec_zone_2_end_x",
-          "beginY": "number.everything_presence_pro_da42ec_zone_2_start_y",
-          "endY": "number.everything_presence_pro_da42ec_zone_2_end_y"
-        },
-        "zone3": {
-          "beginX": "number.everything_presence_pro_da42ec_zone_3_start_x",
-          "endX": "number.everything_presence_pro_da42ec_zone_3_end_x",
-          "beginY": "number.everything_presence_pro_da42ec_zone_3_start_y",
-          "endY": "number.everything_presence_pro_da42ec_zone_3_end_y"
-        },
-        "zone4": {
-          "beginX": "number.everything_presence_pro_da42ec_zone_4_start_x",
-          "endX": "number.everything_presence_pro_da42ec_zone_4_end_x",
-          "beginY": "number.everything_presence_pro_da42ec_zone_4_start_y",
-          "endY": "number.everything_presence_pro_da42ec_zone_4_end_y"
-        }
-      },
-      "exclusionZoneConfigEntities": {
-        "exclusion1": {
-          "beginX": "number.everything_presence_pro_da42ec_exclusion_zone_1_start_x",
-          "endX": "number.everything_presence_pro_da42ec_exclusion_zone_1_end_x",
-          "beginY": "number.everything_presence_pro_da42ec_exclusion_zone_1_start_y",
-          "endY": "number.everything_presence_pro_da42ec_exclusion_zone_1_end_y"
-        },
-        "exclusion2": {
-          "beginX": "number.everything_presence_pro_da42ec_exclusion_zone_2_start_x",
-          "endX": "number.everything_presence_pro_da42ec_exclusion_zone_2_end_x",
-          "beginY": "number.everything_presence_pro_da42ec_exclusion_zone_2_start_y",
-          "endY": "number.everything_presence_pro_da42ec_exclusion_zone_2_end_y"
-        }
-      },
+      "presenceEntity": "binary_sensor.office_ms_eppro_occupancy",
+      "zoneConfigEntities": {},
+      "exclusionZoneConfigEntities": {},
       "entryZoneConfigEntities": {},
-      "polygonZoneEntities": {},
-      "polygonExclusionEntities": {},
+      "polygonZoneEntities": {
+        "zone1": "text.office_ms_eppro_polygon_zone_1",
+        "zone2": "text.office_ms_eppro_polygon_zone_2",
+        "zone3": "text.office_ms_eppro_polygon_zone_3",
+        "zone4": "text.office_ms_eppro_polygon_zone_4"
+      },
+      "polygonExclusionEntities": {
+        "exclusion1": "text.office_ms_eppro_polygon_exclusion_1",
+        "exclusion2": "text.office_ms_eppro_polygon_exclusion_2"
+      },
       "polygonEntryEntities": {},
       "trackingTargets": {
         "target1": {
-          "x": "sensor.everything_presence_pro_da42ec_target_1_x",
-          "y": "sensor.everything_presence_pro_da42ec_target_1_y",
-          "speed": "sensor.everything_presence_pro_da42ec_target_1_speed",
-          "resolution": "sensor.everything_presence_pro_da42ec_target_1_resolution",
-          "angle": "sensor.everything_presence_pro_da42ec_target_1_angle",
-          "distance": "sensor.everything_presence_pro_da42ec_target_1_distance",
-          "active": "binary_sensor.everything_presence_pro_da42ec_target_1_active"
+          "x": "sensor.office_ms_eppro_target_1_x",
+          "y": "sensor.office_ms_eppro_target_1_y",
+          "speed": "sensor.office_ms_eppro_target_1_speed",
+          "resolution": "sensor.office_ms_eppro_target_1_resolution",
+          "angle": "sensor.office_ms_eppro_target_1_angle",
+          "distance": "sensor.office_ms_eppro_target_1_distance",
+          "active": "binary_sensor.office_ms_eppro_target_1_active"
         },
         "target2": {
-          "x": "sensor.everything_presence_pro_da42ec_target_2_x",
-          "y": "sensor.everything_presence_pro_da42ec_target_2_y",
-          "speed": "sensor.everything_presence_pro_da42ec_target_2_speed",
-          "resolution": "sensor.everything_presence_pro_da42ec_target_2_resolution",
-          "angle": "sensor.everything_presence_pro_da42ec_target_2_angle",
-          "distance": "sensor.everything_presence_pro_da42ec_target_2_distance",
-          "active": "binary_sensor.everything_presence_pro_da42ec_target_2_active"
+          "x": "sensor.office_ms_eppro_target_2_x",
+          "y": "sensor.office_ms_eppro_target_2_y",
+          "speed": "sensor.office_ms_eppro_target_2_speed",
+          "resolution": "sensor.office_ms_eppro_target_2_resolution",
+          "angle": "sensor.office_ms_eppro_target_2_angle",
+          "distance": "sensor.office_ms_eppro_target_2_distance",
+          "active": "binary_sensor.office_ms_eppro_target_2_active"
         },
         "target3": {
-          "x": "sensor.everything_presence_pro_da42ec_target_3_x",
-          "y": "sensor.everything_presence_pro_da42ec_target_3_y",
-          "speed": "sensor.everything_presence_pro_da42ec_target_3_speed",
-          "resolution": "sensor.everything_presence_pro_da42ec_target_3_resolution",
-          "angle": "sensor.everything_presence_pro_da42ec_target_3_angle",
-          "distance": "sensor.everything_presence_pro_da42ec_target_3_distance",
-          "active": "binary_sensor.everything_presence_pro_da42ec_target_3_active"
+          "x": "sensor.office_ms_eppro_target_3_x",
+          "y": "sensor.office_ms_eppro_target_3_y",
+          "speed": "sensor.office_ms_eppro_target_3_speed",
+          "resolution": "sensor.office_ms_eppro_target_3_resolution",
+          "angle": "sensor.office_ms_eppro_target_3_angle",
+          "distance": "sensor.office_ms_eppro_target_3_distance",
+          "active": "binary_sensor.office_ms_eppro_target_3_active"
         }
       }
     },
-    "entityNamePrefix": "everything_presence_pro_da42ec_restart_device",
+    "entityNamePrefix": "everything_presence_pro_da42ec",
     "roomShell": {
       "points": [
         {
