@@ -36,6 +36,12 @@ class SceneApp(App):
             helpers.MODE
         )
 
+        if self.blinds:
+            # The mode stays NIGHT/SLEEPING through the astronomical sunrise, so
+            # nothing re-evaluates blinds left open overnight for the breeze.
+            # Re-check at sunrise so the blinds come down on hot days.
+            self.run_at_sunrise(lambda *_: self.handlers.blinds.protect_from_sun_if_needed())
+
     @property
     @abstractmethod
     def activity(self) -> SelectHandler:

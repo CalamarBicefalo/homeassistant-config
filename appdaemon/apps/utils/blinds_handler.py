@@ -56,6 +56,21 @@ class BlindsHandler:
             else:
                 self.close()
 
+    def protect_from_sun_if_needed(self) -> None:
+        """Lower the blinds when the sun comes up on a hot day.
+
+        best_for_temperature() can leave the blinds open overnight so an open
+        window lets the breeze in. Nothing re-evaluates them at sunrise (the
+        mode stays NIGHT/SLEEPING until someone is around), so this is run at
+        sunrise to keep the sun out of a hot room. It only ever lowers the
+        blinds — it never opens them.
+        """
+        if self.temperature.should_cooldown():
+            if self.main_source_of_light:
+                self.set_position(30)
+            else:
+                self.close()
+
     def is_day(self):
         return self.app.sunset() < self.app.sunrise()
 
