@@ -18,27 +18,6 @@
                   "heading_style": "subtitle"
                 },
                 {
-                  "clock_style": "analog",
-                  "clock_size": "medium",
-                  "show_seconds": true,
-                  "no_background": false,
-                  "border": false,
-                  "ticks": "hour",
-                  "face_style": "markers",
-                  "type": "clock",
-                  "grid_options": {
-                    "columns": 24,
-                    "rows": 3
-                  },
-                  "visibility": [
-                    {
-                      "condition": "screen",
-                      "media_query": "(min-width: 1024px)"
-                    }
-                  ],
-                  "seconds_motion": "continuous"
-                },
-                {
                   "type": "custom:custom-features-card",
                   "features": [
                     {
@@ -62,9 +41,9 @@
                                 }
                               },
                               "icon": "fa7-solid:sun",
-                              "label": "Day",
                               "styles": "",
-                              "type": "button"
+                              "type": "button",
+                              "label": "Day"
                             },
                             {
                               "entity_id": "input_select.mode",
@@ -124,7 +103,7 @@
                           "haptics": true,
                           "styles": "",
                           "icon": "mdi:house",
-                          "thumb": "md3-filled"
+                          "thumb": "md3-tonal"
                         }
                       ],
                       "styles": "\n"
@@ -719,41 +698,27 @@
           "badges": [
             {
               "type": "entity",
-              "show_name": false,
+              "show_name": true,
+              "show_state": true,
+              "show_icon": true,
+              "entity": "sensor.kitchen_ms_temperature",
+              "color": "red",
+              "name": "Indoor"
+            },
+            {
+              "type": "entity",
+              "show_name": true,
               "show_state": true,
               "show_icon": true,
               "entity": "weather.forecast_marsh_court",
               "state_content": "temperature",
               "show_entity_picture": false,
-              "color": "accent"
+              "color": "accent",
+              "name": "Outdoor"
             },
             {
               "type": "entity",
-              "show_name": false,
-              "show_state": true,
-              "show_icon": true,
-              "entity": "sensor.bedroom_temperature",
-              "icon": "fa7-solid:house",
-              "color": "accent"
-            },
-            {
-              "type": "entity",
-              "show_name": false,
-              "show_state": true,
-              "show_icon": true,
-              "entity": "sensor.apple_watch_ble_area",
-              "visibility": [
-                {
-                  "condition": "user",
-                  "users": [
-                    "affe11e198de496e8078cd4951b9949b"
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "entity",
-              "show_name": false,
+              "show_name": true,
               "show_state": true,
               "show_icon": true,
               "entity": "sensor.unavailable_entities",
@@ -767,6 +732,9 @@
               "color": "red",
               "tap_action": {
                 "action": "more-info"
+              },
+              "name": {
+                "type": "entity"
               }
             }
           ],
@@ -1085,13 +1053,19 @@
                   "vertical": false,
                   "features": [
                     {
-                      "type": "media-player-playback"
+                      "type": "media-player-playback",
+                      "controls": [
+                        "media_previous_track",
+                        "media_play_pause",
+                        "media_next_track",
+                        "shuffle"
+                      ]
                     },
                     {
                       "type": "media-player-volume-slider"
                     }
                   ],
-                  "features_position": "inline"
+                  "features_position": "bottom"
                 },
                 {
                   "type": "tile",
@@ -1102,10 +1076,21 @@
                   "vertical": false,
                   "features": [
                     {
-                      "type": "media-player-playback"
+                      "type": "media-player-playback",
+                      "controls": [
+                        "turn_on",
+                        "turn_off",
+                        "media_play_pause",
+                        "volume_up",
+                        "volume_down"
+                      ]
                     }
                   ],
-                  "features_position": "inline"
+                  "features_position": "bottom",
+                  "grid_options": {
+                    "columns": 12,
+                    "rows": 2
+                  }
                 }
               ],
               "column_span": 1
