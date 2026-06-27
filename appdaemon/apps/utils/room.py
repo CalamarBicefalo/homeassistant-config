@@ -148,7 +148,7 @@ class Room():
         if event_name != CLEAN_ROOM_EVENT:
             self.app.log(f'Got event of type {event_name} when expecting {CLEAN_ROOM_EVENT}', level="ERROR")
             return
-        if not data or not data['helper']:
+        if not data or 'helper' not in data or not data['helper']:
             self.app.log(f'Got event of type {event_name} missing mandatory attribute "helper" with the activity helper name', level="ERROR")
             return
 

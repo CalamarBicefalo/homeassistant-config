@@ -25,6 +25,8 @@ class ActivityHandler(SelectHandler[T]):
         if lock is None:
             if not self.is_locked():
                 super().set(value)
+            else:
+                self._app.log(f'{self._helper} is locked; ignoring requested activity={value}', level="DEBUG")
         else:
             if lock:
                 self._do_lock()

@@ -12,6 +12,30 @@ there's ambiguity in the task at hand.
 - Comments are good, but do not add superfluous or overly verbose comments for the sake of it
 - When you make changes, ALWAYS make sure ALL tests are passing, you can execute tests by running `pipenv run pytest appdaemon/tests/ -v`
 
+# This repo is PUBLIC
+- It is hosted on a public GitHub remote. NEVER commit secrets (tokens, passwords,
+  API keys, coordinates, addresses). Real secrets live in `secrets/secrets.yaml`,
+  which is gitignored; reference them with `!secret <name>` in YAML, or load them
+  via `load_token()` in Python (see `ops/client.py`). When adding config, use a
+  `!secret` reference rather than the literal value.
+
+# Logging for diagnosability
+Production is diagnosed after the fact via the `ops/` toolkit (see below), so the
+logs are the primary evidence. When writing automations, prefer logs that make a
+future `/ha-diagnose` quick:
+- The worst failures are SILENT ones — an action calls a service, returns normally,
+  but the real-world effect never happens (e.g. a `media_player.play_media` whose
+  provider fails, leaving the speaker idle). For actions whose effect is observable,
+  follow the verify-after pattern in `MusicHandler._verify_playback`
+  (`appdaemon/apps/utils/music.py`): schedule a short read-only `run_in` that checks
+  the outcome and logs `INFO` on success / `WARNING` when the intended effect didn't
+  happen. Keep it read-only and exception-safe so it can never affect behaviour.
+- Never `except: pass` / `except: return None` silently — log at `WARNING` with the
+  exception before swallowing it.
+- Log at `WARNING`/`ERROR` for anything actionable (it surfaces in `ops.logs --level
+  ERROR`); use `DEBUG` for routine "why nothing happened" breadcrumbs (locked rooms,
+  unmapped scenes) that are noisy in normal operation but invaluable when grepping.
+
 # Production diagnostics
 The `ops/` package is a read-only toolkit for inspecting the live HA instance
 (`https://calamarbicefalo.uk`). It reuses the token in `secrets/secrets.yaml`.

@@ -154,7 +154,6 @@ class App(hass.Hass):
                 return
 
             self.run_in(interval_callback, interval_minutes * 60)
-            self.timers[running_group].minutes_left = minutes_left
 
         self.run_in(interval_callback, interval_minutes * 60)
         self.timers[running_group].minutes_left = minutes

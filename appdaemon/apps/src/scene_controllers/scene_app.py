@@ -80,13 +80,14 @@ class SceneApp(App):
         unwrapped_scene: Optional[Scene] = None
         desired_scene: Optional[entities.Entity] | _Off = None
         current_mode = self.handlers.mode.get()
-        if type(scene_resolver) == SceneByModeSelector:
+        if isinstance(scene_resolver, SceneByModeSelector):
             unwrapped_scene = scene_resolver.get_scene(current_mode)
 
         if isinstance(scene_resolver, Scene):
             unwrapped_scene = scene_resolver
 
         if not unwrapped_scene:
+            self.log(f'{self.scene}: no scene mapped for activity={activity}, mode={current_mode} — skipping.', level="DEBUG")
             if current_mode is Mode.AWAY:
                 self.turn_off(self.room_lights)
             return
@@ -99,7 +100,7 @@ class SceneApp(App):
         if not desired_scene:
             return
 
-        if type(desired_scene) == _Off:
+        if isinstance(desired_scene, _Off):
             self.turn_off(self.room_lights)
             return
 
@@ -118,7 +119,7 @@ class SceneApp(App):
     def should_execute_actions(self, entity, unwrapped_scene: Scene) -> bool | Any:
         is_activity_change = entity == self.activity._helper
         is_mode_change = entity == entities.INPUT_SELECT_MODE
-        scene_has_actions = type(unwrapped_scene) == SceneWithActions
+        scene_has_actions = isinstance(unwrapped_scene, SceneWithActions)
         return (is_activity_change or is_mode_change) and scene_has_actions
 
     def stop_scheduled_tasks_if_activity(self, entity: Helper | str) -> None:

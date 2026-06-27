@@ -111,7 +111,7 @@ class BedroomController(MotionController):
 
     def should_enable_bedtime(self) -> bool:
         return self.state.is_on(entities.BINARY_SENSOR_BED_OCCUPANCY) and (
-                    datetime.now().time().hour >= 22 or datetime.now().time().hour <= 2)
+                    datetime.now().hour >= 22 or datetime.now().hour <= 2)
 
     def handle_presence(self) -> None:
         if self.state.is_on(self.motion_sensor):

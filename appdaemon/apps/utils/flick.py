@@ -116,7 +116,8 @@ class FlickHandler:
     def _get_flick_status(self) -> Optional[str]:
         try:
             return self.state.get_as_str(entities.SENSOR_FLICK_STATUS)
-        except Exception:
+        except Exception as e:
+            self.app.log(f'Could not read Flick status from {entities.SENSOR_FLICK_STATUS}: {e}', level="WARNING")
             return None
 
     def go_to_maintenance_spot(self) -> None:

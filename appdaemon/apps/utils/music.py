@@ -71,7 +71,7 @@ class MusicHandler:
                 return
 
             state = self.state.get_as_str(self._speakers)
-            playing = state == states.ON or state == states.PLAYING
+            playing = self.is_playing()
             actual = self.state.get_attr_as_str(self._speakers, "media_content_id")
 
             if playing:

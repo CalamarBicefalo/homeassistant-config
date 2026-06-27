@@ -56,7 +56,6 @@ class TemperatureHandler:
         temperature = self.state.get_as_number(INDOOR_THERMOMETER)
         if temperature and temperature > COMFORT_INDOOR_MAX_TEMPERATURE:
             return IndoorTemperature.HOT
-        temperature = self.state.get_as_number(INDOOR_THERMOMETER)
         if temperature and temperature < COMFORT_INDOOR_MIN_TEMPERATURE:
             return IndoorTemperature.COLD
 
