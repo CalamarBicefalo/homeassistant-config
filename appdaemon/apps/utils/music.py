@@ -14,10 +14,18 @@ from state_handler import StateHandler
 
 class MusicHandler:
 
+    # How long after issuing a play command to verify that playback actually
+    # started. Generous enough to cover slow provider (e.g. Spotify) resolution
+    # so we don't warn on a play that simply took a couple of seconds to begin.
+    VERIFY_DELAY_SECONDS = 8
+
     def __init__(self, app: hass.Hass, speakers: Optional[entities.Entity]):
         self._app = app
         self.state = StateHandler(app)
         self._speakers = speakers
+        # Incremented on every play(); lets a verification check tell whether a
+        # newer play request has superseded the one it was scheduled for.
+        self._play_generation = 0
 
     def is_playing(self) -> bool:
         state = self.state.get_as_str(self._speakers)
@@ -27,6 +35,9 @@ class MusicHandler:
     def play(self, tune: Playlist | str, shuffle: bool = True,
              volume_level: float = 0.3) -> None:
         self._validate()
+
+        self._play_generation += 1
+        generation = self._play_generation
 
         def do_play() -> None:
             self.volume(volume_level)
@@ -41,8 +52,43 @@ class MusicHandler:
                                    )
             self._app.log(f'Playing {tune} on {self._speakers} - replacing existing queue.', level="DEBUG")
             self._app.call_service(services.MEDIA_PLAYER_MEDIA_PLAY, entity_id=self._speakers)
+            self._app.run_in(lambda *_: self._verify_playback(tune, generation),
+                             self.VERIFY_DELAY_SECONDS)
 
         self.run_in_speaker_without_chime(do_play)
+
+    def _verify_playback(self, requested: Playlist | str, generation: int) -> None:
+        """Read-only self-check: confirm a play() request actually started.
+
+        Logged at INFO on success and WARNING on failure so a silent provider
+        outage (e.g. Spotify failing to resolve content) surfaces in the logs
+        instead of just leaving the speaker idle. Never mutates anything and
+        never raises, so it cannot affect playback.
+        """
+        try:
+            if generation != self._play_generation:
+                # A newer play() superseded this request; its own check covers it.
+                return
+
+            state = self.state.get_as_str(self._speakers)
+            playing = state == states.ON or state == states.PLAYING
+            actual = self.state.get_attr_as_str(self._speakers, "media_content_id")
+
+            if playing:
+                title = self.state.get_attr_as_str(self._speakers, "media_title")
+                self._app.log(
+                    f'Playback confirmed on {self._speakers}: requested={requested}, '
+                    f'now playing "{title}" ({actual}).',
+                    level="INFO")
+            else:
+                self._app.log(
+                    f'Playback FAILED on {self._speakers}: requested={requested} but '
+                    f'state={state}, media_content_id={actual}. The media provider '
+                    f'(e.g. Spotify) likely failed to resolve the content.',
+                    level="WARNING")
+        except Exception as e:  # observability must never break playback
+            self._app.log(f'Could not verify playback on {self._speakers}: {e}',
+                          level="WARNING")
 
     def run_in_speaker_without_chime(self, callback: Callable[[], None]) -> None:
         self.volume(0)
@@ -133,3 +179,4 @@ class Playlist(StrEnum):
     RELAXING = "https://open.spotify.com/playlist/4KfULjAkF7qPXlXFq170AR?si=f5103bd49709471f"
     NEO_CLASSICAL = "https://open.spotify.com/playlist/37i9dQZF1EIgEh8GW3jo4P?si=7bd5a57889964f8c"
     NEO_CLASSICAL_LOUNGE = "https://open.spotify.com/playlist/28ZBooqbLfQecygMcEFi53?si=63967904e63746cb"
+    CLASSICAL_RELAX = "https://open.spotify.com/playlist/28ZBooqbLfQecygMcEFi53?si=63967904e63746cb"
