@@ -183,6 +183,23 @@ views:
             water:
               entities:
                 - null
+            actions:
+              hold_action:
+                action: perform-action
+                perform_action: input_select.select_option
+                target:
+                  entity_id:
+                    - input_select.living_room_activity
+                data:
+                  option: Empty
+              double_tap_action:
+                action: perform-action
+                perform_action: input_boolean.toggle
+                target:
+                  entity_id:
+                    - input_boolean.activity_lock_living_room
+                confirmation: false
+                data: {}
           - type: custom:room-summary-card
             area: kitchen
             entity: binary_sensor.kitchen_motion
@@ -206,6 +223,12 @@ views:
               options:
                 - disabled_card_styles_animation
               card_border_color: yellow
+            smoke:
+              entities:
+                - input_boolean.activity_lock_kitchen
+              options:
+                - disabled_card_styles_animation
+              card_border_color: red
             background:
               opacity: 100
             styles:
@@ -222,6 +245,23 @@ views:
                 padding-left: 5px
                 text-shadow: 0 1px 0 black;
             sensor_layout: stacked
+            actions:
+              hold_action:
+                action: perform-action
+                perform_action: input_select.select_option
+                target:
+                  entity_id:
+                    - input_select.kitchen_activity
+                data:
+                  option: Empty
+              double_tap_action:
+                action: perform-action
+                perform_action: input_boolean.toggle
+                target:
+                  entity_id:
+                    - input_boolean.activity_lock_kitchen
+                confirmation: false
+                data: {}
           - type: custom:room-summary-card
             area: studio
             entity: binary_sensor.studio_motion
@@ -241,6 +281,12 @@ views:
               options:
                 - disabled_card_styles_animation
               card_border_color: yellow
+            smoke:
+              entities:
+                - input_boolean.activity_lock_studio
+              options:
+                - disabled_card_styles_animation
+              card_border_color: red
             background:
               opacity: 100
             styles:
@@ -257,6 +303,23 @@ views:
                 padding-left: 5px
                 text-shadow: 0 1px 0 black;
             sensor_layout: stacked
+            actions:
+              hold_action:
+                action: perform-action
+                perform_action: input_select.select_option
+                target:
+                  entity_id:
+                    - input_select.studio_activity
+                data:
+                  option: Empty
+              double_tap_action:
+                action: perform-action
+                perform_action: input_boolean.toggle
+                target:
+                  entity_id:
+                    - input_boolean.activity_lock_studio
+                confirmation: false
+                data: {}
             grid_options:
               columns: 6
               rows: 3
@@ -284,6 +347,12 @@ views:
               options:
                 - disabled_card_styles_animation
               card_border_color: yellow
+            smoke:
+              entities:
+                - input_boolean.activity_lock_office
+              options:
+                - disabled_card_styles_animation
+              card_border_color: red
             background:
               opacity: 100
             styles:
@@ -300,6 +369,23 @@ views:
                 padding-left: 5px
                 text-shadow: 0 1px 0 black;
             sensor_layout: stacked
+            actions:
+              hold_action:
+                action: perform-action
+                perform_action: input_select.select_option
+                target:
+                  entity_id:
+                    - input_select.office_activity
+                data:
+                  option: Empty
+              double_tap_action:
+                action: perform-action
+                perform_action: input_boolean.toggle
+                target:
+                  entity_id:
+                    - input_boolean.activity_lock_office
+                confirmation: false
+                data: {}
       - type: grid
         cards:
           - type: custom:room-summary-card
@@ -322,6 +408,12 @@ views:
               options:
                 - disabled_card_styles_animation
               card_border_color: yellow
+            smoke:
+              entities:
+                - input_boolean.activity_lock_bedroom
+              options:
+                - disabled_card_styles_animation
+              card_border_color: red
             background:
               opacity: 100
             styles:
@@ -338,6 +430,23 @@ views:
                 padding-left: 5px
                 text-shadow: 0 1px 0 black;
             sensor_layout: stacked
+            actions:
+              hold_action:
+                action: perform-action
+                perform_action: input_select.select_option
+                target:
+                  entity_id:
+                    - input_select.bedroom_activity
+                data:
+                  option: Empty
+              double_tap_action:
+                action: perform-action
+                perform_action: input_boolean.toggle
+                target:
+                  entity_id:
+                    - input_boolean.activity_lock_bedroom
+                confirmation: false
+                data: {}
             grid_options:
               columns: 6
               rows: 3
@@ -360,6 +469,12 @@ views:
               options:
                 - disabled_card_styles_animation
               card_border_color: yellow
+            smoke:
+              entities:
+                - input_boolean.activity_lock_wardrobe
+              options:
+                - disabled_card_styles_animation
+              card_border_color: red
             background:
               opacity: 100
             styles:
@@ -376,6 +491,23 @@ views:
                 padding-left: 5px
                 text-shadow: 0 1px 0 black;
             sensor_layout: stacked
+            actions:
+              hold_action:
+                action: perform-action
+                perform_action: input_select.select_option
+                target:
+                  entity_id:
+                    - input_select.wardrobe_activity
+                data:
+                  option: Empty
+              double_tap_action:
+                action: perform-action
+                perform_action: input_boolean.toggle
+                target:
+                  entity_id:
+                    - input_boolean.activity_lock_wardrobe
+                confirmation: false
+                data: {}
             grid_options:
               columns: 6
               rows: 3
@@ -398,6 +530,12 @@ views:
               options:
                 - disabled_card_styles_animation
               card_border_color: yellow
+            smoke:
+              entities:
+                - input_boolean.activity_lock_ensuite
+              options:
+                - disabled_card_styles_animation
+              card_border_color: red
             background:
               opacity: 100
             styles:
@@ -414,6 +552,23 @@ views:
                 padding-left: 5px
                 text-shadow: 0 1px 0 black;
             sensor_layout: stacked
+            actions:
+              hold_action:
+                action: perform-action
+                perform_action: input_select.select_option
+                target:
+                  entity_id:
+                    - input_select.ensuite_activity
+                data:
+                  option: Empty
+              double_tap_action:
+                action: perform-action
+                perform_action: input_boolean.toggle
+                target:
+                  entity_id:
+                    - input_boolean.activity_lock_ensuite
+                confirmation: false
+                data: {}
             grid_options:
               columns: 6
               rows: 3
@@ -439,6 +594,12 @@ views:
               options:
                 - disabled_card_styles_animation
               card_border_color: yellow
+            smoke:
+              entities:
+                - input_boolean.activity_lock_bathroom
+              options:
+                - disabled_card_styles_animation
+              card_border_color: red
             background:
               opacity: 100
             styles:
@@ -455,6 +616,23 @@ views:
                 padding-left: 5px
                 text-shadow: 0 1px 0 black;
             sensor_layout: stacked
+            actions:
+              hold_action:
+                action: perform-action
+                perform_action: input_select.select_option
+                target:
+                  entity_id:
+                    - input_select.bathroom_activity
+                data:
+                  option: Empty
+              double_tap_action:
+                action: perform-action
+                perform_action: input_boolean.toggle
+                target:
+                  entity_id:
+                    - input_boolean.activity_lock_bathroom
+                confirmation: false
+                data: {}
       - type: grid
         cards:
           - type: custom:room-summary-card
@@ -479,6 +657,12 @@ views:
               options:
                 - disabled_card_styles_animation
               card_border_color: yellow
+            smoke:
+              entities:
+                - input_boolean.activity_lock_hallway
+              options:
+                - disabled_card_styles_animation
+              card_border_color: red
             background:
               opacity: 100
             styles:
@@ -495,6 +679,23 @@ views:
                 padding-left: 5px
                 text-shadow: 0 1px 0 black;
             sensor_layout: stacked
+            actions:
+              hold_action:
+                action: perform-action
+                perform_action: input_select.select_option
+                target:
+                  entity_id:
+                    - input_select.hallway_activity
+                data:
+                  option: Empty
+              double_tap_action:
+                action: perform-action
+                perform_action: input_boolean.toggle
+                target:
+                  entity_id:
+                    - input_boolean.activity_lock_hallway
+                confirmation: false
+                data: {}
           - type: custom:room-summary-card
             area: storage
             entity: binary_sensor.storage_ms_motion
@@ -554,6 +755,12 @@ views:
               options:
                 - disabled_card_styles_animation
               card_border_color: yellow
+            smoke:
+              entities:
+                - input_boolean.activity_lock_storage
+              options:
+                - disabled_card_styles_animation
+              card_border_color: red
             background:
               opacity: 100
             styles:
@@ -570,6 +777,23 @@ views:
                 padding-left: 5px
                 text-shadow: 0 1px 0 black;
             sensor_layout: stacked
+            actions:
+              hold_action:
+                action: perform-action
+                perform_action: input_select.select_option
+                target:
+                  entity_id:
+                    - input_select.storage_activity
+                data:
+                  option: Empty
+              double_tap_action:
+                action: perform-action
+                perform_action: input_boolean.toggle
+                target:
+                  entity_id:
+                    - input_boolean.activity_lock_storage
+                confirmation: false
+                data: {}
         column_span: 1
     cards: []
     badges:
