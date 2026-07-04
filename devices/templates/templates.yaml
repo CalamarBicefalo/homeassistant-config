@@ -90,14 +90,16 @@
     unique_id: unavailable_entities
     icon: "{{ iif(states(this.entity_id)|int(-1) > 0,'mdi:alert-circle','mdi:check-circle') }}"
     state_class: measurement
-    unit_of_measurement: entities
+    unit_of_measurement: devices
 
-    # The entity state is the count of unavailable entites
+    # The entity state is the count of unavailable devices (not entities)
     state: >
       {{ states
       | selectattr('domain','in',['binary_sensor', 'climate', 'light', 'sensor', 'switch'])
       | selectattr('state', 'in', ['unavailable'])
       | map(attribute='entity_id')
+      | map('device_attr', 'name_by_user')
+      | reject('match', 'None')
       | unique
       | list 
       | count

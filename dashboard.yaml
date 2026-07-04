@@ -795,7 +795,61 @@ views:
                 confirmation: false
                 data: {}
         column_span: 1
-    cards: []
+    cards:
+      - type: custom:popup-card
+        entity: sensor.unavailable_entities
+        popup_card_all_views: true
+        title: Unavailable Devices
+        adaptive: true
+        card:
+          type: markdown
+          content: |
+            {% set integration_icons = {
+              'zha': 'mdi:zigbee',
+              'zwave_js': 'mdi:z-wave',
+              'hue': 'mdi:lightbulb',
+              'cast': 'mdi:cast',
+              'sonos': 'mdi:speaker',
+              'esphome': 'mdi:chip',
+              'mqtt': 'mdi:email-outline',
+              'homekit': 'mdi:apple',
+              'tuya': 'mdi:cloud',
+              'shelly': 'mdi:home-automation',
+              'tplink': 'mdi:router-wireless',
+              'nuki': 'mdi:lock-smart',
+              'withings': 'mdi:scale-bathroom',
+              'apple_tv': 'mdi:apple',
+              'spotify': 'mdi:spotify',
+              'google_assistant': 'mdi:google-assistant',
+              'mobile_app': 'mdi:cellphone'
+            } %}
+            {% set unavailable = states
+              | selectattr('domain','in',['binary_sensor', 'climate', 'light', 'sensor', 'switch'])
+              | selectattr('state', 'in', ['unavailable'])
+              | list %}
+            {% set ns = namespace(devices={}) %}
+            {% for entity in unavailable %}
+              {% set device_name = device_attr(entity.entity_id, 'name_by_user') or device_attr(entity.entity_id, 'name') %}
+              {% set device_id = device_id(entity.entity_id) %}
+              {% set integrations = device_attr(device_id, 'identifiers') | map(attribute=0) | list if device_id else [] %}
+              {% set integration = integrations[0] if integrations else 'unknown' %}
+              {% if device_name %}
+                {% if device_name not in ns.devices %}
+                  {% set ns.devices = dict(ns.devices, **{device_name: {'since': entity.last_changed, 'integration': integration}}) %}
+                {% elif entity.last_changed < ns.devices[device_name].since %}
+                  {% set ns.devices = dict(ns.devices, **{device_name: {'since': entity.last_changed, 'integration': integration}}) %}
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+            {% if ns.devices | length == 0 %}
+            ✅ All devices are available
+            {% else %}
+            | Device | Integration | Last Seen |
+            |--------|-------------|-----------------|
+            {% for device, info in ns.devices.items() | sort(attribute='0') -%}
+            | {{ device }} | <ha-icon icon="{{ integration_icons.get(info.integration, 'mdi:puzzle') }}"></ha-icon> {{ info.integration }} | {{ relative_time(info.since) }} |
+            {% endfor %}
+            {% endif %}
     badges:
       - type: entity
         show_name: true
