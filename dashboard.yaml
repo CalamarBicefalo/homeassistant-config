@@ -199,6 +199,9 @@ sections:
         occupancy:
           entities:
             - binary_sensor.kitchen_motion
+          options:
+            - disabled_card_styles_animation
+          card_border_color: yellow
         background:
           opacity: 100
         styles:
@@ -231,6 +234,9 @@ sections:
         occupancy:
           entities:
             - binary_sensor.studio_motion
+          options:
+            - disabled_card_styles_animation
+          card_border_color: yellow
         background:
           opacity: 100
         styles:
@@ -271,6 +277,9 @@ sections:
         occupancy:
           entities:
             - binary_sensor.office_motion
+          options:
+            - disabled_card_styles_animation
+          card_border_color: yellow
         background:
           opacity: 100
         styles:
@@ -306,6 +315,9 @@ sections:
         occupancy:
           entities:
             - binary_sensor.bedroom_motion
+          options:
+            - disabled_card_styles_animation
+          card_border_color: yellow
         background:
           opacity: 100
         styles:
@@ -341,6 +353,9 @@ sections:
         occupancy:
           entities:
             - binary_sensor.wardrobe_motion
+          options:
+            - disabled_card_styles_animation
+          card_border_color: yellow
         background:
           opacity: 100
         styles:
@@ -376,6 +391,9 @@ sections:
         occupancy:
           entities:
             - binary_sensor.ensuite_motion
+          options:
+            - disabled_card_styles_animation
+          card_border_color: yellow
         background:
           opacity: 100
         styles:
@@ -414,6 +432,9 @@ sections:
         occupancy:
           entities:
             - binary_sensor.bathroom_motion
+          options:
+            - disabled_card_styles_animation
+          card_border_color: yellow
         background:
           opacity: 100
         styles:
@@ -451,6 +472,9 @@ sections:
         occupancy:
           entities:
             - binary_sensor.hallway_motion
+          options:
+            - disabled_card_styles_animation
+          card_border_color: yellow
         background:
           opacity: 100
         styles:
@@ -523,6 +547,9 @@ sections:
         occupancy:
           entities:
             - binary_sensor.storage_ms_motion
+          options:
+            - disabled_card_styles_animation
+          card_border_color: yellow
         background:
           opacity: 100
         styles:
