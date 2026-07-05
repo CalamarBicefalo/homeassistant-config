@@ -99,13 +99,13 @@
         | selectattr('state', 'in', ['unavailable'])
         | list %}
       {% set ns = namespace(devices=[]) %}
-      {% for entity in unavailable %}
-        {% set dev_id = device_id(entity.entity_id) %}
-        {% set device_name = device_attr(dev_id, 'name_by_user') or device_attr(dev_id, 'name') %}
-        {% if device_name and dev_id and device_name not in ns.devices %}
-          {% set ns.devices = ns.devices + [device_name] %}
-        {% endif %}
-      {% endfor %}
+      {% for entity in unavailable -%}
+        {% set dev_id = device_id(entity.entity_id) -%}
+        {% set device_name = device_attr(dev_id, 'name_by_user') or device_attr(dev_id, 'name') -%}
+        {% if device_name and dev_id and device_name not in ns.devices -%}
+          {% set ns.devices = ns.devices + [device_name] -%}
+        {% endif -%}
+      {% endfor -%}
       {{ ns.devices | count }}
 
     # The long results have to be attributes because the state cannot contain more than 255 characters.
