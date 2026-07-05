@@ -815,33 +815,12 @@ views:
         adaptive: true
         card:
           type: markdown
-          content: >
-            {% set integration_icons = {
-              'zha': 'mdi:zigbee',
-              'zwave_js': 'mdi:z-wave',
-              'hue': 'mdi:lightbulb',
-              'cast': 'mdi:cast',
-              'sonos': 'mdi:speaker',
-              'esphome': 'mdi:chip',
-              'mqtt': 'mdi:email-outline',
-              'homekit': 'mdi:apple',
-              'tuya': 'mdi:cloud',
-              'shelly': 'mdi:home-automation',
-              'tplink': 'mdi:router-wireless',
-              'nuki': 'mdi:lock-smart',
-              'withings': 'mdi:scale-bathroom',
-              'apple_tv': 'mdi:apple',
-              'spotify': 'mdi:spotify',
-              'google_assistant': 'mdi:google-assistant',
-              'mobile_app': 'mdi:cellphone'
-            } %}
-
+          content: |
             {% set unavailable = states
               | selectattr('domain','in',['binary_sensor', 'climate', 'light', 'sensor', 'switch'])
               | selectattr('state', 'in', ['unavailable'])
               | list %}
             {% set ns = namespace(devices={}) %}
-
             {% for entity in unavailable %}
               {% set dev_id = device_id(entity.entity_id) %}
               {% set device_name = device_attr(dev_id, 'name_by_user') or device_attr(dev_id, 'name') %}
@@ -855,26 +834,14 @@ views:
                 {% endif %}
               {% endif %}
             {% endfor %}
-
             {% if ns.devices | length == 0 %}
-
             ✅ All devices are available
-
             {% else %}
-
-            | Device | Integration | Last Seen |
-
-            |--------|-------------|-----------------|
-
-            {% for device, info in ns.devices.items() | sort(attribute='0') -%}
-
-            | [{{ device }}](/config/devices/device/{{ info.id }}) | <ha-icon
-            icon="{{ integration_icons.get(info.integration, 'mdi:puzzle')
-            }}"></ha-icon> {{ info.integration }} | {{ relative_time(info.since)
-            }} |
-
-            {% endfor %}
-
+            | Device | Integration | Last Seen | Actions |
+            |:-------|:------------|:----------|:--------|
+            {%- for device, info in ns.devices.items() | sort(attribute='0') %}
+            | [{{ device }}](/config/devices/device/{{ info.id }}) | {{ info.integration }} | {{ relative_time(info.since) }} | {% if info.integration == 'zha' %} [➕Pair](/config/integrations/integration/zha) [🗺️Network](/config/zha/visualization){% endif %} |
+            {%- endfor %}
             {% endif %}
     badges:
       - type: entity
