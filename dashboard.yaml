@@ -801,6 +801,14 @@ views:
         column_span: 1
     cards:
       - type: custom:popup-card
+        entity: todo.house_improvements
+        popup_card_all_views: true
+        title: House Improvements
+        adaptive: true
+        card:
+          type: todo-list
+          entity: todo.house_improvements
+      - type: custom:popup-card
         entity: sensor.unavailable_entities
         popup_card_all_views: true
         title: Unavailable Devices
@@ -894,6 +902,9 @@ views:
           - condition: numeric_state
             entity: sensor.unavailable_entities
             above: 0
+          - condition: user
+            users:
+              - affe11e198de496e8078cd4951b9949b
         color: red
         tap_action:
           action: more-info
@@ -905,6 +916,8 @@ views:
         entity: todo.house_improvements
         name: Improvements
         color: accent
+        tap_action:
+          action: more-info
     header:
       layout: responsive
       badges_position: top
@@ -1707,7 +1720,7 @@ views:
     max_columns: 2
     title: Studio
     path: studio
-    icon: fa7-solid:drum
+    icon: mdi:laptop
     subview: true
     sections:
       - type: grid
@@ -1901,7 +1914,7 @@ views:
     max_columns: 2
     title: Office
     path: office
-    icon: mdi:office
+    icon: fa7-solid:drum
     subview: true
     sections:
       - type: grid
@@ -2775,7 +2788,7 @@ views:
     max_columns: 2
     title: Bathroom
     path: bathroom
-    icon: mdi:shower-head
+    icon: mdi:bathtub
     subview: true
     sections:
       - type: grid
