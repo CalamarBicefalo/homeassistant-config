@@ -100,3 +100,13 @@ class HaClient:
     def render_template(self, template: str) -> str:
         text: str = self.post("/api/template", json={"template": template}).text
         return text
+
+    def call_service(self, domain: str, service: str,
+                     data: Optional[dict[str, Any]] = None) -> None:
+        """Invoke a HA service, e.g. call_service('homeassistant', 'reload_all')."""
+        self.post(f"/api/services/{domain}/{service}", json=data or {})
+
+    def check_config(self) -> dict[str, Any]:
+        """Validate the live YAML config. Returns {'result': 'valid'|'invalid', ...}."""
+        data: dict[str, Any] = self.post("/api/config/core/check_config").json()
+        return data
