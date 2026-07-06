@@ -8,6 +8,7 @@ import typer
 from ops import appderrors as appderrors_mod
 from ops import codegen
 from ops import dashboard as dashboard_mod
+from ops import install as install_mod
 from ops import logs as logs_mod
 from ops.client import HaClient
 from ops.timeutil import since_to_iso
@@ -91,6 +92,17 @@ def template(
 def gen() -> None:
     """Regenerate AppDaemon type stubs from local config + live HA state."""
     codegen.generate()
+
+
+@app.command()
+def install(
+    host: str = typer.Option(install_mod.DEFAULT_SSH_HOST, help="SSH host of the HA box."),
+    path: Optional[str] = typer.Option(None, help="Repo checkout path on the box (else auto-detected)."),
+    core: bool = typer.Option(False, "--core", help="Full HA restart instead of reload_all for config changes."),
+    yes: bool = typer.Option(False, "-y", "--yes", help="Skip the unpushed-changes confirmation."),
+) -> None:
+    """Deploy origin/main to the box: pull, then restart AppDaemon / reload config."""
+    install_mod.run(host=host, path=path, core=core, assume_yes=yes)
 
 
 # --- dashboard as code ---
