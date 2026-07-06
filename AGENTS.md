@@ -57,8 +57,9 @@ live HA state) into `appdaemon/apps/generated/`.
 
 Deploy: `ha install` pushes `origin/main` to the box (`git pull --ff-only` over
 SSH with agent forwarding), then restarts the AppDaemon add-on and/or reloads HA
-config based on what the pull touched. Needs the box on the LAN/VPN (the public
-domain exposes only 443/HA, not SSH); the restart/reload half is HA-API/443. Its
+config based on what the pull touched (reporting each action), and prompts to
+`ha dashboard push` if dashboard.yaml changed. Needs the box on the LAN/VPN (the
+public domain exposes only 443/HA, not SSH); restart/reload/push is HA-API/443. Its
 file classification in `ops/install.py` is COUPLED TO THE REPO LAYOUT — if you
 move/rename deployed dirs (esp. `appdaemon/apps/`) or add dev-only dirs, update
 the constants there; `test_install.py` guards the AppDaemon path.

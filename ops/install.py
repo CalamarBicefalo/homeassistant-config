@@ -3,7 +3,9 @@
 Flow: verify local is pushed -> `git pull --ff-only` on the box over SSH (with
 agent forwarding, so the box borrows this machine's GitHub key) -> restart the
 AppDaemon add-on and/or reload HA's YAML config, depending on what the pull
-touched. Restarts/reloads go over the HA API; only the pull needs SSH.
+touched. If the pull changed dashboard.yaml, it also offers to `ha dashboard
+push` (prompted, since that overwrites live UI edits). Restarts/reloads/pushes
+go over the HA API; only the git pull needs SSH.
 
 Requires the box on the local network (or a VPN into it): the public domain
 exposes only 443/HA, not SSH. Off-LAN, the pull fails fast with a hint.
@@ -13,7 +15,10 @@ from __future__ import annotations
 import subprocess
 from typing import Optional
 
+from ops import dashboard
 from ops.client import HaClient
+
+DASHBOARD_FILE = "dashboard.yaml"
 
 # LAN name for the box: the public domain (calamarbicefalo.uk) only routes 443,
 # so the SSH pull needs the box on the local network (or a VPN into it). The
@@ -115,6 +120,22 @@ def pull_on_box(host: str, path: Optional[str]) -> list[str]:
     return [line.strip() for line in changed_block.splitlines() if line.strip()]
 
 
+def _show_group(label: str, files: list[str]) -> None:
+    if not files:
+        return
+    print(f"  {label} ({len(files)}):")
+    for f in files:
+        print(f"    - {f}")
+
+
+def _confirm_dashboard_push(assume_yes: bool) -> bool:
+    if assume_yes:
+        return True
+    print(f"  {DASHBOARD_FILE} changed. Pushing overwrites the live dashboard, "
+          "including any UI edits since your last `ha dashboard pull`.")
+    return input("  Push dashboard to live? [y/N] ").strip().lower() in ("y", "yes")
+
+
 def run(host: str = DEFAULT_SSH_HOST, path: Optional[str] = None,
         core: bool = False, assume_yes: bool = False) -> None:
     warnings = local_push_warnings()
@@ -133,28 +154,52 @@ def run(host: str = DEFAULT_SSH_HOST, path: Optional[str] = None,
         return
 
     app_changes, config_changes = classify(changed)
-    print(f"Pulled {len(changed)} changed file(s): "
-          f"{len(app_changes)} appdaemon, {len(config_changes)} HA config.")
+    dashboard_changed = DASHBOARD_FILE in changed
+    other = [f for f in changed
+             if f not in app_changes and f not in config_changes and f != DASHBOARD_FILE]
+
+    print(f"Pulled {len(changed)} changed file(s):")
+    _show_group("AppDaemon apps", app_changes)
+    _show_group("HA config", config_changes)
+    _show_group("Dashboard", [DASHBOARD_FILE] if dashboard_changed else [])
+    _show_group("Other (not deployed)", other)
 
     client = HaClient()
+    done: list[str] = []
 
     if config_changes:
         if core:
-            print("HA config changed — restarting Home Assistant core...")
+            print("→ Restarting Home Assistant core (homeassistant.restart)...", end=" ", flush=True)
             client.call_service("homeassistant", "restart")
+            print("done.")
+            done.append("HA core restart")
         else:
-            print("HA config changed — validating...")
+            print("→ Validating HA config...", end=" ", flush=True)
             verdict = client.check_config()
             if verdict.get("result") != "valid":
+                print("INVALID.")
                 raise SystemExit(f"Config invalid, not reloading:\n{verdict.get('errors')}")
-            print("Config valid — reloading all YAML...")
+            print("valid.")
+            print("→ Reloading all HA YAML (homeassistant.reload_all)...", end=" ", flush=True)
             client.call_service("homeassistant", "reload_all")
+            print("done.")
+            done.append("HA config reload")
 
     if app_changes:
-        print("AppDaemon apps changed — restarting the AppDaemon add-on...")
+        print(f"→ Restarting AppDaemon add-on ({APPDAEMON_ADDON})...", end=" ", flush=True)
         client.call_service("hassio", "addon_restart", {"addon": APPDAEMON_ADDON})
+        print("done.")
+        done.append("AppDaemon restart")
 
-    if not app_changes and not config_changes:
-        print("Changes were dev-only (not deployed to HA) — no restart needed.")
+    if dashboard_changed and _confirm_dashboard_push(assume_yes):
+        # push prints its own "Pushed ... (N views)" confirmation.
+        print("→ Pushing dashboard to live...")
+        dashboard.push(dashboard.DEFAULT_URL_PATH, dashboard.DEFAULT_FILE, assume_yes=True)
+        done.append("dashboard push")
+
+    if done:
+        print(f"✅  Deployed: {', '.join(done)}.")
+    elif dashboard_changed:
+        print("Dashboard change not pushed; nothing else to deploy.")
     else:
-        print("✅  Deployed.")
+        print("Changes were dev-only (not deployed to HA) — no restart needed.")
