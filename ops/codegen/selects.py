@@ -1,6 +1,6 @@
 import yaml
 
-def generate_selects(root_dir: str):
+def generate_selects(root_dir: str) -> None:
     GENERATED_MODES = f'{root_dir}/selects.py'
     with open("helpers/input_select/input_select.yaml", "r") as stream:
         selects = yaml.safe_load(stream)

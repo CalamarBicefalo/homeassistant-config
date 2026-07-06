@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import argparse
 import json
 from typing import Any
 
@@ -18,12 +17,8 @@ def _history_rows(client: HaClient, since: str) -> list[dict[str, Any]]:
     return result[0] if result else []
 
 
-def main() -> None:
-    parser = argparse.ArgumentParser(
-        description="Show AppDaemon app errors reported into HA by error_reporter.")
-    parser.add_argument("--since", default="24h", help="History window, e.g. 2h, 24h, 7d (default 24h).")
-    args = parser.parse_args()
-
+def run(since: str = "24h") -> None:
+    """Print AppDaemon errors. Shared by the module CLI and `ops.cli`."""
     client = HaClient()
 
     latest = client.try_state(LAST_ERROR_SENSOR)
@@ -40,15 +35,11 @@ def main() -> None:
         print("== Latest AppDaemon error ==")
         print(json.dumps(latest, indent=2, sort_keys=True))
 
-    print(f"\n== Error timeline (last {args.since}) ==")
-    rows = [r for r in _history_rows(client, args.since) if r.get("state") != STATUS_OK]
+    print(f"\n== Error timeline (last {since}) ==")
+    rows = [r for r in _history_rows(client, since) if r.get("state") != STATUS_OK]
     if not rows:
         print("(no errors in window)")
     for row in rows:
         row_attrs = row.get("attributes", {})
         when = row.get("last_changed", "?")
         print(f"{when}  {row_attrs.get('level', '?'):<8} [{row_attrs.get('app', '?')}] {row.get('state', '')}")
-
-
-if __name__ == "__main__":
-    main()

@@ -7,7 +7,7 @@ from jinja2 import Environment, PackageLoader
 def generate_rooms(root_dir: str) -> None:
     GENERATED_ROOMS = f'{root_dir}/rooms.py'
     env = Environment(
-        loader=PackageLoader("codegen"),
+        loader=PackageLoader("ops.codegen"),
     )
     env.globals['get_common_activities'] = get_common_activities
     with open("rooms.yaml", "r") as stream:
@@ -59,9 +59,9 @@ def generate_rooms(root_dir: str) -> None:
             print(exc)
 
 
-def load_rooms(rooms_descriptor) -> list[Any]:
+def load_rooms(rooms_descriptor: dict[str, Any]) -> list[dict[str, Any]]:
     open_floor_tuples = rooms_descriptor["open_floor"]
-    rooms = rooms_descriptor["rooms"]
+    rooms: list[dict[str, Any]] = rooms_descriptor["rooms"]
     for tuple in open_floor_tuples:
         for room in rooms:
             if room["name"] in tuple:
@@ -70,20 +70,20 @@ def load_rooms(rooms_descriptor) -> list[Any]:
     return rooms
 
 
-def get_common_activities(rooms):
+def get_common_activities(rooms: list[dict[str, Any]]) -> list[str]:
     all_activities_by_room = [*map(lambda room: set(map(lambda activity: activity["name"], room["activities"])), rooms)]
     ca = list(set.intersection(*all_activities_by_room))
     ca.sort()
     return ca
 
 
-def activity_enum_name(activity_yaml_entries):
+def activity_enum_name(activity_yaml_entries: list[str]) -> str:
     return activity_yaml_entries[0].replace("_activity", "").title().replace("_", "")
 
 
-def class_name(room_entry):
-    return room_entry["name"].title().replace(" ", "")
+def class_name(room_entry: dict[str, Any]) -> str:
+    return str(room_entry["name"]).title().replace(" ", "")
 
 
-def snake_name(room_entry):
-    return room_entry["name"].lower().replace(" ", "_")
+def snake_name(room_entry: dict[str, Any]) -> str:
+    return str(room_entry["name"]).lower().replace(" ", "_")

@@ -3,7 +3,7 @@ import glob
 import yaml
 
 
-def generate_helpers(root_dir: str):
+def generate_helpers(root_dir: str) -> None:
     GENERATED_HELPERS = f'{root_dir}/helpers.py'
     helper_files = glob.glob("helpers/**/input_*.yaml")
     with open(GENERATED_HELPERS, 'w') as output:

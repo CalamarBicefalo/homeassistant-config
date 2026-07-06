@@ -6,7 +6,7 @@ This repo is:
 - built on top of [appdaemons](https://appdaemon.readthedocs.io/en/latest/), 
 - test-driven using [appdaemons test framework](https://floriankempenich.github.io/Appdaemon-Test-Framework/) (if I'm 
 not being naughty), 
-- and has a [code-generation](generate.py) helper to get python as typed as humanly possible (yes, I don't like python 🐍). 
+- and has a [code-generation](ops/codegen) helper (`ha gen`) to get python as typed as humanly possible (yes, I don't like python 🐍). 
 
 
 ## Features
@@ -18,7 +18,7 @@ things (I am dyslixec).
 
 ### Code generation
 
-`python generate.py` will connect to your home assistant instance and will use the local config files
+`ha gen` will connect to your home assistant instance and will use the local config files
 to generate types for services, entities, helpers among others.
 
 The generated code uses types that are utilised in various helper functions throughout the automations to prevent
@@ -96,21 +96,27 @@ I am not around. (Otherwise I find myself being chased by robots).
 A simple app that truly shows who's wearing the pants in this house.
 My vacuum cleaner comes moaning every now and then to demand maintenance love.
 
-## Production diagnostics
+## The `ha` CLI
 
-A small read-only toolkit (`ops/`) for inspecting the live instance without
-shelling into the box, so problems can be diagnosed quickly (including by AI
-agents). It reuses the same token as the code generator (`secrets/secrets.yaml`)
-and is run from the repo root:
+All supporting tooling lives in the `ops/` package behind one command, `ha`
+(the repo-root `./ha` launcher, aliased in `~/.zshrc`; `pipenv run ha` also
+works). It uses the long-lived token in `secrets/secrets.yaml`. Run `ha --help`,
+or `ha --install-completion` for shell completion.
 
 ```
-pipenv run python -m ops.logs --level ERROR   # HA core warnings/errors
-pipenv run python -m ops.appderrors           # AppDaemon app errors
-pipenv run python -m ops.state <entity_id>    # current state + attributes
-pipenv run python -m ops.history <entity_id>  # recorded history
-pipenv run python -m ops.logbook              # logbook entries
-pipenv run python -m ops.template "<jinja>"   # render a template against live state
+ha logs --level ERROR   # HA core warnings/errors
+ha appderrors           # AppDaemon app errors
+ha state <entity_id>    # current state + attributes
+ha history <entity_id>  # recorded state history
+ha logbook              # logbook entries
+ha template "<jinja>"   # render a template against live state
+ha gen                  # regenerate AppDaemon type stubs
+ha dashboard pull       # live dashboard -> dashboard.yaml
+ha dashboard push       # dashboard.yaml -> live dashboard
 ```
+
+The dashboard is kept as code in `dashboard.yaml`, a git-tracked mirror of the
+UI-edited `dashboard-playground` dashboard, synced over the WebSocket API.
 
 AppDaemon errors are made visible by the `error_reporter` app, which mirrors any
 WARNING/ERROR from the apps into Home Assistant (a `sensor.appdaemon_last_error`

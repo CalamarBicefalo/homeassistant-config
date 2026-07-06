@@ -1,9 +1,7 @@
-"""Production diagnostics toolkit for the Home Assistant instance.
+"""Supporting toolkit for the Home Assistant config repo.
 
-Thin, typed CLI wrappers over the HA REST API, reusing the same long-lived token
-as `codegen` (secrets/secrets.yaml). Run from the repo root, e.g.:
-
-    python -m ops.logs --level ERROR
-    python -m ops.state sensor.appdaemon_last_error
-    python -m ops.appderrors --since 24h
+A single Typer CLI (`python -m ops`, aliased to `ha`) over one HTTP/WebSocket
+client (`ops.client`, `ops.wsclient`): live diagnostics, dashboard-as-code sync
+(`ops.dashboard`), and AppDaemon type-stub generation (`ops.codegen`). Auth uses
+the long-lived token in `secrets/secrets.yaml`. Run from the repo root.
 """
