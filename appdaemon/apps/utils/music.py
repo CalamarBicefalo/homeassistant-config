@@ -91,6 +91,12 @@ class MusicHandler:
                           level="WARNING")
 
     def run_in_speaker_without_chime(self, callback: Callable[[], None]) -> None:
+        # Power the speaker on first. The bedtime routine calls turn_off_media
+        # (media_player.turn_off on "all") right before playing; a Music
+        # Assistant player left off drops the replaced queue and playback flaps
+        # back to idle/unavailable instead of sustaining. Turning it on here is a
+        # no-op for an already-on player and makes every play path robust.
+        self._app.call_service(services.MEDIA_PLAYER_TURN_ON, entity_id=self._speakers)
         self.volume(0)
         self._app.call_service(services.MEDIA_PLAYER_PLAY_MEDIA,
                                entity_id=self._speakers,

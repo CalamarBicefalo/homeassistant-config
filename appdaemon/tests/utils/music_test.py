@@ -51,6 +51,17 @@ def test_play_plays_tune(assert_that: Any, app: MusicApp, time_travel: Any) -> N
         media_content_type="music")
 
 @pytest.mark.asyncio
+def test_play_turns_speaker_on_first(assert_that: Any, app: MusicApp, time_travel: Any) -> None:
+    # The bedtime routine calls turn_off_media (media_player.turn_off on "all")
+    # right before playing. A Music Assistant player left powered off drops the
+    # replaced queue and never sustains playback, so play() must power the
+    # speaker back on before issuing play_media.
+    app.handlers.music.play("tune")
+    time_travel.fast_forward(1).seconds()
+    assert_that(services.MEDIA_PLAYER_TURN_ON).was.called_with(entity_id=speakers)
+
+
+@pytest.mark.asyncio
 def test_pause(assert_that: Any, app: MusicApp) -> None:
     app.handlers.music.pause()
     assert_that(services.MEDIA_PLAYER_MEDIA_PAUSE).was.called_with(
