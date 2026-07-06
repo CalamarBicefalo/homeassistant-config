@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import argparse
 from datetime import datetime
 from typing import Any
 
@@ -33,24 +32,14 @@ def _format(entry: dict[str, Any]) -> str:
     return f"{when}  {level:<8} {source}  {message}{repeats}"
 
 
-def main() -> None:
-    parser = argparse.ArgumentParser(
-        description="Show Home Assistant core warnings/errors (system_log via WebSocket).")
-    parser.add_argument("--level", default="WARNING", help="Minimum level to show (default WARNING).")
-    parser.add_argument("--grep", help="Only entries containing this substring (case-insensitive).")
-    parser.add_argument("--tail", type=int, default=30, help="Show the most recent N entries (default 30).")
-    args = parser.parse_args()
-
-    wanted = _levels_at_or_above(args.level.upper())
+def run(level: str = "WARNING", grep: str | None = None, tail: int = 30) -> None:
+    """Print HA core warnings/errors. Shared by the module CLI and `ops.cli`."""
+    wanted = _levels_at_or_above(level.upper())
     entries = [e for e in system_log() if e.get("level") in wanted]
-    if args.grep:
-        needle = args.grep.lower()
+    if grep:
+        needle = grep.lower()
         entries = [e for e in entries if needle in _searchable_text(e).lower()]
 
     # system_log/list returns newest first; print the most recent N chronologically.
-    for entry in reversed(entries[:args.tail]):
+    for entry in reversed(entries[:tail]):
         print(_format(entry))
-
-
-if __name__ == "__main__":
-    main()

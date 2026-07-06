@@ -18,8 +18,12 @@ pytest-asyncio = "*"
 requests-oauthlib = "*"
 freezegun = "*"
 jinja2 = "*"
+typer = "*"
 
 [dev-packages]
+
+[scripts]
+ha = "python -m ops"
 
 [requires]
 python_version = "3.13"

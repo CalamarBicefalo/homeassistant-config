@@ -58,6 +58,23 @@ class HaClient:
         text: str = self.get("/api/error_log").text
         return text
 
+    def is_reachable(self) -> bool:
+        """Whether the instance answers an authenticated request (for codegen)."""
+        try:
+            ok: bool = requests.get(self.host + "/api/states", headers=self._headers,
+                                    timeout=self.timeout).ok
+            return ok
+        except requests.RequestException:
+            return False
+
+    def states(self) -> list[dict[str, Any]]:
+        data: list[dict[str, Any]] = self.get("/api/states").json()
+        return data
+
+    def services(self) -> list[dict[str, Any]]:
+        data: list[dict[str, Any]] = self.get("/api/services").json()
+        return data
+
     def state(self, entity_id: str) -> dict[str, Any]:
         data: dict[str, Any] = self.get(f"/api/states/{entity_id}").json()
         return data

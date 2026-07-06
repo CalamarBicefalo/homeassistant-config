@@ -1,10 +1,9 @@
 # Context
 This repo contains Home Assistant (HA) configuration. It includes:
 - A bunch of YAML as per the official HA configuration docs
-- Some YAML that is generated code via ./generate.py typically (but not always) contains generated in the filename
+- Some YAML that is generated code via `ha gen` typically (but not always) contains generated in the filename
 - Appdaemon python apps. These are all my automations, and are tested in ./appdaemon/tests
-- NEVER modify generated files, instead use generate.py
-- A dashboard using minimalist UI in ./ui_lovelace_minimalist/dashboard
+- NEVER modify generated files, instead use `ha gen`
 
 # Rules for agents to follow
 - Do not make assumptions, always check with me. Ask clarifying questions if 
@@ -32,26 +31,43 @@ future `/ha-diagnose` quick:
   happen. Keep it read-only and exception-safe so it can never affect behaviour.
 - Never `except: pass` / `except: return None` silently — log at `WARNING` with the
   exception before swallowing it.
-- Log at `WARNING`/`ERROR` for anything actionable (it surfaces in `ops.logs --level
+- Log at `WARNING`/`ERROR` for anything actionable (it surfaces in `ha logs --level
   ERROR`); use `DEBUG` for routine "why nothing happened" breadcrumbs (locked rooms,
   unmapped scenes) that are noisy in normal operation but invaluable when grepping.
 
-# Production diagnostics
-The `ops/` package is a read-only toolkit for inspecting the live HA instance
-(`https://calamarbicefalo.uk`). It reuses the token in `secrets/secrets.yaml`.
-Run commands from the repo root with `pipenv run python -m ops.<cmd>`:
-- `ops.logs [--level ERROR] [--grep x] [--tail N]` — HA core warnings/errors
+# The `ha` CLI
+All supporting tooling lives in the `ops/` package behind one Typer CLI, `ha`
+(repo-root `./ha` launcher, aliased in `~/.zshrc`; `pipenv run ha` also works).
+`--help` works on any command, `ha --install-completion` sets up shell
+completion. It uses the token in `secrets/secrets.yaml` and talks to the live
+instance (`https://calamarbicefalo.uk`).
+
+Live diagnostics (read-only):
+- `ha logs [--level ERROR] [--grep x] [--tail N]` — HA core warnings/errors
   (via the `system_log` WebSocket API; `/api/error_log` returns 404 on this
   instance because file logging is disabled).
-- `ops.appderrors [--since 24h]` — AppDaemon app errors, surfaced into HA by the
+- `ha appderrors [--since 24h]` — AppDaemon app errors, surfaced into HA by the
   `error_reporter` app as `sensor.appdaemon_last_error` + `appdaemon.error` events.
-- `ops.state <entity_id>` — current state + attributes.
-- `ops.history <entity_id> [--since 2h]` / `ops.logbook [--entity x] [--since 2h]`.
-- `ops.template "<jinja>"` — render a template against live state (debug conditions).
+- `ha state <entity_id>` — current state + attributes.
+- `ha history <entity_id> [--since 2h]` / `ha logbook [--entity x] [--since 2h]`.
+- `ha template "<jinja>"` — render a template against live state (debug conditions).
+
+Codegen: `ha gen` regenerates the AppDaemon type stubs (from local config +
+live HA state) into `appdaemon/apps/generated/`.
+
+Dashboard as code: `dashboard.yaml` is a git-tracked mirror of the storage-mode
+`dashboard-playground` dashboard (edited by clicking in the HA UI). Keep them in
+sync with:
+- `ha dashboard pull` — snapshot the live dashboard into `dashboard.yaml` (run
+  this before committing after editing in the UI).
+- `ha dashboard push [-y]` — write `dashboard.yaml` back to the live dashboard
+  (mutates live; prompts unless `-y`). Use after hand-editing the YAML.
+Both go over the `lovelace/config` WebSocket API. Keys are sorted and multiline
+templates render as `|` block scalars for stable diffs.
 
 Triage loop when diagnosing a problem:
-1. `ops.appderrors` and `ops.logs --level ERROR` to find the failure.
-2. `ops.state` / `ops.history` / `ops.logbook` / `ops.template` to find the root
+1. `ha appderrors` and `ha logs --level ERROR` to find the failure.
+2. `ha state` / `ha history` / `ha logbook` / `ha template` to find the root
    cause against live state.
 3. Reproduce it as a failing test under `appdaemon/tests/`.
 4. Fix, then make ALL tests pass (`pipenv run pytest appdaemon/tests/ -v`).
