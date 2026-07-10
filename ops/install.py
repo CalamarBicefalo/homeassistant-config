@@ -1,11 +1,14 @@
 """Deploy the pushed `main` to the live HA box and restart/reload what changed.
 
-Flow: verify local is pushed -> `git pull --ff-only` on the box over SSH (with
-agent forwarding, so the box borrows this machine's GitHub key) -> restart the
-AppDaemon add-on and/or reload HA's YAML config, depending on what the pull
-touched. If the pull changed dashboard.yaml, it also offers to `ha dashboard
-push` (prompted, since that overwrites live UI edits). Restarts/reloads/pushes
-go over the HA API; only the git pull needs SSH.
+Flow: verify local is pushed -> `git pull --ff-only` on the box over SSH ->
+restart the AppDaemon add-on and/or reload HA's YAML config, depending on what
+the pull touched. If the pull changed dashboard.yaml, it also offers to `ha
+dashboard push` (prompted, since that overwrites live UI edits). Restarts/
+reloads/pushes go over the HA API; only the git pull needs SSH.
+
+The box's repo is root-owned, so git runs via `sudo` (the SSH user has
+passwordless sudo) and authenticates to GitHub with a repo-local read-only
+deploy key configured as `core.sshCommand` — no agent forwarding needed.
 
 Requires the box on the local network (or a VPN into it): the public domain
 exposes only 443/HA, not SSH. Off-LAN, the pull fails fast with a hint.
@@ -23,7 +26,7 @@ DASHBOARD_FILE = "dashboard.yaml"
 # LAN name for the box: the public domain (calamarbicefalo.uk) only routes 443,
 # so the SSH pull needs the box on the local network (or a VPN into it). The
 # restart/reload half runs over the HA API (443) and works from anywhere.
-DEFAULT_SSH_HOST = "homeassistant.local"
+DEFAULT_SSH_HOST = "hassio@homeassistant.local"
 APPDAEMON_ADDON = "a0d7b954_appdaemon"
 
 # Paths on the box to probe for the repo checkout (first match wins).
@@ -82,6 +85,10 @@ def _remote_pull_script(path: Optional[str]) -> str:
     candidates = f'"{path}"' if path else " ".join(REPO_CANDIDATES)
     return f"""
 set -e
+# git runs as root (the checkout is root-owned; the SSH user has passwordless
+# sudo). safe.directory='*' avoids the "dubious ownership" guard; GitHub auth
+# uses the repo-local deploy key via core.sshCommand (set once during setup).
+git() {{ sudo git -c safe.directory='*' "$@"; }}
 repo=""
 for d in {candidates}; do
   if git -C "$d" remote get-url origin 2>/dev/null | grep -qi homeassistant-config; then repo="$d"; break; fi
@@ -99,7 +106,7 @@ git -C "$repo" diff --name-only "$before" "$after"
 def pull_on_box(host: str, path: Optional[str]) -> list[str]:
     """Run `git pull` on the box over SSH; return the list of changed paths."""
     result = subprocess.run(
-        ["ssh", "-A", "-o", "BatchMode=yes", "-o", "ConnectTimeout=15", host,
+        ["ssh", "-o", "BatchMode=yes", "-o", "ConnectTimeout=15", host,
          "bash", "-s"],
         input=_remote_pull_script(path), capture_output=True, text=True,
     )
