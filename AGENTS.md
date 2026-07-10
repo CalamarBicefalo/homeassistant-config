@@ -55,11 +55,14 @@ Live diagnostics (read-only):
 Codegen: `ha gen` regenerates the AppDaemon type stubs (from local config +
 live HA state) into `appdaemon/apps/generated/`.
 
-Deploy: `ha install` pushes `origin/main` to the box (`git pull --ff-only` over
-SSH with agent forwarding), then restarts the AppDaemon add-on and/or reloads HA
-config based on what the pull touched (reporting each action), and prompts to
-`ha dashboard push` if dashboard.yaml changed. Needs the box on the LAN/VPN (the
-public domain exposes only 443/HA, not SSH); restart/reload/push is HA-API/443. Its
+Deploy: `ha install` pushes `origin/main` to the box — SSH to
+`hassio@homeassistant.local`, `git pull --ff-only` as root via `sudo` (repo is
+root-owned) authenticating with a repo-local read-only deploy key — then restarts
+the AppDaemon add-on and/or reloads HA config based on what the pull touched
+(reporting each action), and prompts to `ha dashboard push` if dashboard.yaml
+changed. Needs the box on the LAN/VPN (public domain exposes only 443/HA, not
+SSH); restart/reload/push is HA-API/443. `.storage/lovelace.dashboard_playground`
+is gitignored (live runtime state; dashboard is code via dashboard.yaml). The
 file classification in `ops/install.py` is COUPLED TO THE REPO LAYOUT — if you
 move/rename deployed dirs (esp. `appdaemon/apps/`) or add dev-only dirs, update
 the constants there; `test_install.py` guards the AppDaemon path.
