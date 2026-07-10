@@ -5,7 +5,6 @@
 .idea
 .ssh
 .storage/*
-!.storage/lovelace.dashboard_playground
 .cloud
 .google.token
 .pytest_cache
