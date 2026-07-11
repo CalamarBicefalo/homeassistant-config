@@ -9,6 +9,7 @@ import helpers
 import matchers
 import scene_controllers.scene
 import states
+from brightness_helpers import set_brightness, AMBIANCE
 from selects import Mode
 from scene_controllers.scene import Scene
 from scene_controllers.scene_app import SceneApp
@@ -23,7 +24,7 @@ class GenericSceneWithIlluminance(SceneApp):
     @property
     def activity(self) -> SelectHandler:
         return self.handlers.rooms.living_room.activity
-    illuminance_sensor = entities.Entity(ILLUMINANCE_SENSOR)
+    brightness_sensor = entities.Entity(ILLUMINANCE_SENSOR)
     room_lights = entities.Entity(ROOM_LIGHTS)
 
     def get_light_scene(self, activity: LivingRoom.Activity, previous_activity: Optional[StrEnum]) -> Scene:
@@ -92,7 +93,7 @@ def test_wakeup_flag_resets_after_ninety_minutes_without_activity_change(given_t
 
 def initial_state(self, activity, illuminance=0, are_lights_on=False, mode=Mode.DAY):
     self.state_of(helpers.MODE).is_set_to(mode)
-    self.state_of(ILLUMINANCE_SENSOR).is_set_to(illuminance)
+    set_brightness(self, ILLUMINANCE_SENSOR, illuminance, AMBIANCE)
     self.state_of(LivingRoom._activity_helper).is_set_to(activity)
     if are_lights_on:
         self.state_of(ROOM_LIGHTS).is_set_to(states.ON)

@@ -14,7 +14,7 @@ class BathroomScene(SceneApp):
     @property
     def activity(self) -> SelectHandler:
         return self.handlers.rooms.bathroom.activity
-    illuminance_sensor = None
+    brightness_sensor = None
     room_lights = entities.LIGHT_BATHROOM
 
     def get_light_scene(self, activity: StrEnum, previous_activity: Optional[StrEnum]) -> Scene | SceneByModeSelector:

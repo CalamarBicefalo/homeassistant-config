@@ -11,6 +11,7 @@ import selects
 import scenes
 import states
 from scene_controllers.office_scene import OfficeScene
+from brightness_helpers import set_brightness, WINDOW
 
 
 @pytest.fixture
@@ -130,7 +131,7 @@ def test_mode_change_adjusts_blinds_when_away(given_that, office_scene, fake_bli
 def office_scene_is(self, activity, illuminance, mode=selects.Mode.DAY):
     self.state_of(helpers.MODE).is_set_to(mode)
     self.state_of(entities.LIGHT_OFFICE).is_set_to(states.OFF)
-    self.state_of(entities.SENSOR_OFFICE_BR).is_set_to(illuminance)
+    set_brightness(self, entities.SENSOR_OFFICE_BRIGHTNESS, illuminance, WINDOW)
     self.state_of(Office._activity_helper).is_set_to(activity)
 
 

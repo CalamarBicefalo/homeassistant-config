@@ -16,7 +16,7 @@ class KitchenScene(SceneApp):
     def activity(self) -> SelectHandler:
         return self.handlers.rooms.kitchen.activity
 
-    illuminance_sensor = entities.SENSOR_KITCHEN_MS_ILLUMINANCE
+    brightness_sensor = entities.SENSOR_KITCHEN_BRIGHTNESS
     room_lights = entities.LIGHT_KITCHEN
     speakers = entities.MEDIA_PLAYER_LIVING_ROOM_STEREO
 

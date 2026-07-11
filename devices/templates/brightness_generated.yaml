@@ -4,45 +4,45 @@
   - name: "Office Brightness"
     unique_id: office_brightness
     icon: mdi:white-balance-sunny
-    state: "{% set lux = states('sensor.office_br') | float(0) %}{% if lux >= 50000 %}direct_sunlight{% elif lux >= 15000 %}bright{% elif lux >= 1000 %}cloudy{% else %}dark{% endif %}"
+    state: "{% set lux = states('sensor.office_br') | float(0) %}{% if lux >= 50000 %}direct_sunlight{% elif lux >= 10000 %}bright{% elif lux >= 1000 %}cloudy{% else %}dark{% endif %}"
     attributes:
       illuminance: "{{ states('sensor.office_br') | float(0) }}"
       sensor_type: window
-      turn_on_below: 3000
-      allow_off_at: 10000
+      turn_on_below: 1500
+      allow_off_at: 4000
 
 - sensor:
   - name: "Bedroom Brightness"
     unique_id: bedroom_brightness
     icon: mdi:white-balance-sunny
-    state: "{% set lux = states('sensor.bedroom_br') | float(0) %}{% if lux >= 50000 %}direct_sunlight{% elif lux >= 15000 %}bright{% elif lux >= 1000 %}cloudy{% else %}dark{% endif %}"
+    state: "{% set lux = states('sensor.bedroom_br') | float(0) %}{% if lux >= 50000 %}direct_sunlight{% elif lux >= 10000 %}bright{% elif lux >= 1000 %}cloudy{% else %}dark{% endif %}"
     attributes:
       illuminance: "{{ states('sensor.bedroom_br') | float(0) }}"
       sensor_type: window
-      turn_on_below: 3000
-      allow_off_at: 10000
+      turn_on_below: 1500
+      allow_off_at: 4000
 
 - sensor:
   - name: "Studio Brightness"
     unique_id: studio_brightness
     icon: mdi:white-balance-sunny
-    state: "{% set lux = states('sensor.studio_br') | float(0) %}{% if lux >= 50000 %}direct_sunlight{% elif lux >= 15000 %}bright{% elif lux >= 1000 %}cloudy{% else %}dark{% endif %}"
+    state: "{% set lux = states('sensor.studio_br') | float(0) %}{% if lux >= 50000 %}direct_sunlight{% elif lux >= 10000 %}bright{% elif lux >= 1000 %}cloudy{% else %}dark{% endif %}"
     attributes:
       illuminance: "{{ states('sensor.studio_br') | float(0) }}"
       sensor_type: window
-      turn_on_below: 3000
-      allow_off_at: 10000
+      turn_on_below: 1500
+      allow_off_at: 4000
 
 - sensor:
   - name: "Living room Brightness"
     unique_id: living_room_brightness
     icon: mdi:white-balance-sunny
-    state: "{% set lux = states('sensor.living_room_br') | float(0) %}{% if lux >= 50000 %}direct_sunlight{% elif lux >= 15000 %}bright{% elif lux >= 1000 %}cloudy{% else %}dark{% endif %}"
+    state: "{% set lux = states('sensor.living_room_br') | float(0) %}{% if lux >= 50000 %}direct_sunlight{% elif lux >= 10000 %}bright{% elif lux >= 1000 %}cloudy{% else %}dark{% endif %}"
     attributes:
       illuminance: "{{ states('sensor.living_room_br') | float(0) }}"
       sensor_type: window
-      turn_on_below: 3000
-      allow_off_at: 10000
+      turn_on_below: 1500
+      allow_off_at: 4000
 
 - sensor:
   - name: "Kitchen Brightness"
