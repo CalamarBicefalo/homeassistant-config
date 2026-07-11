@@ -12,8 +12,9 @@ from state_handler import StateHandler
 # (see devices/templates/brightness_generated.yaml, generated from windows.yaml).
 ILLUMINANCE = "illuminance"
 SENSOR_TYPE = "sensor_type"
-TURN_ON_BELOW = "turn_on_below"
-ALLOW_OFF_AT = "allow_off_at"
+LIGHTS_ON_BELOW = "lights_on_below"
+LIGHTS_OFF_ABOVE = "lights_off_above"
+BLINDS_SHADE_ABOVE = "blinds_shade_above"
 
 
 class Brightness(enum.IntEnum):
@@ -83,6 +84,14 @@ class BrightnessHandler:
     def sensor_type(self) -> str:
         return self.state.get_attr_as_str(self.sensor, SENSOR_TYPE)
 
+    def blinds_shade_above(self) -> float:
+        """Lux at/above which the sun is strong enough to shade against."""
+        return self.state.get_attr_as_number(self.sensor, BLINDS_SHADE_ABOVE)
+
+    def has_strong_sun(self) -> bool:
+        """Is the sun strong enough that shading meaningfully keeps heat out?"""
+        return self.lux() >= self.blinds_shade_above()
+
     def has_direct_sunlight(self) -> bool:
         return self.get() is Brightness.DIRECT_SUNLIGHT
 
@@ -105,7 +114,7 @@ class BrightnessHandler:
         """
         lux = self.lux()
         threshold = self.state.get_attr_as_number(
-            self.sensor, ALLOW_OFF_AT if lights_currently_on else TURN_ON_BELOW)
+            self.sensor, LIGHTS_OFF_ABOVE if lights_currently_on else LIGHTS_ON_BELOW)
         return LightDecision(
             needs_light=lux < threshold,
             brightness=self.get(),

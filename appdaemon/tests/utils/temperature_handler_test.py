@@ -7,7 +7,7 @@ import entities
 import matchers
 from app import App
 from temperature_handler import TemperatureHandler, INDOOR_THERMOMETER, IndoorTemperature, \
-    COMFORT_INDOOR_MAX_TEMPERATURE, COMFORT_INDOOR_MIN_TEMPERATURE, HOT_OUTSIDE
+    COMFORT_INDOOR_MAX_TEMPERATURE, COMFORT_INDOOR_MIN_TEMPERATURE, HOT_OUTSIDE, HEATWAVE_MIN_OUTSIDE
 
 
 class TemperatureApp(App):
@@ -94,9 +94,27 @@ def test_when_wont_be_hot_tomorrow(given_that, assert_that: Any, temperature: Te
     given_that.temperature_is(outdoors_tomorrow=HOT_OUTSIDE-1)
     assert temperature.will_be_hot_tomorrow() is False
 
-def temperature_is(self, indoors=20, outdoors_today=20, outdoors_tomorrow=20):
+@pytest.mark.asyncio
+def test_heatwave_when_min_today_at_threshold(given_that, assert_that: Any, temperature: TemperatureHandler) -> None:
+    given_that.temperature_is(min_today=HEATWAVE_MIN_OUTSIDE)
+    assert temperature.is_heatwave() is True
+
+@pytest.mark.asyncio
+def test_heatwave_when_min_tomorrow_at_threshold(given_that, assert_that: Any, temperature: TemperatureHandler) -> None:
+    given_that.temperature_is(min_tomorrow=HEATWAVE_MIN_OUTSIDE)
+    assert temperature.is_heatwave() is True
+
+@pytest.mark.asyncio
+def test_no_heatwave_when_both_mins_below_threshold(given_that, assert_that: Any, temperature: TemperatureHandler) -> None:
+    given_that.temperature_is(min_today=HEATWAVE_MIN_OUTSIDE - 1, min_tomorrow=HEATWAVE_MIN_OUTSIDE - 1)
+    assert temperature.is_heatwave() is False
+
+def temperature_is(self, indoors=20, outdoors_today=20, outdoors_tomorrow=20,
+                   min_today=10, min_tomorrow=10):
     self.state_of(INDOOR_THERMOMETER).is_set_to(indoors)
     self.state_of(entities.INPUT_NUMBER_MAX_TEMPERATURE_TODAY).is_set_to(outdoors_today)
     self.state_of(entities.INPUT_NUMBER_MAX_TEMPERATURE_TOMORROW).is_set_to(outdoors_tomorrow)
+    self.state_of(entities.INPUT_NUMBER_MIN_TEMPERATURE_TODAY).is_set_to(min_today)
+    self.state_of(entities.INPUT_NUMBER_MIN_TEMPERATURE_TOMORROW).is_set_to(min_tomorrow)
 
 given.GivenThatWrapper.temperature_is = temperature_is

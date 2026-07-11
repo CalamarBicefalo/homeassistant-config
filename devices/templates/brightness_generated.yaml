@@ -8,8 +8,9 @@
     attributes:
       illuminance: "{{ states('sensor.office_br') | float(0) }}"
       sensor_type: window
-      turn_on_below: 1500
-      allow_off_at: 4000
+      lights_on_below: 1500
+      lights_off_above: 4000
+      blinds_shade_above: 5000
 
 - sensor:
   - name: "Bedroom Brightness"
@@ -19,8 +20,9 @@
     attributes:
       illuminance: "{{ states('sensor.bedroom_br') | float(0) }}"
       sensor_type: window
-      turn_on_below: 1500
-      allow_off_at: 4000
+      lights_on_below: 1500
+      lights_off_above: 4000
+      blinds_shade_above: 5000
 
 - sensor:
   - name: "Studio Brightness"
@@ -30,8 +32,9 @@
     attributes:
       illuminance: "{{ states('sensor.studio_br') | float(0) }}"
       sensor_type: window
-      turn_on_below: 1500
-      allow_off_at: 4000
+      lights_on_below: 1500
+      lights_off_above: 4000
+      blinds_shade_above: 5000
 
 - sensor:
   - name: "Living room Brightness"
@@ -41,8 +44,9 @@
     attributes:
       illuminance: "{{ states('sensor.living_room_br') | float(0) }}"
       sensor_type: window
-      turn_on_below: 1500
-      allow_off_at: 4000
+      lights_on_below: 1500
+      lights_off_above: 4000
+      blinds_shade_above: 5000
 
 - sensor:
   - name: "Kitchen Brightness"
@@ -52,8 +56,8 @@
     attributes:
       illuminance: "{{ states('sensor.kitchen_ms_illuminance') | float(0) }}"
       sensor_type: ambiance
-      turn_on_below: 60
-      allow_off_at: 200
+      lights_on_below: 60
+      lights_off_above: 200
 
 - sensor:
   - name: "Hallway Brightness"
@@ -63,8 +67,8 @@
     attributes:
       illuminance: "{{ states('sensor.ms_hallway_ep1_illuminance') | float(0) }}"
       sensor_type: ambiance
-      turn_on_below: 60
-      allow_off_at: 200
+      lights_on_below: 60
+      lights_off_above: 200
 
 - sensor:
   - name: "Wardrobe Brightness"
@@ -74,5 +78,5 @@
     attributes:
       illuminance: "{{ states('sensor.bedroom_ms_epl_illuminance') | float(0) }}"
       sensor_type: ambiance
-      turn_on_below: 60
-      allow_off_at: 200
+      lights_on_below: 60
+      lights_off_above: 200

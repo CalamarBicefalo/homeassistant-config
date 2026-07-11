@@ -13,6 +13,7 @@ import helpers
 import services
 from alarmclock import AlarmClock
 from blinds_handler import BlindsHandler
+from brightness_handler import BrightnessHandler
 from button_handler import ButtonHandler
 from entities import Entity
 from flick import FlickHandler
@@ -37,11 +38,13 @@ class Handler():
     temperature: TemperatureHandler
 
     def __init__(self, app: hass.Hass, speakers: Optional[Entity], blinds: Optional[Entity],
-                 room_has_plants: bool, window: Optional[Entity]) -> None:
+                 room_has_plants: bool, window: Optional[Entity],
+                 brightness_sensor: Optional[Entity]) -> None:
         self.mode = SelectHandler[Mode](app, helpers.MODE)
         self.rooms = RoomHandlers(app)
         self.music = MusicHandler(app, speakers)
-        self.blinds = BlindsHandler(app, blinds, room_has_plants, window)
+        brightness = BrightnessHandler(app, brightness_sensor) if brightness_sensor else None
+        self.blinds = BlindsHandler(app, blinds, room_has_plants, window, brightness)
         self.alarmclock = AlarmClock(app)
         self.flick = FlickHandler(app)
         self.buttons = ButtonHandler(app)
@@ -65,7 +68,8 @@ class App(hass.Hass):
             speakers=self.speakers,
             blinds=self.blinds,
             room_has_plants=self.room_has_plants,
-            window=self.window
+            window=self.window,
+            brightness_sensor=self.brightness_sensor
         )
         self.state = StateHandler(super())
         self.timers: Dict[UUID, Timer] = {}
@@ -84,6 +88,10 @@ class App(hass.Hass):
 
     @property
     def window(self) -> Optional[entities.Entity]:
+        return None
+
+    @property
+    def brightness_sensor(self) -> Optional[entities.Entity]:
         return None
 
     def is_dark(self) -> bool:

@@ -11,22 +11,29 @@
 # Named threshold profiles, in lux. Reference one from a window via
 # `calibration:`. Add a dedicated profile here for a one-off window.
 #   cloudy/bright/direct_sunlight -> category boundaries (state)
-#   turn_on_below / allow_off_at  -> hysteresis dead-band for the lamp decision
-#     (below turn_on_below: lamps wanted; at/above allow_off_at: lamps may go
-#      off; in between: keep current state, so passing clouds don't flap them)
+#   lights_on_below / lights_off_above -> hysteresis dead-band for the lamp
+#     decision (below lights_on_below: lamps wanted; at/above lights_off_above:
+#     lamps may go off; in between: keep current state, so passing clouds don't
+#     flap them)
+#   blinds_shade_above -> lux at/above which the sun is strong enough that
+#     shading keeps real heat out; on a cooldown day blinds shade at/above it
+#     but may stay open below it to let daylight in (a heatwave overrides this
+#     leniency). Only meaningful for windows that drive blinds, so omit it from
+#     lamp-only (ambiance) profiles.
 calibrations:
   window_t1:            # Aqara T1 (lumi.sen_ill.agl01) — faces the sky, true daylight
     cloudy: 1000
     bright: 3500
     direct_sunlight: 30000
-    turn_on_below: 1500
-    allow_off_at: 4000
+    lights_on_below: 1500
+    lights_off_above: 4000
+    blinds_shade_above: 5000
   ambiance:             # Hue / Everything Presence room motion sensors — low scale, lamp-polluted
     cloudy: 60
     bright: 200
     direct_sunlight: 1000
-    turn_on_below: 60
-    allow_off_at: 200
+    lights_on_below: 60
+    lights_off_above: 200
 
 windows:
   - room: Office

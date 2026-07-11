@@ -24,12 +24,14 @@ def _handler(app):
     return BrightnessHandler(app, SENSOR)
 
 
-def _set(given_that, state, illuminance, turn_on_below=1500, allow_off_at=4000):
+def _set(given_that, state, illuminance, lights_on_below=1500, lights_off_above=4000,
+         blinds_shade_above=5000):
     given_that.state_of(SENSOR).is_set_to(state, {
         "illuminance": illuminance,
         "sensor_type": "window",
-        "turn_on_below": turn_on_below,
-        "allow_off_at": allow_off_at,
+        "lights_on_below": lights_on_below,
+        "lights_off_above": lights_off_above,
+        "blinds_shade_above": blinds_shade_above,
     })
 
 
@@ -67,6 +69,20 @@ def test_semantic_helpers(given_that, app):
     assert not handler.is_dark()
 
 
+# --- blinds sun-shade threshold -------------------------------------------
+
+def test_strong_sun_at_or_above_shade_threshold(given_that, app):
+    _set(given_that, "bright", 7000, blinds_shade_above=5000)
+    handler = _handler(app)
+    assert handler.blinds_shade_above() == 5000
+    assert handler.has_strong_sun()
+
+
+def test_weak_sun_below_shade_threshold(given_that, app):
+    _set(given_that, "cloudy", 2000, blinds_shade_above=5000)
+    assert not _handler(app).has_strong_sun()
+
+
 # --- lamp decision + hysteresis dead-band ---------------------------------
 
 def test_dim_needs_light(given_that, app):
@@ -80,7 +96,7 @@ def test_direct_sun_does_not_need_light(given_that, app):
 
 
 def test_dead_band_keeps_lamps_off_when_off(given_that, app):
-    # 2500 lx is between turn_on_below (1500) and allow_off_at (4000):
+    # 2500 lx is between lights_on_below (1500) and lights_off_above (4000):
     # lamps that are off stay off.
     _set(given_that, "cloudy", 2500)
     assert not _handler(app).needs_artificial_light(lights_currently_on=False)

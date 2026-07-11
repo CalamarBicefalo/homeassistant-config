@@ -65,6 +65,9 @@ def generate_windows(root_dir: str) -> None:
     attributes:
       illuminance: "{{{{ states('{sensor}') | float(0) }}}}"
       sensor_type: {window['type']}
-      turn_on_below: {cal['turn_on_below']}
-      allow_off_at: {cal['allow_off_at']}
+      lights_on_below: {cal['lights_on_below']}
+      lights_off_above: {cal['lights_off_above']}
 """)
+            # Only windows that drive blinds carry a shade threshold.
+            if "blinds_shade_above" in cal:
+                f.write(f"      blinds_shade_above: {cal['blinds_shade_above']}\n")

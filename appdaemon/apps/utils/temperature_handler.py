@@ -13,6 +13,7 @@ from state_handler import StateHandler
 COMFORT_INDOOR_MAX_TEMPERATURE = 23
 COMFORT_INDOOR_MIN_TEMPERATURE = 19
 HOT_OUTSIDE = 24
+HEATWAVE_MIN_OUTSIDE = 20
 INDOOR_THERMOMETER = entities.SENSOR_KITCHEN_AIR_QUALITY_TEMPERATURE
 
 
@@ -51,6 +52,18 @@ class TemperatureHandler:
     def will_be_hot_tomorrow(self) -> bool:
         temperature = self.state.get_as_number(entities.INPUT_NUMBER_MAX_TEMPERATURE_TOMORROW)
         return temperature and temperature >= HOT_OUTSIDE
+
+    def is_heatwave(self) -> bool:
+        """The nights stay warm, so the house never recovers.
+
+        When even the overnight low is above ``HEATWAVE_MIN_OUTSIDE`` (today or
+        tomorrow), shading is worth losing daylight over regardless of how strong
+        the sun looks right now.
+        """
+        today = self.state.get_as_number(entities.INPUT_NUMBER_MIN_TEMPERATURE_TODAY)
+        tomorrow = self.state.get_as_number(entities.INPUT_NUMBER_MIN_TEMPERATURE_TOMORROW)
+        return bool((today and today >= HEATWAVE_MIN_OUTSIDE)
+                    or (tomorrow and tomorrow >= HEATWAVE_MIN_OUTSIDE))
 
     def get_indoor(self) -> IndoorTemperature:
         temperature = self.state.get_as_number(INDOOR_THERMOMETER)
