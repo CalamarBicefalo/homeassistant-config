@@ -46,6 +46,29 @@ class BrightnessCalibration:
     allow_off_at: float
 
 
+@dataclass(frozen=True)
+class LightDecision:
+    """Whether a room needs its lamps, plus the numbers that decided it.
+
+    ``reason`` is a short, log-friendly explanation of the WHY so that a lamp
+    turning on/off leaves a breadcrumb ("it got cloudy") rather than looking
+    spontaneous.
+    """
+
+    needs_light: bool
+    brightness: Brightness
+    lux: float
+    threshold: float
+
+    @property
+    def reason(self) -> str:
+        if self.needs_light:
+            return (f"{self.brightness.name} ({self.lux:.0f}lx < {self.threshold:.0f}lx) "
+                    "— too dim, lamps wanted")
+        return (f"{self.brightness.name} ({self.lux:.0f}lx >= {self.threshold:.0f}lx) "
+                "— enough daylight")
+
+
 # Aqara T1 window brightness sensors (device named "<Room> BR",
 # lumi.sen_ill.agl01). They point at the sky through the glass, so they read
 # true outdoor-ish lux and are NOT polluted by the room's own lamps: ~0 at
@@ -115,8 +138,7 @@ class BrightnessHandler:
         reading = self.state.get_as_number(self.sensor)
         return reading if reading is not None else 0.0
 
-    def get(self) -> Brightness:
-        lux = self.lux()
+    def _bucket(self, lux: float) -> Brightness:
         calibration = self.calibration
         if lux >= calibration.direct_sunlight:
             return Brightness.DIRECT_SUNLIGHT
@@ -125,6 +147,9 @@ class BrightnessHandler:
         if lux >= calibration.cloudy:
             return Brightness.CLOUDY
         return Brightness.DARK
+
+    def get(self) -> Brightness:
+        return self._bucket(self.lux())
 
     def has_direct_sunlight(self) -> bool:
         return self.get() is Brightness.DIRECT_SUNLIGHT
@@ -138,8 +163,8 @@ class BrightnessHandler:
     def is_dark(self) -> bool:
         return self.get() is Brightness.DARK
 
-    def needs_artificial_light(self, lights_currently_on: bool) -> bool:
-        """Whether the room still needs its lamps given the current daylight.
+    def evaluate(self, lights_currently_on: bool) -> LightDecision:
+        """Decide whether the room needs its lamps, with a legible reason.
 
         Comfort-first with a hysteresis dead-band to avoid flapping: keep the
         lamps on through ``DARK`` and dim ``CLOUDY``, only letting them off once
@@ -152,4 +177,12 @@ class BrightnessHandler:
             if lights_currently_on
             else self.calibration.turn_on_below
         )
-        return lux < threshold
+        return LightDecision(
+            needs_light=lux < threshold,
+            brightness=self._bucket(lux),
+            lux=lux,
+            threshold=threshold,
+        )
+
+    def needs_artificial_light(self, lights_currently_on: bool) -> bool:
+        return self.evaluate(lights_currently_on).needs_light

@@ -122,6 +122,20 @@ def test_window_dead_band_keeps_lamps_on_when_on(given_that, app):
     assert _window(app).needs_artificial_light(lights_currently_on=True)
 
 
+def test_decision_reason_when_dim(given_that, app):
+    given_that.state_of(WINDOW_SENSOR).is_set_to(800)
+    decision = _window(app).evaluate(lights_currently_on=False)
+    assert decision.needs_light
+    assert decision.reason == "DARK (800lx < 3000lx) — too dim, lamps wanted"
+
+
+def test_decision_reason_when_bright(given_that, app):
+    given_that.state_of(WINDOW_SENSOR).is_set_to(27_441)
+    decision = _window(app).evaluate(lights_currently_on=True)
+    assert not decision.needs_light
+    assert decision.reason == "BRIGHT (27441lx >= 10000lx) — enough daylight"
+
+
 def test_ambient_hysteresis_matches_legacy_thresholds(given_that, app):
     handler = _ambient(app)
 
