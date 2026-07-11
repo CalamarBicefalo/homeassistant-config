@@ -222,6 +222,18 @@ def test_plant_room_shade_publishes_partially_closed(
 
 
 @pytest.mark.asyncio
+def test_report_current_seeds_status_from_position(
+        given_that, app, hass_mocks) -> None:
+    _given_blinds_at(given_that, 100)
+    handler = BlindsHandler(app, BLINDS, status=StatusHandler(app, "living_room"))
+
+    handler.report_current()
+
+    calls = _blinds_status_calls(hass_mocks)
+    assert calls and calls[-1].kwargs["state"] == "Open"
+
+
+@pytest.mark.asyncio
 def test_night_close_publishes_closed_with_reason(
         given_that, app, hass_mocks) -> None:
     _given_blinds_at(given_that, 100)

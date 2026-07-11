@@ -140,6 +140,12 @@ class BlindsHandler:
         if self.status is not None:
             self.status.publish_blinds(state, reason)
 
+    def report_current(self) -> None:
+        """Seed the status sensor from the current position (e.g. at startup),
+        so the card isn't empty until the first open/close/shade."""
+        self._publish_status(self._position_word(self.get_position()),
+                             "that's how they're currently set")
+
     def get_position(self) -> float:
         position: float = self.state.get_attr_as_number(self._blinds, "current_position")
         return position

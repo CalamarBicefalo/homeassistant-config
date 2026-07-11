@@ -53,6 +53,12 @@ class SceneApp(App):
             # nothing re-evaluates blinds left open overnight for the breeze.
             # Re-check at sunrise so the blinds come down on hot days.
             self.run_at_sunrise(lambda *_: self.handlers.blinds.protect_from_sun_if_needed())
+            # Seed the blinds status from the current position so the card is
+            # populated on start (fail soft: the cover may be briefly unavailable).
+            try:
+                self.handlers.blinds.report_current()
+            except Exception as exc:  # noqa: BLE001 — best-effort seed value
+                self.log(f'{self.scene}: could not seed blinds status - {exc}.', level="DEBUG")
 
     @property
     @abstractmethod
