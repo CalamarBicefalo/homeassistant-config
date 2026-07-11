@@ -91,6 +91,134 @@ views:
     popup_card_all_views: true
     title: Unavailable Devices
     type: custom:popup-card
+  - adaptive: true
+    card:
+      cards:
+      - entities:
+        - entity: sensor.living_room_brightness
+          name: Brightness
+        - attribute: illuminance
+          entity: sensor.living_room_brightness
+          name: Illuminance
+          suffix: ' lx'
+          type: attribute
+        - attribute: sensor_type
+          entity: sensor.living_room_brightness
+          name: Sensor
+          type: attribute
+        show_header_toggle: false
+        type: entities
+      - entities:
+        - sensor.living_room_brightness
+        hours_to_show: 48
+        title: Brightness timeline
+        type: history-graph
+      - entities:
+        - sensor.living_room_br
+        hours_to_show: 48
+        title: Illuminance (lx)
+        type: history-graph
+      type: vertical-stack
+    entity: sensor.living_room_brightness
+    popup_card_all_views: true
+    title: Living Room Brightness
+    type: custom:popup-card
+  - adaptive: true
+    card:
+      cards:
+      - entities:
+        - entity: sensor.studio_brightness
+          name: Brightness
+        - attribute: illuminance
+          entity: sensor.studio_brightness
+          name: Illuminance
+          suffix: ' lx'
+          type: attribute
+        - attribute: sensor_type
+          entity: sensor.studio_brightness
+          name: Sensor
+          type: attribute
+        show_header_toggle: false
+        type: entities
+      - entities:
+        - sensor.studio_brightness
+        hours_to_show: 48
+        title: Brightness timeline
+        type: history-graph
+      - entities:
+        - sensor.studio_br
+        hours_to_show: 48
+        title: Illuminance (lx)
+        type: history-graph
+      type: vertical-stack
+    entity: sensor.studio_brightness
+    popup_card_all_views: true
+    title: Studio Brightness
+    type: custom:popup-card
+  - adaptive: true
+    card:
+      cards:
+      - entities:
+        - entity: sensor.office_brightness
+          name: Brightness
+        - attribute: illuminance
+          entity: sensor.office_brightness
+          name: Illuminance
+          suffix: ' lx'
+          type: attribute
+        - attribute: sensor_type
+          entity: sensor.office_brightness
+          name: Sensor
+          type: attribute
+        show_header_toggle: false
+        type: entities
+      - entities:
+        - sensor.office_brightness
+        hours_to_show: 48
+        title: Brightness timeline
+        type: history-graph
+      - entities:
+        - sensor.office_br
+        hours_to_show: 48
+        title: Illuminance (lx)
+        type: history-graph
+      type: vertical-stack
+    entity: sensor.office_brightness
+    popup_card_all_views: true
+    title: Office Brightness
+    type: custom:popup-card
+  - adaptive: true
+    card:
+      cards:
+      - entities:
+        - entity: sensor.bedroom_brightness
+          name: Brightness
+        - attribute: illuminance
+          entity: sensor.bedroom_brightness
+          name: Illuminance
+          suffix: ' lx'
+          type: attribute
+        - attribute: sensor_type
+          entity: sensor.bedroom_brightness
+          name: Sensor
+          type: attribute
+        show_header_toggle: false
+        type: entities
+      - entities:
+        - sensor.bedroom_brightness
+        hours_to_show: 48
+        title: Brightness timeline
+        type: history-graph
+      - entities:
+        - sensor.bedroom_br
+        hours_to_show: 48
+        title: Illuminance (lx)
+        type: history-graph
+      type: vertical-stack
+    entity: sensor.bedroom_brightness
+    popup_card_all_views: true
+    title: Bedroom Brightness
+    type: custom:popup-card
   header:
     badges_position: top
     badges_wrap: wrap
@@ -270,7 +398,7 @@ views:
       sensors:
       - input_select.living_room_activity
       - sensor.living_room_blinds_device_temperature
-      - sensor.living_room_br
+      - sensor.living_room_brightness
       smoke:
         card_border_color: red
         entities:
@@ -397,7 +525,7 @@ views:
       sensors:
       - input_select.studio_activity
       - sensor.ms_studio_ep1_temperature
-      - sensor.studio_br
+      - sensor.studio_brightness
       smoke:
         card_border_color: red
         entities:
@@ -461,7 +589,7 @@ views:
       sensors:
       - input_select.office_activity
       - sensor.office_fan_temperature
-      - sensor.office_br
+      - sensor.office_brightness
       smoke:
         card_border_color: red
         entities:
@@ -526,7 +654,7 @@ views:
       sensor_layout: stacked
       sensors:
       - input_select.bedroom_activity
-      - sensor.bedroom_br
+      - sensor.bedroom_brightness
       smoke:
         card_border_color: red
         entities:
