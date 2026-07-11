@@ -10,6 +10,7 @@ from ops.codegen.rooms import generate_rooms
 from ops.codegen.scenes import generate_scenes
 from ops.codegen.selects import generate_selects
 from ops.codegen.services import generate_services
+from ops.codegen.windows import generate_windows
 
 GENERATED_PATH = "appdaemon/apps/generated"
 
@@ -25,6 +26,8 @@ def generate() -> None:
     generate_rooms(GENERATED_PATH)
     print("    🔢 Generating helpers types")
     generate_helpers(GENERATED_PATH)
+    print("    🪟 Generating brightness sensors")
+    generate_windows(GENERATED_PATH)
 
     # From live HA (one client, states fetched once).
     print("\n\nConnecting to hub...")
