@@ -1349,6 +1349,13 @@ views:
         type: entity
       type: tile
       vertical: false
+    - content: |-
+        💡 Lights are **{{states("sensor.living_room_lights_status")}}** because {{state_attr("sensor.living_room_lights_status", "reason")}}
+        🪟 Blinds are **{{states("sensor.living_room_blinds_status")}}** because {{state_attr("sensor.living_room_blinds_status", "reason")}}
+      grid_options:
+        columns: 48
+        rows: auto
+      type: markdown
     - heading: Actions
       heading_style: title
       icon: ''
@@ -1932,6 +1939,13 @@ views:
         type: entity
       type: tile
       vertical: false
+    - content: |-
+        💡 Lights are **{{states("sensor.studio_lights_status")}}** because {{state_attr("sensor.studio_lights_status", "reason")}}
+        🪟 Blinds are **{{states("sensor.studio_blinds_status")}}** because {{state_attr("sensor.studio_blinds_status", "reason")}}
+      grid_options:
+        columns: 48
+        rows: auto
+      type: markdown
     type: grid
   - cards:
     - heading: Sensors
@@ -2182,6 +2196,13 @@ views:
         type: entity
       type: tile
       vertical: false
+    - content: |-
+        💡 Lights are **{{states("sensor.office_lights_status")}}** because {{state_attr("sensor.office_lights_status", "reason")}}
+        🪟 Blinds are **{{states("sensor.office_blinds_status")}}** because {{state_attr("sensor.office_blinds_status", "reason")}}
+      grid_options:
+        columns: 48
+        rows: auto
+      type: markdown
     type: grid
   - cards:
     - heading: Sensors
@@ -2418,6 +2439,13 @@ views:
         type: entity
       type: tile
       vertical: false
+    - content: |-
+        💡 Lights are **{{states("sensor.bedroom_lights_status")}}** because {{state_attr("sensor.bedroom_lights_status", "reason")}}
+        🪟 Blinds are **{{states("sensor.bedroom_blinds_status")}}** because {{state_attr("sensor.bedroom_blinds_status", "reason")}}
+      grid_options:
+        columns: 48
+        rows: auto
+      type: markdown
     type: grid
   - cards:
     - heading: Sensors
