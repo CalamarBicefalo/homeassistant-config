@@ -81,6 +81,26 @@ def test_snaring_activity_closes_blinds_and_stops_media(given_that, office_scene
 
 
 @pytest.mark.asyncio
+def test_bright_window_daylight_turns_lights_off(given_that, office_scene, assert_that):
+    # Plenty of daylight through the window: no need for the lamps.
+    given_that.office_scene_is(activity=Office.Activity.WORKING, illuminance=30_000)
+
+    office_scene.handle_scene(Office._activity_helper, None, None, None, None)
+
+    assert_that(entities.LIGHT_OFFICE).was.turned_off()
+
+
+@pytest.mark.asyncio
+def test_dim_window_daylight_keeps_lights_on(given_that, office_scene, assert_that):
+    # Dim/overcast: keep the lamps on for comfort.
+    given_that.office_scene_is(activity=Office.Activity.WORKING, illuminance=500)
+
+    office_scene.handle_scene(Office._activity_helper, None, None, None, None)
+
+    assert_that(scenes.OFFICE_WORKING.get()).was.turned_on()
+
+
+@pytest.mark.asyncio
 def test_empty_activity_turns_off_lights(given_that, office_scene, assert_that):
     given_that.office_scene_is(activity=Office.Activity.EMPTY, illuminance=30)
 
@@ -110,7 +130,7 @@ def test_mode_change_adjusts_blinds_when_away(given_that, office_scene, fake_bli
 def office_scene_is(self, activity, illuminance, mode=selects.Mode.DAY):
     self.state_of(helpers.MODE).is_set_to(mode)
     self.state_of(entities.LIGHT_OFFICE).is_set_to(states.OFF)
-    self.state_of(entities.SENSOR_OFFICE_MS_EPPRO_ILLUMINANCE).is_set_to(illuminance)
+    self.state_of(entities.SENSOR_OFFICE_BR).is_set_to(illuminance)
     self.state_of(Office._activity_helper).is_set_to(activity)
 
 

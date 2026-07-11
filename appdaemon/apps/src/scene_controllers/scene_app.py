@@ -6,6 +6,7 @@ import entities
 import helpers
 import selects
 from app import App
+from brightness_handler import BrightnessHandler, BrightnessCalibration
 from rooms import *
 from scene_controllers import scene
 from scene_controllers.scene import SceneByModeSelector, Scene, SceneWithActions, _Off
@@ -17,6 +18,7 @@ class SceneApp(App):
 
     def initialize(self) -> None:
         self._scheduled_tasks: Deque[str] = collections.deque()
+        self._brightness: Optional[BrightnessHandler] = None
         self.just_woke_up = False
         self._wakeup_reset_timer: Optional[str] = None
         self.log(f'Initializing {self.scene} scene.', level="DEBUG")
@@ -51,6 +53,20 @@ class SceneApp(App):
     @abstractmethod
     def illuminance_sensor(self) -> Optional[entities.Entity]:
         pass
+
+    @property
+    def brightness_calibration(self) -> Optional[BrightnessCalibration]:
+        """Override to force a calibration; None lets the handler infer it."""
+        return None
+
+    @property
+    def brightness(self) -> Optional[BrightnessHandler]:
+        """The room's light-level handler, or None if it has no sensor."""
+        if self._brightness is None and self.illuminance_sensor is not None:
+            self._brightness = BrightnessHandler(
+                self, self.illuminance_sensor, self.brightness_calibration
+            )
+        return self._brightness
 
     @property
     @abstractmethod
@@ -104,14 +120,13 @@ class SceneApp(App):
             self.turn_off(self.room_lights)
             return
 
-        if not self.illuminance_sensor:
+        brightness = self.brightness
+        if brightness is None:
             self.turn_on(desired_scene)
             return
 
-        illuminance = self.state.get_as_number(self.illuminance_sensor)
         lights_on = self.state.is_on(self.room_lights)
-        if current_mode == selects.Mode.NIGHT or ((not lights_on) and illuminance < 60) or (
-                lights_on and illuminance < 200):
+        if current_mode == selects.Mode.NIGHT or brightness.needs_artificial_light(lights_on):
             self.turn_on(desired_scene)
         else:
             self.turn_off(self.room_lights)
