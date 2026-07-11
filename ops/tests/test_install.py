@@ -1,7 +1,11 @@
 from __future__ import annotations
 
+import types
 from pathlib import Path
 
+import pytest
+
+from ops import install
 from ops.install import APPDAEMON_APPS_PREFIX, classify
 
 
@@ -41,3 +45,39 @@ def test_classify_generated_yaml_counts_as_config() -> None:
     app, config = classify(["helpers/input_boolean/input_boolean_generated.yaml"])
     assert app == []
     assert config == ["helpers/input_boolean/input_boolean_generated.yaml"]
+
+
+def _ok(*_a, **_k):
+    return types.SimpleNamespace(returncode=0, stdout="", stderr="")
+
+
+def test_regenerate_runs_gen_and_returns_changed_files(monkeypatch) -> None:
+    ran = {}
+    monkeypatch.setattr(install, "generate", lambda: ran.setdefault("gen", True))
+    monkeypatch.setattr(install.subprocess, "run", _ok)
+    monkeypatch.setattr(install, "_git",
+                        lambda *a: "devices/templates/brightness_generated.yaml\n")
+
+    changed = install.regenerate()
+
+    assert ran["gen"] is True
+    assert changed == ["devices/templates/brightness_generated.yaml"]
+
+
+def test_regenerate_returns_empty_when_nothing_changed(monkeypatch) -> None:
+    monkeypatch.setattr(install, "generate", lambda: None)
+    monkeypatch.setattr(install.subprocess, "run", _ok)
+    monkeypatch.setattr(install, "_git", lambda *a: "")
+
+    assert install.regenerate() == []
+
+
+def test_commit_and_push_raises_on_push_failure(monkeypatch) -> None:
+    def run(cmd, **_k):
+        if cmd[:2] == ["git", "push"]:
+            return types.SimpleNamespace(returncode=1, stdout="", stderr="rejected")
+        return _ok()
+
+    monkeypatch.setattr(install.subprocess, "run", run)
+    with pytest.raises(SystemExit):
+        install.commit_and_push_generated(["devices/templates/brightness_generated.yaml"])

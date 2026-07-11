@@ -20,8 +20,21 @@ from typing import Optional
 
 from ops import dashboard
 from ops.client import HaClient
+from ops.codegen import generate
 
 DASHBOARD_FILE = "dashboard.yaml"
+
+# Files `ha gen` (re)writes. Before deploying, install regenerates and commits
+# any diff in these so a stale `windows.yaml`/`rooms.yaml` edit (source changed
+# but stubs not regenerated) can never ship un-regenerated code to the box.
+GENERATED_PATHS = (
+    "appdaemon/apps/generated",
+    "devices/templates/templates_generated.yaml",
+    "devices/templates/brightness_generated.yaml",
+    "helpers/input_boolean/input_boolean_generated.yaml",
+    "helpers/input_datetime/input_datetime_generated.yaml",
+    "helpers/input_select/input_select_generated.yaml",
+)
 
 # LAN name for the box: the public domain (calamarbicefalo.uk) only routes 443,
 # so the SSH pull needs the box on the local network (or a VPN into it). The
@@ -54,6 +67,31 @@ IGNORED_FILES = (
 
 def _git(*args: str) -> str:
     return subprocess.run(["git", *args], capture_output=True, text=True).stdout.strip()
+
+
+def regenerate() -> list[str]:
+    """Run `ha gen`, stage the generated outputs, return the ones that changed."""
+    print("Regenerating types (ha gen)...")
+    generate()
+    subprocess.run(["git", "add", "--", *GENERATED_PATHS], capture_output=True, text=True)
+    staged = _git("diff", "--cached", "--name-only", "--", *GENERATED_PATHS)
+    return [line.strip() for line in staged.splitlines() if line.strip()]
+
+
+def commit_and_push_generated(files: list[str]) -> None:
+    """Commit the regenerated files (only those paths) and push to origin."""
+    print(f"Committing {len(files)} regenerated file(s):")
+    for f in files:
+        print(f"    - {f}")
+    subprocess.run(
+        ["git", "commit", "-m", "chore: regenerate generated files", "--", *GENERATED_PATHS],
+        capture_output=True, text=True)
+    print("→ Pushing to origin...", end=" ", flush=True)
+    result = subprocess.run(["git", "push"], capture_output=True, text=True)
+    if result.returncode != 0:
+        print("FAILED.")
+        raise SystemExit(f"git push failed:\n{(result.stdout + result.stderr).strip()}")
+    print("done.")
 
 
 def local_push_warnings() -> list[str]:
@@ -145,6 +183,12 @@ def _confirm_dashboard_push(assume_yes: bool) -> bool:
 
 def run(host: str = DEFAULT_SSH_HOST, path: Optional[str] = None,
         core: bool = False, assume_yes: bool = False) -> None:
+    regenerated = regenerate()
+    if regenerated:
+        commit_and_push_generated(regenerated)
+    else:
+        print("Generated files already up to date.")
+
     warnings = local_push_warnings()
     if warnings and not assume_yes:
         print("The box deploys origin/main, but:")
