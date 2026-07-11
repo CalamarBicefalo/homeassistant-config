@@ -101,6 +101,35 @@ def test_dim_window_daylight_keeps_lights_on(given_that, office_scene, assert_th
     assert_that(scenes.OFFICE_WORKING.get()).was.turned_on()
 
 
+def _lights_status_calls(hass_mocks):
+    return [c for c in hass_mocks.hass_functions["set_state"].call_args_list
+            if c.args and c.args[0] == "sensor.office_lights_status"]
+
+
+@pytest.mark.asyncio
+def test_bright_daylight_publishes_lights_off_status(given_that, office_scene, hass_mocks):
+    given_that.office_scene_is(activity=Office.Activity.WORKING, illuminance=30_000)
+
+    office_scene.handle_scene(Office._activity_helper, None, None, None, None)
+
+    calls = _lights_status_calls(hass_mocks)
+    assert calls and calls[-1].kwargs["state"] == "Off"
+    assert calls[-1].kwargs["attributes"]["explanation"] == \
+        "Off because there's plenty of daylight"
+
+
+@pytest.mark.asyncio
+def test_dim_daylight_publishes_lights_on_status(given_that, office_scene, hass_mocks):
+    given_that.office_scene_is(activity=Office.Activity.WORKING, illuminance=500)
+
+    office_scene.handle_scene(Office._activity_helper, None, None, None, None)
+
+    calls = _lights_status_calls(hass_mocks)
+    assert calls and calls[-1].kwargs["state"] == "On"
+    assert calls[-1].kwargs["attributes"]["explanation"] == \
+        "On because there isn't enough daylight"
+
+
 @pytest.mark.asyncio
 def test_empty_activity_turns_off_lights(given_that, office_scene, assert_that):
     given_that.office_scene_is(activity=Office.Activity.EMPTY, illuminance=30)

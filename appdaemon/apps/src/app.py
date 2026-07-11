@@ -23,6 +23,7 @@ from rooms import RoomHandlers
 from select_handler import SelectHandler
 from selects import Mode
 from state_handler import StateHandler
+from status_handler import StatusHandler, room_key
 from temperature_handler import TemperatureHandler
 
 
@@ -36,6 +37,7 @@ class Handler():
     buttons: ButtonHandler
     notifications: NotificationHandler
     temperature: TemperatureHandler
+    status: Optional[StatusHandler]
 
     def __init__(self, app: hass.Hass, speakers: Optional[Entity], blinds: Optional[Entity],
                  room_has_plants: bool, window: Optional[Entity],
@@ -44,7 +46,10 @@ class Handler():
         self.rooms = RoomHandlers(app)
         self.music = MusicHandler(app, speakers)
         brightness = BrightnessHandler(app, brightness_sensor) if brightness_sensor else None
-        self.blinds = BlindsHandler(app, blinds, room_has_plants, window, brightness)
+        # Only rooms with a brightness sensor get the "state + why" companion
+        # sensors (they are the ones with a brightness more-info card).
+        self.status = StatusHandler(app, room_key(brightness_sensor)) if brightness_sensor else None
+        self.blinds = BlindsHandler(app, blinds, room_has_plants, window, brightness, self.status)
         self.alarmclock = AlarmClock(app)
         self.flick = FlickHandler(app)
         self.buttons = ButtonHandler(app)

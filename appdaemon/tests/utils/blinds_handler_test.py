@@ -11,6 +11,7 @@ from app import App
 from blinds_handler import BlindsHandler
 from brightness_handler import BrightnessHandler
 from brightness_helpers import set_brightness
+from status_handler import StatusHandler
 from temperature_handler import COMFORT_INDOOR_MAX_TEMPERATURE, COMFORT_INDOOR_MIN_TEMPERATURE, \
     HEATWAVE_MIN_OUTSIDE, INDOOR_THERMOMETER
 
@@ -192,3 +193,45 @@ def test_day_no_cooldown_opens(given_that, assert_that: Any, app) -> None:
     _day_blinds(app).best_for_temperature()
 
     assert_that(services.COVER_OPEN_COVER).was.called_with(entity_id=BLINDS)
+
+
+# --- status publishing ----------------------------------------------------
+
+def _blinds_status_calls(hass_mocks):
+    return [c for c in hass_mocks.hass_functions["set_state"].call_args_list
+            if c.args and c.args[0] == "sensor.living_room_blinds_status"]
+
+
+@pytest.mark.asyncio
+def test_plant_room_shade_publishes_partially_closed(
+        given_that, app, hass_mocks) -> None:
+    _given_blinds_at(given_that, 100)
+    _given_cooldown_day(given_that, lux=SHADE_ABOVE + 2000)
+    handler = BlindsHandler(app, BLINDS, True, WINDOW,
+                            BrightnessHandler(app, BRIGHTNESS_SENSOR),
+                            StatusHandler(app, "living_room"))
+    handler.is_day = lambda: True
+
+    handler.best_for_temperature()
+
+    calls = _blinds_status_calls(hass_mocks)
+    assert calls, "expected a blinds status publish"
+    assert calls[-1].kwargs["state"] == "Partially closed"
+    assert calls[-1].kwargs["attributes"]["explanation"].startswith(
+        "Partially closed because")
+
+
+@pytest.mark.asyncio
+def test_night_close_publishes_closed_with_reason(
+        given_that, app, hass_mocks) -> None:
+    _given_blinds_at(given_that, 100)
+    given_that.state_of(WINDOW).is_set_to(states.OFF)
+    given_that.state_of(INDOOR_THERMOMETER).is_set_to(COMFORT_INDOOR_MAX_TEMPERATURE + 1)
+    handler = BlindsHandler(app, BLINDS, window=WINDOW, status=StatusHandler(app, "living_room"))
+    handler.is_day = lambda: False
+
+    handler.best_for_temperature()
+
+    calls = _blinds_status_calls(hass_mocks)
+    assert calls and calls[-1].kwargs["state"] == "Closed"
+    assert "night" in calls[-1].kwargs["attributes"]["reason"]

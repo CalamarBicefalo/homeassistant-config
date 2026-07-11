@@ -32,6 +32,16 @@ class SceneApp(App):
             self.run_every(
                 lambda *_: self.handle_scene(None, None, None, None, None), "now", 10 * 60
             )
+            # Publish an initial lights status so the more-info card is populated
+            # on AppDaemon start (blinds populate on the first evaluation). The
+            # light state can be briefly unavailable right after a restart, so
+            # fail soft — the next evaluation will publish the real value.
+            try:
+                self._publish_lights(
+                    "On" if self.state.is_on(self.room_lights) else "Off",
+                    "that's how they're currently set")
+            except Exception as exc:  # noqa: BLE001 — best-effort seed value
+                self.log(f'{self.scene}: could not seed lights status - {exc}.', level="DEBUG")
 
         self.listen_state(
             self.mode_controller,
@@ -100,6 +110,7 @@ class SceneApp(App):
             self.log(f'{self.scene}: no scene mapped for activity={activity}, mode={current_mode} - skipping.', level="DEBUG")
             if current_mode is Mode.AWAY:
                 self.turn_off(self.room_lights)
+                self._publish_lights("Off", "the flat is in away mode")
             return
 
         if self.should_execute_actions(entity, unwrapped_scene):
@@ -112,11 +123,13 @@ class SceneApp(App):
 
         if isinstance(desired_scene, _Off):
             self.turn_off(self.room_lights)
+            self._publish_lights("Off", "nothing is happening in the room")
             return
 
         brightness = self.brightness
         if brightness is None:
             self.turn_on(desired_scene)
+            self._publish_lights("On", "the scene turned them on")
             return
 
         lights_on = self.state.is_on(self.room_lights)
@@ -126,6 +139,7 @@ class SceneApp(App):
             self.log(f'{self.scene}: lamps on - night mode overrides daylight ({trigger}).',
                      level="DEBUG")
             self.turn_on(desired_scene)
+            self._publish_lights("On", "it's night mode")
             return
 
         decision = brightness.evaluate(lights_on)
@@ -133,6 +147,7 @@ class SceneApp(App):
             if not lights_on:
                 self.log(f'{self.scene}: lamps ON - {decision.reason} ({trigger}).', level="INFO")
             self.turn_on(desired_scene)
+            self._publish_lights("On", "there isn't enough daylight", detail=decision.reason)
         else:
             if lights_on:
                 self.log(f'{self.scene}: lamps OFF - {decision.reason} ({trigger}).', level="INFO")
@@ -140,6 +155,11 @@ class SceneApp(App):
                 self.log(f'{self.scene}: lamps stay off - {decision.reason} ({trigger}).',
                          level="DEBUG")
             self.turn_off(self.room_lights)
+            self._publish_lights("Off", "there's plenty of daylight", detail=decision.reason)
+
+    def _publish_lights(self, state: str, reason: str, detail: Optional[str] = None) -> None:
+        if self.handlers.status is not None:
+            self.handlers.status.publish_lights(state, reason, detail)
 
     def _evaluation_trigger(self, entity: Any) -> str:
         """What caused this evaluation, for the WHY logs.

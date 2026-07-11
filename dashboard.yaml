@@ -102,9 +102,13 @@ views:
           name: Illuminance
           suffix: ' lx'
           type: attribute
-        - attribute: sensor_type
-          entity: sensor.living_room_brightness
-          name: Sensor
+        - attribute: explanation
+          entity: sensor.living_room_lights_status
+          name: Lights
+          type: attribute
+        - attribute: explanation
+          entity: sensor.living_room_blinds_status
+          name: Blinds
           type: attribute
         show_header_toggle: false
         type: entities
@@ -134,9 +138,13 @@ views:
           name: Illuminance
           suffix: ' lx'
           type: attribute
-        - attribute: sensor_type
-          entity: sensor.studio_brightness
-          name: Sensor
+        - attribute: explanation
+          entity: sensor.studio_lights_status
+          name: Lights
+          type: attribute
+        - attribute: explanation
+          entity: sensor.studio_blinds_status
+          name: Blinds
           type: attribute
         show_header_toggle: false
         type: entities
@@ -166,9 +174,13 @@ views:
           name: Illuminance
           suffix: ' lx'
           type: attribute
-        - attribute: sensor_type
-          entity: sensor.office_brightness
-          name: Sensor
+        - attribute: explanation
+          entity: sensor.office_lights_status
+          name: Lights
+          type: attribute
+        - attribute: explanation
+          entity: sensor.office_blinds_status
+          name: Blinds
           type: attribute
         show_header_toggle: false
         type: entities
@@ -198,9 +210,13 @@ views:
           name: Illuminance
           suffix: ' lx'
           type: attribute
-        - attribute: sensor_type
-          entity: sensor.bedroom_brightness
-          name: Sensor
+        - attribute: explanation
+          entity: sensor.bedroom_lights_status
+          name: Lights
+          type: attribute
+        - attribute: explanation
+          entity: sensor.bedroom_blinds_status
+          name: Blinds
           type: attribute
         show_header_toggle: false
         type: entities
