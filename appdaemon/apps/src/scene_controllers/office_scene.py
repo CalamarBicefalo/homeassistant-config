@@ -16,7 +16,7 @@ class OfficeScene(SceneApp):
     def activity(self) -> SelectHandler:
         return self.handlers.rooms.office.activity
 
-    illuminance_sensor = entities.SENSOR_OFFICE_BR
+    brightness_sensor = entities.SENSOR_OFFICE_BRIGHTNESS
     room_lights = entities.LIGHT_OFFICE
     speakers = entities.MEDIA_PLAYER_OFFICE_SPEAKER_2
     blinds = entities.COVER_OFFICE_BLINDS

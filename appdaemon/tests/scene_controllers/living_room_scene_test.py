@@ -11,6 +11,7 @@ import selects
 import scenes
 import states
 from scene_controllers.living_room_scene import LivingRoomScene
+from brightness_helpers import set_brightness, WINDOW
 
 
 @automation_fixture(LivingRoomScene)
@@ -189,7 +190,7 @@ def living_room_scene_is(self, activity, illuminance=0, are_lights_on=False, mod
     self.state_of(entities.MEDIA_PLAYER_LIVING_ROOM_STEREO).is_set_to(playing_music)
     self.state_of(helpers.MODE).is_set_to(mode)
     self.state_of(entities.SENSOR_KITCHEN_AIR_QUALITY_TEMPERATURE).is_set_to(20)
-    self.state_of(entities.SENSOR_LIVING_ROOM_BR).is_set_to(illuminance)
+    set_brightness(self, entities.SENSOR_LIVING_ROOM_BRIGHTNESS, illuminance, WINDOW)
     self.state_of(LivingRoom._activity_helper).is_set_to(activity)
     self.state_of(Studio._activity_helper).is_set_to(studio_activity)
     if are_lights_on:

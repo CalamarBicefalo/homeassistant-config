@@ -10,6 +10,7 @@ import selects
 import scenes
 import states
 from scene_controllers.kitchen_scene import KitchenScene
+from brightness_helpers import set_brightness, AMBIANCE
 
 
 @automation_fixture(KitchenScene)
@@ -71,7 +72,7 @@ def test_morning_radio_only_plays_once(given_that, kitchen_scene, fake_music, ti
 
 
 def kitchen_scene_is(self, activity, illuminance=50, mode=selects.Mode.DAY):
-    self.state_of(entities.SENSOR_KITCHEN_MS_ILLUMINANCE).is_set_to(illuminance)
+    set_brightness(self, entities.SENSOR_KITCHEN_BRIGHTNESS, illuminance, AMBIANCE)
     self.state_of(Kitchen._activity_helper).is_set_to(activity)
     self.state_of(helpers.MODE).is_set_to(mode)
     self.state_of(entities.LIGHT_KITCHEN).is_set_to(states.OFF)

@@ -14,6 +14,7 @@ from scene_controllers import scene
 from scene_controllers.scene import Scene
 from scene_controllers.scene_app import SceneApp
 from select_handler import SelectHandler
+from brightness_helpers import set_brightness
 
 DEFAULT_SCENE = scenes.KITCHEN_TV
 ROOM_LIGHTS = "room_lights"
@@ -24,7 +25,7 @@ class GenericSceneWithIlluminance(SceneApp):
     @property
     def activity(self) -> SelectHandler:
         return self.handlers.rooms.bedroom.activity
-    illuminance_sensor = entities.Entity(ILLUMINANCE_SENSOR)
+    brightness_sensor = entities.Entity(ILLUMINANCE_SENSOR)
     room_lights = entities.Entity(ROOM_LIGHTS)
 
     def get_light_scene(self, activity: LivingRoom.Activity, previous_activity: Optional[StrEnum]) -> Scene:
@@ -48,7 +49,7 @@ def test_when_present(given_that, generic_room_scene, assert_that):
 
 def initial_state(self, generic_room_scene, activity, illuminance=0, are_lights_on=False, mode=Mode.NIGHT):
     self.state_of(helpers.MODE).is_set_to(mode)
-    self.state_of(ILLUMINANCE_SENSOR).is_set_to(illuminance)
+    set_brightness(self, ILLUMINANCE_SENSOR, illuminance)
     self.state_of(generic_room_scene.activity._helper).is_set_to(activity)
     if are_lights_on:
         self.state_of(ROOM_LIGHTS).is_set_to(states.ON)

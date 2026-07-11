@@ -16,7 +16,7 @@ class StudioScene(SceneApp):
     def activity(self) -> SelectHandler:
         return self.handlers.rooms.studio.activity
 
-    illuminance_sensor = entities.SENSOR_STUDIO_BR
+    brightness_sensor = entities.SENSOR_STUDIO_BRIGHTNESS
     room_lights = entities.LIGHT_STUDIO
     speakers = entities.MEDIA_PLAYER_LIVING_ROOM_STEREO
     blinds = entities.COVER_CURTAINS_STUDIO

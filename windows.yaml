@@ -17,10 +17,10 @@
 calibrations:
   window_t1:            # Aqara T1 (lumi.sen_ill.agl01) — faces the sky, true daylight
     cloudy: 1000
-    bright: 15000
+    bright: 10000
     direct_sunlight: 50000
-    turn_on_below: 3000
-    allow_off_at: 10000
+    turn_on_below: 1500
+    allow_off_at: 4000
   ambiance:             # Hue / Everything Presence room motion sensors — low scale, lamp-polluted
     cloudy: 60
     bright: 200

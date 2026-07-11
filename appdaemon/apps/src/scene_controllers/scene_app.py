@@ -6,7 +6,7 @@ import entities
 import helpers
 import selects
 from app import App
-from brightness_handler import BrightnessHandler, BrightnessCalibration
+from brightness_handler import BrightnessHandler
 from rooms import *
 from scene_controllers import scene
 from scene_controllers.scene import SceneByModeSelector, Scene, SceneWithActions, _Off
@@ -28,7 +28,7 @@ class SceneApp(App):
                 self.activity._helper
             )
 
-        if self.illuminance_sensor:
+        if self.brightness_sensor:
             self.run_every(
                 lambda *_: self.handle_scene(None, None, None, None, None), "now", 10 * 60
             )
@@ -51,21 +51,15 @@ class SceneApp(App):
 
     @property
     @abstractmethod
-    def illuminance_sensor(self) -> Optional[entities.Entity]:
+    def brightness_sensor(self) -> Optional[entities.Entity]:
+        """The room's ``sensor.<room>_brightness`` wrapper, or None if it has none."""
         pass
-
-    @property
-    def brightness_calibration(self) -> Optional[BrightnessCalibration]:
-        """Override to force a calibration; None lets the handler infer it."""
-        return None
 
     @property
     def brightness(self) -> Optional[BrightnessHandler]:
         """The room's light-level handler, or None if it has no sensor."""
-        if self._brightness is None and self.illuminance_sensor is not None:
-            self._brightness = BrightnessHandler(
-                self, self.illuminance_sensor, self.brightness_calibration
-            )
+        if self._brightness is None and self.brightness_sensor is not None:
+            self._brightness = BrightnessHandler(self, self.brightness_sensor)
         return self._brightness
 
     @property

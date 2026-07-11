@@ -16,7 +16,7 @@ from selects import Mode
 
 
 class BedroomScene(SceneApp):
-    illuminance_sensor = entities.SENSOR_BEDROOM_BR
+    brightness_sensor = entities.SENSOR_BEDROOM_BRIGHTNESS
     room_lights = entities.LIGHT_BEDROOM
     bedside_lamps = [entities.LIGHT_BEDSIDE_1, entities.LIGHT_BEDSIDE_2]
     speakers = entities.MEDIA_PLAYER_BEDROOM_SPEAKERS

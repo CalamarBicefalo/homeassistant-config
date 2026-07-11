@@ -23,7 +23,7 @@ class GenericSceneWithIlluminance(SceneApp):
     @property
     def activity(self) -> SelectHandler:
         return self.handlers.rooms.bedroom.activity
-    illuminance_sensor = None
+    brightness_sensor = None
     room_lights = entities.Entity(ROOM_LIGHTS)
 
     def get_light_scene(self, activity: Bedroom.Activity, previous_activity: Optional[StrEnum]) -> SceneByModeSelector:

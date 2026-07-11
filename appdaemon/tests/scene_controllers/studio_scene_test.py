@@ -11,6 +11,7 @@ import selects
 import scenes
 import states
 from scene_controllers.studio_scene import StudioScene
+from brightness_helpers import set_brightness, WINDOW
 
 
 @automation_fixture(StudioScene)
@@ -74,7 +75,7 @@ def test_mode_change_always_adjusts_blinds(given_that, studio_scene, fake_blinds
 def studio_scene_is(self, activity, illuminance, mode=selects.Mode.DAY):
     self.state_of(helpers.MODE).is_set_to(mode)
     self.state_of(entities.LIGHT_STUDIO).is_set_to(states.OFF)
-    self.state_of(entities.SENSOR_STUDIO_BR).is_set_to(illuminance)
+    set_brightness(self, entities.SENSOR_STUDIO_BRIGHTNESS, illuminance, WINDOW)
     self.state_of(Studio._activity_helper).is_set_to(activity)
 
 
