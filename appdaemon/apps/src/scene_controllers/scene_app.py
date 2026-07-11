@@ -126,10 +126,40 @@ class SceneApp(App):
             return
 
         lights_on = self.state.is_on(self.room_lights)
-        if current_mode == selects.Mode.NIGHT or brightness.needs_artificial_light(lights_on):
+        trigger = self._evaluation_trigger(entity)
+
+        if current_mode == selects.Mode.NIGHT:
+            self.log(f'{self.scene}: lamps on — night mode overrides daylight ({trigger}).',
+                     level="DEBUG")
+            self.turn_on(desired_scene)
+            return
+
+        decision = brightness.evaluate(lights_on)
+        if decision.needs_light:
+            if not lights_on:
+                self.log(f'{self.scene}: lamps ON — {decision.reason} ({trigger}).', level="INFO")
             self.turn_on(desired_scene)
         else:
+            if lights_on:
+                self.log(f'{self.scene}: lamps OFF — {decision.reason} ({trigger}).', level="INFO")
+            else:
+                self.log(f'{self.scene}: lamps stay off — {decision.reason} ({trigger}).',
+                         level="DEBUG")
             self.turn_off(self.room_lights)
+
+    def _evaluation_trigger(self, entity: Any) -> str:
+        """What caused this evaluation, for the WHY logs.
+
+        A 'daylight re-check' with a lamp state change is the second-order case
+        (nothing in the room changed except the light outside — "it got cloudy").
+        """
+        if entity is None:
+            return "daylight re-check"
+        if entity == self.activity._helper:
+            return "activity change"
+        if entity == entities.INPUT_SELECT_MODE:
+            return "mode change"
+        return str(entity)
 
     def should_execute_actions(self, entity, unwrapped_scene: Scene) -> bool | Any:
         is_activity_change = entity == self.activity._helper
