@@ -56,9 +56,9 @@ class LightDecision:
     def reason(self) -> str:
         if self.needs_light:
             return (f"{self.brightness.name} ({self.lux:.0f}lx < {self.threshold:.0f}lx) "
-                    "— too dim, lamps wanted")
+                    "- too dim, lamps wanted")
         return (f"{self.brightness.name} ({self.lux:.0f}lx >= {self.threshold:.0f}lx) "
-                "— enough daylight")
+                "- enough daylight")
 
 
 class BrightnessHandler:

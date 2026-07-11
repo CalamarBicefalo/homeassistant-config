@@ -58,6 +58,20 @@ class HaClient:
         text: str = self.get("/api/error_log").text
         return text
 
+    def addon_logs(self, slug: str, lines: int = 500) -> str:
+        """Return an add-on's recent log output via the HA->Supervisor proxy.
+
+        AppDaemon's `self.log(...)` output lands in the add-on log, not HA's
+        core system_log, so this is the only way to read it with just the
+        long-lived token (no Supervisor token / SSH needed).
+        """
+        # Decode as UTF-8 explicitly: the endpoint sends text/plain with no
+        # charset, so requests would otherwise fall back to ISO-8859-1 and
+        # mojibake every non-ASCII byte (em-dashes, accents, emoji).
+        resp = self.get(f"/api/hassio/addons/{slug}/logs", params={"lines": lines})
+        text: str = resp.content.decode("utf-8", "replace")
+        return text
+
     def is_reachable(self) -> bool:
         """Whether the instance answers an authenticated request (for codegen)."""
         try:

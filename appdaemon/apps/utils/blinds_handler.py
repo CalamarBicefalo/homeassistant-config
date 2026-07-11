@@ -55,9 +55,9 @@ class BlindsHandler:
                 self._open("no cooldown needed")
         else:
             if self.window_is_open() and self.temperature.should_cooldown():
-                self._open("night — open window lets the breeze cool the room")
+                self._open("night - open window lets the breeze cool the room")
             else:
-                self._close("night — no breeze to be had")
+                self._close("night - no breeze to be had")
 
     def protect_from_sun_if_needed(self) -> None:
         """Lower the blinds when the sun comes up on a hot day.
@@ -70,7 +70,7 @@ class BlindsHandler:
         weak-sun leniency of best_for_temperature() deliberately does not apply.
         """
         if self.temperature.should_cooldown():
-            self._shade("sunrise on a hot day — keeping the empty room cool")
+            self._shade("sunrise on a hot day - keeping the empty room cool")
 
     def _should_shade(self) -> bool:
         """On a cooldown day, is shading actually worth losing daylight over?"""
@@ -82,9 +82,9 @@ class BlindsHandler:
 
     def _shade_reason(self) -> str:
         if self.temperature.is_heatwave():
-            return "cooldown wanted and heatwave — shade regardless of the sun"
+            return "cooldown wanted and heatwave - shade regardless of the sun"
         if self.brightness is None:
-            return "cooldown wanted and no light reading — shading to be safe"
+            return "cooldown wanted and no light reading - shading to be safe"
         return (f"cooldown wanted and strong sun "
                 f"({self.brightness.lux():.0f}lx >= "
                 f"{self.brightness.blinds_shade_above():.0f}lx)")
@@ -93,28 +93,28 @@ class BlindsHandler:
         # Only reached when it is not a heatwave and the sun is weak, so
         # brightness is always present; guard anyway to keep the type checker happy.
         if self.brightness is None:
-            return "cooldown wanted but no light reading — letting daylight in"
+            return "cooldown wanted but no light reading - letting daylight in"
         return (f"cooldown wanted but weak sun "
                 f"({self.brightness.lux():.0f}lx < "
-                f"{self.brightness.blinds_shade_above():.0f}lx) — letting daylight in")
+                f"{self.brightness.blinds_shade_above():.0f}lx) - letting daylight in")
 
     def _shade(self, reason: str) -> None:
         """Lower for shade, honouring the 30% plant floor."""
         if self.main_source_of_light:
             moving = abs(self.get_position() - 30) >= 1
-            self.app.log(f'Blinds: shading to 30% for plants — {reason}.',
+            self.app.log(f'Blinds: shading to 30% for plants - {reason}.',
                          level="INFO" if moving else "DEBUG")
             self.set_position(30)
         else:
             self._close(reason)
 
     def _open(self, reason: str) -> None:
-        self.app.log(f'Blinds: opening — {reason}.',
+        self.app.log(f'Blinds: opening - {reason}.',
                      level="INFO" if self.is_closed() else "DEBUG")
         self.open()
 
     def _close(self, reason: str) -> None:
-        self.app.log(f'Blinds: closing — {reason}.',
+        self.app.log(f'Blinds: closing - {reason}.',
                      level="INFO" if self.is_open() else "DEBUG")
         self.close()
 

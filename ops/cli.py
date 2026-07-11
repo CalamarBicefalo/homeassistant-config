@@ -6,6 +6,7 @@ from typing import Optional
 import typer
 
 from ops import appderrors as appderrors_mod
+from ops import applogs as applogs_mod
 from ops import codegen
 from ops import dashboard as dashboard_mod
 from ops import install as install_mod
@@ -49,6 +50,18 @@ def appderrors(
 ) -> None:
     """Show AppDaemon app errors reported into HA by error_reporter."""
     appderrors_mod.run(since=since)
+
+
+@app.command()
+def applogs(
+    level: str = typer.Option("INFO", help="Minimum level to show (DEBUG/INFO/WARNING/ERROR/CRITICAL)."),
+    grep: Optional[str] = typer.Option(None, help="Only entries containing this substring (case-insensitive)."),
+    app_filter: Optional[str] = typer.Option(None, "--app", help="Only entries from apps whose name contains this."),
+    tail: int = typer.Option(50, help="Show the most recent N entries."),
+    color: Optional[bool] = typer.Option(None, "--color/--no-color", help="Force colour on/off (default: auto for a TTY)."),
+) -> None:
+    """Show AppDaemon app logs (the self.log() output from the add-on)."""
+    applogs_mod.run(level=level, grep=grep, app=app_filter, tail=tail, color=color)
 
 
 @app.command()

@@ -114,11 +114,11 @@ def test_decision_reason_when_dim(given_that, app):
     _set(given_that, "dark", 800)
     decision = _handler(app).evaluate(lights_currently_on=False)
     assert decision.needs_light
-    assert decision.reason == "DARK (800lx < 1500lx) — too dim, lamps wanted"
+    assert decision.reason == "DARK (800lx < 1500lx) - too dim, lamps wanted"
 
 
 def test_decision_reason_when_bright(given_that, app):
     _set(given_that, "bright", 27441)
     decision = _handler(app).evaluate(lights_currently_on=True)
     assert not decision.needs_light
-    assert decision.reason == "BRIGHT (27441lx >= 4000lx) — enough daylight"
+    assert decision.reason == "BRIGHT (27441lx >= 4000lx) - enough daylight"

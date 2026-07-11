@@ -97,7 +97,7 @@ class SceneApp(App):
             unwrapped_scene = scene_resolver
 
         if not unwrapped_scene:
-            self.log(f'{self.scene}: no scene mapped for activity={activity}, mode={current_mode} — skipping.', level="DEBUG")
+            self.log(f'{self.scene}: no scene mapped for activity={activity}, mode={current_mode} - skipping.', level="DEBUG")
             if current_mode is Mode.AWAY:
                 self.turn_off(self.room_lights)
             return
@@ -123,7 +123,7 @@ class SceneApp(App):
         trigger = self._evaluation_trigger(entity)
 
         if current_mode == selects.Mode.NIGHT:
-            self.log(f'{self.scene}: lamps on — night mode overrides daylight ({trigger}).',
+            self.log(f'{self.scene}: lamps on - night mode overrides daylight ({trigger}).',
                      level="DEBUG")
             self.turn_on(desired_scene)
             return
@@ -131,13 +131,13 @@ class SceneApp(App):
         decision = brightness.evaluate(lights_on)
         if decision.needs_light:
             if not lights_on:
-                self.log(f'{self.scene}: lamps ON — {decision.reason} ({trigger}).', level="INFO")
+                self.log(f'{self.scene}: lamps ON - {decision.reason} ({trigger}).', level="INFO")
             self.turn_on(desired_scene)
         else:
             if lights_on:
-                self.log(f'{self.scene}: lamps OFF — {decision.reason} ({trigger}).', level="INFO")
+                self.log(f'{self.scene}: lamps OFF - {decision.reason} ({trigger}).', level="INFO")
             else:
-                self.log(f'{self.scene}: lamps stay off — {decision.reason} ({trigger}).',
+                self.log(f'{self.scene}: lamps stay off - {decision.reason} ({trigger}).',
                          level="DEBUG")
             self.turn_off(self.room_lights)
 
