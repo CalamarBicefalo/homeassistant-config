@@ -5,7 +5,7 @@ import scenes
 from music import Playlist, Radio
 from rooms import *
 from scene_controllers import scene
-from scene_controllers.scene import Scene, SceneByModeSelector
+from scene_controllers.scene import Scene, SceneByModeSelector, Facet
 from scene_controllers.scene_app import SceneApp
 from select_handler import SelectHandler
 from selects import Mode
@@ -34,14 +34,14 @@ class KitchenScene(SceneApp):
                 if self.just_woke_up:
                     return scene.with_actions(
                         present_scene.get(self.handlers.mode.get()),
-                        lambda: self.play_morning_radio(),
+                        (Facet.MEDIA, lambda: self.play_morning_radio()),
                     )
                 return scene.by_mode(present_scene)
 
             case Kitchen.Activity.COOKING:
                 return scene.with_actions(
                     scenes.KITCHEN_COOK,
-                    self.play_music_if_appropriate,
+                    (Facet.MEDIA, self.play_music_if_appropriate),
                 )
 
         return scene.off()

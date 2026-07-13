@@ -5,7 +5,7 @@ import scenes
 from music import Playlist
 from rooms import *
 from scene_controllers import scene
-from scene_controllers.scene import Scene, SceneByModeSelector
+from scene_controllers.scene import Scene, SceneByModeSelector, Facet
 from scene_controllers.scene_app import SceneApp
 from select_handler import SelectHandler
 from selects import Mode
@@ -27,25 +27,25 @@ class StudioScene(SceneApp):
             case Studio.Activity.WORKING:
                 return scene.with_actions(
                     scenes.STUDIO_WORKING,
-                    lambda: self.play_music_if_appropriate(),
-                    lambda: self.handlers.blinds.best_for_temperature(),
+                    (Facet.MEDIA, lambda: self.play_music_if_appropriate()),
+                    (Facet.BLINDS, lambda: self.handlers.blinds.best_for_temperature()),
                 )
 
             case Studio.Activity.MEETING:
                 return scene.with_actions(
                     scenes.STUDIO_WORKING,
-                    lambda: self.handlers.music.pause(),
+                    (Facet.MEDIA, lambda: self.handlers.music.pause()),
                 )
 
             case Studio.Activity.PRESENT:
                 return scene.with_actions(
                     scenes.STUDIO_NATURAL_LIGHT,
-                    lambda: self.handlers.blinds.best_for_temperature(),
+                    (Facet.BLINDS, lambda: self.handlers.blinds.best_for_temperature()),
                 )
 
         return scene.with_actions(
             scene.off(),
-            lambda: self.handlers.blinds.best_for_temperature(),
+            (Facet.BLINDS, lambda: self.handlers.blinds.best_for_temperature()),
         )
 
     def play_music_if_appropriate(self) -> None:

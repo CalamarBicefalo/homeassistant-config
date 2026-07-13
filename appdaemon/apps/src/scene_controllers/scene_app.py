@@ -9,7 +9,7 @@ from app import App
 from brightness_handler import BrightnessHandler
 from rooms import *
 from scene_controllers import scene
-from scene_controllers.scene import SceneByModeSelector, Scene, SceneWithActions, _Off
+from scene_controllers.scene import SceneByModeSelector, Scene, SceneWithActions, _Off, Facet
 from select_handler import SelectHandler
 from selects import Mode
 
@@ -50,9 +50,12 @@ class SceneApp(App):
 
         if self.blinds:
             # The mode stays NIGHT/SLEEPING through the astronomical sunrise, so
-            # nothing re-evaluates blinds left open overnight for the breeze.
-            # Re-check at sunrise so the blinds come down on hot days.
-            self.run_at_sunrise(lambda *_: self.handlers.blinds.protect_from_sun_if_needed())
+            # nothing else re-evaluates blinds left open overnight for the breeze.
+            # Re-apply the current activity's blinds intent on a slow periodic
+            # tick instead: it covers dawn, the sun getting strong, and dusk
+            # within 10 minutes, with no astronomical special case and without
+            # the server load of reacting to every illuminance change.
+            self.run_every(lambda *_: self.reevaluate_blinds(), "now", 10 * 60)
             # Seed the blinds status from the current position so the card is
             # populated on start (fail soft: the cover may be briefly unavailable).
             try:
@@ -91,6 +94,20 @@ class SceneApp(App):
     def scene(self) -> str:
         return self.__class__.__name__
 
+    def _resolve_current_scene(self, previous_activity: Optional[StrEnum] = None) -> Optional[Scene]:
+        activity = self.activity.get()
+        scene_resolver: Optional[Scene] | SceneByModeSelector = self.get_light_scene(activity, previous_activity)
+        if isinstance(scene_resolver, SceneByModeSelector):
+            return scene_resolver.get_scene(self.handlers.mode.get())
+        if isinstance(scene_resolver, Scene):
+            return scene_resolver
+        return None
+
+    def reevaluate_blinds(self) -> None:
+        scene = self._resolve_current_scene()
+        if isinstance(scene, SceneWithActions):
+            scene.execute_actions(only={Facet.BLINDS})
+
     def handle_scene(self, entity: Any, attribute: Any, old: Any, new: Any, kwargs: Any) -> None:
         self.log(f'Changing {self.scene} scene {entity} -> {attribute} old={old} new={new}', level="DEBUG")
         activity = self.activity.get()
@@ -102,15 +119,9 @@ class SceneApp(App):
             if self.just_woke_up and self._wakeup_reset_timer is None and previous_activity is not Bedroom.Activity.BEDTIME:
                 self._wakeup_reset_timer = self.run_in(lambda *_: self._reset_wakeup_flag(), 120)
 
-        scene_resolver: Optional[Scene] | SceneByModeSelector = self.get_light_scene(activity, previous_activity)
-        unwrapped_scene: Optional[Scene] = None
+        unwrapped_scene = self._resolve_current_scene(previous_activity)
         desired_scene: Optional[entities.Entity] | _Off = None
         current_mode = self.handlers.mode.get()
-        if isinstance(scene_resolver, SceneByModeSelector):
-            unwrapped_scene = scene_resolver.get_scene(current_mode)
-
-        if isinstance(scene_resolver, Scene):
-            unwrapped_scene = scene_resolver
 
         if not unwrapped_scene:
             self.log(f'{self.scene}: no scene mapped for activity={activity}, mode={current_mode} - skipping.', level="DEBUG")

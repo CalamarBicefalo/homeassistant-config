@@ -93,10 +93,47 @@ def test_bedtime_starts_music(given_that, bedroom_scene, fake_music):
 @pytest.mark.asyncio
 def test_bedtime_closes_blinds(given_that, bedroom_scene, fake_blinds):
     given_that.bedroom_scene_is(activity=Bedroom.Activity.BEDTIME)
-    
+
     bedroom_scene.handle_scene(Bedroom._activity_helper, None, None, None, None)
-    
+
     assert fake_blinds.is_closed()
+
+
+@pytest.mark.asyncio
+def test_periodic_reevaluation_reruns_current_activity_blinds(given_that, bedroom_scene, fake_blinds) -> None:
+    # Proves the periodic re-evaluation re-runs the CURRENT activity's blinds
+    # intent instead of the old blanket sun-protect side-channel.
+    given_that.bedroom_scene_is(activity=Bedroom.Activity.EMPTY)
+
+    bedroom_scene.reevaluate_blinds()
+
+    assert fake_blinds.get_position() == BEST_FOR_TEMPERATURE
+
+
+@pytest.mark.asyncio
+def test_periodic_reevaluation_during_bedtime_keeps_blinds_closed(given_that, bedroom_scene, fake_blinds) -> None:
+    # Regression guard for the reported bug: Bedtime/Sleeping must stay closed
+    # when blinds are re-evaluated - it must re-run close(), never raise them.
+    given_that.bedroom_scene_is(activity=Bedroom.Activity.BEDTIME, mode=selects.Mode.SLEEPING)
+    fake_blinds.close()
+
+    bedroom_scene.reevaluate_blinds()
+
+    assert fake_blinds.is_closed()
+
+
+@pytest.mark.asyncio
+def test_initialize_schedules_periodic_blinds_reevaluation(given_that, bedroom_scene) -> None:
+    # Blinds are re-evaluated on a slow periodic tick (not on every illuminance
+    # change), so a 10-minute run_every must be registered on start.
+    given_that.bedroom_scene_is(activity=Bedroom.Activity.EMPTY)
+
+    bedroom_scene.initialize()
+
+    assert any(
+        call.args and call.args[-1] == 10 * 60
+        for call in bedroom_scene.run_every.call_args_list
+    )
 
 
 @pytest.mark.asyncio

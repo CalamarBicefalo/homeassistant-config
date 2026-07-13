@@ -9,7 +9,7 @@ from activity_controllers.bedroom_controller import MINUTES_TO_WAKE_UP
 from music import Playlist, Radio, Tune
 from rooms import *
 from scene_controllers import scene
-from scene_controllers.scene import SceneByModeSelector, Scene
+from scene_controllers.scene import SceneByModeSelector, Scene, Facet
 from scene_controllers.scene_app import SceneApp
 from select_handler import SelectHandler
 from selects import Mode
@@ -38,38 +38,38 @@ class BedroomScene(SceneApp):
             case Bedroom.Activity.WAKING_UP:
                 return scene.with_actions(
                     None,
-                    lambda: self.prepare_to_wake_up(),
+                    (Facet.TRANSITION, lambda: self.prepare_to_wake_up()),
                 )
 
             case Bedroom.Activity.BEDTIME:
                 return scene.with_actions(
                     None,
-                    lambda: self.turn_off_media(),
-                    lambda: self.turn_on(entities.SCENE_BEDROOM_BEDTIME),
-                    lambda: self.handlers.blinds.close(),
-                    lambda: self.handlers.music.play(Playlist.NEO_CLASSICAL_LOUNGE,
-                                                     volume_level=self.bedtime_initial_volume),
-                    lambda: self.prepare_to_sleep()
+                    (Facet.MEDIA, lambda: self.turn_off_media()),
+                    (Facet.LIGHTS, lambda: self.turn_on(entities.SCENE_BEDROOM_BEDTIME)),
+                    (Facet.BLINDS, lambda: self.handlers.blinds.close()),
+                    (Facet.MEDIA, lambda: self.handlers.music.play(Playlist.NEO_CLASSICAL_LOUNGE,
+                                                     volume_level=self.bedtime_initial_volume)),
+                    (Facet.TRANSITION, lambda: self.prepare_to_sleep()),
                 )
 
             case Bedroom.Activity.RELAXING:
                 return scene.with_actions(
                     scenes.BEDROOM_RELAXING,
-                    lambda: self.handlers.music.play(Playlist.NEO_CLASSICAL, volume_level=0.3),
-                    lambda: self.handlers.blinds.close(),
+                    (Facet.MEDIA, lambda: self.handlers.music.play(Playlist.NEO_CLASSICAL, volume_level=0.3)),
+                    (Facet.BLINDS, lambda: self.handlers.blinds.close()),
                 )
 
             case Bedroom.Activity.PRESENT:
                 return scene.by_mode({
-                    Mode.DAY: scene.with_actions(scenes.BEDROOM_BRIGHT, lambda: self.adjust_blinds_for_day()),
-                    Mode.NIGHT: scene.with_actions(scenes.BEDROOM_NIGHTLIGHT, lambda: self.handlers.blinds.close()),
-                    Mode.SLEEPING: scene.with_actions(scene.off(), lambda: self.handlers.blinds.close()),
+                    Mode.DAY: scene.with_actions(scenes.BEDROOM_BRIGHT, (Facet.BLINDS, lambda: self.adjust_blinds_for_day())),
+                    Mode.NIGHT: scene.with_actions(scenes.BEDROOM_NIGHTLIGHT, (Facet.BLINDS, lambda: self.handlers.blinds.close())),
+                    Mode.SLEEPING: scene.with_actions(scene.off(), (Facet.BLINDS, lambda: self.handlers.blinds.close())),
                 })
 
             case Bedroom.Activity.EMPTY:
-                actions = [lambda: self.handlers.blinds.best_for_temperature()]
+                actions = [(Facet.BLINDS, lambda: self.handlers.blinds.best_for_temperature())]
                 if self.just_woke_up:
-                    actions.append(lambda: self.handlers.music.pause())
+                    actions.append((Facet.MEDIA, lambda: self.handlers.music.pause()))
                 return scene.with_actions(
                         scene.off(),
                         *actions,

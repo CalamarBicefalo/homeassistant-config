@@ -5,7 +5,7 @@ import scenes
 from music import Playlist
 from rooms import *
 from scene_controllers import scene
-from scene_controllers.scene import Scene, SceneByModeSelector
+from scene_controllers.scene import Scene, SceneByModeSelector, Facet
 from scene_controllers.scene_app import SceneApp
 from select_handler import SelectHandler
 from selects import Mode
@@ -27,58 +27,58 @@ class OfficeScene(SceneApp):
             case Office.Activity.WORKING:
                 return scene.with_actions(
                     scenes.OFFICE_WORKING,
-                    lambda: self.play_music_if_appropriate(),
-                    lambda: self.handlers.blinds.best_for_temperature(),
-                    lambda: self.turn_on(entities.SWITCH_MONITOR),
+                    (Facet.MEDIA, lambda: self.play_music_if_appropriate()),
+                    (Facet.BLINDS, lambda: self.handlers.blinds.best_for_temperature()),
+                    (Facet.POWER, lambda: self.turn_on(entities.SWITCH_MONITOR)),
                 )
 
             case Office.Activity.MEETING:
                 return scene.with_actions(
                     scenes.OFFICE_WORKING,
-                    lambda: self.handlers.music.pause(),
-                    lambda: self.handlers.blinds.best_for_temperature(),
-                    lambda: self.turn_on(entities.SWITCH_MONITOR),
+                    (Facet.MEDIA, lambda: self.handlers.music.pause()),
+                    (Facet.BLINDS, lambda: self.handlers.blinds.best_for_temperature()),
+                    (Facet.POWER, lambda: self.turn_on(entities.SWITCH_MONITOR)),
                 )
 
             case Office.Activity.DRUMMING:
                 return scene.with_actions(
                     scenes.OFFICE_DRUMMING,
-                    lambda: self.turn_on(entities.SWITCH_DRUM_POWER_STRIP_SPEAKERS),
-                    lambda: self.turn_on(entities.SWITCH_DRUM_POWER_STRIP_SWITCH),
-                    lambda: self.turn_on(entities.SWITCH_DRUM_POWER_STRIP_TABLET),
-                    lambda: self.turn_on(entities.SWITCH_DRUM_POWER_STRIP_FOCUSRITE),
-                    lambda: self.turn_on(entities.SWITCH_DRUM_POWER_STRIP_ROLAND),
-                    lambda: self.handlers.music.pause(),
-                    lambda: self.handlers.blinds.close(),
-                    lambda: self.turn_off(entities.SWITCH_MONITOR),
+                    (Facet.POWER, lambda: self.turn_on(entities.SWITCH_DRUM_POWER_STRIP_SPEAKERS)),
+                    (Facet.POWER, lambda: self.turn_on(entities.SWITCH_DRUM_POWER_STRIP_SWITCH)),
+                    (Facet.POWER, lambda: self.turn_on(entities.SWITCH_DRUM_POWER_STRIP_TABLET)),
+                    (Facet.POWER, lambda: self.turn_on(entities.SWITCH_DRUM_POWER_STRIP_FOCUSRITE)),
+                    (Facet.POWER, lambda: self.turn_on(entities.SWITCH_DRUM_POWER_STRIP_ROLAND)),
+                    (Facet.MEDIA, lambda: self.handlers.music.pause()),
+                    (Facet.BLINDS, lambda: self.handlers.blinds.close()),
+                    (Facet.POWER, lambda: self.turn_off(entities.SWITCH_MONITOR)),
                 )
 
             case Office.Activity.SNARING:
                 return scene.with_actions(
                     scenes.OFFICE_SNARING,
-                    lambda: self.handlers.music.pause(),
-                    lambda: self.handlers.blinds.close(),
-                    lambda: self.turn_off(entities.SWITCH_MONITOR),
+                    (Facet.MEDIA, lambda: self.handlers.music.pause()),
+                    (Facet.BLINDS, lambda: self.handlers.blinds.close()),
+                    (Facet.POWER, lambda: self.turn_off(entities.SWITCH_MONITOR)),
                 )
 
             case Office.Activity.PRESENT:
                 return scene.with_actions(
                     scenes.OFFICE_NATURAL_LIGHT_3,
-                    lambda: self.pause_music_if_working_before(previous_activity),
-                    lambda: self.handlers.blinds.best_for_temperature(),
+                    (Facet.MEDIA, lambda: self.pause_music_if_working_before(previous_activity)),
+                    (Facet.BLINDS, lambda: self.handlers.blinds.best_for_temperature()),
                 )
 
         return scene.with_actions(
             scene.off(),
-            lambda: self.pause_music_if_working_before(previous_activity),
-            lambda: self.turn_off(entities.FAN_OFFICE_FAN),
-            lambda: self.turn_off(entities.SWITCH_DRUM_POWER_STRIP_SPEAKERS),
-            lambda: self.turn_off(entities.SWITCH_DRUM_POWER_STRIP_SWITCH),
-            lambda: self.turn_off(entities.SWITCH_DRUM_POWER_STRIP_TABLET),
-            lambda: self.turn_off(entities.SWITCH_DRUM_POWER_STRIP_FOCUSRITE),
-            lambda: self.turn_off(entities.SWITCH_DRUM_POWER_STRIP_ROLAND),
-            lambda: self.turn_off(entities.SWITCH_MONITOR),
-            lambda: self.handlers.blinds.best_for_temperature(),
+            (Facet.MEDIA, lambda: self.pause_music_if_working_before(previous_activity)),
+            (Facet.POWER, lambda: self.turn_off(entities.FAN_OFFICE_FAN)),
+            (Facet.POWER, lambda: self.turn_off(entities.SWITCH_DRUM_POWER_STRIP_SPEAKERS)),
+            (Facet.POWER, lambda: self.turn_off(entities.SWITCH_DRUM_POWER_STRIP_SWITCH)),
+            (Facet.POWER, lambda: self.turn_off(entities.SWITCH_DRUM_POWER_STRIP_TABLET)),
+            (Facet.POWER, lambda: self.turn_off(entities.SWITCH_DRUM_POWER_STRIP_FOCUSRITE)),
+            (Facet.POWER, lambda: self.turn_off(entities.SWITCH_DRUM_POWER_STRIP_ROLAND)),
+            (Facet.POWER, lambda: self.turn_off(entities.SWITCH_MONITOR)),
+            (Facet.BLINDS, lambda: self.handlers.blinds.best_for_temperature()),
         )
 
     def play_music_if_appropriate(self) -> None:

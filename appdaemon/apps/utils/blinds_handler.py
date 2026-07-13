@@ -64,19 +64,6 @@ class BlindsHandler:
             else:
                 self._close("it's night and there's no breeze to catch")
 
-    def protect_from_sun_if_needed(self) -> None:
-        """Lower the blinds when the sun comes up on a hot day.
-
-        best_for_temperature() can leave the blinds open overnight so an open
-        window lets the breeze in. Nothing re-evaluates them at sunrise (the
-        mode stays NIGHT/SLEEPING until someone is around), so this is run at
-        sunrise to keep the sun out of a hot room. It only ever lowers the
-        blinds — it never opens them. The empty room needs no daylight, so the
-        weak-sun leniency of best_for_temperature() deliberately does not apply.
-        """
-        if self.temperature.should_cooldown():
-            self._shade("the sun is up and the empty room needs to stay cool")
-
     def _should_shade(self) -> bool:
         """On a cooldown day, is shading actually worth losing daylight over?"""
         if self.temperature.is_heatwave():
@@ -124,8 +111,9 @@ class BlindsHandler:
 
     def set_position(self, open_percentage: int | float,
                      reason: str = "the current scene set them there") -> None:
-        self.app.call_service("cover/set_cover_position",
-                              entity_id=self._blinds, position=open_percentage)
+        if abs(self.get_position() - open_percentage) >= 1:
+            self.app.call_service("cover/set_cover_position",
+                                  entity_id=self._blinds, position=open_percentage)
         self._publish_status(self._position_word(open_percentage), reason)
 
     @staticmethod

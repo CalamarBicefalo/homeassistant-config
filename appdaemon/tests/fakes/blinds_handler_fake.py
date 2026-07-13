@@ -15,8 +15,6 @@ class BlindsHandlerProtocol(Protocol):
     
     def best_for_temperature(self) -> None: ...
 
-    def protect_from_sun_if_needed(self) -> None: ...
-
     def close(self) -> None: ...
     
     def open(self) -> None: ...
@@ -50,14 +48,10 @@ class FakeBlindsHandler:
     
     def reset(self) -> None:
         self._position: float = 0.0
-        self.protect_from_sun_called: bool = False
 
     def best_for_temperature(self) -> None:
         self._position = BEST_FOR_TEMPERATURE
 
-    def protect_from_sun_if_needed(self) -> None:
-        self.protect_from_sun_called = True
-    
     def close(self) -> None:
         self._position = 0.0
     

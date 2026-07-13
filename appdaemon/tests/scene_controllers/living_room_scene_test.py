@@ -172,16 +172,17 @@ def test_mode_change_adjusts_blinds(given_that, living_room_scene, fake_blinds, 
 
 
 @pytest.mark.asyncio
-def test_sunrise_protects_blinds_from_sun(living_room_scene, fake_blinds) -> None:
-    # The fixture clears mock history after the initial initialize(), so run it
-    # again to capture the registered sunrise callback. Firing it must
-    # re-evaluate the blinds for sun protection.
-    living_room_scene.initialize()
-    sunrise_callback = living_room_scene.run_at_sunrise.call_args.args[0]
+def test_light_change_reevaluates_current_activitys_blinds(
+        given_that, living_room_scene, fake_blinds, time_travel) -> None:
+    # Calling reevaluate_blinds() directly must re-apply the CURRENT activity's
+    # blinds intent, not a blanket sun-protect side-channel. Living room's
+    # EMPTY blinds intent runs through a 10-min deferred timer.
+    given_that.living_room_scene_is(activity=LivingRoom.Activity.EMPTY)
 
-    sunrise_callback()
+    living_room_scene.reevaluate_blinds()
+    time_travel.fast_forward(10).minutes()
 
-    assert fake_blinds.protect_from_sun_called
+    assert fake_blinds.get_position() == BEST_FOR_TEMPERATURE
 
 
 def living_room_scene_is(self, activity, illuminance=0, are_lights_on=False, mode=selects.Mode.NIGHT,

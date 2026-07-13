@@ -8,7 +8,7 @@ from blinds_handler import BlindsHandler
 from music import Playlist
 from rooms import *
 from scene_controllers import scene
-from scene_controllers.scene import Scene, SceneByModeSelector
+from scene_controllers.scene import Scene, SceneByModeSelector, Facet
 from scene_controllers.scene_app import SceneApp
 from select_handler import SelectHandler
 from selects import Mode
@@ -39,61 +39,61 @@ class LivingRoomScene(SceneApp):
             case LivingRoom.Activity.RELAXING:
                 return scene.with_actions(
                     scenes.LIVING_ROOM_COZY,
-                    lambda: self.play_music_if_appropriate(),
-                    lambda: self.handlers.blinds.close(),
+                    (Facet.MEDIA, lambda: self.play_music_if_appropriate()),
+                    (Facet.BLINDS, lambda: self.handlers.blinds.close()),
                 )
 
             case LivingRoom.Activity.WATCHING_TV:
                 return scene.with_actions(
                     scenes.LIVING_ROOM_MOVIE,
-                    lambda: self.handlers.music.pause(),
-                    lambda: self.handlers.blinds.close(),
+                    (Facet.MEDIA, lambda: self.handlers.music.pause()),
+                    (Facet.BLINDS, lambda: self.handlers.blinds.close()),
                 )
 
             case LivingRoom.Activity.PRESENT:
                 return scene.by_mode({
                     Mode.DAY: scene.with_actions(
                         scenes.LIVING_ROOM_NATURAL_LIGHT_3,
-                        lambda: self.handlers.blinds.best_for_temperature(),
+                        (Facet.BLINDS, lambda: self.handlers.blinds.best_for_temperature()),
                         # lambda: self.set_balcony_blinds_for_views(),
                     ),
                     Mode.NIGHT: scene.with_actions(
                         scenes.LIVING_ROOM_NATURAL_LIGHT_3,
-                        lambda: self.handlers.blinds.close(),
+                        (Facet.BLINDS, lambda: self.handlers.blinds.close()),
                         # lambda: self.balcony_blinds.close(),
                     ),
                     Mode.SLEEPING: scene.with_actions(
                         scenes.LIVING_ROOM_COZY,
-                        lambda: self.handlers.blinds.best_for_temperature(),
+                        (Facet.BLINDS, lambda: self.handlers.blinds.best_for_temperature()),
                     ),
                 })
 
             case LivingRoom.Activity.DRUMMING:
                 return scene.with_actions(
                     scenes.LIVING_ROOM_DRUMMING,
-                    lambda: self.handlers.music.pause(),
-                    lambda: self.handlers.blinds.close(),
+                    (Facet.MEDIA, lambda: self.handlers.music.pause()),
+                    (Facet.BLINDS, lambda: self.handlers.blinds.close()),
                 )
 
             case LivingRoom.Activity.GAMING:
                 return scene.with_actions(
                     scenes.LIVING_ROOM_GAMING,
-                    lambda: self.handlers.music.pause(),
-                    lambda: self.handlers.blinds.close(),
+                    (Facet.MEDIA, lambda: self.handlers.music.pause()),
+                    (Facet.BLINDS, lambda: self.handlers.blinds.close()),
                 )
 
             case LivingRoom.Activity.DINING:
                 return scene.with_actions(
                     scenes.LIVING_ROOM_DINING,
-                    lambda: self.handlers.music.play(Playlist.COOL_JAZZ),
-                    lambda: self.handlers.blinds.best_for_temperature(),
+                    (Facet.MEDIA, lambda: self.handlers.music.play(Playlist.COOL_JAZZ)),
+                    (Facet.BLINDS, lambda: self.handlers.blinds.best_for_temperature()),
                 )
 
         return scene.with_actions(
             scene.off(),
-            lambda: self.run_if_activity_stays_in(self.handlers.blinds.best_for_temperature, minutes=10),
+            (Facet.BLINDS, lambda: self.run_if_activity_stays_in(self.handlers.blinds.best_for_temperature, minutes=10)),
             # lambda: self.run_if_activity_stays_in(self.balcony_blinds.best_for_temperature, minutes=10),
-            lambda: self.disable_music_manual_override(),
+            (Facet.MEDIA, lambda: self.disable_music_manual_override()),
         )
 
     def set_balcony_blinds_for_views(self):
