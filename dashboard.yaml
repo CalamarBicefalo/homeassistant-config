@@ -311,7 +311,6 @@ views:
       grid_options:
         columns: 24
         rows: 1
-      styles: ''
       transparent: false
       type: custom:custom-features-card
     column_span: 2
@@ -2408,7 +2407,7 @@ views:
       features:
       - type: media-player-playback
       - type: media-player-volume-slider
-      features_position: inline
+      features_position: bottom
       grid_options:
         columns: 12
         rows: 1
