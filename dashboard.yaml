@@ -2216,6 +2216,11 @@ views:
       - last_changed
       type: tile
       vertical: false
+    - entity: binary_sensor.office_office_window_cs
+      features_position: bottom
+      name: Window
+      type: tile
+      vertical: false
     - entity: fan.office_fan
       features_position: inline
       type: tile
