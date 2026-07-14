@@ -20,6 +20,7 @@ class OfficeScene(SceneApp):
     room_lights = entities.LIGHT_OFFICE
     speakers = entities.MEDIA_PLAYER_OFFICE_SPEAKER_2
     blinds = entities.COVER_OFFICE_BLINDS
+    window = entities.BINARY_SENSOR_OFFICE_OFFICE_WINDOW_CS_WINDOW
     room_has_plants = True
 
     def get_light_scene(self, activity: Office.Activity, previous_activity: Optional[StrEnum]) -> Scene | SceneByModeSelector:
